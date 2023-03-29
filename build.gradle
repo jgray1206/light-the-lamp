@@ -1,0 +1,83 @@
+plugins {
+	id("org.jetbrains.kotlin.jvm") version "1.7.21"
+	id("org.jetbrains.kotlin.kapt") version "1.7.21"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.7.21"
+	id("com.github.johnrengelman.shadow") version "7.1.2"
+	id("io.micronaut.application") version "3.7.4"
+	id("org.openapi.generator") version "6.4.0"
+}
+
+version = "0.1"
+group = "io.gray"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	kapt("io.micronaut.data:micronaut-data-processor")
+	kapt("io.micronaut:micronaut-http-validation")
+	kapt("io.micronaut.security:micronaut-security-annotations")
+	implementation("io.micronaut:micronaut-http-client")
+	implementation("io.micronaut:micronaut-jackson-databind")
+	implementation("io.micronaut.data:micronaut-data-jdbc")
+	implementation("io.micronaut.data:micronaut-data-r2dbc")
+	implementation("io.micronaut.flyway:micronaut-flyway")
+	implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+	implementation("io.micronaut.security:micronaut-security-jwt")
+	implementation("jakarta.annotation:jakarta.annotation-api")
+	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+	runtimeOnly("ch.qos.logback:logback-classic")
+	runtimeOnly("io.r2dbc:r2dbc-h2")
+	runtimeOnly("com.h2database:h2")
+	implementation("io.micronaut:micronaut-validation")
+
+	runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+}
+
+
+application {
+	mainClass.set("io.gray.ApplicationKt")
+}
+java {
+	sourceCompatibility = JavaVersion.toVersion("17")
+}
+
+tasks {
+	compileKotlin {
+		kotlinOptions {
+			jvmTarget = "17"
+		}
+	}
+	compileTestKotlin {
+		kotlinOptions {
+			jvmTarget = "17"
+		}
+	}
+}
+graalvmNative.toolchainDetection = false
+micronaut {
+	version = "3.8.7"
+	runtime("netty")
+	testRuntime("junit5")
+	processing {
+		incremental(true)
+		annotations("io.gray.*")
+	}
+}
+
+
+// nhl api object generation
+openApiGenerate {
+	generatorName = "java-micronaut-client"
+	inputSpec = "$rootDir/src/main/resources/nhl.yaml"
+	outputDir = "$buildDir/generated/sources/openapi"
+	apiPackage = "io.gray.nhl.api"
+	invokerPackage = "io.gray.nhl.api"
+	modelPackage = "io.gray.nhl.model"
+}
+compileKotlin.dependsOn tasks.openApiGenerate
+sourceSets.main.java.srcDirs += "$buildDir/generated/sources/openapi/src/main/java"

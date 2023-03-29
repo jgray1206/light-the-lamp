@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.gray
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle
+features: [annotation-api, app-name, data, data-r2dbc, gradle, h2, http-client, jackson-databind, junit, kotlin, kotlin-application, kotlin-build, logback, micronaut-build, netty-server, r2dbc, readme, security-annotations, security-jwt, shade, yaml]

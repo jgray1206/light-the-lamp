@@ -1,0 +1,45 @@
+micronaut:
+  application:
+    name: light-the-lamp
+  security:
+    authentication: bearer
+    endpoints:
+      login:
+        enabled: true
+    token:
+      jwt:
+        generator:
+          access-token:
+            expiration: 3600
+          refresh-token:
+            secret: "${JWT_GENERATOR_REFRESH_SECRET:eefe82f8-7ca6-11ea-bc55-0242ac130003}"
+        signatures:
+          secret:
+            generator:
+              secret: "${JWT_GENERATOR_SIGNATURE_SECRET:eefe82f8-7ca6-11ea-bc55-0242ac130003}"
+---
+flyway:
+  datasources:
+    default:
+      enabled: true
+datasources:
+  default:
+    url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+r2dbc:
+  datasources:
+    default:
+      dialect: H2
+      url: r2dbc:h2:file:///~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;SCHEMA=dbo;
+      username: sa
+      password: ''
+netty:
+  default:
+    allocator:
+      max-order: 3
+---
+openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
+---
+logger:
+  levels:
+    io.r2dbc.h2: DEBUG # for queries
+    io.r2dbc.h2: DEBUG # for parameters
