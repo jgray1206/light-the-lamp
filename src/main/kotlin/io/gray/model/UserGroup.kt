@@ -3,7 +3,6 @@ package io.gray.model
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
-import io.micronaut.data.annotation.Relation
 
 @MappedEntity("user_group")
 class UserGroup {
@@ -14,5 +13,7 @@ class UserGroup {
     var groupId: Long? = null
 
     var userId: Long? = null
+
+    var score: Short? = null
 
 }

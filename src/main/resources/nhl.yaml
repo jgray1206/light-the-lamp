@@ -192,7 +192,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GameBoxscores"
+                $ref: "#/components/schemas/GameBoxscore"
         404:
           $ref: "#/components/responses/Error"
   /game/{id}/content:
@@ -1084,107 +1084,172 @@ components:
                   example: 15
         players:
           type: object
-          properties:
-            person:
-              type: object
-              properties:
-                id:
-                  type: number
-                  example: 8471709
-                fullName:
-                  type: string
-                  example: "Marc-Edouard Vlasic"
-                link:
-                  type: string
-                  format: uri
-                  example: "/api/v1/people/8471709"
-                shootsCatches:
-                  type: string
-                  example: "L"
-                rosterStatus:
-                  type: string
-                  example: "Y"
-            jerseyNumber:
-              type: string
-              example: "44"
-            position:
-              type: object
-              properties:
-                code:
-                  type: string
-                  example: "D"
-                name:
-                  type: string
-                  example: "Defenseman"
-                type:
-                  type: string
-                  example: "Defenseman"
-                abbreviation:
-                  type: string
-                  example: "D"
-            stats:
-              type: object
-              properties:
-                skaterStats:
-                  type: object
-                  properties:
-                    timeOnIce:
-                      type: string
-                      example: "23:04"
-                    assists:
-                      type: number
-                      example: 0
-                    goals:
-                      type: number
-                      example: 0
-                    shots:
-                      type: number
-                      example: 2
-                    hits:
-                      type: number
-                      example: 0
-                    powerPlayGoals:
-                      type: number
-                      example: 0
-                    powerPlayAssists:
-                      type: number
-                      example: 0
-                    penaltyMinutes:
-                      type: number
-                      example: 0
-                    faceOffWins:
-                      type: number
-                      example: 0
-                    faceoffTaken:
-                      type: number
-                      example: 0
-                    takeaways:
-                      type: number
-                      example: 0
-                    giveaways:
-                      type: number
-                      example: 1
-                    shortHandedGoals:
-                      type: number
-                      example: 0
-                    shortHandedAssists:
-                      type: number
-                      example: 0
-                    blocked:
-                      type: number
-                      example: 0
-                    plusMinus:
-                      type: number
-                      example: 1
-                    evenTimeOnIce:
-                      type: string
-                      example: "18:12"
-                    powerPlayTimeOnIce:
-                      type: string
-                      example: "1:07"
-                    shortHandedTimeOnIce:
-                      type: string
-                      example: "3:45"
+          additionalProperties:
+            type: object
+            properties:
+              person:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 8471709
+                  fullName:
+                    type: string
+                    example: "Marc-Edouard Vlasic"
+                  link:
+                    type: string
+                    format: uri
+                    example: "/api/v1/people/8471709"
+                  shootsCatches:
+                    type: string
+                    example: "L"
+                  rosterStatus:
+                    type: string
+                    example: "Y"
+                  primaryPosition:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: "G"
+                      name:
+                        type: string
+                        example: "Goalie"
+                      type:
+                        type: string
+                        example: "Goalie"
+                      abbreviation:
+                        type: string
+                        example: "G"
+              jerseyNumber:
+                type: string
+                example: "44"
+              position:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "D"
+                  name:
+                    type: string
+                    example: "Defenseman"
+                  type:
+                    type: string
+                    example: "Defenseman"
+                  abbreviation:
+                    type: string
+                    example: "D"
+              stats:
+                type: object
+                properties:
+                  goalieStats:
+                    type: object
+                    properties:
+                      timeOnIce:
+                        type: string
+                        example: "60:00"
+                      assists:
+                        type: number
+                        example: 0
+                      goals:
+                        type: number
+                        example: 0
+                      pim:
+                        type: number
+                        example: 0
+                      shots:
+                        type: number
+                        example: 0
+                      saves:
+                        type: number
+                        example: 0
+                      evenSaves:
+                        type: number
+                        example: 0
+                      shortHandedSaves:
+                        type: number
+                        example: 0
+                      powerPlaySaves:
+                        type: number
+                        example: 0
+                      shortHandedShotsAgainst:
+                        type: number
+                        example: 0
+                      evenShotsAgainst:
+                        type: number
+                        example: 0
+                      powerPlayShotsAgainst:
+                        type: number
+                        example: 0
+                      savePercentage:
+                        type: decimal
+                        example: 100.0
+                      powerPlaySavePercentage:
+                        type: decimal
+                        example: 100.0
+                      evenStrengthSavePercentage:
+                        type: decimal
+                        example: 100.0
+                  skaterStats:
+                    type: object
+                    properties:
+                      timeOnIce:
+                        type: string
+                        example: "23:04"
+                      assists:
+                        type: number
+                        example: 0
+                      goals:
+                        type: number
+                        example: 0
+                      shots:
+                        type: number
+                        example: 2
+                      hits:
+                        type: number
+                        example: 0
+                      powerPlayGoals:
+                        type: number
+                        example: 0
+                      powerPlayAssists:
+                        type: number
+                        example: 0
+                      penaltyMinutes:
+                        type: number
+                        example: 0
+                      faceOffWins:
+                        type: number
+                        example: 0
+                      faceoffTaken:
+                        type: number
+                        example: 0
+                      takeaways:
+                        type: number
+                        example: 0
+                      giveaways:
+                        type: number
+                        example: 1
+                      shortHandedGoals:
+                        type: number
+                        example: 0
+                      shortHandedAssists:
+                        type: number
+                        example: 0
+                      blocked:
+                        type: number
+                        example: 0
+                      plusMinus:
+                        type: number
+                        example: 1
+                      evenTimeOnIce:
+                        type: string
+                        example: "18:12"
+                      powerPlayTimeOnIce:
+                        type: string
+                        example: "1:07"
+                      shortHandedTimeOnIce:
+                        type: string
+                        example: "3:45"
         goalies:
           type: array
           items:
@@ -1218,7 +1283,17 @@ components:
         penaltyBox:
           type: array
           items:
-            type: number
+            type: object
+            properties:
+              id:
+                type: number
+                example: 8477180
+              timeRemaining:
+                type: string
+                example: "03:41"
+              active:
+                type: boolean
+                example: true
         coaches:
           type: array
           items:

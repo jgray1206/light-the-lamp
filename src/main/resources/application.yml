@@ -20,10 +20,10 @@ micronaut:
 ---
 flyway:
   datasources:
-    default:
+    flywaysrc:
       enabled: true
 datasources:
-  default:
+  flywaysrc:
     url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
 r2dbc:
   datasources:
@@ -41,5 +41,4 @@ openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
 ---
 logger:
   levels:
-    io.r2dbc.h2: DEBUG # for queries
-    io.r2dbc.h2: DEBUG # for parameters
+    io.r2dbc.h2: INFO

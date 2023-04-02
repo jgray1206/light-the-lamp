@@ -1,9 +1,7 @@
 package io.gray
 
-import io.gray.model.Group
-import io.gray.model.GroupRepository
 import io.gray.model.User
-import io.gray.model.UserRepository
+import io.gray.repos.UserRepository
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule

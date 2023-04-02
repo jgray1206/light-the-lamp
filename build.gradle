@@ -78,6 +78,10 @@ openApiGenerate {
 	apiPackage = "io.gray.nhl.api"
 	invokerPackage = "io.gray.nhl.api"
 	modelPackage = "io.gray.nhl.model"
+	configOptions = [
+			datetimeFormat: "yyyy-MM-dd'T'HH:mm:ss'Z'",
+			dateLibrary: "java8-localdatetime"
+	]
 }
 compileKotlin.dependsOn tasks.openApiGenerate
 sourceSets.main.java.srcDirs += "$buildDir/generated/sources/openapi/src/main/java"

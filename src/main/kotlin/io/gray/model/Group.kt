@@ -14,8 +14,8 @@ class Group {
     @GeneratedValue(GeneratedValue.Type.AUTO)
     var id: Long? = null
 
-    @NotNull
-    var teamId: Short? = null
+    @Relation(Relation.Kind.MANY_TO_ONE)
+    var team: Team? = null
 
     @NotBlank
     @Size(max = 128)

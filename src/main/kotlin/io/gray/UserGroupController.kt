@@ -1,6 +1,9 @@
 package io.gray
 
 import io.gray.model.*
+import io.gray.repos.GroupRepository
+import io.gray.repos.UserGroupRepository
+import io.gray.repos.UserRepository
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -24,13 +27,27 @@ class UserGroupController(
         return userGroupRepository.findById(id)
     }
 
+    @Get("/group/{groupId}")
+    fun getUserGroupsByGroup(@PathVariable groupId: Long): Flux<UserGroup> {
+        return userGroupRepository.findAllByGroupId(groupId)
+    }
+
     @Post
     fun create(@QueryValue userId: Long, @QueryValue groupId: Long): Mono<UserGroup> {
         return userRepository.findById(userId).zipWith(groupRepository.findById(groupId)).flatMap { tuple ->
-            userGroupRepository.save(UserGroup().also {
-                it.userId = tuple.t1.id
-                it.groupId = tuple.t2.id
-            })
+            userGroupRepository.findByUserIdAndGroupId(userId, groupId).switchIfEmpty(
+                    userGroupRepository.save(UserGroup().also {
+                        it.userId = tuple.t1.id
+                        it.groupId = tuple.t2.id
+                    })
+            )
+        }
+    }
+
+    @Delete
+    fun delete(@QueryValue userId: Long, @QueryValue groupId: Long): Mono<Long> {
+        return userGroupRepository.findByUserIdAndGroupId(userId, groupId).flatMap {
+            userGroupRepository.delete(it)
         }
     }
 }

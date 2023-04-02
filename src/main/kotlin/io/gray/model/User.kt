@@ -4,7 +4,6 @@ import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.Relation
-import io.micronaut.data.jdbc.annotation.JoinTable
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -24,7 +23,7 @@ class User {
     @Size(max = 120)
     var password: String? = null
 
-    @Relation(Relation.Kind.MANY_TO_MANY, cascade = [Relation.Cascade.PERSIST])
+    @Relation(Relation.Kind.MANY_TO_MANY)
     var groups: List<Group>? = null
 
 }

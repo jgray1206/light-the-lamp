@@ -1,7 +1,7 @@
 package io.gray
 
 import io.gray.model.Group
-import io.gray.model.GroupRepository
+import io.gray.repos.*
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -11,7 +11,10 @@ import reactor.core.publisher.Mono
 @Secured(SecurityRule.IS_ANONYMOUS)
 @Controller("/group")
 class GroupController(
-        private val groupRepository: GroupRepository
+        private val groupRepository: GroupRepository,
+        private val teamRepository: TeamRepository,
+        private val pickRepository: PickRepository,
+        private val gameRepository: GameRepository
 ) {
     @Get
     fun all(): Flux<Group> { // (1)
@@ -24,8 +27,14 @@ class GroupController(
     }
 
     @Post
-    fun create(@Body group: Group): Mono<Group> {
-        return groupRepository.save(group)
+    fun create(@QueryValue name: String, @QueryValue teamId: Long): Mono<Group> {
+        return teamRepository.findById(teamId).flatMap { team ->
+             groupRepository.save(Group().also {
+                 it.name = name
+                 it.team = team
+                //todo add "created by user" for logged in user
+             })
+        }
     }
 
     @Put
