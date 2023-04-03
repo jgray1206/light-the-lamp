@@ -28,8 +28,8 @@ r2dbc:
     default:
       dialect: H2
       url: r2dbc:postgresql://localhost:5432/lightthelamp
-      username: sa
-      password: ''
+      username: ${DB_USER:}
+      password: ${DB_PASS:}
 ---
 netty:
   default:
