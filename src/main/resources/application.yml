@@ -22,6 +22,8 @@ flyway:
 datasources:
   flywaysrc:
     url: jdbc:postgresql://localhost:5432/lightthelamp
+    username: ${DB_USER:}
+    password: ${DB_PASS:}
 ---
 r2dbc:
   datasources:
