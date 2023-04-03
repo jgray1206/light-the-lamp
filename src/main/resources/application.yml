@@ -19,6 +19,8 @@ flyway:
   datasources:
     flywaysrc:
       enabled: true
+      locations:
+        - classpath:prod
 datasources:
   flywaysrc:
     url: jdbc:postgresql://localhost:5432/lightthelamp
