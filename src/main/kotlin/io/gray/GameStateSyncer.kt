@@ -34,7 +34,7 @@ open class GameStateSyncer(
 
     //to get pics
     //https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8477968.jpg
-    @Scheduled(fixedDelay = "1m")
+   // @Scheduled(fixedDelay = "5m")
     @ExecuteOn(TaskExecutors.IO)
     fun syncGameState() {
         val teams = teamsApi.getTeams(null, null).block()?.teams?.filter { it.id != null }

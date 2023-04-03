@@ -18,10 +18,13 @@ dependencies {
 	kapt("io.micronaut.data:micronaut-data-processor")
 	kapt("io.micronaut:micronaut-http-validation")
 	kapt("io.micronaut.security:micronaut-security-annotations")
+	// https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+	implementation("org.mindrot:jbcrypt:0.4")
 	implementation("io.micronaut:micronaut-http-client")
 	implementation("io.micronaut:micronaut-jackson-databind")
 	implementation("io.micronaut.data:micronaut-data-jdbc")
 	implementation("io.micronaut.data:micronaut-data-r2dbc")
+	implementation("io.micronaut.views:micronaut-views-velocity")
 	implementation("io.micronaut.flyway:micronaut-flyway")
 	implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 	implementation("io.micronaut.security:micronaut-security-jwt")
@@ -33,6 +36,12 @@ dependencies {
 	runtimeOnly("io.r2dbc:r2dbc-h2")
 	runtimeOnly("com.h2database:h2")
 	implementation("io.micronaut:micronaut-validation")
+
+	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-micronaut
+	implementation("io.github.resilience4j:resilience4j-micronaut:${resilience4jVersion}")
+	implementation("io.github.resilience4j:resilience4j-ratelimiter:${resilience4jVersion}")
+	implementation("io.github.resilience4j:resilience4j-consumer:${resilience4jVersion}")
+	implementation("io.github.resilience4j:resilience4j-reactor:${resilience4jVersion}")
 
 	runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 

@@ -1,0 +1,23 @@
+micronaut:
+  security:
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: "${random.uuid}"
+---
+datasources:
+  flywaysrc:
+    url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+r2dbc:
+  datasources:
+    default:
+      dialect: H2
+      url: r2dbc:h2:file:///~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;SCHEMA=dbo;
+      username: sa
+      password: ''
+---
+logger:
+  levels:
+    io.r2dbc.h2: DEBUG

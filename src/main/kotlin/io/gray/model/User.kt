@@ -20,8 +20,16 @@ class User {
     var email: String? = null
 
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 60, min = 60)
     var password: String? = null
+
+    var confirmed: Boolean? = null
+
+    var locked: Boolean? = null
+
+    var attempts: Short? = null
+
+    var ipAddress: String? = null
 
     @Relation(Relation.Kind.MANY_TO_MANY)
     var groups: List<Group>? = null
