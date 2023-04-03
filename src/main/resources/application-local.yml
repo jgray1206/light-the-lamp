@@ -7,6 +7,12 @@ micronaut:
             generator:
               secret: "${random.uuid}"
 ---
+flyway:
+  datasources:
+    flywaysrc:
+      enabled: true
+      locations:
+        - classpath:local
 datasources:
   flywaysrc:
     url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
