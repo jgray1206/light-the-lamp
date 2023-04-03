@@ -5,6 +5,7 @@ plugins {
 	id("com.github.johnrengelman.shadow") version "7.1.2"
 	id("io.micronaut.application") version "3.7.4"
 	id("org.openapi.generator") version "6.4.0"
+	id("java")
 }
 
 version = "0.1"
@@ -53,6 +54,7 @@ application {
 }
 java {
 	sourceCompatibility = JavaVersion.toVersion("17")
+	targetCompatibility = JavaVersion.toVersion("17")
 }
 
 tasks {
