@@ -10,6 +10,8 @@ micronaut:
 datasources:
   flywaysrc:
     url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+    username: sa
+    password: ''
 r2dbc:
   datasources:
     default:
