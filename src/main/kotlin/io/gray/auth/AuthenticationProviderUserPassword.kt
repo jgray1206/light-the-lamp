@@ -19,20 +19,20 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
                               authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse?>? {
         return userRepository.findByEmail(authenticationRequest.identity as String).flatMap {
             if (it.locked == true) {
-                Mono.just(AuthenticationResponse.failure(AuthenticationFailureReason.ACCOUNT_LOCKED))
+                Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))
             } else if (it.confirmed != true) {
-                Mono.just(AuthenticationResponse.failure("Account not confirmed. Please check your email and click the confimration link before signing in.") )
+                Mono.error(AuthenticationResponse.exception("Account not confirmed. Please check your email and click the confimration link before signing in.") )
             } else if ((it.attempts ?: 0) > 20) {
-                userRepository.update(it.also { it.locked = true }).map {
-                    AuthenticationResponse.failure(AuthenticationFailureReason.ACCOUNT_LOCKED)
+                userRepository.update(it.also { it.locked = true }).flatMap {
+                    Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))
                 }
             } else if (it.password != null && BCrypt.checkpw(authenticationRequest.secret as String, it.password)) {
                 userRepository.update(it.also { it.attempts = 0 }).map { AuthenticationResponse.success(authenticationRequest.identity as String) }
             } else {
-                userRepository.update(it.also { it.attempts = it.attempts?.plus(1)?.toShort() ?: 1 }).map {
-                    AuthenticationResponse.failure(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH)
+                userRepository.update(it.also { it.attempts = it.attempts?.plus(1)?.toShort() ?: 1 }).flatMap {
+                    Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH))
                 }
             }
-        }.switchIfEmpty(Mono.just(AuthenticationResponse.failure(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH)))
+        }.switchIfEmpty(Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH)))
     }
 }

@@ -11,6 +11,7 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Mono
+import java.security.Principal
 import java.util.UUID
 import kotlin.Long
 import kotlin.String
@@ -27,10 +28,9 @@ open class UserController(
         private val mailService: MailService
 ) {
 
-    @Secured(SecurityRule.IS_ANONYMOUS)
-    @Get("/{id}")
-    fun get(@PathVariable id: Long): Mono<User> { // (2)
-        return userRepository.findById(id).map { it.apply { it.password = null; } }
+    @Get
+    fun get(principal: Principal): Mono<User> { // (2)
+        return userRepository.findByEmail(principal.name).map { it.apply { it.password = null; it.ipAddress = null; it.confirmationUuid = null;} }
     }
 
     @Post
@@ -49,7 +49,7 @@ open class UserController(
                         mailService.sendEmail(it.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: http://157.230.209.115/user/confirm/${it.confirmationUuid}")
                     }
                 }
-        ).map { it.apply { it.password = null; it.ipAddress = null; } }
+        ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
     @Put
@@ -63,7 +63,7 @@ open class UserController(
     open fun confirm(@PathVariable uuid: String): Mono<User> {
         return userRepository.findOneByConfirmationUuidAndConfirmed(uuid, false).flatMap {
             userRepository.update(it.also { it.confirmed = true })
-        }.map { it.apply { it.password = null; it.ipAddress = null; } }
+        }.map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
 }
