@@ -42,7 +42,6 @@ openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
 ---
 logger:
   levels:
-    io: TRACE
     io.r2dbc.h2: INFO
 ---
 resilience4j:
