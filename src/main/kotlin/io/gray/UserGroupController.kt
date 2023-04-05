@@ -10,7 +10,7 @@ import io.micronaut.security.rules.SecurityRule
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-@Secured(SecurityRule.IS_ANONYMOUS)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/usergroup")
 class UserGroupController(
         private val groupRepository: GroupRepository,

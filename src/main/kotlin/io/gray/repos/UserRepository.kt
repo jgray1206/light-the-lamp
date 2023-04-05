@@ -13,4 +13,6 @@ interface UserRepository : ReactorCrudRepository<User, Long> {
     @Join("groups", type = Join.Type.LEFT_FETCH)
     override fun findById(aLong: Long): Mono<User>
     fun findByEmail(email: String): Mono<User>
+
+    fun findOneByConfirmationUuidAndConfirmed(confirmationUuid: String, confirmed: Boolean): Mono<User>
 }

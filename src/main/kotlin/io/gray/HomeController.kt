@@ -7,7 +7,7 @@ import io.micronaut.security.rules.SecurityRule
 import io.micronaut.views.View
 import java.security.Principal
 
-@Secured(SecurityRule.IS_ANONYMOUS)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller
 class HomeController(
 
