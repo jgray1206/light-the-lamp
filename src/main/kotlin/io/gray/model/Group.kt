@@ -14,6 +14,12 @@ class Group {
     @GeneratedValue(GeneratedValue.Type.AUTO)
     var id: Long? = null
 
+    @NotBlank
+    var uuid: String? = null
+
+    @NotBlank
+    var createUser: String? = null
+
     @Relation(Relation.Kind.MANY_TO_ONE)
     var team: Team? = null
 

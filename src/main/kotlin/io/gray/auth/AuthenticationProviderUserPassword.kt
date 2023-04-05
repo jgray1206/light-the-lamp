@@ -20,6 +20,8 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
         return userRepository.findByEmail(authenticationRequest.identity as String).flatMap {
             if (it.locked == true) {
                 Mono.just(AuthenticationResponse.failure(AuthenticationFailureReason.ACCOUNT_LOCKED))
+            } else if (it.confirmed != true) {
+                Mono.just(AuthenticationResponse.failure("Account not confirmed. Please check your email and click the confimration link before signing in.") )
             } else if ((it.attempts ?: 0) > 20) {
                 userRepository.update(it.also { it.locked = true }).map {
                     AuthenticationResponse.failure(AuthenticationFailureReason.ACCOUNT_LOCKED)

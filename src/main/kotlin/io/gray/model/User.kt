@@ -25,6 +25,10 @@ class User {
 
     var confirmed: Boolean? = null
 
+    @NotBlank
+    @Size(max = 36)
+    var confirmationUuid: String? = null
+
     var locked: Boolean? = null
 
     var attempts: Short? = null

@@ -7,38 +7,34 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.security.Principal
+import java.util.*
 
-@Secured(SecurityRule.IS_ANONYMOUS)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/group")
 class GroupController(
         private val groupRepository: GroupRepository,
-        private val teamRepository: TeamRepository,
-        private val pickRepository: PickRepository,
-        private val gameRepository: GameRepository
+        private val teamRepository: TeamRepository
 ) {
-    @Get
-    fun all(): Flux<Group> { // (1)
-        return groupRepository.findAll()
-    }
-
     @Get("/{id}")
-    fun get(@PathVariable id: Long): Mono<Group> { // (2)
+    fun get(@PathVariable id: Long): Mono<Group> {
         return groupRepository.findById(id)
     }
 
     @Post
-    fun create(@QueryValue name: String, @QueryValue teamId: Long): Mono<Group> {
+    fun create(@QueryValue name: String, @QueryValue teamId: Long, principal: Principal): Mono<Group> {
         return teamRepository.findById(teamId).flatMap { team ->
              groupRepository.save(Group().also {
                  it.name = name
                  it.team = team
-                //todo add "created by user" for logged in user
+                 it.uuid = UUID.randomUUID().toString()
+                 it.createUser = principal.name
              })
         }
     }
 
-    @Put
-    fun update(@Body group: Group): Mono<Group> {
-        return groupRepository.update(group)
+    @Delete
+    fun delete(@Body group: Group): Mono<Long> {
+        return groupRepository.delete(group)
     }
 }
