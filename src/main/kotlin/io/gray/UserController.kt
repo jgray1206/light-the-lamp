@@ -63,7 +63,7 @@ open class UserController(
     open fun confirm(@PathVariable uuid: String): Mono<User> {
         return userRepository.findOneByConfirmationUuidAndConfirmed(uuid, false).flatMap {
             userRepository.update(it.also { it.confirmed = true })
-        }
+        }.map { it.apply { it.password = null; it.ipAddress = null; } }
     }
 
 }
