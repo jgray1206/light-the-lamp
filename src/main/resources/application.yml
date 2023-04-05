@@ -2,6 +2,8 @@ micronaut:
   application:
     name: light-the-lamp
   security:
+    redirect:
+      enabled: false
     authentication: cookie
     token:
       jwt:
