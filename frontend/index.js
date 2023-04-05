@@ -5,7 +5,7 @@ if (jwt == null) {
 
 function loadUser() {
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://157.230.209.115/user");
+  xhttp.open("GET", "http://157.230.209.115/api/user");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();
