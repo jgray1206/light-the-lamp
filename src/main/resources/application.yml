@@ -42,7 +42,7 @@ openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
 ---
 logger:
   levels:
-    io: TRACE
+    io: DEBUG
     io.r2dbc.h2: INFO
 ---
 resilience4j:
@@ -58,5 +58,5 @@ resilience4j:
       usercreate:
         baseConfig: default
 ---
-credential.path: ${HOME}\credentials.json
-token.path: ${HOME}\tokens
+credential.path: ${HOME}/credentials.json
+token.path: ${HOME}/tokens
