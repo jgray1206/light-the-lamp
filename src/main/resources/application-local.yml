@@ -10,7 +10,6 @@ micronaut:
 flyway:
   datasources:
     flywaysrc:
-      enabled: true
       locations:
         - classpath:local
 datasources:

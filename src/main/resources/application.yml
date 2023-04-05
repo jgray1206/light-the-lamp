@@ -4,7 +4,7 @@ micronaut:
   security:
     redirect:
       enabled: false
-    authentication: cookie
+    authentication: bearer
     token:
       jwt:
         generator:
@@ -44,7 +44,6 @@ openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
 ---
 logger:
   levels:
-    io: DEBUG
     io.r2dbc.h2: INFO
 ---
 resilience4j:
