@@ -57,5 +57,5 @@ resilience4j:
       usercreate:
         baseConfig: default
 ---
-credential.path: ~\credentials.json
-token.path: ~\tokens
+credential.path: ${HOME}\credentials.json
+token.path: ${HOME}\tokens
