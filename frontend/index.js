@@ -11,7 +11,7 @@ function loadUser() {
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-      const objects = JSON.parse(this.responseText);
+      const user = JSON.parse(this.responseText);
       if (this.status == 200) {
         document.getElementById("username").innerHTML = user["email"];
       }
