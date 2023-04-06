@@ -5,7 +5,7 @@ if (jwt != null) {
 
 function teams() {
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "https://www.lightthelamp.dev/api/teams");
+  xhttp.open("GET", "/api/teams");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -13,6 +13,7 @@ function teams() {
         const options = JSON.parse(this.responseText);
         if (this.status == 200) {
             console.log(options);
+            options.sort(function(x,y){ return x.teamName == "Detroit Red Wings" ? -1 : y.teamName == "Detroit Red Wings" ? 1 : 0; });
             const batchTrack = document.getElementById("team");
             for (option of options) {
                 const newOption = document.createElement("option");
@@ -40,7 +41,7 @@ function register() {
   const teamId = parseInt(e.options[e.selectedIndex].value);
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "https://www.lightthelamp.dev/api/user");
+  xhttp.open("POST", "/api/user");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(
     JSON.stringify({

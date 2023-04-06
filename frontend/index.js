@@ -5,7 +5,7 @@ if (jwt == null) {
 
 function loadUser() {
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "https://www.lightthelamp.dev/api/user");
+  xhttp.open("GET", "/api/user");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();

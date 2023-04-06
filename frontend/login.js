@@ -23,7 +23,7 @@ function GetURLParameter(sParam)
 
 if (GetURLParameter("confirmation")) {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "https://www.lightthelamp.dev/api/user/confirm/" + GetURLParameter("confirmation"));
+    xhttp.open("GET", "/api/user/confirm/" + GetURLParameter("confirmation"));
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send();
     xhttp.onreadystatechange = function () {
@@ -56,7 +56,7 @@ function login() {
   const password = document.getElementById("password").value;
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "https://www.lightthelamp.dev/api/login");
+  xhttp.open("POST", "/api/login");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(
     JSON.stringify({
