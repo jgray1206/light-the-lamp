@@ -32,7 +32,7 @@ function register() {
         });
       } else {
         Swal.fire({
-          text: objects["message"],
+          text: objects["_embedded"]["error"][0]["message"],
           icon: "error",
           confirmButtonText: "OK",
         });
