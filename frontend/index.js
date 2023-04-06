@@ -106,6 +106,8 @@ function createTable(game, picks, user) {
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'goalies\')">Pick</button>'
     } else {
         var goals = goalies.reduce((a, b) => a + b.goalsAgainst, 0);
+        console.log(goalies);
+        console.log(goals);
         if (goals > 1) {
             row.insertCell(3).innerHTML = 0;
         } else if (goals > 0) {
