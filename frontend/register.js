@@ -66,7 +66,7 @@ function register() {
         });
       } else {
         Swal.fire({
-          text: objects["_embedded"]["errors"][0]["message"],
+          text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
           icon: "error",
           confirmButtonText: "OK",
         });
