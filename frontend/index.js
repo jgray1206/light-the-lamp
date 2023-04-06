@@ -41,7 +41,8 @@ function loadGames() {
             const picks = JSON.parse(this.responseText);
             console.log(picks);
             if (this.status == 200) {
-                games.forEach((game) => { createTable(game, picks) });
+                games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
+                    .forEach((game) => { createTable(game, picks) });
             }
           }
         };
