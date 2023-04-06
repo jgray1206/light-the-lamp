@@ -57,7 +57,7 @@ function createTable(game, picks) {
                                      date.getUTCDate(), date.getUTCHours(),
                                      date.getUTCMinutes(), date.getUTCSeconds());
     console.log(gameDate);
-    console.log(curDate);
+    console.log(curDateUtc);
     var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && gameDate < curDateUtc;
     var pick = picks.find(pick => pick.game.id == game.id)
 
