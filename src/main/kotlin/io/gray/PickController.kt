@@ -41,7 +41,7 @@ class PickController(
         }
     }
 
-    @Post("/group", consumes = [MediaType.APPLICATION_JSON])
+    @Post
     fun createForGroup(@QueryValue groupId: String, @QueryValue gameId: Long, @QueryValue pick: String, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(groupRepository.findById(groupId.toLong())).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
             val game = tuple.t2
@@ -75,8 +75,8 @@ class PickController(
         }
     }
 
-    @Post("/user/{gameId}/{pick}", consumes = [MediaType.APPLICATION_JSON])
-    fun createForUser(@PathVariable gameId: String, @PathVariable pick: String, principal: Principal): Mono<Pick> {
+    @Post
+    fun createForUser(@QueryValue gameId: String, @QueryValue pick: String, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
             val user = tuple.t1
             val game = tuple.t2

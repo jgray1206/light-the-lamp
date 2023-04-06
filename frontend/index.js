@@ -1,7 +1,7 @@
 var jwt = localStorage.getItem("jwt");
-//if (jwt == null) {
-//  window.location.href = "./login.html";
-//}
+if (jwt == null) {
+  window.location.href = "./login.html";
+}
 
 function loadGames() {
   const xhttp = new XMLHttpRequest();
@@ -145,8 +145,9 @@ function doPick(gameId, pick) {
         confirmButtonText: "OK",
     }).then((result) => {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/pick/user/"+gameId+"/"+pick);
+    xhttp.open("POST", "/api/pick?gameId="+gameId+"&pick="+pick);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send();
     xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
