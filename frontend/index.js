@@ -116,7 +116,7 @@ function createTable(game, picks, user) {
     row.insertCell(1).innerHTML = "The Team";
     row.insertCell(2).innerHTML = "Team";
     if (pickEnabled) {
-        row.insertCell(3).innerHTML = "5 for a 5+ goal game, 2 for a 4/5 goal game";
+        row.insertCell(3).innerHTML = "5 for a 6+ goal game, 2 for a 4/5 goal game";
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
         var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
