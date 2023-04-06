@@ -85,7 +85,7 @@ function createTable(game, picks) {
             } else if (nonGoalies[i].position == "Forward") {
                 row.insertCell(3).innerHTML = "1 per goal, 1 per assist";
             }
-            row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+','+nonGoalies[i].name+')">Pick</button>'
+            row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
                 row.insertCell(3).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0);
