@@ -1,4 +1,12 @@
 micronaut:
+  server:
+    cors:
+      single-header: true
+      enabled: true
+    configurations:
+      ui:
+        allowed-origins:
+          - http://127.0.0.1:63342
   security:
     token:
       jwt:
