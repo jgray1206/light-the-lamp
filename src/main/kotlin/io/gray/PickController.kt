@@ -85,9 +85,9 @@ class PickController(
                 "can't submit pick for game where your preferred team isn't playing, you big silly head"
             }
 
-            check(game.date?.isAfter(LocalDateTime.now()) == true) {
-                "can't submit pick on game that has already started, you little silly billy"
-            }
+            //check(game.date?.isAfter(LocalDateTime.now()) == true) {
+            //    "can't submit pick on game that has already started, you little silly billy"
+            //}
 
             pickRepository.findByGameAndUser(game, user).switchIfEmpty(
                     pickRepository.save(Pick().also { pickEntity ->
