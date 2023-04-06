@@ -21,12 +21,12 @@ function GetURLParameter(sParam)
     }
 }
 
-if(GetURLParameter("confirmation")) {
+if (GetURLParameter("confirmation")) {
     const xhttp = new XMLHttpRequest();
-      xhttp.open("GET", "https://www.lightthelamp.dev/api/confirm/" + GetURLParameter("confirmation"));
-      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhttp.send();
-      xhttp.onreadystatechange = function () {
+    xhttp.open("GET", "https://www.lightthelamp.dev/api/confirm/" + GetURLParameter("confirmation"));
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
           const user = JSON.parse(this.responseText);
           console.log(objects);
@@ -48,8 +48,7 @@ if(GetURLParameter("confirmation")) {
             });
           }
         }
-      };
-      return false;
+    };
 }
 
 function login() {
