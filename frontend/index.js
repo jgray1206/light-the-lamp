@@ -160,7 +160,7 @@ function doPick(gameId, pick) {
       }
     }
   };
-  }
+  });
 }
 
 loadUser();
