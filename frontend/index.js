@@ -70,7 +70,7 @@ function createTable(game, picks, user) {
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
         var id = nonGoalies[i].id.playerId;
-        if (pick && pick.gamePlayer.id.playerId == id) {
+        if (pick && pick.gamePlayer && pick.gamePlayer.id.playerId == id) {
             row.className = "table-danger";
         }
         row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>';
