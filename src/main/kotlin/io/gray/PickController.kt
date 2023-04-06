@@ -75,8 +75,8 @@ class PickController(
         }
     }
 
-    @Post("/user", consumes = [MediaType.APPLICATION_JSON])
-    fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, principal: Principal): Mono<Pick> {
+    @Post("/user/{gameId}/{pick}", consumes = [MediaType.APPLICATION_JSON])
+    fun createForUser(@PathVariable gameId: String, @PathVariable pick: String, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
             val user = tuple.t1
             val game = tuple.t2
