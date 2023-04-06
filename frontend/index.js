@@ -123,9 +123,9 @@ function createTable(game, picks) {
         row.insertCell(3).innerHTML = "5 for a 5+ goal game, 2 for a 4/5 goal game";
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
-        if ((team.homeTeamGoals || 0) >= 6) { //todo get actual team
+        if ((game.homeTeamGoals || 0) >= 6) { //todo get actual team
              row.insertCell(3).innerHTML = 5;
-        } else if ((team.homeTeamGoals || 0) >= 4) {
+        } else if ((game.homeTeamGoals || 0) >= 4) {
             row.insertCell(3).innerHTML = 2;
         } else {
             row.insertCell(3).innerHTML = 0;
