@@ -14,7 +14,7 @@ function loadUser() {
       const objects = JSON.parse(this.responseText);
       console.log(objects);
       if (this.status == 200) {
-        document.getElementById("username").innerHTML = objects["email"];
+        //document.getElementById("username").innerHTML = objects["email"];
       }
     }
   };
