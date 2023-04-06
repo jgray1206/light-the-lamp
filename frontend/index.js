@@ -1,24 +1,7 @@
 var jwt = localStorage.getItem("jwt");
-if (jwt == null) {
-  window.location.href = "./login.html";
-}
-
-function loadUser() {
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/user");
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      const objects = JSON.parse(this.responseText);
-      console.log(objects);
-      if (this.status == 200) {
-        //document.getElementById("username").innerHTML = objects["email"];
-      }
-    }
-  };
-}
+//if (jwt == null) {
+//  window.location.href = "./login.html";
+//}
 
 function loadGames() {
   const xhttp = new XMLHttpRequest();
@@ -40,10 +23,21 @@ function loadGames() {
           if (this.readyState == 4) {
             const picks = JSON.parse(this.responseText);
             console.log(picks);
-            if (this.status == 200) {
-                games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
-                    .forEach((game) => { createTable(game, picks) });
-            }
+            const xhttp3 = new XMLHttpRequest();
+            xhttp3.open("GET", "/api/user");
+            xhttp3.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp3.setRequestHeader("Authorization", "Bearer " + jwt);
+            xhttp3.send();
+            xhttp3.onreadystatechange = function () {
+              if (this.readyState == 4) {
+                  const user = JSON.parse(this.responseText);
+                  console.log(user);
+                  if (this.status == 200) {
+                    games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
+                                        .forEach((game) => { createTable(game, picks, user) });
+                  }
+                }
+              };
           }
         };
       }
@@ -51,7 +45,8 @@ function loadGames() {
   };
 }
 
-function createTable(game, picks) {
+function createTable(game, picks, user) {
+    var teamIsAwayOrHome = game.awayTeam.id == user.team.id ? "away" : "home";
     var gameDate = new Date(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]);
     var date = new Date();
     var curDateUtc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
@@ -124,9 +119,10 @@ function createTable(game, picks) {
         row.insertCell(3).innerHTML = "5 for a 5+ goal game, 2 for a 4/5 goal game";
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
-        if ((game.homeTeamGoals || 0) >= 6) { //todo get actual team
+        var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
+        if ((goals || 0) >= 6) {
              row.insertCell(3).innerHTML = 5;
-        } else if ((game.homeTeamGoals || 0) >= 4) {
+        } else if ((goals || 0) >= 4) {
             row.insertCell(3).innerHTML = 2;
         } else {
             row.insertCell(3).innerHTML = 0;
@@ -169,7 +165,6 @@ function doPick(gameId, pick) {
   });
 }
 
-loadUser();
 loadGames();
 
 function logout() {
