@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono
 @R2dbcRepository(dialect = Dialect.POSTGRES)
 interface UserRepository : ReactorCrudRepository<User, Long> {
     @Join("groups", type = Join.Type.LEFT_FETCH)
+    @Join("team", type = Join.Type.FETCH)
     override fun findById(aLong: Long): Mono<User>
     fun findByEmail(email: String): Mono<User>
 
