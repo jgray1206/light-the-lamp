@@ -16,6 +16,7 @@ import reactor.core.publisher.Mono
 import java.lang.IllegalStateException
 import java.security.Principal
 import java.util.UUID
+import javax.validation.Valid
 import kotlin.Long
 import kotlin.String
 import kotlin.also
@@ -40,13 +41,13 @@ open class UserController(
     @Post
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "usercreate")
-    open fun create(@Body userRequest: UserRequest, httpRequest: HttpRequest<User>): Mono<User> {
+    open fun create(@Valid @Body userRequest: UserRequest, httpRequest: HttpRequest<User>): Mono<User> {
         return userRepository.findByEmail(userRequest.email!!)
                 .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
                 .switchIfEmpty(
                         userRepository.save(User().also {
                             it.email = userRequest.email
-                            it.password = BCrypt.hashpw(it.password, BCrypt.gensalt(12))
+                            it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
                             it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
                             it.confirmed = false
                             it.team = Team().also { it.id = userRequest.teamId } //todo validate this
