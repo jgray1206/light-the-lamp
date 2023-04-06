@@ -35,10 +35,6 @@ if (GetURLParameter("confirmation")) {
               text: "Account Confirmed! Please login.",
               icon: "success",
               confirmButtonText: "OK",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href = "./login.html";
-              }
             });
           } else {
             Swal.fire({
