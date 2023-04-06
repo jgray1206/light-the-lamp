@@ -5,6 +5,7 @@ import io.gray.repos.GameRepository
 import io.gray.repos.GroupRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
+import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -40,9 +41,9 @@ class PickController(
         }
     }
 
-    @Post("/group")
-    fun createForGroup(@QueryValue groupId: Long, @QueryValue gameId: Long, @QueryValue pick: String, principal: Principal): Mono<Pick> {
-        return userRepository.findByEmail(principal.name).zipWith(groupRepository.findById(groupId)).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
+    @Post("/group", consumes = [MediaType.APPLICATION_JSON])
+    fun createForGroup(@QueryValue groupId: String, @QueryValue gameId: Long, @QueryValue pick: String, principal: Principal): Mono<Pick> {
+        return userRepository.findByEmail(principal.name).zipWith(groupRepository.findById(groupId.toLong())).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
             val game = tuple.t2
             val group = tuple.t1.t2
             val user = tuple.t1.t1
@@ -74,9 +75,9 @@ class PickController(
         }
     }
 
-    @Post("/user")
-    fun createForUser(@QueryValue("gameId") gameId: Long, @QueryValue("pick") pick: String, principal: Principal): Mono<Pick> {
-        return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
+    @Post("/user", consumes = [MediaType.APPLICATION_JSON])
+    fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, principal: Principal): Mono<Pick> {
+        return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
             val user = tuple.t1
             val game = tuple.t2
 
