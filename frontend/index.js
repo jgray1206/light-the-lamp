@@ -94,7 +94,7 @@ function createTable(game, picks, user) {
 
     var goalies = game.players.filter(player => player.position == "Goalie");
     var row = table.insertRow(nonGoalies.length);
-    if (pick.goalies != undefined) {
+    if (pick && pick.goalies != undefined) {
         row.className = "table-danger";
     }
     var goalieImages = goalies.map(player => '<img width="90" height="90" class="rounded-circle img-thumbnail" onerror=\'this.src="/shrug.png"\' src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">').join("");
@@ -117,7 +117,7 @@ function createTable(game, picks, user) {
     }
 
     var row = table.insertRow(nonGoalies.length+1);
-    if (pick.team != undefined) {
+    if (pick && pick.team != undefined) {
         row.className = "table-danger";
     }
     row.insertCell(0).innerHTML = "The Detroit Red Wings!";
