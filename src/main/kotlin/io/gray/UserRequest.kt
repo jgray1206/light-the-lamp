@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Introspected
-class UserRequest {
+open class UserRequest {
     @NotBlank
     @Size(max = 50)
     @Email
