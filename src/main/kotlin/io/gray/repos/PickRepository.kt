@@ -24,5 +24,6 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     fun findAllByGroup(aGroup: Group): Flux<Pick>
 
     fun findByGameAndUserAndGroup(aGame: Game, aUser: User, aGroup: Group): Mono<Pick>
+    fun findByGameAndUser(aGame: Game, aUser: User): Mono<Pick>
 
 }
