@@ -34,10 +34,11 @@ open class GameStateSyncer(
 
     //to get pics
     //https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8477968.jpg
-    @Scheduled(fixedDelay = "30m")
+    @Scheduled(fixedDelay = "3m")
     @ExecuteOn(TaskExecutors.IO)
     fun syncGameState() {
         val teams = teamsApi.getTeams(null, null).block()?.teams?.filter { it.id != null }
+        val checkedGames = mutableSetOf<Long>()
         teams?.forEach { team ->
             val dbTeam = teamRepository.findById(team.id!!.toLong()).block()
             if (dbTeam?.id == null) {
@@ -62,6 +63,11 @@ open class GameStateSyncer(
                     if (game.gamePk == null) {
                         return@gameLoop
                     }
+                    if (checkedGames.contains(game.gamePk!!.toLong())) {
+                        logger.info("  already refreshed db game ${game.gamePk}, skipping..")
+                        return@gameLoop
+                    }
+
                     var dbGame = gameRepository.findById(game.gamePk!!.toLong()).block()
                     if (dbGame?.id == null) {
                         logger.info("  game did not exists, creating..")
@@ -77,6 +83,7 @@ open class GameStateSyncer(
                             updateUserGroupPoints(dbGame)
                         }
                     }
+                    checkedGames.add(game.gamePk!!.toLong())
                 }
             }
         }
