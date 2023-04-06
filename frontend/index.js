@@ -86,7 +86,7 @@ function createTable(game, picks) {
         }
     }
 
-    var goalies = game.players.filter((player) => {it.position == "Goalie"});
+    var goalies = game.players.filter((player) => {player.position == "Goalie"});
     var row = table.insertRow(nonGoalies.length);
     var goalieImages = goalies.map((player) => {'<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">'}).join("");
     row.insertCell(0).innerHTML = goalieImages;
