@@ -52,7 +52,7 @@ function loadGames() {
 
 function createTable(game, picks) {
     var gameDate = new Date(game.date[0], game.date[1], game.date[2], game.date[3], game.date[4]);
-    var curDate = new Date();
+    var date = new Date();
     var curDateUtc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
                                      date.getUTCDate(), date.getUTCHours(),
                                      date.getUTCMinutes(), date.getUTCSeconds());
