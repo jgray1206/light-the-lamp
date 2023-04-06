@@ -145,7 +145,7 @@ function doPick(gameId, pick) {
         confirmButtonText: "OK",
     }).then((result) => {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/pick?gameId="+gameId+"&pick="+pick);
+    xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send();
     xhttp.onreadystatechange = function () {

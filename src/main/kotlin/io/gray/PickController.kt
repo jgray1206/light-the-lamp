@@ -40,7 +40,7 @@ class PickController(
         }
     }
 
-    @Post
+    @Post("/group")
     fun createForGroup(@QueryValue groupId: Long, @QueryValue gameId: Long, @QueryValue pick: String, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(groupRepository.findById(groupId)).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
             val game = tuple.t2
@@ -74,7 +74,7 @@ class PickController(
         }
     }
 
-    @Post
+    @Post("/user")
     fun createForUser(@QueryValue gameId: Long, @QueryValue pick: String, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
             val user = tuple.t1
