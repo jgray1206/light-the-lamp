@@ -18,9 +18,9 @@ function register() {
   );
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-      const user = JSON.parse(this.responseText);
+      const objects = JSON.parse(this.responseText);
       console.log(objects);
-      if (user["confirmed"] == "false") {
+      if (objects["confirmed"] == "false") {
         Swal.fire({
           text: "Registration successful! Check your email to confirm your account.",
           icon: "success",
