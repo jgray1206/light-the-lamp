@@ -62,7 +62,7 @@ function createTable(game, picks) {
     caption.innerHTML = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
     caption.setAttribute("class","caption-top");
 
-    var nonGoalies = game.players.filter((player) => {it.position != "Goalie"});
+    var nonGoalies = game.players.filter((player) => { player.position != "Goalie"});
 
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
