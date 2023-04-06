@@ -45,6 +45,7 @@ open class UserController(
                 .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
                 .switchIfEmpty(
                         userRepository.save(User().also {
+                            it.email = userRequest.email
                             it.password = BCrypt.hashpw(it.password, BCrypt.gensalt(12))
                             it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
                             it.confirmed = false

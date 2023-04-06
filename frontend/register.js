@@ -27,7 +27,7 @@ function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   const e = document.getElementById("team");
-  const teamId = e.options[e.selectedIndex].value;
+  const teamId = parseInt(e.options[e.selectedIndex].value);
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "https://www.lightthelamp.dev/api/user");
