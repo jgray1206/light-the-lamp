@@ -54,7 +54,7 @@ function createTable(game, picks, user) {
                                      date.getUTCMinutes(), date.getUTCSeconds());
     console.log(gameDate);
     console.log(curDateUtc);
-    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && gameDate > curDateUtc;
+    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined //&& gameDate > curDateUtc;
     var pick = picks.find(pick => pick.game.id == game.id)
 
     var headers = ["Picture", "Name", "Position", "Points"];
@@ -71,6 +71,9 @@ function createTable(game, picks, user) {
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
         var id = nonGoalies[i].id.playerId;
+        if (pick.gamePlayer.id.playerId == id) {
+            row.className = "table-danger";
+        }
         row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>';
         row.insertCell(1).innerHTML = nonGoalies[i].name;
         row.insertCell(2).innerHTML = nonGoalies[i].position;
@@ -92,6 +95,9 @@ function createTable(game, picks, user) {
 
     var goalies = game.players.filter(player => player.position == "Goalie");
     var row = table.insertRow(nonGoalies.length);
+    if (pick.goalies != undefined) {
+        row.className = "table-danger";
+    }
     var goalieImages = goalies.map(player => '<img width="90" height="90" class="rounded-circle img-thumbnail" onerror=\'this.src="/shrug.png"\' src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">').join("");
     row.insertCell(0).innerHTML = goalieImages;
     row.insertCell(1).innerHTML = "The Goalies";
@@ -112,6 +118,9 @@ function createTable(game, picks, user) {
     }
 
     var row = table.insertRow(nonGoalies.length+1);
+    if (pick.team != undefined) {
+        row.className = "table-danger";
+    }
     row.insertCell(0).innerHTML = "The Detroit Red Wings!";
     row.insertCell(1).innerHTML = "The Team";
     row.insertCell(2).innerHTML = "Team";
