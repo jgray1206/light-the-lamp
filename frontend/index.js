@@ -51,8 +51,8 @@ function loadGames() {
 }
 
 function createTable(game, picks) {
-    var pickEnabled = picks.find((pick) => pick.game.id == game.id) == undefined && new Date(game.date[0], game.date[1], game.date[2], game.date[3], game.date[4]) > new Date();
-    var pick = picks.find((pick) => pick.game.id == game.id)
+    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && new Date(game.date[0], game.date[1], game.date[2], game.date[3], game.date[4]) > new Date();
+    var pick = picks.find(pick => pick.game.id == game.id)
 
     var headers = ["Picture", "Name", "Position", "Points"];
     if (!pickEnabled) { headers.push("Pick"); }
@@ -63,7 +63,7 @@ function createTable(game, picks) {
     caption.innerHTML = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
     caption.setAttribute("class","caption-top");
 
-    var nonGoalies = game.players.filter((player) => { player.position != "Goalie"});
+    var nonGoalies = game.players.filter(player => player.position != "Goalie");
     console.log(nonGoalies);
     console.log(game.players);
 
@@ -89,7 +89,7 @@ function createTable(game, picks) {
         }
     }
 
-    var goalies = game.players.filter((player) => {player.position == "Goalie"});
+    var goalies = game.players.filter(playe) => player.position == "Goalie");
     var row = table.insertRow(nonGoalies.length);
     var goalieImages = goalies.map((player) => {'<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">'}).join("");
     row.insertCell(0).innerHTML = goalieImages;
