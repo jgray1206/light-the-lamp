@@ -23,6 +23,9 @@ class User {
     @Size(max = 60, min = 60)
     var password: String? = null
 
+    @Relation(Relation.Kind.MANY_TO_ONE)
+    var team: Team? = null
+
     var confirmed: Boolean? = null
 
     @NotBlank
