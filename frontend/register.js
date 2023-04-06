@@ -3,6 +3,26 @@ if (jwt != null) {
   window.location.href = "./index.html";
 }
 
+const batchTrack = document.getElementById("team");
+console.log({ batchTrack });
+const getPost = async () => {
+  const response = await fetch("https://www.lightthelamp.dev/api/teams");
+  const data = await response.json();
+  return data;
+};
+
+const displayOption = async () => {
+  const options = await getPost();
+  for (option of options) {
+    const newOption = document.createElement("option");
+    newOption.value = option.id;
+    newOption.text = option.teamName;
+    batchTrack.appendChild(newOption);
+  }
+};
+
+displayOption();
+
 function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;

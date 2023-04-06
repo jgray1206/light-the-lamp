@@ -15,19 +15,15 @@ import reactor.core.publisher.Mono
 @Controller("/game")
 class GameController(
         private val gameRepository: GameRepository,
-        private val groupRepository: GroupRepository
+        private val groupRepository: GroupRepository,
+        private val teamRepository: TeamRepository
 ) {
-    @Get("/games")
-    fun all(): Flux<Game> {
-        return gameRepository.findAll()
-    }
-
-    @Get("/game/{id}")
+    @Get("/{id}")
     fun all(id: Long): Mono<Game> {
         return gameRepository.findById(id)
     }
 
-    @Get("/game/team/{id}")
+    @Get("/team/{id}")
     fun gameByTeamId(id: Long): Flux<Game> {
         return gameRepository.findByHomeTeamOrAwayTeam(Team().also {  it.id = id }, Team().also { it.id = id })
     }
