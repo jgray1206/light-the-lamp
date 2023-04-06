@@ -58,7 +58,7 @@ function createTable(game, picks, user) {
     var pick = picks.find(pick => pick.game.id == game.id)
 
     var headers = ["Picture", "Name", "Position", "Points"];
-    if (!pickEnabled) { headers.push("Pick"); }
+    if (pickEnabled) { headers.push("Pick"); }
 
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
@@ -120,6 +120,7 @@ function createTable(game, picks, user) {
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
         var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
+        console.log(goals);
         if ((goals || 0) >= 6) {
              row.insertCell(3).innerHTML = 5;
         } else if ((goals || 0) >= 4) {
