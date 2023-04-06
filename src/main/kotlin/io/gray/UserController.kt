@@ -11,6 +11,7 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Mono
+import java.lang.IllegalStateException
 import java.security.Principal
 import java.util.UUID
 import kotlin.Long
@@ -30,26 +31,30 @@ open class UserController(
 
     @Get
     fun get(principal: Principal): Mono<User> { // (2)
-        return userRepository.findByEmail(principal.name).map { it.apply { it.password = null; it.ipAddress = null; it.confirmationUuid = null;} }
+        return userRepository.findByEmail(principal.name).map { it.apply { it.password = null; it.ipAddress = null; it.confirmationUuid = null; } }
     }
 
     @Post
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "usercreate")
     open fun create(@Body user: User, httpRequest: HttpRequest<User>): Mono<User> {
-        return userRepository.findByEmail(user.email!!).switchIfEmpty(
-                kotlin.run {
-                    check(user.password!!.length > 10) { "password length should be at least 10 characters you insecure doofus!!!!" }
-                    userRepository.save(user.also {
-                        it.password = BCrypt.hashpw(it.password, BCrypt.gensalt(12))
-                        it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
-                        it.confirmed = false
-                        it.confirmationUuid = UUID.randomUUID().toString()
-                    }).doOnSuccess {
-                        mailService.sendEmail(it.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${it.confirmationUuid}")
-                    }
-                }
-        ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+        return userRepository.findByEmail(user.email!!).flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${user.email}") } }
+                .switchIfEmpty(
+                        kotlin.run {
+                            if (user.password!!.length < 10) {
+                                return Mono.error { IllegalStateException("password length should be at least 10 characters you insecure doofus!!!!") }
+                            }
+                            userRepository.save(user.also {
+                                it.password = BCrypt.hashpw(it.password, BCrypt.gensalt(12))
+                                it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
+                                it.confirmed = false
+                                it.confirmationUuid = UUID.randomUUID().toString()
+                            }).flatMap { user ->
+                                Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${user.confirmationUuid}") }
+                                        .thenReturn(user)
+                            }
+                        }
+                ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
     @Put
