@@ -51,10 +51,11 @@ function loadGames() {
 }
 
 function createTable(game, picks) {
-    var hasPickForgame = picks.find((pick) => pick.game.id == game.id) != undefined;
+    var pickEnabled = picks.find((pick) => pick.game.id == game.id) == undefined && new Date(game.date[0], game.date[1], game.date[2], game.date[3], game.date[4]) > new Date();
+    var pick = picks.find((pick) => pick.game.id == game.id)
 
     var headers = ["Picture", "Name", "Position", "Points"];
-    if (!hasPickForgame) { headers.push("Pick"); }
+    if (!pickEnabled) { headers.push("Pick"); }
 
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
@@ -63,6 +64,8 @@ function createTable(game, picks) {
     caption.setAttribute("class","caption-top");
 
     var nonGoalies = game.players.filter((player) => { player.position != "Goalie"});
+    console.log(nonGoalies);
+    console.log(game.players);
 
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
@@ -70,7 +73,7 @@ function createTable(game, picks) {
         row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg">';
         row.insertCell(1).innerHTML = nonGoalies[i].name;
         row.insertCell(2).innerHTML = nonGoalies[i].position;
-        if (!hasPickForgame) {
+        if (pickEnabled) {
             if (nonGoalies[i].position == "Defenseman") {
                 row.insertCell(3).innerHTML = "2 per goal, 1 per assist";
             } else if (nonGoalies[i].position == "Forward") {
@@ -92,7 +95,7 @@ function createTable(game, picks) {
     row.insertCell(0).innerHTML = goalieImages;
     row.insertCell(1).innerHTML = "The Goalies";
     row.insertCell(2).innerHTML = "Goalie";
-    if (!hasPickForgame) {
+    if (pickEnabled) {
         row.insertCell(3).innerHTML = "5 for a shutout, 2 for a single-goal game";
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'goalies\')">Pick</button>'
     } else {
@@ -111,7 +114,7 @@ function createTable(game, picks) {
     row.insertCell(0).innerHTML = "The Detroit Red Wings!";
     row.insertCell(1).innerHTML = "The Team";
     row.insertCell(2).innerHTML = "Team";
-    if (!hasPickForgame) {
+    if (pickEnabled) {
         row.insertCell(3).innerHTML = "5 for a 5+ goal game, 2 for a 4/5 goal game";
         row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
@@ -133,6 +136,11 @@ function createTable(game, picks) {
 }
 
 function doPick(gameId, pick) {
+    Swal.fire({
+        text: "Are you sure you want to pick " + pick + "? You can't change a pick once locked in!.",
+        icon: "warning",
+        confirmButtonText: "OK",
+    }).then((result) => {
     const xhttp = new XMLHttpRequest();
     xhttp.open("POST", "localhost:8080/api/pick?gameId="+gameId+"&pick="+pick);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -142,15 +150,7 @@ function doPick(gameId, pick) {
       const objects = JSON.parse(this.responseText);
       console.log(picks);
       if (this.status == 200) {
-          Swal.fire({
-            text: "Nice choice! Click OK to refresh page.",
-            icon: "success",
-            confirmButtonText: "OK",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = "./index.html";
-            }
-          });
+          window.location.href = "./index.html";
       } else {
         Swal.fire({
           text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
@@ -160,6 +160,7 @@ function doPick(gameId, pick) {
       }
     }
   };
+  }
 }
 
 loadUser();
