@@ -4,5 +4,5 @@ CREATE TABLE "user_group" (id SERIAL PRIMARY KEY, user_id BIGINT NOT NULL, group
 CREATE TABLE "team" (id BIGINT NOT NULL PRIMARY KEY, team_name VARCHAR(128) NOT NULL);
 CREATE TABLE "game" (id BIGINT NOT NULL PRIMARY KEY, "date" TIMESTAMP NOT NULL, game_state VARCHAR(20) NOT NULL, home_team_id BIGINT NOT NULL, away_team_id BIGINT NOT NULL, home_team_goals SMALLINT, away_team_goals SMALLINT);
 CREATE TABLE "game_player" (id_game_id BIGINT NOT NULL, id_player_id BIGINT NOT NULL, team_id BIGINT NOT NULL, position VARCHAR(20) NOT NULL, "name" VARCHAR(256) NOT NULL, goals SMALLINT, assists SMALLINT, short_goals SMALLINT, short_assists SMALLINT, goals_against SMALLINT, time_on_ice VARCHAR(8),  PRIMARY KEY(id_game_id, id_player_id));
-CREATE TABLE "pick" (id SERIAL PRIMARY KEY, group_id BIGINT NOT NULL, user_id BIGINT NOT NULL, game_id BIGINT NOT NULL, game_player_id_game_id BIGINT, game_player_id_player_id BIGINT, goalies BOOLEAN, team BOOLEAN, points SMALLINT);
+CREATE TABLE "pick" (id SERIAL PRIMARY KEY, group_id BIGINT, user_id BIGINT NOT NULL, game_id BIGINT NOT NULL, game_player_id_game_id BIGINT, game_player_id_player_id BIGINT, goalies BOOLEAN, team BOOLEAN, points SMALLINT);
 
