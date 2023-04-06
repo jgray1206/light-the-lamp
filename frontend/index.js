@@ -87,9 +87,9 @@ function createTable(game, picks) {
             row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+','+nonGoalies[i].name+')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
-                row.insertCell(3).innerHTML = (player.goals || 0)*2 + (player.assists || 0);
+                row.insertCell(3).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0);
             } else if (nonGoalies[i].position == "Forward") {
-                row.insertCell(3).innerHTML = (player.goals || 0) + (player.assists || 0);
+                row.insertCell(3).innerHTML = (nonGoalies[i].goals || 0) + (nonGoalies[i].assists || 0);
             }
         }
     }
