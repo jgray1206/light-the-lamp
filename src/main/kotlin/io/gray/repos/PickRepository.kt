@@ -16,7 +16,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
 
     fun deleteByGame(aGame: Game): Mono<Long>
 
-    @Join("group", type = Join.Type.FETCH)
+    @Join("group", type = Join.Type.LEFT_FETCH)
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     fun findAllByUser(aUser: User): Flux<Pick>
 
