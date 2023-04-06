@@ -46,7 +46,7 @@ open class UserController(
                         it.confirmed = false
                         it.confirmationUuid = UUID.randomUUID().toString()
                     }).doOnSuccess {
-                        mailService.sendEmail(it.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: http://157.230.209.115/api/user/confirm/${it.confirmationUuid}")
+                        mailService.sendEmail(it.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${it.confirmationUuid}")
                     }
                 }
         ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
