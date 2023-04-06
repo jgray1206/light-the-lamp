@@ -70,7 +70,7 @@ function createTable(game, picks) {
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
         var id = nonGoalies[i].id.playerId;
-        row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg">';
+        row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror="this.src="/shrug.png"'>';
         row.insertCell(1).innerHTML = nonGoalies[i].name;
         row.insertCell(2).innerHTML = nonGoalies[i].position;
         if (pickEnabled) {
@@ -91,7 +91,7 @@ function createTable(game, picks) {
 
     var goalies = game.players.filter(player => player.position == "Goalie");
     var row = table.insertRow(nonGoalies.length);
-    var goalieImages = goalies.map((player) => {'<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">'}).join("");
+    var goalieImages = goalies.map((player) => {'<img width="90" height="90" class="rounded-circle img-thumbnail" onerror="this.src="/shrug.png" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">'}).join("");
     row.insertCell(0).innerHTML = goalieImages;
     row.insertCell(1).innerHTML = "The Goalies";
     row.insertCell(2).innerHTML = "Goalie";
@@ -116,7 +116,7 @@ function createTable(game, picks) {
     row.insertCell(2).innerHTML = "Team";
     if (pickEnabled) {
         row.insertCell(3).innerHTML = "5 for a 5+ goal game, 2 for a 4/5 goal game";
-        row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'team\')">Pick</button>';
+        row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onerror="this.src="/shrug.png" onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
         if ((team.homeTeamGoals || 0) >= 6) { //todo get actual team
              row.insertCell(3).innerHTML = 5;
