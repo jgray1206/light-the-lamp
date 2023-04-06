@@ -34,7 +34,7 @@ open class GameStateSyncer(
 
     //to get pics
     //https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8477968.jpg
-   // @Scheduled(fixedDelay = "5m")
+    @Scheduled(fixedDelay = "10m")
     @ExecuteOn(TaskExecutors.IO)
     fun syncGameState() {
         val teams = teamsApi.getTeams(null, null).block()?.teams?.filter { it.id != null }
@@ -44,42 +44,42 @@ open class GameStateSyncer(
                 createTeam(team)
             }
         }
-        teams?.forEach { team ->
-            val schedule = scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(5), LocalDate.now().plusDays(1)).block()
-            val futureGames = gameRepository.findAllByGameStateNotEqualAndDateGreaterThan("Final", LocalDate.now().minusDays(6).atStartOfDay()).collectList().block()
-
-            //reschedule logic
-            futureGames?.forEach { futureGame ->
-                if (schedule?.dates?.isNotEmpty() == true && schedule.dates?.none { it?.games?.none { it?.gamePk?.toLong() == futureGame.id } == true } == true) {
-                    logger.warn("game id ${futureGame.id} on date ${futureGame.date} between ${futureGame.homeTeam?.teamName} and ${futureGame.awayTeam?.teamName} rescheduled, deleting game and picks")
-                    deleteGameAndPicks(futureGame)
-                }
-            }
-
-            schedule?.dates?.forEach dayLoop@{ day ->
-                day.games?.forEach gameLoop@{ game ->
-                    logger.info("refreshing db for game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
-                    if (game.gamePk == null) {
-                        return@gameLoop
-                    }
-                    var dbGame = gameRepository.findById(game.gamePk!!.toLong()).block()
-                    if (dbGame?.id == null) {
-                        logger.info("  game did not exists, creating..")
-                        dbGame = createGame(game)
-                    }
-
-                    if (game?.status?.abstractGameState != "Preview") {
-                        logger.info("  game is finished, updating scores and picks..")
-                        val gameScore = gamesApi.getGameBoxscore(game.gamePk!!).block()
-                        dbGame = updateGamePlayersAndGame(dbGame, gameScore, game)
-                        if (dbGame != null) {
-                            updatePickPoints(dbGame)
-                            updateUserGroupPoints(dbGame)
-                        }
-                    }
-                }
-            }
-        }
+//        teams?.forEach { team ->
+//            val schedule = scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(5), LocalDate.now().plusDays(1)).block()
+//            val futureGames = gameRepository.findAllByGameStateNotEqualAndDateGreaterThan("Final", LocalDate.now().minusDays(6).atStartOfDay()).collectList().block()
+//
+//            //reschedule logic
+//            futureGames?.forEach { futureGame ->
+//                if (schedule?.dates?.isNotEmpty() == true && schedule.dates?.none { it?.games?.none { it?.gamePk?.toLong() == futureGame.id } == true } == true) {
+//                    logger.warn("game id ${futureGame.id} on date ${futureGame.date} between ${futureGame.homeTeam?.teamName} and ${futureGame.awayTeam?.teamName} rescheduled, deleting game and picks")
+//                    deleteGameAndPicks(futureGame)
+//                }
+//            }
+//
+//            schedule?.dates?.forEach dayLoop@{ day ->
+//                day.games?.forEach gameLoop@{ game ->
+//                    logger.info("refreshing db for game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
+//                    if (game.gamePk == null) {
+//                        return@gameLoop
+//                    }
+//                    var dbGame = gameRepository.findById(game.gamePk!!.toLong()).block()
+//                    if (dbGame?.id == null) {
+//                        logger.info("  game did not exists, creating..")
+//                        dbGame = createGame(game)
+//                    }
+//
+//                    if (game?.status?.abstractGameState != "Preview") {
+//                        logger.info("  game is finished, updating scores and picks..")
+//                        val gameScore = gamesApi.getGameBoxscore(game.gamePk!!).block()
+//                        dbGame = updateGamePlayersAndGame(dbGame, gameScore, game)
+//                        if (dbGame != null) {
+//                            updatePickPoints(dbGame)
+//                            updateUserGroupPoints(dbGame)
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun updateUserGroupPoints(dbGame: Game) {
