@@ -140,12 +140,12 @@ function createTable(game, picks, user) {
 
 function doPick(gameId, pick) {
     Swal.fire({
-        text: "Are you sure you want to pick " + pick + "? You can't change a pick once locked in!.",
+        text: "Are you sure you want to pick " + pick + "? You can't change a pick once locked in!",
         icon: "warning",
         confirmButtonText: "OK",
     }).then((result) => {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "localhost:8080/api/pick?gameId="+gameId+"&pick="+pick);
+    xhttp.open("POST", "/api/pick?gameId="+gameId+"&pick="+pick);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send();
     xhttp.onreadystatechange = function () {
