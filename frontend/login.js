@@ -28,9 +28,9 @@ if (GetURLParameter("confirmation")) {
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
-          const user = JSON.parse(this.responseText);
+          const objects = JSON.parse(this.responseText);
           console.log(objects);
-          if (user["confirmed"] == true) {
+          if (objects["confirmed"] == true) {
             Swal.fire({
               text: "Account Confirmed! Please login.",
               icon: "success",
@@ -42,7 +42,7 @@ if (GetURLParameter("confirmation")) {
             });
           } else {
             Swal.fire({
-              text: user["message"],
+              text: objects["message"],
               icon: "error",
               confirmButtonText: "OK",
             });
