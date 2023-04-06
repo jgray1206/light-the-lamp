@@ -46,15 +46,15 @@ open class GameStateSyncer(
         }
         teams?.forEach { team ->
             val schedule = scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(3), LocalDate.now().plusDays(1)).block()
-            val futureGames = gameRepository.findAllByGameStateNotEqualAndDateGreaterThan("Final", LocalDate.now().minusDays(6).atStartOfDay()).collectList().block()
+            //val futureGames = gameRepository.findAllByGameStateNotEqualAndDateGreaterThan("Final", LocalDate.now().minusDays(3).atStartOfDay()).collectList().block()
 
             //reschedule logic
-            futureGames?.forEach { futureGame ->
-                if (schedule?.dates?.isNotEmpty() == true && schedule.dates?.none { it?.games?.none { game -> game?.gamePk?.toLong() == futureGame.id } == true } == true) {
-                    logger.warn("game id ${futureGame.id} on date ${futureGame.date} between ${futureGame.homeTeam?.teamName} and ${futureGame.awayTeam?.teamName} rescheduled, deleting game and picks")
-                    deleteGameAndPicks(futureGame)
-                }
-            }
+            //futureGames?.forEach { futureGame ->
+            //    if (schedule?.dates?.isNotEmpty() == true && schedule.dates?.none { it?.games?.none { game -> game?.gamePk?.toLong() == futureGame.id } == true } == true) {
+            //        logger.warn("game id ${futureGame.id} on date ${futureGame.date} between ${futureGame.homeTeam?.teamName} and ${futureGame.awayTeam?.teamName} rescheduled, deleting game and picks")
+            //        deleteGameAndPicks(futureGame)
+            //    }
+            //}
 
             schedule?.dates?.forEach dayLoop@{ day ->
                 day.games?.forEach gameLoop@{ game ->
