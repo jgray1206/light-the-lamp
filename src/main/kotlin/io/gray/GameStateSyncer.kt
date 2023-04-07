@@ -110,7 +110,7 @@ open class GameStateSyncer(
                     it.points = ((it.gamePlayer?.goals ?: 0) * 2 + (it.gamePlayer?.assists ?: 0)).toShort()
                 }
             } else if (it.goalies == true) {
-                val teamId = it.group?.team?.id
+                val teamId = it.group?.team?.id ?: it.user?.team?.id
                 val getStartingGoalie = dbGame.players?.firstOrNull {
                     it.team?.id == teamId && it.position == "Goalie" && it.timeOnIce == "60:00"
                 }
@@ -122,7 +122,7 @@ open class GameStateSyncer(
                     0
                 }
             } else if (it.team == true) {
-                val teamId = it.group?.team?.id
+                val teamId = it.group?.team?.id  ?: it.user?.team?.id
                 val teamGoals = if (dbGame.homeTeam?.id == teamId) {
                     dbGame.homeTeamGoals!!
                 } else {

@@ -25,11 +25,18 @@ function createTable(picks) {
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
 
-    for(var i = 0; i < picks.length; i++) {
-        var row = table.insertRow(i);
-        row.insertCell(0).innerHTML = picks[i].user.email.split("@")[0];
-        row.insertCell(1).innerHTML = picks[i].points;
-    }
+    var groupedPicks = picks.groupBy(pick => {
+           return pick.user.email;
+         });
+    groupedPicks.forEach(() => {
+        let i=0;
+        return (key, value) => {
+            var row = table.insertRow(i);
+            row.insertCell(0).innerHTML = key.split("@")[0];
+            row.insertCell(1).innerHTML = value.reduce((a, b) => a + b.points || 0, 0);
+            i += 1;
+        }
+    });
 
     var header = table.createTHead();
     var headerRow = header.insertRow(0);
