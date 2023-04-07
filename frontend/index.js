@@ -181,6 +181,6 @@ function logout() {
   window.location.href = "./login.html";
 }
 
-function to_leaderboards() {
-  window.location.href = "./leaderboards.html";
+function to_leaderboard() {
+  window.location.href = "./leaderboard.html";
 }
