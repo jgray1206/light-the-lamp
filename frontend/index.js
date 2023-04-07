@@ -61,7 +61,10 @@ function createTable(game, picks, user) {
     var headers = ["Picture", "Name", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
 
+    var tableDiv = document.createElement("div");
+    tableDiv.setAttribute("class", "table-responsive");
     var table = document.createElement("table");  //makes a table element for the page
+    tableDiv.appendChild(table);
     table.setAttribute("class", "table table-hover table-responsive");
     var caption = table.createCaption();
     caption.innerHTML = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
@@ -144,7 +147,7 @@ function createTable(game, picks, user) {
     for(var i = 0; i < headers.length; i++) {
         headerRow.insertCell(i).innerHTML = headers[i];
     }
-    document.getElementById("card-body").append(table);
+    document.getElementById("card-body").append(tableDiv);
 }
 
 function doPick(gameId, pick) {
