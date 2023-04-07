@@ -29,6 +29,7 @@ function createTable(picks) {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
     }, {});
+    console.log(groupedPicks);
     groupedPicks.forEach(() => {
         let i=0;
         return (key, value) => {
