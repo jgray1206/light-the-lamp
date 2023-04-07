@@ -79,7 +79,7 @@ function createTable(game, picks, user) {
             row.className = "table-danger";
         }
         row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>' + nonGoalies[i].name;
-        row.insertCell(2).innerHTML = nonGoalies[i].position;
+        row.insertCell(1).innerHTML = nonGoalies[i].position;
         if (pickEnabled) {
             if (nonGoalies[i].position == "Defenseman") {
                 row.insertCell(2).innerHTML = "2 per goal, 1 per assist";
