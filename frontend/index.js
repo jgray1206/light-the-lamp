@@ -147,8 +147,7 @@ function createTable(game, picks, user) {
     var headerRow = header.insertRow(0);
     for(var i = 0; i < headers.length; i++) {
         var cell = headerRow.insertCell(i)
-        cell.innerHTML = headers[i];
-        cell.setAttribute("scope", "col");
+        cell.outerHTML = "<th scope=\"col\">"+headers[i]+"</th>";
     }
     document.getElementById("card-body").append(tableDiv);
 }
