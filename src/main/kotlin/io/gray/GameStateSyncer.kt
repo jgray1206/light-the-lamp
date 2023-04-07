@@ -101,7 +101,7 @@ open class GameStateSyncer(
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updatePickPoints(dbGame: Game) {
-        val picks = pickRepository.findAllByGame(dbGame)
+        val picks = pickRepository.findAllByGame(dbGame).collectList().block()
         picks.map {
             if (it.gamePlayer != null) {
                 if (it.gamePlayer?.position == "Forward") {
@@ -137,7 +137,7 @@ open class GameStateSyncer(
                 }
             }
             pickRepository.update(it).block()
-        }.buffer(100).blockLast()
+        }
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
