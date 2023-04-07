@@ -38,19 +38,19 @@ function loadGames() {
                         games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
                                             .filter((game) => !isLiveGame || game.gameState != "Preview")
                                             .forEach((game) => { createTable(game, picks, user) });
-                      } else if (this.status == 401) {
+                      } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
                           window.location.href = "./login.html";
                       }
                     }
                 };
-            } else if (this.status == 401) {
+            } else if (this.status == 401 || this.status == 403) {
                 localStorage.removeItem("jwt");
                 window.location.href = "./login.html";
             }
           }
         };
-      } else if (this.status == 401) {
+      } else if (this.status == 401 || this.status == 403) {
          localStorage.removeItem("jwt");
          window.location.href = "./login.html";
      }
@@ -180,7 +180,7 @@ function doPick(gameId, pick) {
       console.log(objects);
       if (this.status == 200) {
           window.location.href = "./index.html";
-      } else if (this.status == 401) {
+      } else if (this.status == 401 || this.status == 403) {
           localStorage.removeItem("jwt");
           window.location.href = "./login.html";
       } else {

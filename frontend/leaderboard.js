@@ -15,7 +15,7 @@ function loadLeaderboards() {
           console.log(picks);
           if (this.status == 200) {
             createTable(picks);
-          } else if (this.status == 401) {
+          } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
               window.location.href = "./login.html";
           }
