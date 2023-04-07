@@ -58,7 +58,7 @@ function createTable(game, picks, user) {
     console.log(curDateUtc);
     var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined //&& gameDate > curDateUtc;
     var pick = picks.find(pick => pick.game.id == game.id)
-    var headers = ["Picture", "Name", "Position", "Points"];
+    var headers = ["Player", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
 
     var tableDiv = document.createElement("div");
@@ -78,21 +78,20 @@ function createTable(game, picks, user) {
         if (pick && pick.gamePlayer && pick.gamePlayer.id.playerId == id) {
             row.className = "table-danger";
         }
-        row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>';
-        row.insertCell(1).innerHTML = nonGoalies[i].name;
+        row.insertCell(0).innerHTML = '<img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>' + nonGoalies[i].name;
         row.insertCell(2).innerHTML = nonGoalies[i].position;
         if (pickEnabled) {
             if (nonGoalies[i].position == "Defenseman") {
-                row.insertCell(3).innerHTML = "2 per goal, 1 per assist";
+                row.insertCell(2).innerHTML = "2 per goal, 1 per assist";
             } else if (nonGoalies[i].position == "Forward") {
-                row.insertCell(3).innerHTML = "1 per goal, 1 per assist";
+                row.insertCell(2).innerHTML = "1 per goal, 1 per assist";
             }
-            row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
+            row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
-                row.insertCell(3).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0);
+                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0);
             } else if (nonGoalies[i].position == "Forward") {
-                row.insertCell(3).innerHTML = (nonGoalies[i].goals || 0) + (nonGoalies[i].assists || 0);
+                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0) + (nonGoalies[i].assists || 0);
             }
         }
     }
@@ -103,20 +102,19 @@ function createTable(game, picks, user) {
         row.className = "table-danger";
     }
     var goalieImages = goalies.map(player => '<img width="90" height="90" class="rounded-circle img-thumbnail" onerror=\'this.src="/shrug.png"\' src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">').join("");
-    row.insertCell(0).innerHTML = goalieImages;
-    row.insertCell(1).innerHTML = "The Goalies";
-    row.insertCell(2).innerHTML = "Goalie";
+    row.insertCell(0).innerHTML = goalieImages + "The Goalies";
+    row.insertCell(1).innerHTML = "Goalie";
     if (pickEnabled) {
-        row.insertCell(3).innerHTML = "5 for a shutout, 2 for a single-goal game";
-        row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'goalies\')">Pick</button>'
+        row.insertCell(2).innerHTML = "5 for a shutout, 2 for a single-goal game";
+        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'goalies\')">Pick</button>'
     } else {
         var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
         if (goals > 1) {
-            row.insertCell(3).innerHTML = 0;
+            row.insertCell(2).innerHTML = 0;
         } else if (goals > 0) {
-            row.insertCell(3).innerHTML = 2;
+            row.insertCell(2).innerHTML = 2;
         } else {
-            row.insertCell(3).innerHTML = 5;
+            row.insertCell(2).innerHTML = 5;
         }
 
     }
@@ -126,19 +124,18 @@ function createTable(game, picks, user) {
         row.className = "table-danger";
     }
     row.insertCell(0).innerHTML = "The Detroit Red Wings!";
-    row.insertCell(1).innerHTML = "The Team";
-    row.insertCell(2).innerHTML = "Team";
+    row.insertCell(1).innerHTML = "Team";
     if (pickEnabled) {
-        row.insertCell(3).innerHTML = "5 for a 6+ goal game, 2 for a 4/5 goal game";
-        row.insertCell(4).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
+        row.insertCell(2).innerHTML = "5 for a 6+ goal game, 2 for a 4/5 goal game";
+        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
         var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
         if ((goals || 0) >= 6) {
-             row.insertCell(3).innerHTML = 5;
+             row.insertCell(2).innerHTML = 5;
         } else if ((goals || 0) >= 4) {
-            row.insertCell(3).innerHTML = 2;
+            row.insertCell(2).innerHTML = 2;
         } else {
-            row.insertCell(3).innerHTML = 0;
+            row.insertCell(2).innerHTML = 0;
         }
     }
 
