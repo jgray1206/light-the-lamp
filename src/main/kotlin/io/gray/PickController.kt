@@ -29,7 +29,7 @@ class PickController(
 
     @Get
     fun get(): Flux<Pick> {
-        return pickRepository.findAll()
+        return pickRepository.findAll().map { it.user?.password = null; it.user?.ipAddress = null; it;}
     }
 
     @Get("/user")
