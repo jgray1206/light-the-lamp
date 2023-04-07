@@ -33,7 +33,9 @@ function loadGames() {
                   const user = JSON.parse(this.responseText);
                   console.log(user);
                   if (this.status == 200) {
+                    var isLiveGame = games.find((game) => { return game.gameState == "Live" }) != undefined;
                     games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
+                                        .filter((game) => !isLiveGame || game.gameState != "Preview")
                                         .forEach((game) => { createTable(game, picks, user) });
                   }
                 }
