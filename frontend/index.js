@@ -79,7 +79,11 @@ function createTable(game, picks, user) {
             row.className = "table-danger";
         }
         row.insertCell(0).innerHTML = '<figure><img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>' + "<figcaption>" + nonGoalies[i].name + "</figcaption></figure>";
-        row.insertCell(1).innerHTML = nonGoalies[i].position;
+        if (nonGoalies[i].position == "Defenseman") {
+            row.insertCell(1).innerHTML = "Defense";
+        } else {
+            row.insertCell(1).innerHTML = nonGoalies[i].position;
+        }
         if (pickEnabled) {
             if (nonGoalies[i].position == "Defenseman") {
                 row.insertCell(2).innerHTML = "2 per goal, 1 per assist";
@@ -102,7 +106,7 @@ function createTable(game, picks, user) {
         row.className = "table-danger";
     }
     var goalieImages = goalies.map(player => '<img width="90" height="90" class="rounded-circle img-thumbnail" onerror=\'this.src="/shrug.png"\' src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">').join("");
-    row.insertCell(0).innerHTML = goalieImages + "The Goalies";
+    row.insertCell(0).innerHTML = "<figure>" goalieImages + "<figcatpion>The Goalies</figcatpion></figure>";
     row.insertCell(1).innerHTML = "Goalie";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5 for a shutout, 2 for a single-goal game";
@@ -123,7 +127,7 @@ function createTable(game, picks, user) {
     if (pick && pick.team != undefined) {
         row.className = "table-danger";
     }
-    row.insertCell(0).innerHTML = "The Detroit Red Wings!";
+    row.insertCell(0).innerHTML = "<figure><figcatpion>The Detroit Red Wings!</figcatpion></figure>";
     row.insertCell(1).innerHTML = "Team";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5 for a 6+ goal game, 2 for a 4/5 goal game";
