@@ -107,9 +107,9 @@ open class GameStateSyncer(
         picks?.forEach {
             if (it.gamePlayer != null) {
                 if (it.gamePlayer?.position == "Forward") {
-                    it.points = ((it.gamePlayer?.goals ?: 0) + (it.gamePlayer?.assists ?: 0)).toShort()
+                    it.points = ((it.gamePlayer?.goals ?: 0) * 2 + (it.gamePlayer?.assists ?: 0) + (it.gamePlayer?.shortGoals ?: 0) * 4 + (it.gamePlayer?.shortAssists ?: 0) * 2).toShort()
                 } else if (it.gamePlayer?.position == "Defenseman") {
-                    it.points = ((it.gamePlayer?.goals ?: 0) * 2 + (it.gamePlayer?.assists ?: 0)).toShort()
+                    it.points = ((it.gamePlayer?.goals ?: 0) * 3 + (it.gamePlayer?.assists ?: 0) + (it.gamePlayer?.shortGoals ?: 0) * 6 + (it.gamePlayer?.shortAssists ?: 0) * 2).toShort()
                 }
             } else if (it.goalies == true) {
                 val teamId = it.group?.team?.id ?: it.user?.team?.id
@@ -129,10 +129,10 @@ open class GameStateSyncer(
                 } else {
                     dbGame.awayTeamGoals!!
                 }
-                it.points = if (teamGoals >= 6) {
+                it.points = if (teamGoals >= 5) {
                     5
                 } else if (teamGoals >= 4) {
-                    2
+                    4
                 } else {
                     0
                 }
