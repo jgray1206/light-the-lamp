@@ -146,7 +146,7 @@ function createTable(game, picks, user) {
     var header = table.createTHead();
     var headerRow = header.insertRow(0);
     for(var i = 0; i < headers.length; i++) {
-        val cell = headerRow.insertCell(i)
+        var cell = headerRow.insertCell(i)
         cell.innerHTML = headers[i];
         cell.setAttribute("scope", "col");
     }
