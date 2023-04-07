@@ -62,7 +62,7 @@ function createTable(game, picks, user) {
     if (pickEnabled) { headers.push("Pick"); }
 
     var table = document.createElement("table");  //makes a table element for the page
-    table.setAttribute("class", "table table-hover");
+    table.setAttribute("class", "table table-hover table-responsive");
     var caption = table.createCaption();
     caption.innerHTML = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
     caption.setAttribute("class","caption-top");
