@@ -30,15 +30,13 @@ function createTable(picks) {
         return x;
     }, {});
     console.log(groupedPicks);
-    groupedPicks.forEach(() => {
-        let i=0;
-        return (key, value) => {
-            var row = table.insertRow(i);
-            row.insertCell(0).innerHTML = key.split("@")[0];
-            row.insertCell(1).innerHTML = value.reduce((a, b) => a + b.points || 0, 0);
-            i += 1;
-        }
-    });
+    let i = 0;
+     for(const [key, value] of groupedPicks.entries()) {
+       var row = table.insertRow(i);
+       row.insertCell(0).innerHTML = key.split("@")[0];
+       row.insertCell(1).innerHTML = value.reduce((a, b) => a + b.points || 0, 0);
+       i++;
+     }
 
     var header = table.createTHead();
     var headerRow = header.insertRow(0);
