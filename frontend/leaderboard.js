@@ -31,12 +31,12 @@ function createTable(picks) {
     }, {});
     console.log(groupedPicks);
     var i = 0;
-    for(const [key, value] of groupedPicks.entries()) {
+    map1.forEach((key, value) => {
        var row = table.insertRow(i);
        row.insertCell(0).innerHTML = key.split("@")[0];
        row.insertCell(1).innerHTML = value.reduce((a, b) => a + b.points || 0, 0);
        i++;
-    }
+    });
 
     var header = table.createTHead();
     var headerRow = header.insertRow(0);
