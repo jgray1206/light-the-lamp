@@ -113,15 +113,14 @@ open class GameStateSyncer(
                 }
             } else if (it.goalies == true) {
                 val teamId = it.group?.team?.id ?: it.user?.team?.id
-                val getStartingGoalie = dbGame.players?.firstOrNull {
-                    it.team?.id == teamId && it.position == "Goalie" && it.timeOnIce == "60:00"
-                }
-                it.points = if (getStartingGoalie?.goalsAgainst!!.toInt() == 0) {
-                    5
-                } else if (getStartingGoalie.goalsAgainst!!.toInt() == 1) {
-                    2
-                } else {
-                    0
+                dbGame.players?.filter {
+                    it.team?.id == teamId && it.position == "Goalie"
+                }?.sumOf { it.goalsAgainst?.toInt() ?: 0 }?.let { goalsAgainst ->
+                    it.points = when (goalsAgainst) {
+                        0 -> { 5 }
+                        1 -> { 2 }
+                        else -> { 0 }
+                    }
                 }
             } else if (it.team == true) {
                 val teamId = it.group?.team?.id  ?: it.user?.team?.id

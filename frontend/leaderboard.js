@@ -25,9 +25,10 @@ function createTable(picks) {
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
 
-    var groupedPicks = picks.group(pick => {
-           return pick.user.email;
-         });
+    var groupedPicks = picks.reduce((x, y) => {
+        (x[y.user.email] = x[y.user.email] || []).push(y);
+        return x;
+    }, {});
     groupedPicks.forEach(() => {
         let i=0;
         return (key, value) => {
