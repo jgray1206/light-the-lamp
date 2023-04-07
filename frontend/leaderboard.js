@@ -31,10 +31,10 @@ function createTable(picks) {
     }, {});
     console.log(groupedPicks);
     var i = 0;
-    new Map(groupedPicks).forEach((key, value) => {
+    groupedPicks.keys().forEach( key =>{
        var row = table.insertRow(i);
        row.insertCell(0).innerHTML = key.split("@")[0];
-       row.insertCell(1).innerHTML = value.reduce((a, b) => a + b.points || 0, 0);
+       row.insertCell(1).innerHTML = groupedPicks[key].reduce((a, b) => a + b.points || 0, 0);
        i++;
     });
 
