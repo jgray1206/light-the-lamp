@@ -90,19 +90,19 @@ open class GameStateSyncer(
     }
 
     private fun updateUserGroupPoints(dbGame: Game) {
-        val picks = pickRepository.findAllByGame(dbGame)
-        picks.map { pick ->
-            val allUserPicks = pickRepository.findAllByUser(pick.user!!).collectList().block() ?: return@map
-            val userGroup = userGroupRepository.findByUserIdAndGroupId(pick.user?.id!!, pick.group?.id!!).block() ?: return@map
+        val picks = pickRepository.findAllByGame(dbGame).collectList().block()
+        picks?.forEach { pick ->
+            val allUserPicks = pickRepository.findAllByUser(pick.user!!).collectList().block() ?: return@forEach
+            val userGroup = userGroupRepository.findByUserIdAndGroupId(pick.user?.id!!, pick.group?.id!!).block() ?: return@forEach
             userGroup.score = allUserPicks.sumOf { it.points?.toInt() ?: 0 }.toShort()
             userGroupRepository.save(userGroup).block()
-        }.buffer(100).blockLast()
+        }
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updatePickPoints(dbGame: Game) {
         val picks = pickRepository.findAllByGame(dbGame).collectList().block()
-        picks.map {
+        picks?.forEach {
             if (it.gamePlayer != null) {
                 if (it.gamePlayer?.position == "Forward") {
                     it.points = ((it.gamePlayer?.goals ?: 0) + (it.gamePlayer?.assists ?: 0)).toShort()
