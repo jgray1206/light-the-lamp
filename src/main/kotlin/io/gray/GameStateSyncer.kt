@@ -93,9 +93,11 @@ open class GameStateSyncer(
         val picks = pickRepository.findAllByGame(dbGame).collectList().block()
         picks?.forEach { pick ->
             val allUserPicks = pickRepository.findAllByUser(pick.user!!).collectList().block() ?: return@forEach
-            val userGroup = userGroupRepository.findByUserIdAndGroupId(pick.user?.id!!, pick.group?.id!!).block() ?: return@forEach
-            userGroup.score = allUserPicks.sumOf { it.points?.toInt() ?: 0 }.toShort()
-            userGroupRepository.save(userGroup).block()
+            pick.group?.id?.let { groupId ->
+                val userGroup = userGroupRepository.findByUserIdAndGroupId(pick.user?.id!!, groupId).block() ?: return@forEach
+                userGroup.score = allUserPicks.sumOf { it.points?.toInt() ?: 0 }.toShort()
+                userGroupRepository.save(userGroup).block()
+            }
         }
     }
 
