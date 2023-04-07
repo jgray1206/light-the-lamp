@@ -27,6 +27,11 @@ class PickController(
         return pickRepository.findById(id)
     }
 
+    @Get
+    fun get(): Flux<Pick> {
+        return pickRepository.findAll()
+    }
+
     @Get("/user")
     fun getPickByUser(principal: Principal): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapMany { pickRepository.findAllByUser(it) }

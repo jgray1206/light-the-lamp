@@ -180,3 +180,7 @@ function logout() {
   localStorage.removeItem("jwt");
   window.location.href = "./login.html";
 }
+
+function to_leaderboards() {
+  window.location.href = "./leaderboards.html";
+}
