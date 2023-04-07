@@ -86,16 +86,16 @@ function createTable(game, picks, user) {
         }
         if (pickEnabled) {
             if (nonGoalies[i].position == "Defenseman") {
-                row.insertCell(2).innerHTML = "2 per goal, 1 per assist";
+                row.insertCell(2).innerHTML = "3/goal, 1/assist, *2/shorty";
             } else if (nonGoalies[i].position == "Forward") {
-                row.insertCell(2).innerHTML = "1 per goal, 1 per assist";
+                row.insertCell(2).innerHTML = "2/goal, 1/assist, *2/shorty";
             }
             row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
-                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0);
+                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*3 + (nonGoalies[i].assists || 0) + (nonGoalies[i].shortGoals || 0)*6 + (nonGoalies[i].shortAssists || 0)*2;
             } else if (nonGoalies[i].position == "Forward") {
-                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0) + (nonGoalies[i].assists || 0);
+                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0) + (nonGoalies[i].shortGoals || 0)*4 + (nonGoalies[i].shortAssists || 0)*2;
             }
         }
     }
@@ -109,7 +109,7 @@ function createTable(game, picks, user) {
     row.insertCell(0).innerHTML = "<figure>" + goalieImages + "<figcatpion>The Goalies</figcatpion></figure>";
     row.insertCell(1).innerHTML = "Goalie";
     if (pickEnabled) {
-        row.insertCell(2).innerHTML = "5 for a shutout, 2 for a single-goal game";
+        row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
         row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'goalies\')">Pick</button>'
     } else {
         var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
@@ -130,14 +130,14 @@ function createTable(game, picks, user) {
     row.insertCell(0).innerHTML = "<figure><figcatpion>The Detroit Red Wings!</figcatpion></figure>";
     row.insertCell(1).innerHTML = "Team";
     if (pickEnabled) {
-        row.insertCell(2).innerHTML = "5 for a 6+ goal game, 2 for a 4/5 goal game";
+        row.insertCell(2).innerHTML = "5/5+ goal game, 4/4 goal game";
         row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
     } else {
         var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
-        if ((goals || 0) >= 6) {
+        if ((goals || 0) >= 5) {
              row.insertCell(2).innerHTML = 5;
         } else if ((goals || 0) >= 4) {
-            row.insertCell(2).innerHTML = 2;
+            row.insertCell(2).innerHTML = 4;
         } else {
             row.insertCell(2).innerHTML = 0;
         }
