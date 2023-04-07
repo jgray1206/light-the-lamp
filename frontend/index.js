@@ -23,26 +23,37 @@ function loadGames() {
           if (this.readyState == 4) {
             const picks = JSON.parse(this.responseText);
             console.log(picks);
-            const xhttp3 = new XMLHttpRequest();
-            xhttp3.open("GET", "/api/user");
-            xhttp3.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhttp3.setRequestHeader("Authorization", "Bearer " + jwt);
-            xhttp3.send();
-            xhttp3.onreadystatechange = function () {
-              if (this.readyState == 4) {
-                  const user = JSON.parse(this.responseText);
-                  console.log(user);
-                  if (this.status == 200) {
-                    var isLiveGame = games.find((game) => { return game.gameState == "Live" }) != undefined;
-                    games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
-                                        .filter((game) => !isLiveGame || game.gameState != "Preview")
-                                        .forEach((game) => { createTable(game, picks, user) });
-                  }
-                }
-              };
+            if (this.status == 200) {
+                const xhttp3 = new XMLHttpRequest();
+                xhttp3.open("GET", "/api/user");
+                xhttp3.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhttp3.setRequestHeader("Authorization", "Bearer " + jwt);
+                xhttp3.send();
+                xhttp3.onreadystatechange = function () {
+                  if (this.readyState == 4) {
+                      const user = JSON.parse(this.responseText);
+                      console.log(user);
+                      if (this.status == 200) {
+                        var isLiveGame = games.find((game) => { return game.gameState == "Live" }) != undefined;
+                        games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
+                                            .filter((game) => !isLiveGame || game.gameState != "Preview")
+                                            .forEach((game) => { createTable(game, picks, user) });
+                      } else if (this.status == 401) {
+                          localStorage.removeItem("jwt");
+                          window.location.href = "./login.html";
+                      }
+                    }
+                };
+            } else if (this.status == 401) {
+                localStorage.removeItem("jwt");
+                window.location.href = "./login.html";
+            }
           }
         };
-      }
+      } else if (this.status == 401) {
+         localStorage.removeItem("jwt");
+         window.location.href = "./login.html";
+     }
     }
   };
 }
@@ -169,6 +180,9 @@ function doPick(gameId, pick) {
       console.log(objects);
       if (this.status == 200) {
           window.location.href = "./index.html";
+      } else if (this.status == 401) {
+          localStorage.removeItem("jwt");
+          window.location.href = "./login.html";
       } else {
         Swal.fire({
           text: objects["_embedded"]["errors"][0]["message"] || objects["message"],

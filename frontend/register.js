@@ -54,7 +54,7 @@ function register() {
     if (this.readyState == 4) {
       const objects = JSON.parse(this.responseText);
       console.log(objects);
-      if (objects["id"]) {
+      if (this.status == 200) {
         Swal.fire({
           text: "Registration successful! Check your email to confirm your account.",
           icon: "success",
