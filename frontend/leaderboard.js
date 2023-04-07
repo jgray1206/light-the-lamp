@@ -29,9 +29,8 @@ function createTable(picks) {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
     }, {});
-    console.log(groupedPicks);
     var i = 0;
-    map1.forEach((key, value) => {
+    groupedPicks.forEach((key, value) => {
        var row = table.insertRow(i);
        row.insertCell(0).innerHTML = key.split("@")[0];
        row.insertCell(1).innerHTML = value.reduce((a, b) => a + b.points || 0, 0);
