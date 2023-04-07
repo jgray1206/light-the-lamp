@@ -10,6 +10,10 @@ import reactor.core.publisher.Mono
 
 @R2dbcRepository(dialect = Dialect.POSTGRES)
 interface PickRepository : ReactorCrudRepository<Pick, Long> {
+
+    @Join("user", type = Join.Type.FETCH)
+    override fun findAll(): Flux<Pick>
+
     @Join("group", type = Join.Type.FETCH)
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     fun findAllByGame(aGame: Game): Flux<Pick>
