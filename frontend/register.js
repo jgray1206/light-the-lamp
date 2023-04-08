@@ -10,8 +10,8 @@ function teams() {
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-        const options = JSON.parse(this.responseText);
         if (this.status == 200) {
+            const options = JSON.parse(this.responseText);
             console.log(options);
             options.sort(function(x,y){ return x.teamName == "Detroit Red Wings" ? -1 : y.teamName == "Detroit Red Wings" ? 1 : 0; });
             const batchTrack = document.getElementById("team");

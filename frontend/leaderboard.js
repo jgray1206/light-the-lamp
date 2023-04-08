@@ -11,10 +11,10 @@ function loadLeaderboards() {
     xhttp.send();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4) {
-          const picks = JSON.parse(this.responseText);
-          console.log(picks);
           if (this.status == 200) {
-            createTable(picks);
+              const picks = JSON.parse(this.responseText);
+              console.log(picks);
+              createTable(picks);
           } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
               window.location.href = "./login.html";

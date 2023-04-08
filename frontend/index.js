@@ -11,9 +11,9 @@ function loadGames() {
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-      const games = JSON.parse(this.responseText);
-      console.log(games);
       if (this.status == 200) {
+        const games = JSON.parse(this.responseText);
+        console.log(games);
         const xhttp2 = new XMLHttpRequest();
         xhttp2.open("GET", "/api/pick/user");
         xhttp2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -21,9 +21,9 @@ function loadGames() {
         xhttp2.send();
         xhttp2.onreadystatechange = function () {
           if (this.readyState == 4) {
-            const picks = JSON.parse(this.responseText);
-            console.log(picks);
             if (this.status == 200) {
+                const picks = JSON.parse(this.responseText);
+                console.log(picks);
                 const xhttp3 = new XMLHttpRequest();
                 xhttp3.open("GET", "/api/user");
                 xhttp3.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -31,9 +31,9 @@ function loadGames() {
                 xhttp3.send();
                 xhttp3.onreadystatechange = function () {
                   if (this.readyState == 4) {
-                      const user = JSON.parse(this.responseText);
-                      console.log(user);
                       if (this.status == 200) {
+                        const user = JSON.parse(this.responseText);
+                        console.log(user);
                         var isLiveGame = games.find((game) => { return game.gameState == "Live" }) != undefined;
                         games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])})
                                             .filter((game) => !isLiveGame || game.gameState != "Preview")
@@ -174,9 +174,9 @@ function doPick(gameId, pick) {
     xhttp.send();
     xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-      const objects = JSON.parse(this.responseText);
-      console.log(objects);
       if (this.status == 200) {
+          const objects = JSON.parse(this.responseText);
+          console.log(objects);
           window.location.href = "./index.html";
       } else if (this.status == 401 || this.status == 403) {
           localStorage.removeItem("jwt");
