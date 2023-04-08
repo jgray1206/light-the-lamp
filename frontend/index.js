@@ -65,9 +65,7 @@ function createTable(game, picks, user) {
     var curDateUtc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
                                      date.getUTCDate(), date.getUTCHours(),
                                      date.getUTCMinutes(), date.getUTCSeconds());
-    console.log(gameDate);
-    console.log(curDateUtc);
-    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined //&& gameDate > curDateUtc;
+    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && gameDate > curDateUtc;
     var pick = picks.find(pick => pick.game.id == game.id)
     var headers = ["Player", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
