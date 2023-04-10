@@ -34,7 +34,7 @@ function loadGames() {
                       if (this.status == 200) {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
-                        var sortedGames = games.sort(function(a, b) { return new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4]) - new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4])});
+                        var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                         var activeGame = sortedGames.find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames.slice(-1)[0];
                         sortedGames.forEach((game) => { createTable(game, picks, user, activeGame) });
                       } else if (this.status == 401 || this.status == 403) {
