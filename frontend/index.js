@@ -1,7 +1,7 @@
 var jwt = localStorage.getItem("jwt");
-//if (jwt == null) {
-  //window.location.href = "./login.html";
-//}
+if (jwt == null) {
+  window.location.href = "./login.html";
+}
 
 function loadGames() {
   const xhttp = new XMLHttpRequest();
@@ -96,7 +96,7 @@ function createTable(game, picks, user, activeGame, sortedGames) {
     caption.innerHTML = gameStringLong;
     caption.setAttribute("class","caption-top");
 
-    var nonGoalies = game.players.filter(player => player.position != "Goalie");
+    var nonGoalies = game.players.filter(player => player.position != "Goalie").sort((a, b) => (a.name > b.name) ? 1 : -1);
 
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
