@@ -176,7 +176,7 @@ function createTableHeader(game, pick, user, gameString, activeGame) {
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
-    var classString = "nav-link text-white";
+    var classString = "nav-link ";
     if (game == activeGame) {
         headerButton.setAttribute("aria-selected", "true");
         classString += " active";
