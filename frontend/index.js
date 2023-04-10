@@ -122,7 +122,7 @@ function createTable(game, picks, user, activeGame, sortedGames) {
             } else if (nonGoalies[i].position == "Forward") {
                 row.insertCell(2).innerHTML = "2/goal, 1/assist, *2/shorty";
             }
-            row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
+            row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
                 row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*3 + (nonGoalies[i].assists || 0) + (nonGoalies[i].shortGoals || 0)*6 + (nonGoalies[i].shortAssists || 0)*2;
@@ -142,7 +142,7 @@ function createTable(game, picks, user, activeGame, sortedGames) {
     row.insertCell(1).innerHTML = "Goalie";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
-        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick('+game.id+',\'goalies\')">Pick</button>'
+        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\'goalies\')">Pick</button>'
     } else {
         var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
         if (goals > 1) {
@@ -163,7 +163,7 @@ function createTable(game, picks, user, activeGame, sortedGames) {
     row.insertCell(1).innerHTML = "Team";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5/5+ goal game, 4/4 goal game";
-        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick('+game.id+',\'team\')">Pick</button>';
+        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick(this,'+game.id+',\'team\')">Pick</button>';
     } else {
         var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
         if ((goals || 0) >= 5) {
@@ -217,35 +217,41 @@ function createTableHeader(game, pick, user, gameString, activeGame) {
 
 }
 
-function doPick(gameId, pick) {
+function doPick(elem, gameId, pick) {
+    var message = ""
+    if (elem.parentNode.parentNode.classList.contains("table-warning")) {
+        message = pick + " had no time-on-ice the previous game! Are you sure you want to pick them? You can't change a pick once locked in!";
+    } else {
+        message = "Are you sure you want to pick " + pick + "? You can't change a pick once locked in!";
+    }
     Swal.fire({
-        text: "Are you sure you want to pick " + pick + "? You can't change a pick once locked in!",
+        text: message,
         icon: "warning",
         confirmButtonText: "OK",
     }).then((result) => {
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
-    xhttp.send();
-    xhttp.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      if (this.status == 200) {
-          const objects = JSON.parse(this.responseText);
-          console.log(objects);
-          window.location.href = "./index.html";
-      } else if (this.status == 401 || this.status == 403) {
-          localStorage.removeItem("jwt");
-          window.location.href = "./login.html";
-      } else {
-        Swal.fire({
-          text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
-    }
-  };
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
+        xhttp.send();
+        xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+              const objects = JSON.parse(this.responseText);
+              console.log(objects);
+              window.location.href = "./index.html";
+          } else if (this.status == 401 || this.status == 403) {
+              localStorage.removeItem("jwt");
+              window.location.href = "./login.html";
+          } else {
+            Swal.fire({
+              text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          }
+        }
+      };
   });
 }
 
