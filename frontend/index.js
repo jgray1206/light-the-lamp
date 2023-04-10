@@ -228,6 +228,8 @@ function doPick(elem, gameId, pick) {
         text: message,
         icon: "warning",
         confirmButtonText: "OK",
+        showCancelButton: true,
+        cancelButtonText: "NOPE!"
     }).then((result) => {
         const xhttp = new XMLHttpRequest();
         xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
