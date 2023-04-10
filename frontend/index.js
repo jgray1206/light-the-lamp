@@ -1,7 +1,7 @@
 var jwt = localStorage.getItem("jwt");
-if (jwt == null) {
-  window.location.href = "./login.html";
-}
+//if (jwt == null) {
+  //window.location.href = "./login.html";
+//}
 
 function loadGames() {
   const xhttp = new XMLHttpRequest();
@@ -70,8 +70,13 @@ function createTable(game, picks, user) {
     var headers = ["Player", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
 
+    createTableHeader(game, picks, user, gameDate);
+
     var tableDiv = document.createElement("div");
-    tableDiv.setAttribute("class", "table-responsive");
+    tableDiv.setAttribute("class", "table-responsive tab-pane fade");
+    tableDiv.setAttribute("id", game.id);
+    tableDiv.setAttribute("role", "tabpanel");
+    tableDiv.setAttribute("aria-labelledby", game.id"-tab");
     var table = document.createElement("table");  //makes a table element for the page
     tableDiv.appendChild(table);
     table.setAttribute("class", "table table-hover");
@@ -158,7 +163,27 @@ function createTable(game, picks, user) {
         var cell = headerRow.insertCell(i)
         cell.outerHTML = "<th scope=\"col\">"+headers[i]+"</th>";
     }
-    document.getElementById("card-body").append(tableDiv);
+    document.getElementById("tabContent").append(tableDiv);
+}
+
+function createTableHeader(game, picks, user, gameDate) {
+    var headerLi = document.createElement("li");
+    headerLi.setAttribute("class", "nav-item");
+    headerLi.setAttribute("role", "presentation");
+
+    var headerButton = document.createElement("button");
+    headerButton.setAttribute("class", "nav-link"); //+active if active
+    headerButton.setAttribute("role", "tab");
+    headerButton.setAttribute("data-bs-toggle", "tab");
+    headerButton.setAttribute("data-bs-target", "#"+game.id);
+    headerButton.setAttribute("id", game.id"-tab");
+    headerButton.setAttribute("aria-controls", game.id);
+    headerButton.setAttribute("aria-selected", "false"); //true if active
+    headerButton.innerHTML = game.date[1] + "-" + game.date[2]+
+
+    headerLi.appendChild(headerButton);
+    document.getElementById("tabHeader").append(headerLi);
+
 }
 
 function doPick(gameId, pick) {
