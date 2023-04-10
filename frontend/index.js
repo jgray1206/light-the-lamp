@@ -35,7 +35,7 @@ function loadGames() {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
                         var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
-                        var activeGame = sortedGames.toReversed().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
+                        var activeGame = sortedGames.slice().reserve().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
                         sortedGames.forEach((game) => { createTable(game, picks, user, activeGame, sortedGames) });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
