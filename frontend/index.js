@@ -34,8 +34,9 @@ function loadGames() {
                       if (this.status == 200) {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
-                        games.sort(function(a, b) { return new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4]) - new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4])})
-                                            .forEach((game) => { createTable(game, picks, user) });
+                        var sortedGames = games.sort(function(a, b) { return new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4]) - new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4])});
+                        var activeGame = sortedGames.find((game) => { return game.gameState == "Live" || game.gameState == "Preview" });
+                        sortedGames.forEach((game) => { createTable(game, picks, user, activeGame) });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
                           window.location.href = "./login.html";
@@ -56,7 +57,7 @@ function loadGames() {
   };
 }
 
-function createTable(game, picks, user) {
+function createTable(game, picks, user, activeGame) {
     var teamIsAwayOrHome = game.awayTeam.id == user.team.id ? "away" : "home";
     var gameDate = new Date(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]);
     var date = new Date();
@@ -69,7 +70,7 @@ function createTable(game, picks, user) {
     if (pickEnabled) { headers.push("Pick"); }
 
     var gameString = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
-    createTableHeader(game, picks, user, gameString);
+    createTableHeader(game, picks, user, gameString, activeGame);
 
     var tableDiv = document.createElement("div");
     tableDiv.setAttribute("class", "table-responsive tab-pane fade");
@@ -165,19 +166,24 @@ function createTable(game, picks, user) {
     document.getElementById("tabContent").append(tableDiv);
 }
 
-function createTableHeader(game, picks, user, gameString) {
+function createTableHeader(game, picks, user, gameString, activeGame) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
-    headerButton.setAttribute("class", "nav-link"); //+active if active
+    if (game == activeGame) {
+        headerButton.setAttribute("class", "nav-link active");
+        headerButton.setAttribute("aria-selected", "true");
+    } else {
+        headerButton.setAttribute("class", "nav-link");
+        headerButton.setAttribute("aria-selected", "false");
+    }
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
     headerButton.setAttribute("data-bs-target", "#game"+game.id);
     headerButton.setAttribute("id", "tab" + game.id);
     headerButton.setAttribute("aria-controls", "game"+game.id);
-    headerButton.setAttribute("aria-selected", "false"); //true if active
     headerButton.innerHTML = gameString;
 
     headerLi.appendChild(headerButton);
