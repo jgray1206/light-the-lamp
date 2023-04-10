@@ -72,9 +72,9 @@ function createTable(game, picks, user, activeGame) {
     var gameStringLong = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
     var gameStringShort = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + " ";
     if (teamIsAwayOrHome == "away") {
-        gameStringShort += "<br/>@" + game.homeTeam.teamName;
+        gameStringShort += "<br/>@ " + game.homeTeam.teamName;
     } else {
-       gameStringShort += "<br/>v" + game.awayTeam.teamName;
+       gameStringShort += "<br/>v " + game.awayTeam.teamName;
     }
     createTableHeader(game, pick, user, gameStringShort, activeGame);
 
