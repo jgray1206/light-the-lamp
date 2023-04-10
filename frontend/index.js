@@ -35,7 +35,7 @@ function loadGames() {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
                         var sortedGames = games.sort(function(a, b) { return new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4]) - new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4])});
-                        var activeGame = sortedGames.find((game) => { return game.gameState == "Live" || game.gameState == "Preview" });
+                        var activeGame = sortedGames.find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames.slice(-1)[0];
                         sortedGames.forEach((game) => { createTable(game, picks, user, activeGame) });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
@@ -70,7 +70,7 @@ function createTable(game, picks, user, activeGame) {
     if (pickEnabled) { headers.push("Pick"); }
 
     var gameString = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
-    createTableHeader(game, picks, user, gameString, activeGame);
+    createTableHeader(game, pick, user, gameString, activeGame);
 
     var tableDiv = document.createElement("div");
     if (game == activeGame) {
@@ -170,19 +170,27 @@ function createTable(game, picks, user, activeGame) {
     document.getElementById("tabContent").append(tableDiv);
 }
 
-function createTableHeader(game, picks, user, gameString, activeGame) {
+function createTableHeader(game, pick, user, gameString, activeGame) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
+    var classString = "nav-link";
     if (game == activeGame) {
-        headerButton.setAttribute("class", "nav-link active");
         headerButton.setAttribute("aria-selected", "true");
+        classString += " active";
     } else {
-        headerButton.setAttribute("class", "nav-link");
         headerButton.setAttribute("aria-selected", "false");
     }
+    if (pick && game.gameState != "Final") {
+        classString += " btn-danger"
+    } else if (game.gameState != "Final") {
+        classString += " btn-success"
+    } else if (game.gameState == "Final") {
+        classString += " btn-secondary"
+    }
+    headerButton.setAttribute("class", classString);
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
     headerButton.setAttribute("data-bs-target", "#game"+game.id);
