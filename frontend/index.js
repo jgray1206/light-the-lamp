@@ -36,7 +36,7 @@ function loadGames() {
                         console.log(user);
                         var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                         var activeGame = sortedGames.toReversed().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
-                        sortedGames.forEach((game) => { createTable(game, picks, user, activeGame) });
+                        sortedGames.forEach((game) => { createTable(game, picks, user, activeGame, sortedGames) });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
                           window.location.href = "./login.html";
@@ -57,7 +57,7 @@ function loadGames() {
   };
 }
 
-function createTable(game, picks, user, activeGame) {
+function createTable(game, picks, user, activeGame, sortedGames) {
     var teamIsAwayOrHome = game.awayTeam.id == user.team.id ? "away" : "home";
     var gameDate = new Date(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]);
     var date = new Date();
@@ -77,6 +77,8 @@ function createTable(game, picks, user, activeGame) {
        gameStringShort += "<br/>v " + game.awayTeam.teamName;
     }
     createTableHeader(game, pick, user, gameStringShort, activeGame);
+
+    var lastGame = sortedGames.filter(prevGame => prevGame.gameState == "Final" )[0];
 
     var tableDiv = document.createElement("div");
     if (game == activeGame) {
@@ -101,6 +103,12 @@ function createTable(game, picks, user, activeGame) {
         var id = nonGoalies[i].id.playerId;
         if (pick && pick.gamePlayer && pick.gamePlayer.id.playerId == id) {
             row.className = "table-danger";
+        }
+        if (!pick && lastGame) {
+          var lastGameStats = lastGame.players.find(player => player.id.playerId == id);
+          if (lastGameStats && !lastGameStats.timeOnIce) {
+            row.className = "table-warning";
+          }
         }
         row.insertCell(0).innerHTML = '<figure><img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+id+'.jpg" onerror=\'this.src="/shrug.png"\'>' + "<figcaption>" + nonGoalies[i].name + "</figcaption></figure>";
         if (nonGoalies[i].position == "Defenseman") {
