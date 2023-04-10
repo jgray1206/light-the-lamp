@@ -76,7 +76,7 @@ function createTable(game, picks, user) {
     tableDiv.setAttribute("class", "table-responsive tab-pane fade");
     tableDiv.setAttribute("id", game.id);
     tableDiv.setAttribute("role", "tabpanel");
-    tableDiv.setAttribute("aria-labelledby", game.id"-tab");
+    tableDiv.setAttribute("aria-labelledby", game.id + "-tab");
     var table = document.createElement("table");  //makes a table element for the page
     tableDiv.appendChild(table);
     table.setAttribute("class", "table table-hover");
