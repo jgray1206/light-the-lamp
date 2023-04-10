@@ -231,29 +231,31 @@ function doPick(elem, gameId, pick) {
         showCancelButton: true,
         cancelButtonText: "NOPE!"
     }).then((result) => {
-        const xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-          if (this.status == 200) {
-              const objects = JSON.parse(this.responseText);
-              console.log(objects);
-              window.location.href = "./index.html";
-          } else if (this.status == 401 || this.status == 403) {
-              localStorage.removeItem("jwt");
-              window.location.href = "./login.html";
-          } else {
-            Swal.fire({
-              text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
-              icon: "error",
-              confirmButtonText: "OK",
-            });
-          }
-        }
-      };
+        if (result['isConfirmed']) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+              if (this.status == 200) {
+                  const objects = JSON.parse(this.responseText);
+                  console.log(objects);
+                  window.location.href = "./index.html";
+              } else if (this.status == 401 || this.status == 403) {
+                  localStorage.removeItem("jwt");
+                  window.location.href = "./login.html";
+              } else {
+                Swal.fire({
+                  text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
+                  icon: "error",
+                  confirmButtonText: "OK",
+                });
+              }
+            }
+          };
+      }
   });
 }
 
