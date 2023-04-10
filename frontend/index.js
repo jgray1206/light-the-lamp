@@ -176,7 +176,7 @@ function createTableHeader(game, picks, user, gameDate) {
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
     headerButton.setAttribute("data-bs-target", "#"+game.id);
-    headerButton.setAttribute("id", game.id"-tab");
+    headerButton.setAttribute("id", game.id + "-tab");
     headerButton.setAttribute("aria-controls", game.id);
     headerButton.setAttribute("aria-selected", "false"); //true if active
     headerButton.innerHTML = game.date[1] + "-" + game.date[2]+
