@@ -96,7 +96,7 @@ function createTable(game, picks, user, activeGame, sortedGames) {
     caption.innerHTML = gameStringLong;
     caption.setAttribute("class","caption-top");
 
-    var nonGoalies = game.players.filter(player => player.position != "Goalie").sort((a, b) => (a.name > b.name) ? 1 : -1);
+    var nonGoalies = game.players.filter(player => player.position != "Goalie").sort((a, b) => (a.name.split(" ").reverse().join(",") > b.name.split(" ").reverse().join(",")) ? 1 : -1);
 
     for(var i = 0; i < nonGoalies.length; i++) {
         var row = table.insertRow(i);
