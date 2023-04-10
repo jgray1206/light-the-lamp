@@ -75,7 +75,7 @@ function createTable(game, picks, user) {
 
     var tableDiv = document.createElement("div");
     tableDiv.setAttribute("class", "table-responsive tab-pane fade");
-    tableDiv.setAttribute("id", game.id);
+    tableDiv.setAttribute("id", "game"+game.id);
     tableDiv.setAttribute("role", "tabpanel");
     tableDiv.setAttribute("aria-labelledby", game.id + "-tab");
     var table = document.createElement("table");  //makes a table element for the page
@@ -176,9 +176,9 @@ function createTableHeader(game, picks, user, gameString) {
     headerButton.setAttribute("class", "nav-link"); //+active if active
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
-    headerButton.setAttribute("data-bs-target", "#"+game.id);
-    headerButton.setAttribute("id", game.id + "-tab");
-    headerButton.setAttribute("aria-controls", game.id);
+    headerButton.setAttribute("data-bs-target", "#game"+game.id);
+    headerButton.setAttribute("id", "tab" + game.id);
+    headerButton.setAttribute("aria-controls", "game"+game.id);
     headerButton.setAttribute("aria-selected", "false"); //true if active
     headerButton.innerHTML = gameString;
 
