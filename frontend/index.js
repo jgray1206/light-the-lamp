@@ -184,11 +184,11 @@ function createTableHeader(game, pick, user, gameString, activeGame) {
         headerButton.setAttribute("aria-selected", "false");
     }
     if (pick && game.gameState != "Final") {
-        classString += " btn-danger"
+        classString += " bg-danger"
     } else if (game.gameState != "Final") {
-        classString += " btn-success"
+        classString += " bg-success"
     } else if (game.gameState == "Final") {
-        classString += " btn-secondary"
+        classString += " bg-secondary"
     }
     headerButton.setAttribute("class", classString);
     headerButton.setAttribute("role", "tab");
