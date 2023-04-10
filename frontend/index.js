@@ -69,8 +69,14 @@ function createTable(game, picks, user, activeGame) {
     var headers = ["Player", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
 
-    var gameString = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
-    createTableHeader(game, pick, user, gameString, activeGame);
+    var gameStringLong = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
+    var gameStringShort = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + " ";
+    if (teamIsAwayOrHome == "away") {
+        gameStringShort += "@" + game.homeTeam.teamName;
+    } else {
+       gameStringShort += "v" + game.awayTeam.teamName;
+    }
+    createTableHeader(game, pick, user, gameStringShort, activeGame);
 
     var tableDiv = document.createElement("div");
     if (game == activeGame) {
@@ -85,7 +91,7 @@ function createTable(game, picks, user, activeGame) {
     tableDiv.appendChild(table);
     table.setAttribute("class", "table table-hover");
     var caption = table.createCaption();
-    caption.innerHTML = gameString;
+    caption.innerHTML = gameStringLong;
     caption.setAttribute("class","caption-top");
 
     var nonGoalies = game.players.filter(player => player.position != "Goalie");
