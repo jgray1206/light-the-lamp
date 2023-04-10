@@ -189,13 +189,13 @@ function createTableHeader(game, pick, user, gameString, activeGame) {
     } else {
         headerButton.setAttribute("aria-selected", "false");
     }
-//    if (pick && game.gameState != "Final") {
-//        classString += " bg-danger"
-//    } else if (game.gameState != "Final") {
-//        classString += " bg-success"
-//    } else if (game.gameState == "Final") {
-//        classString += " bg-secondary"
-//    }
+    if (pick && game.gameState != "Final") {
+        classString += " text-danger"
+    } else if (game.gameState != "Final") {
+        classString += " text-success"
+    } else if (game.gameState == "Final") {
+        classString += " text-secondary"
+    }
     headerButton.setAttribute("class", classString);
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
