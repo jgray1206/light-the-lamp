@@ -73,7 +73,11 @@ function createTable(game, picks, user, activeGame) {
     createTableHeader(game, picks, user, gameString, activeGame);
 
     var tableDiv = document.createElement("div");
-    tableDiv.setAttribute("class", "table-responsive tab-pane fade");
+    if (game == activeGame) {
+        tableDiv.setAttribute("class", "table-responsive tab-pane fade active show");
+    } else {
+        tableDiv.setAttribute("class", "table-responsive tab-pane fade ");
+    }
     tableDiv.setAttribute("id", "game"+game.id);
     tableDiv.setAttribute("role", "tabpanel");
     tableDiv.setAttribute("aria-labelledby", game.id + "-tab");
