@@ -70,7 +70,8 @@ function createTable(game, picks, user) {
     var headers = ["Player", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
 
-    createTableHeader(game, picks, user, gameDate);
+    var gameString = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
+    createTableHeader(game, picks, user, gameString);
 
     var tableDiv = document.createElement("div");
     tableDiv.setAttribute("class", "table-responsive tab-pane fade");
@@ -81,7 +82,7 @@ function createTable(game, picks, user) {
     tableDiv.appendChild(table);
     table.setAttribute("class", "table table-hover");
     var caption = table.createCaption();
-    caption.innerHTML = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + ": " + game.homeTeam.teamName + " vs. " + game.awayTeam.teamName;
+    caption.innerHTML = gameString;
     caption.setAttribute("class","caption-top");
 
     var nonGoalies = game.players.filter(player => player.position != "Goalie");
@@ -166,7 +167,7 @@ function createTable(game, picks, user) {
     document.getElementById("tabContent").append(tableDiv);
 }
 
-function createTableHeader(game, picks, user, gameDate) {
+function createTableHeader(game, picks, user, gameString) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
@@ -179,7 +180,7 @@ function createTableHeader(game, picks, user, gameDate) {
     headerButton.setAttribute("id", game.id + "-tab");
     headerButton.setAttribute("aria-controls", game.id);
     headerButton.setAttribute("aria-selected", "false"); //true if active
-    headerButton.innerHTML = game.date[1] + "-" + game.date[2]+
+    headerButton.innerHTML = gameString;
 
     headerLi.appendChild(headerButton);
     document.getElementById("tabHeader").append(headerLi);
