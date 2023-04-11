@@ -127,9 +127,9 @@ function createTable(game, picks, user, activeGame, sortedGames) {
             row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
-                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*3 + (nonGoalies[i].assists || 0) + (nonGoalies[i].shortGoals || 0)*6 + (nonGoalies[i].shortAssists || 0)*2;
+                row.insertCell(2).innerHTML = ((nonGoalies[i].goals || 0)*3) + (nonGoalies[i].assists || 0) + ((nonGoalies[i].shortGoals || 0)*3) + (nonGoalies[i].shortAssists || 0);
             } else if (nonGoalies[i].position == "Forward") {
-                row.insertCell(2).innerHTML = (nonGoalies[i].goals || 0)*2 + (nonGoalies[i].assists || 0) + (nonGoalies[i].shortGoals || 0)*4 + (nonGoalies[i].shortAssists || 0)*2;
+                row.insertCell(2).innerHTML = ((nonGoalies[i].goals || 0)*2) + (nonGoalies[i].assists || 0) + ((nonGoalies[i].shortGoals || 0)*2) + (nonGoalies[i].shortAssists || 0);
             }
         }
     }
