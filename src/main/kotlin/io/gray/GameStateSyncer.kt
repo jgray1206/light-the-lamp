@@ -68,10 +68,8 @@ open class GameStateSyncer(
                     logger.info("refreshing db for game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
 
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
-                            run {
-                                logger.info("  game did not exists, creating..")
-                                createGame(game)
-                            }).map { Pair(it, game) }
+                        createGame(game)
+                    ).map { Pair(it, game) }
                 }
                 .filter { it.second.status?.abstractGameState != "Preview" }
                 .flatMap { pair ->
@@ -188,6 +186,7 @@ open class GameStateSyncer(
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createGame(game: ScheduleGame): Mono<Game> {
+        logger.info("creating game: ${game.gamePk}")
         return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
                 .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
                 .flatMap { tuple ->
