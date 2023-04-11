@@ -5,6 +5,8 @@ build/**
 !build/libs/*-all.jar
 build/generated/**
 
+*.log
+
 !**/src/main/**/build/
 !**/src/test/**/build/
 
