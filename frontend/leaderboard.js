@@ -34,7 +34,8 @@ function createTable(picks) {
     }, {}))
         .map( pick => {
             pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0); return pick;
-        });
+        })
+        .sort((aPick, bPick) => (bPick[1] ?: 1) - (aPick[1] ?: -1) );
 
     console.log(groupedPicks);
     var i = 0;
