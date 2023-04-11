@@ -32,7 +32,7 @@ function createTable(picks) {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
     }, {}))
-     .map( pick => pick.points = picks.reduce((a, b) => a + (b.points || 0), 0); pick);
+     .map( pick => pick.points = picks.reduce((a, b) => a + (b.points || 0), 0));
 
     console.log(groupedPicks);
     var i = 0;
