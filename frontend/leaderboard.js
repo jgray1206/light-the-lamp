@@ -28,11 +28,11 @@ function createTable(picks) {
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
 
-    var groupedPicks = picks.reduce((x, y) => {
+    var groupedPicks = Object.entries(picks.reduce((x, y) => {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
-    }, {});
-    //.map( pick => pick.points = picks.reduce((a, b) => a + (b.points || 0), 0); pick);
+    }, {}))
+     .map( pick => pick.points = picks.reduce((a, b) => a + (b.points || 0), 0); pick);
 
     console.log(groupedPicks);
     var i = 0;
