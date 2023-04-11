@@ -34,7 +34,9 @@ function createTable(picks) {
     }, {});
     console.log(groupedPicks);
     var i = 0;
-    Object.keys(groupedPicks).forEach( key =>{
+    Object.keys(groupedPicks)
+    .sort((aKey, bKey) => groupedPicks[aKey].reduce((a, b) => a + (b.points || 0), 0) > groupedPicks[bKey].reduce((a, b) => a + (b.points || 0), 0) )
+    .forEach( key =>{
        var row = table.insertRow(i);
        row.insertCell(0).innerHTML = key.split("@")[0];
        row.insertCell(1).innerHTML = groupedPicks[key].reduce((a, b) => a + (b.points || 0), 0);
