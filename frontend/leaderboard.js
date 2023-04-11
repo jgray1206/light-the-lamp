@@ -28,20 +28,22 @@ function createTable(picks) {
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
 
-    var groupedPicks = picks.reduce((x, y) => {
+    var groupedPicks = Array.from(picks.reduce((x, y) => {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
-    }, {});
+    }, {}),  ([email, picks]) => [email, picks])
+    .map( pick => pick.points = picks.reduce((a, b) => a + (b.points || 0), 0));
+
     console.log(groupedPicks);
     var i = 0;
-    Object.keys(groupedPicks)
-    .sort((aKey, bKey) => groupedPicks[bKey].reduce((a, b) => a + (b.points || 0), 0) - groupedPicks[aKey].reduce((a, b) => a + (b.points || 0), 0) )
-    .forEach( key =>{
-       var row = table.insertRow(i);
-       row.insertCell(0).innerHTML = key.split("@")[0];
-       row.insertCell(1).innerHTML = groupedPicks[key].reduce((a, b) => a + (b.points || 0), 0);
-       i++;
-    });
+    //groupedPicks
+    //.sort((aKey, bKey) => groupedPicks[bKey].reduce((a, b) => a + (b.points || 0), 0) - groupedPicks[aKey].reduce((a, b) => a + (b.points || 0), 0) )
+    //.forEach( key =>{
+    //   var row = table.insertRow(i);
+    //   row.insertCell(0).innerHTML = key.split("@")[0];
+    //   row.insertCell(1).innerHTML = groupedPicks[key].reduce((a, b) => a + (b.points || 0), 0);
+    //   i++;
+    //});
 
     var header = table.createTHead();
     var headerRow = header.insertRow(0);
