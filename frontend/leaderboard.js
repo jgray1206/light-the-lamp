@@ -39,14 +39,13 @@ function createTable(picks) {
 
     console.log(groupedPicks);
     var i = 0;
-    //groupedPicks
-    //.sort((aKey, bKey) => groupedPicks[bKey].reduce((a, b) => a + (b.points || 0), 0) - groupedPicks[aKey].reduce((a, b) => a + (b.points || 0), 0) )
-    //.forEach( key =>{
-    //   var row = table.insertRow(i);
-    //   row.insertCell(0).innerHTML = key.split("@")[0];
-    //   row.insertCell(1).innerHTML = groupedPicks[key].reduce((a, b) => a + (b.points || 0), 0);
-    //   i++;
-    //});
+    groupedPicks
+    .forEach( pick =>{
+       var row = table.insertRow(i);
+       row.insertCell(0).innerHTML = pick[0].split("@")[0];
+       row.insertCell(1).innerHTML = pick[1];
+       i++;
+    });
 
     var header = table.createTHead();
     var headerRow = header.insertRow(0);
