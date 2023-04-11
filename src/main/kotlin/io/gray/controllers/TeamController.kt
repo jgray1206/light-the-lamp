@@ -1,4 +1,4 @@
-package io.gray
+package io.gray.controllers
 
 import io.gray.model.*
 import io.gray.repos.GamePlayerRepository

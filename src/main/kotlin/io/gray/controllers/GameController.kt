@@ -1,4 +1,4 @@
-package io.gray
+package io.gray.controllers
 
 import io.gray.model.*
 import io.gray.repos.*
@@ -13,7 +13,6 @@ import java.security.Principal
 @Controller("/game")
 class GameController(
         private val gameRepository: GameRepository,
-        private val groupRepository: GroupRepository,
         private val userRepository: UserRepository
 ) {
     @Get("/{id}")
