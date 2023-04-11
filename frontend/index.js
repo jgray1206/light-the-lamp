@@ -137,10 +137,10 @@ function createTable(game, picks, user, activeGame, sortedGames) {
     var goalies = game.players.filter(player => player.position == "Goalie");
     var row;
     if (pick && pick.goalies != undefined) {
-        row = table.insertRow(nonGoalies.length);
+        row = table.insertRow(0);
         row.className = "table-danger";
     } else {
-        row = table.insertRow(0);
+        row = table.insertRow(nonGoalies.length);
     }
     var goalieImages = goalies.map(player => '<img width="90" height="90" class="rounded-circle img-thumbnail" onerror=\'this.src="/shrug.png"\' src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/'+player.id.playerId+'.jpg">').join("");
     row.insertCell(0).innerHTML = "<figure>" + goalieImages + "<figcatpion>The Goalies</figcatpion></figure>";
@@ -162,8 +162,8 @@ function createTable(game, picks, user, activeGame, sortedGames) {
 
     var row;
     if (pick && pick.team != undefined) {
-        row.className = "table-danger";
         row = table.insertRow(0);
+        row.className = "table-danger";
     } else {
         row = table.insertRow(nonGoalies.length+1);
     }
