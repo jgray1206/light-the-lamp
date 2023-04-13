@@ -52,7 +52,7 @@ document.forms.userUpdate.addEventListener('submit', e => {
                window.location.href = "./login.html";
            } else if (this.status == 413) {
               Swal.fire({
-                text: "Picture is too large! Please select a smaller picture.",
+                text: "Picture is too large! Please select a picture smaller than 1MB.",
                 icon: "error",
                 confirmButtonText: "OK",
               });
