@@ -24,14 +24,10 @@ function getUser() {
 };
 
 function updateUser() {
-    const displayName = document.getElementById("displayName").value
-    const profilePic = document.getElementById("profilePic").value.split("base64,")[1];
-
+    console.log(document.getElementById('profilePic').files[0]);
     var formData = new FormData();
     formData.append('profilePic', document.getElementById('profilePic').files[0]);
     formData.append('displayName', document.getElementById('displayName').value);
-
-    console.log(formData);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
     xhttp.setRequestHeader("Content-Type", "multipart/form-data");
@@ -42,15 +38,15 @@ function updateUser() {
           if (this.status == 200 || this.status == 204) {
             const objects = JSON.parse(this.responseText);
             console.log(objects);
-//            Swal.fire({
-//              text: "User update successful!",
-//              icon: "success",
-//              confirmButtonText: "OK",
-//            }).then((result) => {
-//              if (result.isConfirmed) {
-//                window.location.href = "./index.html";
-//              }
-//            });
+            Swal.fire({
+              text: "User update successful!",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "./user.html";
+              }
+            });
           } else if (this.status == 401 || this.status == 403) {
              localStorage.removeItem("jwt");
              window.location.href = "./login.html";
