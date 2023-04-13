@@ -13,7 +13,7 @@ function getUser() {
                 document.getElementById("displayName").value = user.displayName;
             }
             if (user.profilePic) {
-                document.getElementById("profilePic").value = user.profilePic;
+                document.getElementById("profilePicPreview").src = "data:image/png;base64," + user.profilePic;
             }
           } else if (this.status == 401 || this.status == 403) {
              localStorage.removeItem("jwt");
