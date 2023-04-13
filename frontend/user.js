@@ -26,8 +26,13 @@ function getUser() {
 document.forms.userUpdate.addEventListener('submit', e => {
   e.preventDefault();
 
-  let formData = new FormData(e.target);
-  formData.set('profilePic', document.getElementById('profilePic').files[0]);
+  let formData = new FormData();
+  if (document.getElementById('profilePic').files[0]) {
+    formData.set('profilePic', document.getElementById('profilePic').files[0]);
+  }
+  if (document.getElementById('displayName')) {
+    formData.set('displayName', document.getElementById('displayName').value);
+  }
 
   const xhttp = new XMLHttpRequest();
       xhttp.open("PUT", "/api/user");
