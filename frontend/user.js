@@ -23,20 +23,18 @@ function getUser() {
     };
 };
 
-function getBase64(file) {
-   var reader = new FileReader();
-   var baseString;
-   reader.onloadend = function () {
-       baseString = reader.result;
-       console.log(baseString);
-   };
-   reader.readAsDataURL(file);
-   return baseString;
-};
+function encodeImageFileAsURL(element) {
+    let file = element.files[0];
+    let reader = new FileReader();
+    reader.onloadend = function() {
+      document.write('RESULT: ', reader.result);
+    }
+    reader.readAsDataURL(file);
+}
 
 function updateUser() {
     const displayName = document.getElementById("displayName").value
-    const profilePic = getBase64(document.getElementById("profilePic").files[0]);
+    const profilePic = document.getElementById("profilePic").value;
     console.log(profilePic);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
