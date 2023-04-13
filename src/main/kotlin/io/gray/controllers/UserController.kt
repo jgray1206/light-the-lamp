@@ -21,7 +21,6 @@ import javax.validation.Valid
 import kotlin.String
 import kotlin.also
 import kotlin.apply
-import kotlin.jvm.optionals.getOrNull
 
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -59,14 +58,9 @@ open class UserController(
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
-    fun update(profilePic: Optional<ByteArray>, displayName: Optional<String>, principal: Principal): Mono<User> {
+    fun update(profilePic: ByteArray?, displayName: String?, principal: Principal): Mono<User> {
         return userRepository.findByEmail(principal.name)
-                .flatMap {
-                    userRepository.update(it.apply {
-                        profilePic.orElse(null)?.let { this.profilePic = it }
-                        displayName.orElse(null)?.let { this.displayName = it }
-                    })
-                }
+                .flatMap { userRepository.update(it.apply { it.profilePic = profilePic; it.displayName = displayName; }) }
                 .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
