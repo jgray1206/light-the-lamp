@@ -34,7 +34,7 @@ function encodeImageFileAsURL(element) {
 
 function updateUser() {
     const displayName = document.getElementById("displayName").value
-    const profilePic = document.getElementById("profilePicBase64").value;
+    const profilePic = document.getElementById("profilePicBase64").value.split("base64,")[1];
     console.log(profilePic);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
