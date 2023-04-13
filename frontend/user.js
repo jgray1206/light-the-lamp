@@ -50,6 +50,12 @@ document.forms.userUpdate.addEventListener('submit', e => {
             } else if (this.status == 401 || this.status == 403) {
                localStorage.removeItem("jwt");
                window.location.href = "./login.html";
+           } else if (this.status == 413) {
+              Swal.fire({
+                text: "Picture is too large! Please select a smaller picture.",
+                icon: "error",
+                confirmButtonText: "OK",
+              });
            }
        }
       };
