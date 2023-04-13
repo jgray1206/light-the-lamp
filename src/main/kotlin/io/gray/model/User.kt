@@ -22,7 +22,6 @@ class User {
     @Size(max = 50)
     var displayName: String? = null
 
-    @Size(max = 500000)
     var profilePic: ByteArray? = null
 
     @NotBlank
