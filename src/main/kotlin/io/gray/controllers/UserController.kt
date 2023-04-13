@@ -5,6 +5,7 @@ import io.gray.model.UserRequest
 import io.gray.email.MailService
 import io.gray.model.Team
 import io.gray.model.User
+import io.gray.model.UserUpdateRequest
 import io.gray.repos.TeamRepository
 import io.gray.repos.UserRepository
 import io.micronaut.http.HttpRequest
@@ -18,7 +19,7 @@ import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Mono
 import java.lang.IllegalStateException
 import java.security.Principal
-import java.util.UUID
+import java.util.*
 import javax.validation.Valid
 import kotlin.String
 import kotlin.also
@@ -60,10 +61,9 @@ open class UserController(
     }
 
     @Put
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    fun update(profilePic: CompletedFileUpload?, displayName: String?, principal: Principal): Mono<User> {
+    fun update(@Body request: UserUpdateRequest, principal: Principal): Mono<User> {
         return userRepository.findByEmail(principal.name)
-                .flatMap { userRepository.save(it.apply { it.profilePic = profilePic?.bytes; it.displayName = displayName; }) }
+                .flatMap { userRepository.save(it.apply { it.profilePic = request.profilePic?.let{ pic -> Base64.getDecoder().decode(pic) }; it.displayName = request.displayName; }) }
                 .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 

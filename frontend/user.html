@@ -36,8 +36,7 @@
 <div class="container-fluid p-3">
     <div class="card">
         <div class="card-body" id="card-body">
-            <form action="/api/user" method="post">
-                <input type="hidden" name="_method" value="PUT">
+            <form onsubmit="return updateUser()">
                 <div class="form-floating">
                     <input type="text" class="form-control" id="displayName" placeholder="Firstname Lastname">
                     <label>Display Name</label>
