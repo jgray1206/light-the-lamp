@@ -37,6 +37,7 @@ function getBase64(file) {
 function updateUser() {
     const displayName = document.getElementById("displayName").value
     const profilePic = getBase64(document.getElementById("profilePic").files[0]);
+    console.log(profilePic);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -50,6 +51,8 @@ function updateUser() {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4) {
           if (this.status == 200 || this.status == 204) {
+            const objects = JSON.parse(this.responseText);
+            console.log(objects);
             Swal.fire({
               text: "User update successful!",
               icon: "success",
