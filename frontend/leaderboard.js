@@ -1,8 +1,3 @@
-var jwt = localStorage.getItem("jwt");
-if (jwt == null) {
-  window.location.href = "./login.html";
-}
-
 function loadLeaderboards() {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", "/api/pick");
@@ -56,12 +51,3 @@ function createTable(picks) {
 }
 
 loadLeaderboards();
-
-function logout() {
-  localStorage.removeItem("jwt");
-  window.location.href = "./login.html";
-}
-
-function to_picks() {
-  window.location.href = "./index.html";
-}

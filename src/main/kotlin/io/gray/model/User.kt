@@ -19,6 +19,12 @@ class User {
     @Email
     var email: String? = null
 
+    @Size(max = 50)
+    var displayName: String? = null
+
+    @Size(max = 500000)
+    var profilePic: ByteArray? = null
+
     @NotBlank
     @Size(max = 60, min = 60)
     var password: String? = null
