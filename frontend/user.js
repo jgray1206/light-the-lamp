@@ -25,18 +25,17 @@ function getUser() {
 
 function getBase64(file) {
    var reader = new FileReader();
+   var baseString;
+   reader.onloadend = function () {
+       baseString = reader.result;
+       console.log(baseString);
+   };
    reader.readAsDataURL(file);
-   reader.onload = function () {
-     console.log(reader.result);
-   };
-   reader.onerror = function (error) {
-     console.log('Error: ', error);
-   };
+   return baseString;
 };
 
 function updateUser() {
     const displayName = document.getElementById("displayName").value
-    console.log(document.getElementById("profilePic").files[0]);
     const profilePic = getBase64(document.getElementById("profilePic").files[0]);
     console.log(profilePic);
     const xhttp = new XMLHttpRequest();
