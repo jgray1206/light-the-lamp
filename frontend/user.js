@@ -26,7 +26,7 @@ function getUser() {
 function updateUser() {
     console.log(document.getElementById('profilePic').files[0]);
     var formData = new FormData();
-    formData.append('profilePic', document.getElementById('profilePic').files[0]);
+    formData.append('profilePic', profilePic.files[0]);
     formData.append('displayName', document.getElementById('displayName').value);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");

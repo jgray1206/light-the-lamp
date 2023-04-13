@@ -38,11 +38,11 @@
         <div class="card-body" id="card-body">
             <form onsubmit="return updateUser()">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="displayName" placeholder="Firstname Lastname">
+                    <input type="text" class="form-control" id="displayName" name="displayName" placeholder="Firstname Lastname">
                     <label for="displayName" class="form-label">Display Name</label>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" type="file" id="profilePic"/>
+                    <input class="form-control" type="file" id="profilePic" name="profilePic"/>
                     <label for="profilePic" class="form-label">Profile Pic</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Update</button>
