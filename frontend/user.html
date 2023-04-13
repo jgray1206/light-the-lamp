@@ -38,13 +38,13 @@
         <div class="card-body" id="card-body">
             <img width="150" height="150" class="rounded-circle img-thumbnail" src="" id="profilePicPreview">
             <form name="userUpdate">
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="displayName" name="displayName" placeholder="Firstname Lastname">
+                <div class="mb-3">
                     <label for="displayName" class="form-label">Display Name</label>
+                    <input type="text" class="form-control" id="displayName" name="displayName" placeholder="Firstname Lastname">
                 </div>
-                <div class="form-floating">
-                    <input class="form-control-file" type="file" id="profilePic" name="profilePic"/>
+                <div class="mb-3">
                     <label for="profilePic" class="form-label">Profile Pic</label>
+                    <input class="form-control" type="file" id="profilePic" name="profilePic"/>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Update</button>
             </form>
