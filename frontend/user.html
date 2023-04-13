@@ -39,11 +39,11 @@
             <form onsubmit="return updateUser()">
                 <div class="form-floating">
                     <input type="text" class="form-control" id="displayName" placeholder="Firstname Lastname">
-                    <label>Display Name</label>
+                    <label for="displayName" class="form-label">Display Name</label>
                 </div>
                 <div class="form-floating">
-                    <input type="image" class="form-control" id="profilePic">
-                    <label>Profile Picture</label>
+                    <input class="form-control" type="file" id="profilePic">
+                    <label for="profilePic" class="form-label">Default file input example</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Update</button>
             </form>
