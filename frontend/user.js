@@ -27,14 +27,14 @@ function encodeImageFileAsURL(element) {
     let file = element.files[0];
     let reader = new FileReader();
     reader.onloadend = function() {
-      document.write('RESULT: ', reader.result);
+      document.getElementById("profilePicBase64").value = reader.result;
     }
     reader.readAsDataURL(file);
 }
 
 function updateUser() {
     const displayName = document.getElementById("displayName").value
-    const profilePic = document.getElementById("profilePic").value;
+    const profilePic = document.getElementById("profilePicBase64").value;
     console.log(profilePic);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
