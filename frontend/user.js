@@ -23,29 +23,20 @@ function getUser() {
     };
 };
 
-function encodeImageFileAsURL(element) {
-    let file = element.files[0];
-    let reader = new FileReader();
-    reader.onloadend = function() {
-      document.getElementById("profilePicBase64").value = reader.result;
-    }
-    reader.readAsDataURL(file);
-}
-
 function updateUser() {
     const displayName = document.getElementById("displayName").value
-    const profilePic = document.getElementById("profilePicBase64").value.split("base64,")[1];
-    console.log(profilePic);
+    const profilePic = document.getElementById("profilePic").value.split("base64,")[1];
+
+    var formData = new FormData();
+    formData.append('profilePic', document.getElementById('profilePic').files[0]);
+    formData.append('displayName', document.getElementById('displayName').value);
+
+    console.log(formData);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
-    xhttp.send(
-        JSON.stringify({
-          displayName: displayName,
-          profilePic: profilePic
-        })
-      );
+    xhttp.send(formData);
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4) {
           if (this.status == 200 || this.status == 204) {

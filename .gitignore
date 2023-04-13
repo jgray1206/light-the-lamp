@@ -6,7 +6,7 @@ build/**
 build/generated/**
 
 *.log
-
+*.gz
 !**/src/main/**/build/
 !**/src/test/**/build/
 
