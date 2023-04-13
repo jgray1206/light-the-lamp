@@ -30,7 +30,7 @@ document.forms.userUpdate.addEventListener('submit', e => {
   if (document.getElementById('profilePic').files[0]) {
     formData.set('profilePic', document.getElementById('profilePic').files[0]);
   }
-  if (document.getElementById('displayName')) {
+  if (document.getElementById('displayName').value) {
     formData.set('displayName', document.getElementById('displayName').value);
   }
 
