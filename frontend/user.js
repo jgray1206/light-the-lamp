@@ -34,7 +34,7 @@ function updateUser() {
     console.log(formData);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.setRequestHeader("Content-Type", "multipart/form-data");
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send(formData);
     xhttp.onreadystatechange = function () {
@@ -57,6 +57,7 @@ function updateUser() {
          }
      }
     };
+    return false;
 };
 
 getUser();
