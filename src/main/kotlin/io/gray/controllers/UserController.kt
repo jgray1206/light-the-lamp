@@ -57,7 +57,7 @@ open class UserController(
                 ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
-    @Post("/update", consumes = [MediaType.MULTIPART_FORM_DATA])
+    @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
     fun update(profilePic: ByteArray?, displayName: String?, principal: Principal): Mono<User> {
         println(displayName)
         println(profilePic.toString())
