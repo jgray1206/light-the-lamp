@@ -42,15 +42,15 @@ function updateUser() {
           if (this.status == 200 || this.status == 204) {
             const objects = JSON.parse(this.responseText);
             console.log(objects);
-            Swal.fire({
-              text: "User update successful!",
-              icon: "success",
-              confirmButtonText: "OK",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href = "./index.html";
-              }
-            });
+//            Swal.fire({
+//              text: "User update successful!",
+//              icon: "success",
+//              confirmButtonText: "OK",
+//            }).then((result) => {
+//              if (result.isConfirmed) {
+//                window.location.href = "./index.html";
+//              }
+//            });
           } else if (this.status == 401 || this.status == 403) {
              localStorage.removeItem("jwt");
              window.location.href = "./login.html";
