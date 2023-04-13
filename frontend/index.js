@@ -1,8 +1,3 @@
-var jwt = localStorage.getItem("jwt");
-if (jwt == null) {
-  window.location.href = "./login.html";
-}
-
 function loadGames() {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", "/api/game/user");
@@ -268,12 +263,3 @@ function doPick(elem, gameId, pick) {
 }
 
 loadGames();
-
-function logout() {
-  localStorage.removeItem("jwt");
-  window.location.href = "./login.html";
-}
-
-function to_leaderboard() {
-  window.location.href = "./leaderboard.html";
-}
