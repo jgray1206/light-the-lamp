@@ -59,6 +59,8 @@ open class UserController(
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
     fun update(profilePic: ByteArray?, displayName: String?, principal: Principal): Mono<User> {
+        println(displayName)
+        println(profilePic.toString())
         return userRepository.findByEmail(principal.name)
                 .flatMap { userRepository.update(it.apply { it.profilePic = profilePic; it.displayName = displayName; }) }
                 .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
