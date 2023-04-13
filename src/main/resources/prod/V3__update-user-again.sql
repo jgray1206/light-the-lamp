@@ -1,2 +1,4 @@
 ALTER TABLE "user"
-ALTER COLUMN profile_pic TYPE smallint[];
+DROP COLUMN profile_pic;
+ALTER TABLE "user"
+ADD COLUMN profile_pic smallint[];
