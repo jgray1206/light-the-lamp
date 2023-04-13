@@ -29,7 +29,7 @@ function updateUser() {
     formData.append('displayName', document.getElementById('displayName').value);
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/api/user");
-    xhttp.setRequestHeader("Content-Type", "multipart/form-data");
+    //xhttp.setRequestHeader("Content-Type", "multipart/form-data");
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send(formData);
     xhttp.onreadystatechange = function () {
