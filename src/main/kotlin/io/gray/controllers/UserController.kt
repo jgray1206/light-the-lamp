@@ -5,13 +5,10 @@ import io.gray.model.UserRequest
 import io.gray.email.MailService
 import io.gray.model.Team
 import io.gray.model.User
-import io.gray.model.UserUpdateRequest
-import io.gray.repos.TeamRepository
 import io.gray.repos.UserRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
-import io.micronaut.http.multipart.CompletedFileUpload
 import io.micronaut.http.server.util.DefaultHttpClientAddressResolver
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -60,10 +57,10 @@ open class UserController(
                 ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
-    @Put
-    fun update(@Body request: UserUpdateRequest, principal: Principal): Mono<User> {
+    @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
+    fun update(profilePic: ByteArray?, displayName: String?, principal: Principal): Mono<User> {
         return userRepository.findByEmail(principal.name)
-                .flatMap { userRepository.save(it.apply { it.profilePic = request.profilePic?.let{ pic -> Base64.getDecoder().decode(pic) }; it.displayName = request.displayName; }) }
+                .flatMap { userRepository.save(it.apply { it.profilePic = profilePic; it.displayName = displayName; }) }
                 .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
