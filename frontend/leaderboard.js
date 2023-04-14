@@ -19,16 +19,22 @@ function loadLeaderboards() {
 }
 
 function createTable(picks) {
-    var headers = ["Username", "Points"];
+    var headers = ["User", "Points"];
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
 
+console.log(Object.entries(picks.reduce((x, y) => {
+                    (x[y.user.email] = x[y.user.email] || []).push(y);
+                    return x;
+                }, {})));
     var groupedPicks = Object.entries(picks.reduce((x, y) => {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
     }, {}))
         .map( pick => {
-            pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0); return pick;
+            pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
+            pick[2] = pick[1].displayName;
+            return pick;
         })
         .sort((aPick, bPick) => bPick[1] - aPick[1]);
 

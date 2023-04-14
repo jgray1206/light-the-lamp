@@ -61,6 +61,12 @@ document.forms.userUpdate.addEventListener('submit', e => {
                 icon: "error",
                 confirmButtonText: "OK",
               });
+           } else if (this.status == 400) {
+             Swal.fire({
+               text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
+               icon: "error",
+               confirmButtonText: "OK",
+             });
            }
        }
       };
