@@ -32,8 +32,8 @@ console.log(Object.entries(picks.reduce((x, y) => {
         return x;
     }, {}))
         .map( pick => {
-            pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
             pick[2] = pick[1].displayName;
+            pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
             return pick;
         })
         .sort((aPick, bPick) => bPick[1] - aPick[1]);
