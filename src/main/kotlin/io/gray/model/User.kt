@@ -4,6 +4,8 @@ import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.Relation
+import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.model.DataType
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -22,6 +24,7 @@ class User {
     @Size(max = 50)
     var displayName: String? = null
 
+    @TypeDef(type = DataType.BYTE_ARRAY)
     var profilePic: ByteArray? = null
 
     @NotBlank
