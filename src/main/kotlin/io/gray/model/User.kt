@@ -25,7 +25,7 @@ class User {
     var displayName: String? = null
 
     @TypeDef(type = DataType.BYTE_ARRAY)
-    var profilePic: ByteArray? = null
+    var profilePic: ByteArray = byteArrayOf()
 
     @NotBlank
     @Size(max = 60, min = 60)
