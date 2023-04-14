@@ -43,7 +43,11 @@ console.log(Object.entries(picks.reduce((x, y) => {
     groupedPicks
     .forEach( pick =>{
        var row = table.insertRow(i);
-       row.insertCell(0).innerHTML = pick[0].split("@")[0];
+       if (pick[2]) {
+           row.insertCell(0).innerHTML = pick[2];
+       } else {
+           row.insertCell(0).innerHTML = pick[0].split("@")[0];
+       }
        row.insertCell(1).innerHTML = pick[1];
        i++;
     });
