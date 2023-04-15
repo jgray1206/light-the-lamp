@@ -1,4 +1,4 @@
 .nav-link.active {
    border-color: black !important;
-   font-color: black !important;
+   color: black !important;
 }
