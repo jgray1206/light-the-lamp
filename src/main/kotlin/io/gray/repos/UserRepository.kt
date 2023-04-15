@@ -10,13 +10,11 @@ import reactor.core.publisher.Mono
 
 @R2dbcRepository(dialect = Dialect.POSTGRES)
 interface UserRepository : ReactorCrudRepository<User, Long> {
-    @Join("groups", type = Join.Type.LEFT_FETCH)
-    @Join("team", type = Join.Type.FETCH)
-    override fun findById(aLong: Long): Mono<User>
 
-    @Join("groups", type = Join.Type.LEFT_FETCH)
-    @Join("team", type = Join.Type.LEFT_FETCH)
+    @Join("teams", type = Join.Type.LEFT_FETCH)
+    @Join("friends", type = Join.Type.LEFT_FETCH)
     fun findByEmail(email: String): Mono<User>
 
     fun findOneByConfirmationUuidAndConfirmed(confirmationUuid: String, confirmed: Boolean): Mono<User>
 }
+

@@ -25,28 +25,15 @@ class GameController(
         return gameRepository.findByHomeTeamOrAwayTeam(Team().also { it.id = id }, Team().also { it.id = id })
     }
 
-    @Get("/group")
-    fun getGamesByGroup(principal: Principal): Flux<Game> {
-        return userRepository.findByEmail(principal.name).flatMapMany { user ->
-            user.groups?.map { group ->
-                val team = Team().also { it.id = group.team?.id }
-                gameRepository.findByHomeTeamOrAwayTeam(team, team).map { game ->
-                    game.players = game.players?.filter { player -> player.team?.id == team.id }
-                    game
-                }
-            }?.let { Flux.concat(it) }
-        }
-    }
-
     @Get("/user")
     fun getGamesByUser(principal: Principal): Flux<Game> {
-        return userRepository.findByEmail(principal.name).flatMapMany { user ->
-            val team = Team().also { it.id = user.team?.id }
+        return userRepository.findByEmail(principal.name).flatMapIterable { user ->
+            user.teams
+        }.flatMap { team ->
             gameRepository.findByHomeTeamOrAwayTeam(team, team).map { game ->
                 game.players = game.players?.filter { player -> player.team?.id == team.id }
                 game
             }
         }
     }
-
 }

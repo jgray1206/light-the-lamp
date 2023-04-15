@@ -21,5 +21,5 @@ open class UserRequest {
 
     @NotBlank
     @NotNull
-    var teamId: Long? = null
+    var teams: List<Long>? = null
 }

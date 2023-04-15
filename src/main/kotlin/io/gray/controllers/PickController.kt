@@ -2,7 +2,6 @@ package io.gray.controllers
 
 import io.gray.model.Pick
 import io.gray.repos.GameRepository
-import io.gray.repos.GroupRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
 import io.micronaut.http.annotation.*
@@ -18,7 +17,6 @@ import java.time.LocalDateTime
 class PickController(
         private val pickRepository: PickRepository,
         private val userRepository: UserRepository,
-        private val groupRepository: GroupRepository,
         private val gameRepository: GameRepository
 ) {
     @Get("/{id}")
@@ -26,57 +24,9 @@ class PickController(
         return pickRepository.findById(id)
     }
 
-    @Get
-    fun get(): Flux<Pick> {
-        return pickRepository.findAll().map { it.user?.password = null; it.user?.ipAddress = null; it;}
-    }
-
     @Get("/user")
     fun getPickByUser(principal: Principal): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapMany { pickRepository.findAllByUser(it) }
-    }
-
-    @Get("/group")
-    fun getPicksByGroup(principal: Principal): Flux<Pick> {
-        return userRepository.findByEmail(principal.name).flatMapMany { user ->
-            user.groups?.map { group ->
-                pickRepository.findAllByGroup(group)
-            }?.let { Flux.concat(it) }
-        }
-    }
-
-    @Post("/group")
-    fun createForGroup(@QueryValue groupId: String, @QueryValue gameId: Long, @QueryValue pick: String, principal: Principal): Mono<Pick> {
-        return userRepository.findByEmail(principal.name).zipWith(groupRepository.findById(groupId.toLong())).zipWith(gameRepository.findById(gameId)).flatMap { tuple ->
-            val game = tuple.t2
-            val group = tuple.t1.t2
-            val user = tuple.t1.t1
-
-            check(game.awayTeam?.id == group.team?.id || game.homeTeam?.id == group.team?.id) {
-                "can't submit pick for game where your group's team isn't playing, you big silly head"
-            }
-
-            check(game.date?.isAfter(LocalDateTime.now()) == true) {
-                "can't submit pick on game that has already started, you little silly billy"
-            }
-
-            pickRepository.findByGameAndUserAndGroup(game, user, group).switchIfEmpty(
-                    pickRepository.save(Pick().also { pickEntity ->
-                        pickEntity.game = game
-                        pickEntity.group = group
-                        pickEntity.user = user
-                        if (pick == "goalies") {
-                            pickEntity.goalies = true
-                        } else if (pick == "team") {
-                            pickEntity.team = true
-                        } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                            pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
-                        } else {
-                            error("not valid pick")
-                        }
-                    })
-            )
-        }.map { it.user?.password = null; it.user?.ipAddress = null; it }
     }
 
     @Post("/user")
@@ -85,8 +35,8 @@ class PickController(
             val user = tuple.t1
             val game = tuple.t2
 
-            check(game.awayTeam?.id == user.team?.id || game.homeTeam?.id == user.team?.id) {
-                "can't submit pick for game where your preferred team isn't playing, you big silly head"
+            check( user.teams?.any { it.id == game.awayTeam?.id || it.id ==  game.homeTeam?.id } == true) {
+                "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
             }
 
             check(game.date?.isAfter(LocalDateTime.now()) == true) {
@@ -100,7 +50,7 @@ class PickController(
                         if (pick == "goalies") {
                             pickEntity.goalies = true
                         } else if (pick == "team") {
-                            pickEntity.team = true
+                            pickEntity.theTeam = true
                         } else if (game.players?.firstOrNull { it.name == pick } != null) {
                             pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
                         } else {

@@ -29,7 +29,6 @@ open class GameStateSyncer(
         private val teamRepository: TeamRepository,
         private val gameRepository: GameRepository,
         private val gamePlayerRepository: GamePlayerRepository,
-        private val userGroupRepository: UserGroupRepository,
         private val pickRepository: PickRepository
 ) {
     companion object {
@@ -100,9 +99,8 @@ open class GameStateSyncer(
                             (it.gamePlayer?.assists ?: 0) + (it.gamePlayer?.shortAssists ?: 0)).toShort()
                 }
             } else if (it.goalies == true) {
-                val teamId = it.group?.team?.id ?: it.user?.team?.id
                 dbGame.players?.filter { player ->
-                    player.team?.id == teamId && player.position == "Goalie"
+                    player.team?.id == it.team?.id!! && player.position == "Goalie"
                 }?.sumOf { it.goalsAgainst?.toInt() ?: 0 }?.let { goalsAgainst ->
                     it.points = when (goalsAgainst) {
                         0 -> {
@@ -118,9 +116,8 @@ open class GameStateSyncer(
                         }
                     }
                 }
-            } else if (it.team == true) {
-                val teamId = it.group?.team?.id ?: it.user?.team?.id
-                val teamGoals = if (dbGame.homeTeam?.id == teamId) {
+            } else if (it.theTeam == true) {
+                val teamGoals = if (dbGame.homeTeam?.id == it.team?.id!!) {
                     dbGame.homeTeamGoals!!
                 } else {
                     dbGame.awayTeamGoals!!
@@ -134,14 +131,6 @@ open class GameStateSyncer(
                 }
             }
             pickRepository.update(it)
-        }.flatMap { pick ->
-            pickRepository.findAllByUser(pick.user!!).collectList()
-                    .filter { pick.group?.id != null }.flatMap { allUserPicks ->
-                        userGroupRepository.findByUserIdAndGroupId(pick.user?.id!!, pick.group?.id!!).map { userGroup ->
-                            userGroup.score = allUserPicks.sumOf { it.points?.toInt() ?: 0 }.toShort()
-                            userGroupRepository.save(userGroup)
-                        }
-                    }.thenReturn(pick)
         }
     }
 
