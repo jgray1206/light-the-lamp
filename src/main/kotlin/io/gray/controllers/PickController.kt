@@ -20,8 +20,16 @@ class PickController(
         private val gameRepository: GameRepository
 ) {
     @Get
-    fun getAll(): Flux<Pick> {
-        return pickRepository.findAll().map { it.user?.password = null; it.user?.ipAddress = null; it;}
+    fun getAll(principal: Principal): Flux<Pick> {
+        return userRepository.findByEmail(principal.name).flatMapIterable {
+            it.teams
+        }.flatMap {
+            pickRepository.findAllByTeam(it).map { pick ->
+                pick.user?.password = null
+                pick.user?.ipAddress = null
+                pick
+            }
+        }
     }
 
     @Get("/{id}")
@@ -40,7 +48,7 @@ class PickController(
             val user = tuple.t1
             val game = tuple.t2
 
-            check( user.teams?.any { it.id == game.awayTeam?.id || it.id ==  game.homeTeam?.id } == true) {
+            check(user.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
                 "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
             }
 
