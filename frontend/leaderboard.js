@@ -40,11 +40,11 @@ function loadLeaderboards() {
                   return rv;
                 }, {});
               };
-              picks = groupBy(picks, 'team')
+              groupedPicks = groupBy(picks, 'team')
               var index = 0;
-              Object.keys(picks).forEach(function(key) {
-                val picks = picks[key];
-                val team = picks[0].team;
+              Object.keys(groupedPicks).forEach(function(key) {
+                var picks = groupedPicks[key];
+                var team = picks[0].team;
 
                   createTableHeaderForTeam(team, index);
                   var teamContentDiv = document.createElement("div");
