@@ -1,5 +1,3 @@
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
-    border-left-color: darkblue;
-    border-top-color: darkblue;
-    border-right-color: darkblue;
+.nav-item > button > .active {
+   border-color: blue;
 }
