@@ -43,8 +43,8 @@ function loadLeaderboards() {
               picks = groupBy(picks, 'team')
               var index = 0;
               Object.keys(picks).forEach(function(key) {
-                val team = picks[0].team;
                 val picks = picks[key];
+                val team = picks[0].team;
 
                   createTableHeaderForTeam(team, index);
                   var teamContentDiv = document.createElement("div");
