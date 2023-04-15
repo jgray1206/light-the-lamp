@@ -7,8 +7,36 @@ function loadLeaderboards() {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4) {
           if (this.status == 200) {
-              const picks = JSON.parse(this.responseText);
+              var picks = JSON.parse(this.responseText);
+              var groupBy = function(xs, key) {
+                return xs.reduce(function(rv, x) {
+                  (rv[x[key]] = rv[x[key]] || []).push(x);
+                  return rv;
+                }, {});
+              };
+              picks = groupBy(picks, 'team')
               console.log(picks);
+              createTableHeaderForTeam(team, index);
+              var teamContentDiv = document.createElement("div");
+              if (index == 0) {
+                 teamContentDiv.setAttribute("class", "tab-pane fade active show");
+              } else {
+                 teamContentDiv.setAttribute("class", "tab-pane fade");
+              }
+              teamContentDiv.setAttribute("id", "team"+team.id);
+              teamContentDiv.setAttribute("role", "tabpanel");
+              teamContentDiv.setAttribute("aria-labelledby", "tab"+team.id);
+
+              var teamTabHeader = document.createElement("ul");
+              teamTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
+              teamTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
+              teamTabHeader.setAttribute("id", "teamTabHeader-"+team.id);
+              teamTabHeader.setAttribute("role", "tablist");
+              var gameTabContent = document.createElement("div");
+              gameTabContent.setAttribute("class", "tab-content");
+              gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
+              teamContentDiv.append(teamTabHeader);
+              teamContentDiv.append(gameTabContent);
               createTable(picks);
           } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
@@ -23,10 +51,6 @@ function createTable(picks) {
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
 
-console.log(Object.entries(picks.reduce((x, y) => {
-                    (x[y.user.email] = x[y.user.email] || []).push(y);
-                    return x;
-                }, {})));
     var groupedPicks = Object.entries(picks.reduce((x, y) => {
         (x[y.user.email] = x[y.user.email] || []).push(y);
         return x;
