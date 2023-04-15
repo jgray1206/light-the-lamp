@@ -32,7 +32,7 @@ function getUser() {
                         var option = document.createElement("option");
                         option.value = team.id;
                         option.innerHTML = team.teamName;
-                        var teamSelect = document.getElementById("team");
+                        var teamSelect = document.getElementById("teams");
                         teamSelect.append(option);
                         if (user.teams.some((userTeam) => team.id == userTeam.id)) {
                             teamSelect.options[index].selected = true;
@@ -60,6 +60,9 @@ document.forms.userUpdate.addEventListener('submit', e => {
   if (document.getElementById('displayName').value) {
     formData.set('displayName', document.getElementById('displayName').value);
   }
+  var options = document.getElementById('teams').selectedOptions;
+  var values = Array.from(options).map(({ value }) => value);
+  console.log(values);
 
   const xhttp = new XMLHttpRequest();
       xhttp.open("PUT", "/api/user");
