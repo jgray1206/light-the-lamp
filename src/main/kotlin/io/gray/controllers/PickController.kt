@@ -21,11 +21,11 @@ class PickController(
 ) {
     @Get
     fun getAll(): Flux<Pick> {
-        return pickRepository.findAll()
+        return pickRepository.findAll().map { it.user?.password = null; it.user?.ipAddress = null; it;}
     }
 
     @Get("/{id}")
-    fun get(@PathVariable id: Long): Mono<Pick> { // (2)
+    fun get(@PathVariable id: Long): Mono<Pick> {
         return pickRepository.findById(id)
     }
 
