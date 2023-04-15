@@ -1,0 +1,7 @@
+.nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
+    border-color: #d45500;
+    border-bottom-color: transparent;
+}
+.nav-tabs {
+   border-bottom: 1px solid #d45500;
+}
