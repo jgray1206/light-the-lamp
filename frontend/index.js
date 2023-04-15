@@ -33,9 +33,9 @@ function loadGames() {
                             createTableHeaderForTeam(team);
                             var teamContentDiv = document.createElement("div");
                             teamContentDiv.setAttribute("class", "tab-pane fade");
-                            teamContentDiv.setAttribute("id", "team-"+team.id);
+                            teamContentDiv.setAttribute("id", "team"+team.id);
                             teamContentDiv.setAttribute("role", "tabpanel");
-                            teamContentDiv.setAttribute("aria-labelledby", "team"+team.id);
+                            teamContentDiv.setAttribute("aria-labelledby", "tab"+team.id);
 
                             var teamTabHeader = document.createElement("ul");
                             teamTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
