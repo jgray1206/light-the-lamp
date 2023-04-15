@@ -19,6 +19,11 @@ class PickController(
         private val userRepository: UserRepository,
         private val gameRepository: GameRepository
 ) {
+    @Get
+    fun getAll(): Flux<Pick> {
+        return pickRepository.findAll()
+    }
+
     @Get("/{id}")
     fun get(@PathVariable id: Long): Mono<Pick> { // (2)
         return pickRepository.findById(id)
