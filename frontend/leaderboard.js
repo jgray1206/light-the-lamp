@@ -10,7 +10,7 @@ function loadLeaderboards() {
               var picks = JSON.parse(this.responseText);
               var groupBy = function(xs, key) {
                 return xs.reduce(function(rv, x) {
-                  (rv[x[key]] = rv[x[key]] || []).push(x);
+                  (rv[x[key]['id']] = rv[x[key]['id']] || []).push(x);
                   return rv;
                 }, {});
               };
