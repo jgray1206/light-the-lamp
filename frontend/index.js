@@ -269,7 +269,7 @@ function createTableHeaderForTeam(team) {
     headerLi.appendChild(headerButton);
 
 
-    document.getElementById("teamsTabHeader-"+team.id).append(headerLi);
+    document.getElementById("teamsTabHeader").append(headerLi);
 }
 
 function doPick(elem, gameId, pick) {
