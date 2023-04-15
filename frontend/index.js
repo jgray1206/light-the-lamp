@@ -191,7 +191,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     } else {
         row = table.insertRow(nonGoalies.length+1);
     }
-    row.insertCell(0).innerHTML = "<figure><figcatpion>The Detroit Red Wings!</figcatpion></figure>";
+    row.insertCell(0).innerHTML = "<figure><figcatpion>"+team.teamName+"!</figcatpion></figure>";
     row.insertCell(1).innerHTML = "Team";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5/5+ goal game, 4/4 goal game";
