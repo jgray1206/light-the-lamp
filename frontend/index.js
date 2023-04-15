@@ -33,7 +33,11 @@ function loadGames() {
                         user.teams.forEach((team) => {
                             createTableHeaderForTeam(team, index++);
                             var teamContentDiv = document.createElement("div");
-                            teamContentDiv.setAttribute("class", "tab-pane fade");
+                            if (index == 0) {
+                               teamContentDiv.setAttribute("class", "tab-pane fade active show");
+                            } else {
+                               teamContentDiv.setAttribute("class", "tab-pane fade");
+                            }
                             teamContentDiv.setAttribute("id", "team"+team.id);
                             teamContentDiv.setAttribute("role", "tabpanel");
                             teamContentDiv.setAttribute("aria-labelledby", "tab"+team.id);
