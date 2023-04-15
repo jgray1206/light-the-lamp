@@ -10,8 +10,8 @@ class UserTeam {
     @GeneratedValue(GeneratedValue.Type.AUTO)
     var id: Long? = null
 
-    var user_id: Long? = null
+    var userId: Long? = null
 
-    var team_id: Long? = null
+    var teamId: Long? = null
 
 }
