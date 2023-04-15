@@ -1,3 +1,10 @@
+function addTeam(team) {
+    var select = document.createElement("select");
+    select.value = team.id;
+    select.innerHTML = team.teamName;
+    document.getElementById("teamSelect").appendChild(select);
+}
+
 function loadGames() {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", "/api/game/user");
@@ -29,6 +36,7 @@ function loadGames() {
                       if (this.status == 200) {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
+                        user.teams.forEach((team) => addTeam(team));
                         var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                         var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
                         sortedGames.forEach((game) => { createTable(game, picks, user, activeGame, sortedGames) });
