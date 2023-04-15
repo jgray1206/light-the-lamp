@@ -18,7 +18,7 @@ function loadLeaderboards() {
               for (const [key, value] of picks.entries()) {
                 console.log(key);
                 console.log(value);
-              });
+              };
               createTableHeaderForTeam(team, index);
               var teamContentDiv = document.createElement("div");
               if (index == 0) {
