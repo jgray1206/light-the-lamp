@@ -16,7 +16,7 @@ function getUser() {
                 document.getElementById("profilePicPreview").src = "data:image/png;base64," + user.profilePic;
             }
             var index = 0;
-            user.teams.forEach(team =>
+            user.teams.forEach((team) => {
                 var option = document.createElement("option");
                 option.value = team.id;
                 option.innerHTML = team.teamName;
@@ -24,7 +24,7 @@ function getUser() {
                 teamSelect.append(option);
                 teamSelect.options[index].selected = true;
                 index++;
-            )
+            });
           } else if (this.status == 401 || this.status == 403) {
              localStorage.removeItem("jwt");
              window.location.href = "./login.html";
