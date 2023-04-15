@@ -227,7 +227,7 @@ function createTableHeader(game, pick, user, gameString, activeGame, team) {
     gameTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
     gameTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
     gameTabHeader.setAttribute("id", "gameTabHeader-"+game.id);
-    gameTabHeader.setAttribute("role", "tablist");\
+    gameTabHeader.setAttribute("role", "tablist");
     gameTabHeader.append(headerLi);
     document.getElementById("teamTabHeader").append(gameTabHeader);
 
