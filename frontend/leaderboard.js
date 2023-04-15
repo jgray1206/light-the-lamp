@@ -1,3 +1,29 @@
+function createTableHeaderForTeam(team, index) {
+    var headerLi = document.createElement("li");
+    headerLi.setAttribute("class", "nav-item");
+    headerLi.setAttribute("role", "presentation");
+
+    var headerButton = document.createElement("button");
+    var classString = "nav-link ";
+    if (index == 0) {
+        headerButton.setAttribute("aria-selected", "true");
+        classString += " active";
+    } else {
+        headerButton.setAttribute("aria-selected", "false");
+    }
+    headerButton.setAttribute("class", classString);
+    headerButton.setAttribute("role", "tab");
+    headerButton.setAttribute("data-bs-toggle", "tab");
+    headerButton.setAttribute("data-bs-target", "#team"+team.id);
+    headerButton.setAttribute("id", "tab" + team.id);
+    headerButton.setAttribute("aria-controls", "team"+team.id);
+    headerButton.innerHTML = team.teamName;
+
+    headerLi.appendChild(headerButton);
+
+    document.getElementById("teamsTabHeader").append(headerLi);
+}
+
 function loadLeaderboards() {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", "/api/pick");
@@ -15,31 +41,25 @@ function loadLeaderboards() {
                 }, {});
               };
               picks = groupBy(picks, 'team')
+              var index = 0;
               Object.keys(picks).forEach(function(key) {
-                console.log('Key : ' + key + ', Value : ' + picks[key])
-              })
-              createTableHeaderForTeam(team, index);
-              var teamContentDiv = document.createElement("div");
-              if (index == 0) {
-                 teamContentDiv.setAttribute("class", "tab-pane fade active show");
-              } else {
-                 teamContentDiv.setAttribute("class", "tab-pane fade");
-              }
-              teamContentDiv.setAttribute("id", "team"+team.id);
-              teamContentDiv.setAttribute("role", "tabpanel");
-              teamContentDiv.setAttribute("aria-labelledby", "tab"+team.id);
+                val team = picks[0].team;
+                val picks = picks[key];
 
-              var teamTabHeader = document.createElement("ul");
-              teamTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
-              teamTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
-              teamTabHeader.setAttribute("id", "teamTabHeader-"+team.id);
-              teamTabHeader.setAttribute("role", "tablist");
-              var gameTabContent = document.createElement("div");
-              gameTabContent.setAttribute("class", "tab-content");
-              gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
-              teamContentDiv.append(teamTabHeader);
-              teamContentDiv.append(gameTabContent);
-              createTable(picks);
+                  createTableHeaderForTeam(team, index);
+                  var teamContentDiv = document.createElement("div");
+                  if (index == 0) {
+                     teamContentDiv.setAttribute("class", "tab-pane fade active show");
+                  } else {
+                     teamContentDiv.setAttribute("class", "tab-pane fade");
+                  }
+                  teamContentDiv.setAttribute("id", "team"+team.id);
+                  teamContentDiv.setAttribute("role", "tabpanel");
+                  teamContentDiv.setAttribute("aria-labelledby", "tab"+team.id);
+                  document.getElementById("teamsTabContent").append(teamContentDiv);
+                  createTable(picks, team);
+                  index++;
+              });
           } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
               window.location.href = "./login.html";
@@ -83,7 +103,7 @@ function createTable(picks) {
     for(var i = 0; i < headers.length; i++) {
         headerRow.insertCell(i).innerHTML = headers[i];
     }
-    document.getElementById("card-body").append(table);
+    document.getElementById("team"+team.id).append(table);
 }
 
 loadLeaderboards();
