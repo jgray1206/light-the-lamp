@@ -60,9 +60,9 @@ document.forms.userUpdate.addEventListener('submit', e => {
   if (document.getElementById('displayName').value) {
     formData.set('displayName', document.getElementById('displayName').value);
   }
-  var options = document.getElementById('teams').selectedOptions;
-  var values = Array.from(options).map(({ value }) => value);
-  console.log(values);
+  var teamOptions = document.getElementById('teams').selectedOptions;
+  var teamValues = Array.from(teamOptions).map(({ value }) => value);
+  formData.set('teams', teamValues);
 
   const xhttp = new XMLHttpRequest();
       xhttp.open("PUT", "/api/user");
