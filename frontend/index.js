@@ -30,6 +30,7 @@ function loadGames() {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
                         user.teams.forEach((team) => {
+                            createTableHeaderForTeam(team);
                             var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                             var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
                             sortedGames.forEach((game) => {
@@ -86,7 +87,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     } else {
        gameStringShort += "<br/>v " + game.awayTeam.teamName;
     }
-    createTableHeader(game, pick, user, gameStringShort, activeGame, team);
+    createTableHeaderForGame(game, pick, user, gameStringShort, activeGame, team);
 
     var lastGame = sortedGames.filter(prevGame => prevGame.gameState == "Final" )[0];
 
@@ -203,7 +204,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
    document.getElementById("gameTabContent-"+team.id).append(tableDiv);
 }
 
-function createTableHeader(game, pick, user, gameString, activeGame, team) {
+function createTableHeaderForGame(game, pick, user, gameString, activeGame, team) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
@@ -235,6 +236,40 @@ function createTableHeader(game, pick, user, gameString, activeGame, team) {
 
 
     document.getElementById("teamTabHeader-"+team.id).append(headerLi);
+}
+
+function createTableHeaderForTeam(team) {
+    var headerLi = document.createElement("li");
+    headerLi.setAttribute("class", "nav-item");
+    headerLi.setAttribute("role", "presentation");
+
+    var headerButton = document.createElement("button");
+    var classString = "nav-link ";
+    //if (game == activeGame) {
+    //    headerButton.setAttribute("aria-selected", "true");
+    //    classString += " active";
+    //} else {
+    //    headerButton.setAttribute("aria-selected", "false");
+    //}
+    //if (pick && game.gameState != "Final") {
+    //    classString += " text-danger"
+    //} else if (game.gameState != "Final") {
+    //    classString += " text-success"
+    //} else if (game.gameState == "Final") {
+    //    classString += " text-secondary"
+    //}
+    headerButton.setAttribute("class", classString);
+    headerButton.setAttribute("role", "tab");
+    headerButton.setAttribute("data-bs-toggle", "tab");
+    headerButton.setAttribute("data-bs-target", "#team"+team.id);
+    headerButton.setAttribute("id", "tab" + team.id);
+    headerButton.setAttribute("aria-controls", "team"+team.id);
+    headerButton.innerHTML = team.teamName;
+
+    headerLi.appendChild(headerButton);
+
+
+    document.getElementById("teamsTabHeader-"+team.id).append(headerLi);
 }
 
 function doPick(elem, gameId, pick) {
