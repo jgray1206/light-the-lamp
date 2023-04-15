@@ -1,10 +1,3 @@
-function addTeam(team) {
-    var select = document.createElement("option");
-    select.value = team.id;
-    select.innerHTML = team.teamName;
-    document.getElementById("teamSelect").appendChild(select);
-}
-
 function loadGames() {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", "/api/game/user");
@@ -36,10 +29,11 @@ function loadGames() {
                       if (this.status == 200) {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
-                        user.teams.forEach((team) => addTeam(team));
-                        var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
-                        var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
-                        sortedGames.forEach((game) => { createTable(game, picks, user, activeGame, sortedGames) });
+                        user.teams.forEach(team =>
+                            var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
+                            var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
+                            sortedGames.forEach((game) => { createTable(team, game, picks, user, activeGame, sortedGames) });
+                        }
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
                           window.location.href = "./login.html";
@@ -60,8 +54,8 @@ function loadGames() {
   };
 }
 
-function createTable(game, picks, user, activeGame, sortedGames) {
-    var teamIsAwayOrHome = game.awayTeam.id == user.team.id ? "away" : "home";
+function createTable(team, game, picks, user, activeGame, sortedGames) {
+    var teamIsAwayOrHome = game.awayTeam.id == team.id ? "away" : "home";
     var gameDate = new Date(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]);
     var date = new Date();
     var curDateUtc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
@@ -79,7 +73,7 @@ function createTable(game, picks, user, activeGame, sortedGames) {
     } else {
        gameStringShort += "<br/>v " + game.awayTeam.teamName;
     }
-    createTableHeader(game, pick, user, gameStringShort, activeGame);
+    createTableHeader(game, pick, user, gameStringShort, activeGame, team);
 
     var lastGame = sortedGames.filter(prevGame => prevGame.gameState == "Final" )[0];
 
@@ -192,10 +186,14 @@ function createTable(game, picks, user, activeGame, sortedGames) {
         var cell = headerRow.insertCell(i)
         cell.outerHTML = "<th scope=\"col\">"+headers[i]+"</th>";
     }
-    document.getElementById("tabContent").append(tableDiv);
+   var gameTabContent = document.createElement("div");
+   gameTabContent.setAttribute("class", "tab-content");
+   gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
+   gameTabContent.append(tableDiv);
+   document.getElementById("teamTabContent").append(gameTabContent);
 }
 
-function createTableHeader(game, pick, user, gameString, activeGame) {
+function createTableHeader(game, pick, user, gameString, activeGame, team) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
@@ -224,7 +222,15 @@ function createTableHeader(game, pick, user, gameString, activeGame) {
     headerButton.innerHTML = gameString;
 
     headerLi.appendChild(headerButton);
-    document.getElementById("tabHeader").append(headerLi);
+
+    var gameTabHeader = document.createElement("ul");
+    gameTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
+    gameTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
+    gameTabHeader.setAttribute("id", "gameTabHeader-"+game.id);
+    gameTabHeader.setAttribute("role", "tablist");\
+    gameTabHeader.append(headerLi);
+    document.getElementById("teamTabHeader").append(gameTabHeader);
+
 
 }
 
