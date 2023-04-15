@@ -257,7 +257,7 @@ function createTableHeaderForTeam(team, index) {
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
-    var classString = "nav-link ";
+    var classString = "nav-link text-secondary";
     if (index == 0) {
         headerButton.setAttribute("aria-selected", "true");
         classString += " active";
