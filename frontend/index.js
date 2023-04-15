@@ -31,7 +31,7 @@ function loadGames() {
                         console.log(user);
                         var index = 0;
                         user.teams.forEach((team) => {
-                            createTableHeaderForTeam(team, index++);
+                            createTableHeaderForTeam(team, index);
                             var teamContentDiv = document.createElement("div");
                             if (index == 0) {
                                teamContentDiv.setAttribute("class", "tab-pane fade active show");
@@ -58,6 +58,7 @@ function loadGames() {
                             sortedGames.forEach((game) => {
                                 createTable(team, game, picks, user, activeGame, sortedGames)
                             });
+                            index++;
                         });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
