@@ -1,5 +1,5 @@
 function addTeam(team) {
-    var select = document.createElement("select");
+    var select = document.createElement("option");
     select.value = team.id;
     select.innerHTML = team.teamName;
     document.getElementById("teamSelect").appendChild(select);
