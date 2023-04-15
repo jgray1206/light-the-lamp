@@ -53,7 +53,8 @@ function loadGames() {
                             teamContentDiv.append(teamTabHeader);
                             teamContentDiv.append(gameTabContent);
                             document.getElementById("teamsTabContent").append(teamContentDiv);
-                            var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
+                            var sortedGames = games.filter((game) => { return game.awayTeam.id == team.id || game.homeTeam.id == team.id})
+                                .sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                             var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
                             sortedGames.forEach((game) => {
                                 createTable(team, game, picks, user, activeGame, sortedGames)
