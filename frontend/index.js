@@ -130,7 +130,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
         if (pick && pick.gamePlayer && pick.gamePlayer.id.playerId == id) {
             row.className = "table-danger";
         }
-        if (!pick && lastGame) {
+        if (!pick && lastGame && pickEnabled) {
           var lastGameStats = lastGame.players.find(player => player.id.playerId == id);
           if (lastGameStats && !lastGameStats.timeOnIce) {
             row.className = "table-warning";
