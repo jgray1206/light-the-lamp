@@ -14,6 +14,7 @@ function loadLeaderboards() {
                   return rv;
                 }, {});
               };
+              console.log(picks);
               picks = groupBy(picks, 'team')
               console.log(picks);
               createTableHeaderForTeam(team, index);
