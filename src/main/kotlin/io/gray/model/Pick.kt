@@ -12,20 +12,20 @@ class Pick {
     var id: Long? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)
-    var group: Group? = null
-
-    @Relation(Relation.Kind.MANY_TO_ONE)
     var user: User? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)
     var game: Game? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)
+    var team: Team? = null
+
+    @Relation(Relation.Kind.MANY_TO_ONE)
     var gamePlayer: GamePlayer? = null
 
     var goalies: Boolean? = null
 
-    var team: Boolean? = null
+    var theTeam: Boolean? = null
 
     var points: Short? = null
 

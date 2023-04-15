@@ -5,6 +5,8 @@ import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.Relation
 import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.jdbc.annotation.JoinColumn
+import io.micronaut.data.jdbc.annotation.JoinTable
 import io.micronaut.data.model.DataType
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
@@ -31,8 +33,8 @@ class User {
     @Size(max = 60, min = 60)
     var password: String? = null
 
-    @Relation(Relation.Kind.MANY_TO_ONE)
-    var team: Team? = null
+    @Relation(Relation.Kind.MANY_TO_MANY)
+    var teams: List<Team>? = null
 
     var confirmed: Boolean? = null
 
@@ -47,6 +49,9 @@ class User {
     var ipAddress: String? = null
 
     @Relation(Relation.Kind.MANY_TO_MANY)
-    var groups: List<Group>? = null
+    @JoinTable(name="user_user",
+            joinColumns=[JoinColumn(name="to_user")],
+            inverseJoinColumns=[JoinColumn(name="from_user")])
+    var friends: List<User>? = null
 
 }

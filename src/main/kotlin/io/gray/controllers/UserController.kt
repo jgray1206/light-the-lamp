@@ -48,7 +48,7 @@ open class UserController(
                             it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
                             it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
                             it.confirmed = false
-                            it.team = Team().also { it.id = userRequest.teamId } //todo validate this
+                            it.teams = userRequest.teams?.map { Team().also { team -> team.id = it } }//todo validate this
                             it.confirmationUuid = UUID.randomUUID().toString()
                         }).flatMap { user ->
                             Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${user.confirmationUuid}") }
