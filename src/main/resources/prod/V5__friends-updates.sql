@@ -1,5 +1,5 @@
 ALTER TABLE "pick" RENAME COLUMN team TO the_team;
-ALTER TABLE "pick" ADD COLUMN team_id BIGINT NOT NULL;
+ALTER TABLE "pick" ADD COLUMN team_id BIGINT;
 DROP TABLE "group";
 DROP TABLE "user_group";
 CREATE TABLE "user_user" (id SERIAL PRIMARY KEY, from_user BIGINT NOT NULL, to_user BIGINT NOT NULL);
