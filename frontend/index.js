@@ -43,7 +43,7 @@ function loadGames() {
                                gameTabContent.setAttribute("class", "tab-content");
                                gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
                                teamsTabContent.append(teamTabHeader);
-                               teamTabContent.append(gameTabContent);
+                               teamsTabContent.append(gameTabContent);
                                 createTable(team, game, picks, user, activeGame, sortedGames)
                             });
                         });
