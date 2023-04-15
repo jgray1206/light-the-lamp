@@ -69,7 +69,7 @@ open class UserController(
                         user.teams?.let { userTeams ->
                             Flux.fromIterable(userTeams).filter { it.id !in teams }
                                     .flatMap { userTeamRepository.findByUserIdAndTeamId(user.id!!, it.id!!) }
-                                    .map { userTeamRepository.delete(it) }.thenMany(
+                                    .map { userTeamRepository.delete(it) }.collectList().thenMany(
                                             Flux.fromIterable(teams).filter { it !in userTeams.mapNotNull { userTeam -> userTeam.id } }
                                                     .map { UserTeam().apply { this.userId = user.id; this.teamId = it; } }
                                                     .flatMap { userTeamRepository.save(it) }
