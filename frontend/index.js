@@ -32,7 +32,20 @@ function loadGames() {
                         user.teams.forEach((team) => {
                             var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                             var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
-                            sortedGames.forEach((game) => { createTable(team, game, picks, user, activeGame, sortedGames) });
+                            sortedGames.forEach((game) => {
+                                var teamsTabContent = document.getElementById("teamsTabContent");
+                                var teamTabHeader = document.createElement("ul");
+                                teamTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
+                                teamTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
+                                teamTabHeader.setAttribute("id", "teamTabHeader-"+team.id);
+                                teamTabHeader.setAttribute("role", "tablist");
+                                var gameTabContent = document.createElement("div");
+                               gameTabContent.setAttribute("class", "tab-content");
+                               gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
+                               teamsTabContent.append(teamTabHeader);
+                               teamTabContent.append(gameTabContent);
+                                createTable(team, game, picks, user, activeGame, sortedGames)
+                            });
                         });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
@@ -186,11 +199,8 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
         var cell = headerRow.insertCell(i)
         cell.outerHTML = "<th scope=\"col\">"+headers[i]+"</th>";
     }
-   var gameTabContent = document.createElement("div");
-   gameTabContent.setAttribute("class", "tab-content");
-   gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
-   gameTabContent.append(tableDiv);
-   document.getElementById("teamTabContent").append(gameTabContent);
+
+   document.getElementById("gameTabContent-"+team.id).append(tableDiv);
 }
 
 function createTableHeader(game, pick, user, gameString, activeGame, team) {
@@ -223,15 +233,8 @@ function createTableHeader(game, pick, user, gameString, activeGame, team) {
 
     headerLi.appendChild(headerButton);
 
-    var gameTabHeader = document.createElement("ul");
-    gameTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
-    gameTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
-    gameTabHeader.setAttribute("id", "gameTabHeader-"+game.id);
-    gameTabHeader.setAttribute("role", "tablist");
-    gameTabHeader.append(headerLi);
-    document.getElementById("teamTabContent").append(gameTabHeader);
 
-
+    document.getElementById("teamTabHeader-"+team.id).append(gameTabHeader);
 }
 
 function doPick(elem, gameId, pick) {
