@@ -229,7 +229,7 @@ function createTableHeader(game, pick, user, gameString, activeGame, team) {
     gameTabHeader.setAttribute("id", "gameTabHeader-"+game.id);
     gameTabHeader.setAttribute("role", "tablist");
     gameTabHeader.append(headerLi);
-    document.getElementById("teamTabHeader").append(gameTabHeader);
+    document.getElementById("teamTabContent").append(gameTabHeader);
 
 
 }
