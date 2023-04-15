@@ -30,21 +30,21 @@ function loadGames() {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
                         user.teams.forEach((team) => {
-                            createTableHeaderForTeam(team);
+                            createTableHeaderForTeam(team)
+                            var teamsTabContent = document.getElementById("teamsTabContent"); //todo add to teamspecific content div
+                            var teamTabHeader = document.createElement("ul");
+                            teamTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
+                            teamTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
+                            teamTabHeader.setAttribute("id", "teamTabHeader-"+team.id);
+                            teamTabHeader.setAttribute("role", "tablist");
+                            var gameTabContent = document.createElement("div");
+                           gameTabContent.setAttribute("class", "tab-content");
+                           gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
+                           teamsTabContent.append(teamTabHeader);
+                           teamsTabContent.append(gameTabContent);
                             var sortedGames = games.sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
                             var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
                             sortedGames.forEach((game) => {
-                                var teamsTabContent = document.getElementById("teamsTabContent");
-                                var teamTabHeader = document.createElement("ul");
-                                teamTabHeader.setAttribute("class", "nav nav-tabs text-nowrap flex-nowrap");
-                                teamTabHeader.setAttribute("style", "overflow-x: auto; overflow-y: hidden;");
-                                teamTabHeader.setAttribute("id", "teamTabHeader-"+team.id);
-                                teamTabHeader.setAttribute("role", "tablist");
-                                var gameTabContent = document.createElement("div");
-                               gameTabContent.setAttribute("class", "tab-content");
-                               gameTabContent.setAttribute("id", "gameTabContent-"+team.id);
-                               teamsTabContent.append(teamTabHeader);
-                               teamsTabContent.append(gameTabContent);
                                 createTable(team, game, picks, user, activeGame, sortedGames)
                             });
                         });
