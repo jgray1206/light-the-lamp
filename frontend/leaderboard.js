@@ -4,11 +4,12 @@ function createTableHeaderForTeam(team, index) {
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
-    var classString = "nav-link text-secondary";
+    var classString = "nav-link";
     if (index == 0) {
         headerButton.setAttribute("aria-selected", "true");
-        classString += " active";
+        classString += " active text-dark";
     } else {
+        classString += " text-secondary";
         headerButton.setAttribute("aria-selected", "false");
     }
     headerButton.setAttribute("class", classString);
