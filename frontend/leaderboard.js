@@ -68,7 +68,7 @@ function loadLeaderboards() {
       };
 }
 
-function createTable(picks) {
+function createTable(picks, team) {
     var headers = ["User", "Points"];
     var table = document.createElement("table");  //makes a table element for the page
     table.setAttribute("class", "table table-hover");
