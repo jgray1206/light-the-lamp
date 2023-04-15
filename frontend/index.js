@@ -29,8 +29,9 @@ function loadGames() {
                       if (this.status == 200) {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
+                        var index = 0;
                         user.teams.forEach((team) => {
-                            createTableHeaderForTeam(team);
+                            createTableHeaderForTeam(team, index++);
                             var teamContentDiv = document.createElement("div");
                             teamContentDiv.setAttribute("class", "tab-pane fade");
                             teamContentDiv.setAttribute("id", "team"+team.id);
@@ -244,26 +245,19 @@ function createTableHeaderForGame(game, pick, user, gameString, activeGame, team
     document.getElementById("teamTabHeader-"+team.id).append(headerLi);
 }
 
-function createTableHeaderForTeam(team) {
+function createTableHeaderForTeam(team, index) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
     var classString = "nav-link ";
-    //if (game == activeGame) {
-    //    headerButton.setAttribute("aria-selected", "true");
-    //    classString += " active";
-    //} else {
-    //    headerButton.setAttribute("aria-selected", "false");
-    //}
-    //if (pick && game.gameState != "Final") {
-    //    classString += " text-danger"
-    //} else if (game.gameState != "Final") {
-    //    classString += " text-success"
-    //} else if (game.gameState == "Final") {
-    //    classString += " text-secondary"
-    //}
+    if (index == 0) {
+        headerButton.setAttribute("aria-selected", "true");
+        classString += " active";
+    } else {
+        headerButton.setAttribute("aria-selected", "false");
+    }
     headerButton.setAttribute("class", classString);
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
