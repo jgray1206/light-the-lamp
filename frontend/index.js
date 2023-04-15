@@ -234,7 +234,7 @@ function createTableHeader(game, pick, user, gameString, activeGame, team) {
     headerLi.appendChild(headerButton);
 
 
-    document.getElementById("teamTabHeader-"+team.id).append(gameTabHeader);
+    document.getElementById("teamTabHeader-"+team.id).append(headerLi);
 }
 
 function doPick(elem, gameId, pick) {
