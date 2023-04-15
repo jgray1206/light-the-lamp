@@ -15,10 +15,9 @@ function loadLeaderboards() {
                 }, {});
               };
               picks = groupBy(picks, 'team')
-              for (const [key, value] of picks.entries()) {
-                console.log(key);
-                console.log(value);
-              };
+              Object.keys(picks).forEach(function(key) {
+                console.log('Key : ' + key + ', Value : ' + picks[key])
+              })
               createTableHeaderForTeam(team, index);
               var teamContentDiv = document.createElement("div");
               if (index == 0) {
