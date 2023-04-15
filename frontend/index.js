@@ -178,7 +178,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     }
 
     var row;
-    if (pick && pick.team != undefined) {
+    if (pick && pick.theTeam != undefined) {
         row = table.insertRow(0);
         row.className = "table-danger";
     } else {
