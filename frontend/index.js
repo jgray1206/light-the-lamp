@@ -30,7 +30,7 @@ function loadGames() {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
                         var index = 0;
-                        user.teams.forEach((team) => {
+                        user.teams?.forEach((team) => {
                             createTableHeaderForTeam(team, index);
                             var teamContentDiv = document.createElement("div");
                             if (index == 0) {
