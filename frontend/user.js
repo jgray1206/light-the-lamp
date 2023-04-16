@@ -34,7 +34,7 @@ function getUser() {
                         option.innerHTML = team.teamName;
                         var teamSelect = document.getElementById("teams");
                         teamSelect.append(option);
-                        if (user.teams.some((userTeam) => team.id == userTeam.id)) {
+                        if (user.teams?.some((userTeam) => team.id == userTeam.id) == true) {
                             teamSelect.options[index].selected = true;
                         }
                         index++;
