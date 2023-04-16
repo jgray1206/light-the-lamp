@@ -34,6 +34,9 @@ function loadLeaderboards() {
       if (this.readyState == 4) {
           if (this.status == 200) {
               var picks = JSON.parse(this.responseText);
+              if (picks.length == 0) {
+                document.getElementById("card-body").append("<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>");
+              }
               var groupBy = function(xs, key) {
                 return xs.reduce(function(rv, x) {
                   (rv[x[key]['id']] = rv[x[key]['id']] || []).push(x);
