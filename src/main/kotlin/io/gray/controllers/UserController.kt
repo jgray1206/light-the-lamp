@@ -68,8 +68,8 @@ open class UserController(
                     teams?.let { teams ->
                         user.teams?.let { userTeams ->
                             Flux.fromIterable(userTeams).filter { it.id !in teams }
-                                    .flatMap { println("weinhere?"); val output = userTeamRepository.findByUserIdAndTeamId(user.id!!, it.id!!); println(user.id.toString() + " " + it.id); output; }
-                                    .map { userTeamRepository.delete(it) }.collectList().thenMany(
+                                    .flatMap { userTeamRepository.findByUserIdAndTeamId(user.id!!, it.id!!) }
+                                    .flatMap { userTeamRepository.delete(it) }.thenMany(
                                             Flux.fromIterable(teams).filter { it !in userTeams.mapNotNull { userTeam -> userTeam.id } }
                                                     .map { UserTeam().apply { this.userId = user.id; this.teamId = it; } }
                                                     .flatMap { userTeamRepository.save(it) }
