@@ -14,6 +14,7 @@
 </head>
 <body class="text-center">
 <main class="form-signin">
+    <div class="card-body" id="card-body">
     <form onsubmit="return register()">
         <img class="mb-4" src="./logo.png" alt="" height="300">
         <h1 class="h3 mb-3 fw-normal"><b>Light The Lamp</b> - Register</h1>
@@ -23,8 +24,8 @@
             <input type="email" class="form-control" id="username" placeholder="name@example.com">
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Password">
+            <label for="password" class="form-label">Password</label>
         </div>
         <div class="mb-3">
             <label for="teams" class="form-label">Teams</label>
@@ -35,6 +36,7 @@
 
         <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Register</button>
     </form>
+    </div>
 </main>
 
 <script src="register.js"></script>
