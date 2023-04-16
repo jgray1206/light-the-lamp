@@ -22,4 +22,9 @@ open class UserRequest {
     @NotBlank
     @NotNull
     var teams: List<Long>? = null
+
+    @NotBlank
+    @NotNull
+    @Size(max = 50)
+    var displayName: String? = null
 }

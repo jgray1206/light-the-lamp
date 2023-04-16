@@ -52,13 +52,20 @@ open class UserController(
                             it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
                             it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
                             it.confirmed = false
-                            it.teams = userRequest.teams?.map { Team().also { team -> team.id = it } }//todo validate this
+                            it.displayName = userRequest.displayName
                             it.confirmationUuid = UUID.randomUUID().toString()
                         }).flatMap { user ->
                             Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${user.confirmationUuid}") }
                                     .thenReturn(user)
                         }
-                ).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+                ).flatMapMany { user ->
+                    Flux.fromIterable(userRequest.teams ?: listOf()).flatMap { team ->
+                        userTeamRepository.save(
+                                UserTeam().also {
+                                    it.userId = user.id; it.teamId = team
+                                })
+                    }
+                }.then(userRepository.findByEmail(userRequest.email!!)).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
