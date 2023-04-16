@@ -38,7 +38,7 @@ function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   const teams = document.getElementById('teams').selectedOptions;
-  var teamValues = Array.from(teamOptions).map(({ value }) => value);
+  var teamValues = Array.from(teams).map(({ value }) => value);
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "/api/user");
