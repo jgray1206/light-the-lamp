@@ -31,7 +31,7 @@ function loadGames() {
                         console.log(user);
                         var index = 0;
                         if (user.teams == null) {
-                            document.getElementById("root-div").innerHTML = "<h1>You have not joined any teams yet!</h1><h3>Please check your profile settings.</h3>";
+                            document.getElementById("root-div").innerHTML = "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
                         }
                         user.teams?.forEach((team) => {
                             createTableHeaderForTeam(team, index);
