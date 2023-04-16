@@ -37,6 +37,7 @@ teams();
 function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  const displayName = document.getElementById("displayname").value;
   const teams = document.getElementById('teams').selectedOptions;
   var teamValues = Array.from(teams).map(({ value }) => value);
 
@@ -47,7 +48,8 @@ function register() {
     JSON.stringify({
       email: username,
       password: password,
-      teams: teamValues
+      teams: teamValues,
+      displayName: displayName
     })
   );
   xhttp.onreadystatechange = function () {

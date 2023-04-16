@@ -19,12 +19,20 @@
         <h1 class="h3 mb-3 fw-normal"><b>Light The Lamp</b> - Register</h1>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="username" placeholder="name@example.com">
+            <input type="email" required class="form-control" id="username" placeholder="name@example.com">
             <label for="username" class="form-label">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" required class="form-control" id="password" placeholder="Password">
             <label for="password" class="form-label">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password">
+            <label for="confirm-password" class="form-label">Confirm Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" required id="displayname" placeholder="Firstname Lastname">
+            <label for="displayname" class="form-label">Display Name</label>
         </div>
         <div class="form-select">
             <select class="form-select" id="teams" multiple>
