@@ -14,7 +14,7 @@ function teams() {
             const options = JSON.parse(this.responseText);
             console.log(options);
             options.sort(function(x,y){ return x.teamName == "Detroit Red Wings" ? -1 : y.teamName == "Detroit Red Wings" ? 1 : 0; });
-            const batchTrack = document.getElementById("team");
+            const batchTrack = document.getElementById("teams");
             for (option of options) {
                 const newOption = document.createElement("option");
                 newOption.value = option.id;
@@ -37,8 +37,7 @@ teams();
 function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  const e = document.getElementById("team");
-  const teamId = parseInt(e.options[e.selectedIndex].value);
+  const teams = document.getElementById('teams').selectedOptions;
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "/api/user");
@@ -47,7 +46,7 @@ function register() {
     JSON.stringify({
       email: username,
       password: password,
-      teamId: teamId
+      teams: teams
     })
   );
   xhttp.onreadystatechange = function () {
