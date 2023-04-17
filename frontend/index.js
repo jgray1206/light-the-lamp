@@ -113,7 +113,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     } else {
         tableDiv.setAttribute("class", "table-responsive tab-pane fade ");
     }
-    tableDiv.setAttribute("id", "game"+game.id);
+    tableDiv.setAttribute("id", "game"+game.id+team.id);
     tableDiv.setAttribute("role", "tabpanel");
     tableDiv.setAttribute("aria-labelledby", game.id + "-tab");
     var table = document.createElement("table");  //makes a table element for the page
@@ -243,9 +243,9 @@ function createTableHeaderForGame(game, pick, user, gameString, activeGame, team
     headerButton.setAttribute("class", classString);
     headerButton.setAttribute("role", "tab");
     headerButton.setAttribute("data-bs-toggle", "tab");
-    headerButton.setAttribute("data-bs-target", "#game"+game.id);
+    headerButton.setAttribute("data-bs-target", "#game"+game.id+team.id);
     headerButton.setAttribute("id", "tab" + game.id);
-    headerButton.setAttribute("aria-controls", "game"+game.id);
+    headerButton.setAttribute("aria-controls", "game"+game.id+team.id);
     headerButton.innerHTML = gameString;
 
     headerLi.appendChild(headerButton);
