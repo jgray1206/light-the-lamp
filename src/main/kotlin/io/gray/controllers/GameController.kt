@@ -30,10 +30,7 @@ class GameController(
         return userRepository.findByEmail(principal.name).flatMapIterable { user ->
             user.teams
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeam(team, team).map { game ->
-                game.players = game.players?.filter { player -> player.team?.id == team.id }
-                game
-            }
+            gameRepository.findByHomeTeamOrAwayTeam(team, team)
         }.distinct { it.id }
     }
 }
