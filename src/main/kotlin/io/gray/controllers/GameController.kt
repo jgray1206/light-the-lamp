@@ -34,6 +34,6 @@ class GameController(
                 game.players = game.players?.filter { player -> player.team?.id == team.id }
                 game
             }
-        }
+        }.distinct { it.id }
     }
 }
