@@ -123,7 +123,8 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     caption.innerHTML = gameStringLong;
     caption.setAttribute("class","caption-top");
 
-    var nonGoalies = game.players.filter(player => player.position != "Goalie")
+    var players = game.players.filter(player => player.team.id == team.id);
+    var nonGoalies = players.filter(player => player.position != "Goalie")
         .sort((a, b) => (a.name.split(" ").reverse().join(",") > b.name.split(" ").reverse().join(",")) ? 1 : -1)
         .sort((a, b) => ((pick && pick.gamePlayer && pick.gamePlayer.id.playerId == a.id.playerId) ? -1 : 1));
 
@@ -161,7 +162,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
         }
     }
 
-    var goalies = game.players.filter(player => player.position == "Goalie");
+    var goalies = players.filter(player => player.position == "Goalie");
     var row;
     if (pick && pick.goalies != undefined) {
         row = table.insertRow(0);
