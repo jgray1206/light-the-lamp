@@ -28,6 +28,10 @@ class PickController(
             pickRepository.findAllByTeam(it).map { pick ->
                 pick.user?.password = null
                 pick.user?.ipAddress = null
+                pick.user?.confirmationUuid = null
+                pick.user?.profilePic = byteArrayOf()
+                pick.user?.attempts = null
+                pick.user?.locked = null
                 pick
             }
         }
@@ -74,7 +78,12 @@ class PickController(
                         }
                     })
             )
-        }.map { it.user?.password = null; it.user?.ipAddress = null; it }
+        }.map {
+            it.user?.password = null
+            it.user?.ipAddress = null;
+            it.user?.profilePic = byteArrayOf();
+            it
+        }
     }
 
 }
