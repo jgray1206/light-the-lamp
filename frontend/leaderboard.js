@@ -34,6 +34,7 @@ function loadLeaderboards() {
       if (this.readyState == 4) {
           if (this.status == 200) {
               var picks = JSON.parse(this.responseText);
+              console.log(picks);
               if (picks.length == 0) {
                 document.getElementById("card-body").append("You have not joined any teams yet! Please check your profile settings.");
               }
