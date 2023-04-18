@@ -152,7 +152,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
             } else if (nonGoalies[i].position == "Forward") {
                 row.insertCell(2).innerHTML = "2/goal, 1/assist, *2/shorty";
             }
-            row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\''+nonGoalies[i].name+'\')">Pick</button>'
+            row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\''+nonGoalies[i].name+'\','+team.id+')">Pick</button>'
         } else {
             if (nonGoalies[i].position == "Defenseman") {
                 row.insertCell(2).innerHTML = ((nonGoalies[i].goals || 0)*3) + (nonGoalies[i].assists || 0) + ((nonGoalies[i].shortGoals || 0)*3) + (nonGoalies[i].shortAssists || 0);
@@ -175,7 +175,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     row.insertCell(1).innerHTML = "Goalie";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
-        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\'goalies\')">Pick</button>'
+        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onclick="doPick(this,'+game.id+',\'goalies\','+team.id+')">Pick</button>'
     } else {
         var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
         if (goals > 1) {
@@ -199,7 +199,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     row.insertCell(1).innerHTML = "Team";
     if (pickEnabled) {
         row.insertCell(2).innerHTML = "5/5+ goal game, 4/4 goal game";
-        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick(this,'+game.id+',\'team\')">Pick</button>';
+        row.insertCell(3).innerHTML = '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick(this,'+game.id+',\'team\','+team.id+')">Pick</button>';
     } else {
         var goals = teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
         if ((goals || 0) >= 5) {
@@ -282,7 +282,7 @@ function createTableHeaderForTeam(team, index) {
     document.getElementById("teamsTabHeader").append(headerLi);
 }
 
-function doPick(elem, gameId, pick) {
+function doPick(elem, gameId, pick, teamId) {
     var message = ""
     if (elem.parentNode.parentNode.classList.contains("table-warning")) {
         message = pick + " had no time-on-ice the previous game! Are you sure you want to pick them? You can't change a pick once locked in!";
@@ -298,7 +298,7 @@ function doPick(elem, gameId, pick) {
     }).then((result) => {
         if (result['isConfirmed']) {
             const xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick);
+            xhttp.open("POST", "/api/pick/user?gameId="+gameId+"&pick="+pick+"&teamId="+teamId);
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
             xhttp.send();

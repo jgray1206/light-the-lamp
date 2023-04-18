@@ -1,6 +1,7 @@
 package io.gray.controllers
 
 import io.gray.model.Pick
+import io.gray.model.Team
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
@@ -43,10 +44,11 @@ class PickController(
     }
 
     @Post("/user")
-    fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, principal: Principal): Mono<Pick> {
+    fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
             val user = tuple.t1
             val game = tuple.t2
+            val team = Team().apply { this.id = teamId }
 
             check(user.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
                 "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
@@ -56,9 +58,10 @@ class PickController(
                 "can't submit pick on game that has already started, you little silly billy"
             }
 
-            pickRepository.findByGameAndUser(game, user).switchIfEmpty(
+            pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
                     pickRepository.save(Pick().also { pickEntity ->
                         pickEntity.game = game
+                        pickEntity.team = team
                         pickEntity.user = user
                         if (pick == "goalies") {
                             pickEntity.goalies = true
