@@ -7,7 +7,7 @@ function loadGames() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
       if (this.status == 200) {
-        const games = JSON.parse(this.responseText);
+        const games = JSON.parse(this.responseText).sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
         console.log(games);
         const xhttp2 = new XMLHttpRequest();
         xhttp2.open("GET", "/api/pick/user");
@@ -33,10 +33,11 @@ function loadGames() {
                         if (user.teams == null) {
                             document.getElementById("root-div").innerHTML = "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
                         }
+                        var activeTeam = user.teams?.find((team) => { return team.id == games[0].awayTeam.id || team.id == games[0].homeTeam.id});
                         user.teams?.forEach((team) => {
                             createTableHeaderForTeam(team, index);
                             var teamContentDiv = document.createElement("div");
-                            if (index == 0) {
+                            if (team == activeTeam) {
                                teamContentDiv.setAttribute("class", "tab-pane fade active show");
                             } else {
                                teamContentDiv.setAttribute("class", "tab-pane fade");
@@ -56,11 +57,11 @@ function loadGames() {
                             teamContentDiv.append(teamTabHeader);
                             teamContentDiv.append(gameTabContent);
                             document.getElementById("teamsTabContent").append(teamContentDiv);
-                            var sortedGames = games.filter((game) => { return game.awayTeam.id == team.id || game.homeTeam.id == team.id})
-                                .sort(function(a, b) { return new Date(b.date[0], b.date[1]-1, b.date[2], b.date[3], b.date[4]) - new Date(a.date[0], a.date[1]-1, a.date[2], a.date[3], a.date[4])});
-                            var activeGame = Array.from(sortedGames).reverse().find((game) => { return game.gameState == "Live" || game.gameState == "Preview" }) || sortedGames[0];
+                            var teamGames = games.filter((game) => { return game.awayTeam.id == team.id || game.homeTeam.id == team.id});
+                            var reversedGames = Array.from(teamGames).reverse();
+                            var activeGame = reversedGames.find((game) => { return game.gameState == "Live" }) || reversedGames.find((game) => { return game.gameState == "Preview" }) || teamGames[0];
                             sortedGames.forEach((game) => {
-                                createTable(team, game, picks, user, activeGame, sortedGames)
+                                createTable(team, game, picks, user, activeGame, teamGames)
                             });
                             index++;
                         });
