@@ -29,13 +29,12 @@ function loadGames() {
                       if (this.status == 200) {
                         const user = JSON.parse(this.responseText);
                         console.log(user);
-                        var index = 0;
                         if (user.teams == null) {
                             document.getElementById("root-div").innerHTML = "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
                         }
                         var activeTeam = user.teams?.find((team) => { return team.id == games[0].awayTeam.id || team.id == games[0].homeTeam.id});
                         user.teams?.forEach((team) => {
-                            createTableHeaderForTeam(team, index);
+                            createTableHeaderForTeam(team, activeTeam);
                             var teamContentDiv = document.createElement("div");
                             if (team == activeTeam) {
                                teamContentDiv.setAttribute("class", "tab-pane fade active show");
@@ -63,7 +62,6 @@ function loadGames() {
                             teamGames.forEach((game) => {
                                 createTable(team, game, picks, user, activeGame, teamGames)
                             });
-                            index++;
                         });
                       } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
@@ -256,14 +254,14 @@ function createTableHeaderForGame(game, pick, user, gameString, activeGame, team
     document.getElementById("teamTabHeader-"+team.id).append(headerLi);
 }
 
-function createTableHeaderForTeam(team, index) {
+function createTableHeaderForTeam(team, activeTeam) {
     var headerLi = document.createElement("li");
     headerLi.setAttribute("class", "nav-item");
     headerLi.setAttribute("role", "presentation");
 
     var headerButton = document.createElement("button");
     var classString = "nav-link text-secondary";
-    if (index == 0) {
+    if (team == activeTeam) {
         headerButton.setAttribute("aria-selected", "true");
         classString += " active";
     } else {
