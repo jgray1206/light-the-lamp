@@ -60,7 +60,7 @@ function loadGames() {
                             var teamGames = games.filter((game) => { return game.awayTeam.id == team.id || game.homeTeam.id == team.id});
                             var reversedGames = Array.from(teamGames).reverse();
                             var activeGame = reversedGames.find((game) => { return game.gameState == "Live" }) || reversedGames.find((game) => { return game.gameState == "Preview" }) || teamGames[0];
-                            sortedGames.forEach((game) => {
+                            teamGames.forEach((game) => {
                                 createTable(team, game, picks, user, activeGame, teamGames)
                             });
                             index++;
