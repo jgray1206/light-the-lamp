@@ -47,6 +47,13 @@ class PickController(
         return userRepository.findByEmail(principal.name).flatMapMany { pickRepository.findAllByUser(it) }
     }
 
+    @Get("/friends")
+    fun getPicksByUserFriends(principal: Principal): Flux<Pick> {
+        return userRepository.findByEmail(principal.name)
+                .flatMapIterable { it.friends }
+                .flatMap { pickRepository.findAllByUser(it) }
+    }
+
     @Post("/user")
     fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
@@ -74,14 +81,14 @@ class PickController(
                         } else if (game.players?.firstOrNull { it.name == pick } != null) {
                             pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
                         } else {
-                            error("not valid pick")
+                            error("not a valid pick")
                         }
                     })
             )
         }.map {
             it.user?.password = null
-            it.user?.ipAddress = null;
-            it.user?.profilePic = byteArrayOf();
+            it.user?.ipAddress = null
+            it.user?.profilePic = byteArrayOf()
             it
         }
     }
