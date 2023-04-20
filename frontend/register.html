@@ -15,9 +15,7 @@
 <body class="text-center">
 <main class="form-signin">
     <form onsubmit="return register()" oninput='pass2.setCustomValidity(pass2.value != pass1.value ? "Passwords do not match." : "")'>
-        <img class="mb-4" src="./logo.png" alt="" height="300">
-        <h1 class="h3 mb-3 fw-normal"><b>Light The Lamp</b> - Register</h1>
-
+        <img class="mb-4" src="./logo.png" alt="" height="250">
         <div class="form-floating">
             <input required type="email" class="form-control" id="username" placeholder="name@example.com">
             <label for="username" class="form-label">Email address</label>
@@ -35,13 +33,13 @@
             <label for="displayname" class="form-label">Display Name</label>
         </div>
         <div class="form-select">
+            <label for="teams" class="form-label">Teams</label>
             <select class="form-select" id="teams" multiple>
 
             </select>
-            <label for="teams" class="form-label">Teams</label>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Register</button>
+        <button class="w-100 btn btn-lg btn-danger mt-3" type="submit">Register</button>
     </form>
 </main>
 
