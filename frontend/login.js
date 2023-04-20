@@ -66,15 +66,7 @@ function login() {
       console.log(objects);
       if (objects["access_token"]) {
         localStorage.setItem("jwt", objects["access_token"]);
-        Swal.fire({
-          text: objects["message"],
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "./index.html";
-          }
-        });
+        window.location.href = "./index.html";
       } else {
         Swal.fire({
           text: objects["message"],
