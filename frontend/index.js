@@ -85,17 +85,16 @@ function loadGames() {
 
 function createTable(team, game, picks, user, activeGame, sortedGames) {
     var teamIsAwayOrHome = game.awayTeam.id == team.id ? "away" : "home";
-    var gameDate = new Date(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]);
-    var date = new Date();
-    var curDateUtc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                                     date.getUTCDate(), date.getUTCHours(),
-                                     date.getUTCMinutes(), date.getUTCSeconds());
-    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && gameDate > curDateUtc;
+    var gameDate = new Date(Date.UTC(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]));
+    var curDate =  new Date();
+    console.log(gameDate);
+    console.log(curDate);
+    var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && gameDate > curDate;
     var pick = picks.find(pick => pick.game.id == game.id)
     var headers = ["Player", "Position", "Points"];
     if (pickEnabled) { headers.push("Pick"); }
 
-    var gameStringShort = game.date[1] + "-" + game.date[2] + "-" + game.date[0] + " ";
+    var gameStringShort = gameDate.getMonth()+1 + "-" + gameDate.getDate() + "-" + gameDate.getFullYear() + " ";
     if (teamIsAwayOrHome == "away") {
         gameStringShort += "<br/>@ " + game.homeTeam.teamName;
     } else {
