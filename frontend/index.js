@@ -87,8 +87,6 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     var teamIsAwayOrHome = game.awayTeam.id == team.id ? "away" : "home";
     var gameDate = new Date(Date.UTC(game.date[0], game.date[1]-1, game.date[2], game.date[3], game.date[4]));
     var curDate =  new Date();
-    console.log(gameDate);
-    console.log(curDate);
     var pickEnabled = picks.find(pick => pick.game.id == game.id) == undefined && gameDate > curDate;
     var pick = picks.find(pick => pick.game.id == game.id)
     var headers = ["Player", "Position", "Points"];
