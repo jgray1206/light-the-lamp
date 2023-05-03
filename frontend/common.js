@@ -16,8 +16,8 @@ function toLeaderboard() {
   window.location.href = "./leaderboard.html";
 }
 
-function toUser() {
-  window.location.href = "./user.html";
+function toProfile() {
+  window.location.href = "./profile.html";
 }
 
 function toFriends() {
