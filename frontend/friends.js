@@ -95,7 +95,9 @@ if (getURLParameter("addFriend")) {
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
-          if (this.status == 401 || this.status == 403) {
+          if (this.status == 200) {
+            window.location.href = "./friends.html";
+          } else if (this.status == 401 || this.status == 403) {
             localStorage.removeItem("jwt");
             window.location.href = "./login.html";
           } else if (this.status >= 500) {
