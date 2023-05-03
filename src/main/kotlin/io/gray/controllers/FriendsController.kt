@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import reactor.core.publisher.Mono
+import java.lang.IllegalStateException
 import java.security.Principal
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -28,9 +29,13 @@ class FriendsController(
     @Post("/{confirmationUuid}")
     fun addFriend(@PathVariable confirmationUuid: String, principal: Principal): Mono<UserUser> {
         return userRepository.findByEmail(principal.name).zipWith(userRepository.findOneByConfirmationUuidAndConfirmed(confirmationUuid, true)).flatMap { userTuple ->
-            friendRepository.findOneByToUserAndFromUser(userTuple.t1.id!!, userTuple.t2.id!!).switchIfEmpty(
-                    friendRepository.findOneByToUserAndFromUser(userTuple.t2.id!!, userTuple.t1.id!!)
-            )
+            if (userTuple.t1.confirmationUuid == userTuple.t2.confirmationUuid) {
+                Mono.error { IllegalStateException("You can't add yourself as a friend you big ol' silly head!") }
+            } else {
+                friendRepository.findOneByToUserAndFromUser(userTuple.t1.id!!, userTuple.t2.id!!).switchIfEmpty(
+                        friendRepository.findOneByToUserAndFromUser(userTuple.t2.id!!, userTuple.t1.id!!)
+                )
+            }
         }
     }
 
