@@ -1,6 +1,6 @@
 function loadFriends() {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "/user");
+    xhttp.open("GET", "/api/user");
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send();
@@ -46,7 +46,7 @@ function loadFriends() {
 
 function removeFriend(confirmationUuid) {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", "/friends/" + confirmationUuid);
+    xhttp.open("DELETE", "/api/friends/" + confirmationUuid);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send();
