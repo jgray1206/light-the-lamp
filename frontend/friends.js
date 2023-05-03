@@ -18,6 +18,9 @@ function loadFriends() {
                        tr = document.createElement("tr");
                        picTd = document.createElement("td");
                        picTdImg = document.createElement("img");
+                       picTdImg.width = "150";
+                       picTdImg.height = "150";
+                       picTdImg.className = "rounded-circle img-thumbnail";
                        picTdImg.src = "data:image/png;base64," + friend.profilePic;
                        picTd.appendChild(picTdImg);
                        tr.appendChild(picTd);
@@ -30,7 +33,7 @@ function loadFriends() {
                        removeButton = document.createElement("button");
                        removeButton.type = "button";
                        removeButton.className = "btn btn-danger";
-                       removeButton.innerHtml = "Remove";
+                       removeButton.textContext = "Remove";
                        removeButton.onclick = "removeFriend(\""+friend.confirmationUuid+"\");";
 
                        tr.appendChild(removeButton);
