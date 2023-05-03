@@ -112,4 +112,9 @@ if (getURLParameter("addFriend")) {
     };
 }
 
+
+var tooltip = new bootstrap.Tooltip(document.getElementById("copy-button"), {trigger: "click"});
+document.getElementById("copy-button").addEventListener('click', () => {
+    setTimeout(() => tooltip.hide(), 1500)
+});
 loadFriends();

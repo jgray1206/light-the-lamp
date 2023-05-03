@@ -39,7 +39,7 @@
         <div class="card-body" id="card-body">
             <div class="input-group">
                 <input type="text" id="friend-link" aria-describedby="friends-help" readonly>
-                <button onclick="copyLink()" class="btn btn-success btn-sm">Copy</button>
+                <button id="copy-button" onclick="copyLink()" class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Copied!">Copy</button>
             </div>
             <div id="friends-help" class="form-text">Send this link to your friends and have them click it to add you.</div>
             <table class="table table-hover">
@@ -58,9 +58,9 @@
     </div>
 </div>
 
-<script src="common.js"></script>
-<script src="friends.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="common.js"></script>
+<script src="friends.js?v=1"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
