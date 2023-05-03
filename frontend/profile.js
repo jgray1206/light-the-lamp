@@ -79,7 +79,7 @@ document.forms.userUpdate.addEventListener('submit', e => {
                 confirmButtonText: "OK",
               }).then((result) => {
                 if (result.isConfirmed) {
-                  window.location.href = "./user.html";
+                  window.location.href = "./profile.html";
                 }
               });
             } else if (this.status == 401 || this.status == 403) {
