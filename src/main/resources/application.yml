@@ -45,8 +45,8 @@ openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
 logger:
   levels:
     io.r2dbc:
-      postgresql: INFO
-      postgresql.client: INFO #keep this one at info
+      postgresql: DEBUG
+      postgresql.client: DEBUG #keep this one at info
 ---
 resilience4j:
   ratelimiter:
