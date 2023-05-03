@@ -34,7 +34,7 @@ function loadFriends() {
                        removeButton.type = "button";
                        removeButton.className = "btn btn-danger";
                        removeButton.innerHTML = "Remove";
-                       removeButton.onclick = "removeFriend(\""+friend.confirmationUuid+"\");";
+                       removeButton.onclick = function() { removeFriend(friend.confirmationUuid); };
                        removeButtonTd.appendChild(removeButton);
                        tr.appendChild(removeButtonTd);
 
