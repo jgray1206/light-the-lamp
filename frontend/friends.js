@@ -39,8 +39,8 @@ function loadFriends() {
                   });
               }
           } else if (this.status == 401 || this.status == 403) {
-              localStorage.removeItem("jwt");
-              window.location.href = "./login.html";
+              //localStorage.removeItem("jwt");
+              //window.location.href = "./login.html";
           }
         }
       };
@@ -65,11 +65,13 @@ function removeFriend(confirmationUuid) {
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send();
     xhttp.onreadystatechange = function () {
-         if (this.status == 200) {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
               window.location.href = "./friends.html";
-          } else if (this.status == 401 || this.status == 403) {
+            } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
               window.location.href = "./login.html";
+            }
          }
     };
 }
@@ -82,7 +84,7 @@ if (getURLParameter("addFriend")) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
           if (this.status == 401 || this.status == 403) {
-            localStorage.removeItem("jwt");
+            //localStorage.removeItem("jwt");
             //window.location.href = "./login.html";
           } else if (this.status > 500) {
             var response = JSON.parse(this.responseText);
