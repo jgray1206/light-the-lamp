@@ -87,7 +87,7 @@ if (getURLParameter("addFriend")) {
           if (this.status == 401 || this.status == 403) {
             localStorage.removeItem("jwt");
             window.location.href = "./login.html";
-          } else if (this.status > 500) {
+          } else if (this.status >= 500) {
             var response = JSON.parse(this.responseText);
             Swal.fire({
                 text: response["_embedded"]["errors"][0]["message"] || response["message"],
