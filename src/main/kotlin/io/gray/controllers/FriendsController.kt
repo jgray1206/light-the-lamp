@@ -34,6 +34,11 @@ class FriendsController(
             } else {
                 friendRepository.findOneByToUserAndFromUser(userTuple.t1.id!!, userTuple.t2.id!!).switchIfEmpty(
                         friendRepository.findOneByToUserAndFromUser(userTuple.t2.id!!, userTuple.t1.id!!)
+                ).switchIfEmpty(
+                        friendRepository.save(UserUser().also {
+                            it.toUser = userTuple.t1.id
+                            it.fromUser = userTuple.t2.id
+                        })
                 )
             }
         }
