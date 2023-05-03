@@ -8,6 +8,7 @@ function loadFriends() {
       if (this.readyState == 4) {
           if (this.status == 200) {
               var user = JSON.parse(this.responseText);
+              document.getElementById("friend-link").value = user.confirmationUuid;
               console.log(user);
               if (user.friends == undefined || user.friends.length == 0) {
                   document.getElementById("card-body").append("You don't have any friends yet! Send your link to your friends and have them click it.");
@@ -45,6 +46,18 @@ function loadFriends() {
       };
 }
 
+function copyLink() {
+  // Get the text field
+  var copyText = document.getElementById("friend-link");
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText("Add me on the Light the Lamp! https://www.lightthelamp.dev/friends.html?addFriend="+copyText.value);
+}
+
 function removeFriend(confirmationUuid) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/api/friends/" + confirmationUuid);
@@ -57,7 +70,29 @@ function removeFriend(confirmationUuid) {
           } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
               window.location.href = "./login.html";
+         }
+    };
+}
+
+if (getURLParameter("addFriend")) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/friends/" + getURLParameter("addFriend"));
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          if (this.status == 401 || this.status == 403) {
+            localStorage.removeItem("jwt");
+            window.location.href = "./login.html";
+          } else if (this.status > 500) {
+            var response = JSON.parse(this.responseText);
+            Swal.fire({
+                text: response["_embedded"]["errors"][0]["message"] || response["message"],
+                icon: "error",
+                confirmButtonText: "OK",
+              });
           }
+        }
     };
 }
 

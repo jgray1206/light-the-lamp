@@ -7,23 +7,9 @@ document.getElementById("register").onclick = function () {
     location.href = "./register.html";
 };
 
-function GetURLParameter(sParam)
-{
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam)
-        {
-            return sParameterName[1];
-        }
-    }
-}
-
-if (GetURLParameter("confirmation")) {
+if (getURLParameter("confirmation")) {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "/api/user/confirm/" + GetURLParameter("confirmation"));
+    xhttp.open("GET", "/api/user/confirm/" + getURLParameter("confirmation"));
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send();
     xhttp.onreadystatechange = function () {
