@@ -44,6 +44,7 @@ open class UserController(
                 it.friends = it.friends?.map { friend ->
                     friend.apply {
                         this.password = null
+                        this.email = null
                         this.ipAddress = null
                     }
                 }

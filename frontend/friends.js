@@ -21,12 +21,20 @@ function loadFriends() {
                        picTdImg.width = "150";
                        picTdImg.height = "150";
                        picTdImg.className = "img-thumbnail";
-                       picTdImg.src = "data:image/png;base64," + friend.profilePic;
+                       if (friend.profilePic) {
+                         picTdImg.src = "data:image/png;base64," + friend.profilePic;
+                       } else {
+                         picTdImg.src = "/shrug.png";
+                       }
                        picTd.appendChild(picTdImg);
                        tr.appendChild(picTd);
 
                        nameTd = document.createElement("td");
-                       nameTd.innerHTML = friend.displayName;
+                       if (friend.displayName) {
+                          nameTd.innerHTML = friend.displayName;
+                       } else {
+                          nameTd.innerHTML = "No display name:(";
+                       }
                        tr.appendChild(nameTd);
 
                        removeButtonTd = document.createElement("td");
