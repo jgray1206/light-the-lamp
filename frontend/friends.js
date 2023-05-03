@@ -8,7 +8,7 @@ function loadFriends() {
       if (this.readyState == 4) {
           if (this.status == 200) {
               var user = JSON.parse(this.responseText);
-              document.getElementById("friend-link").value = user.confirmationUuid;
+              document.getElementById("friend-link").value = "https://www.lightthelamp.dev/friends.html?addFriend="+user.confirmationUuid;
               console.log(user);
               if (user.friends == undefined || user.friends.length == 0) {
                   document.getElementById("card-body").append("You don't have any friends yet! Send your link to your friends and have them click it.");
@@ -55,7 +55,7 @@ function copyLink() {
   copyText.setSelectionRange(0, 99999); // For mobile devices
 
    // Copy the text inside the text field
-  navigator.clipboard.writeText("Add me on the Light the Lamp! https://www.lightthelamp.dev/friends.html?addFriend="+copyText.value);
+  navigator.clipboard.writeText("Add me on the Light the Lamp! "+copyText.value);
 }
 
 function removeFriend(confirmationUuid) {
