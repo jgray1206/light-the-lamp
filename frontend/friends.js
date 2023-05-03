@@ -39,8 +39,8 @@ function loadFriends() {
                   });
               }
           } else if (this.status == 401 || this.status == 403) {
-              //localStorage.removeItem("jwt");
-              //window.location.href = "./login.html";
+              localStorage.removeItem("jwt");
+              window.location.href = "./login.html";
           }
         }
       };
@@ -80,12 +80,13 @@ if (getURLParameter("addFriend")) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/api/friends/" + getURLParameter("addFriend"));
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
           if (this.status == 401 || this.status == 403) {
-            //localStorage.removeItem("jwt");
-            //window.location.href = "./login.html";
+            localStorage.removeItem("jwt");
+            window.location.href = "./login.html";
           } else if (this.status > 500) {
             var response = JSON.parse(this.responseText);
             Swal.fire({
