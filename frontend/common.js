@@ -19,3 +19,7 @@ function toLeaderboard() {
 function toUser() {
   window.location.href = "./user.html";
 }
+
+function toFriends() {
+  window.location.href = "./friends.html";
+}
