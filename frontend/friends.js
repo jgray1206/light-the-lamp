@@ -17,7 +17,7 @@ function loadFriends() {
                   user.friends.forEach(function (friend) {
                        tr = document.createElement("tr");
                        picTd = document.createElement("td");
-                       picTdImd = document.createElement("imd");
+                       picTdImg = document.createElement("img");
                        picTdImg.src = "data:image/png;base64," + friend.profilePic;
                        picTd.appendChild(picTdImg);
                        tr.appendChild(picTd);
