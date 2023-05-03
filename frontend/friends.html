@@ -10,7 +10,6 @@
 
     <title>Light The Lamp</title>
 
-    <link href="index.css" rel="stylesheet">
     <link href="common.css" rel="stylesheet">
 </head>
 <body>
@@ -23,9 +22,9 @@
                     Menu
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" onclick="toPicks()">Picks</a></li>
                     <li><a class="dropdown-item" onclick="toLeaderboard()">Leaderboard</a></li>
                     <li><a class="dropdown-item" onclick="toUser()">Profile</a></li>
-                    <li><a class="dropdown-item" onclick="toFriends()">Friends</a></li>
                     <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
                 </ul>
             </li>
@@ -33,21 +32,28 @@
     </div>
 </nav>
 
-<div class="container-fluid" id="root-div">
+<div class="container-fluid p-3">
     <div class="card">
         <div class="card-body" id="card-body">
-            <ul class="nav nav-tabs text-nowrap flex-nowrap" style="overflow-x: auto; overflow-y: hidden;" id="teamsTabHeader" role="tablist">
+            <p class="card-text" id="friends-label">Friends</p>
+            <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Picture</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody id="friends-table">
 
-            </ul>
-            <div class="tab-content" id="teamsTabContent">
-
-            </div>
+                    </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script src="common.js"></script>
-<script src="index.js?v=1"></script>
+<script src="friends.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
 </body>
