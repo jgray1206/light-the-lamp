@@ -37,7 +37,18 @@ open class UserController(
 
     @Get
     fun get(principal: Principal): Mono<User> {
-        return userRepository.findByEmail(principal.name).map { it.apply { it.password = null; it.ipAddress = null; } }
+        return userRepository.findByEmail(principal.name).map {
+            it.apply {
+                it.password = null
+                it.ipAddress = null
+                it.friends = it.friends?.map { friend ->
+                    friend.apply {
+                        it.password = null
+                        it.ipAddress = null
+                    }
+                }
+            }
+        }
     }
 
     @Post
