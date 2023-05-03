@@ -34,7 +34,7 @@ function loadFriends() {
                        removeButton.type = "button";
                        removeButton.className = "btn btn-danger";
                        removeButton.innerHTML = "Remove";
-                       removeButton.onclick = function() { removeFriend(friend.confirmationUuid); };
+                       removeButton.onclick = function() { removeFriend(friend.id); };
                        removeButtonTd.appendChild(removeButton);
                        tr.appendChild(removeButtonTd);
 
@@ -61,9 +61,9 @@ function copyLink() {
   navigator.clipboard.writeText("Add me on the Light the Lamp! "+copyText.value);
 }
 
-function removeFriend(confirmationUuid) {
+function removeFriend(id) {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", "/api/friends/" + confirmationUuid);
+    xhttp.open("DELETE", "/api/friends/" + id);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
     xhttp.send();

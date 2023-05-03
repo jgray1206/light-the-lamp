@@ -43,8 +43,8 @@ open class UserController(
                 it.ipAddress = null
                 it.friends = it.friends?.map { friend ->
                     friend.apply {
-                        it.password = null
-                        it.ipAddress = null
+                        this.password = null
+                        this.ipAddress = null
                     }
                 }
             }
