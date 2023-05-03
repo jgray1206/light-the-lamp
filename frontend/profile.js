@@ -92,6 +92,7 @@ document.forms.userUpdate.addEventListener('submit', e => {
                 confirmButtonText: "OK",
               });
            } else if (this.status == 400) {
+             const objects = JSON.parse(this.responseText);
              Swal.fire({
                text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
                icon: "error",
