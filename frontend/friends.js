@@ -21,11 +21,7 @@ function loadFriends() {
                        picTdImg.width = "150";
                        picTdImg.height = "150";
                        picTdImg.className = "img-thumbnail";
-                       if (friend.profilePic) {
-                         picTdImg.src = "data:image/png;base64," + friend.profilePic;
-                       } else {
-                         picTdImg.src = "/shrug.png";
-                       }
+                       getPic(friend.id, picTdImg);
                        picTd.appendChild(picTdImg);
                        tr.appendChild(picTd);
 
@@ -82,6 +78,26 @@ function removeFriend(id) {
             } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
               window.location.href = "./login.html";
+            }
+         }
+    };
+}
+
+function getPic(id, picTdImg) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/api/user/" + id + "/pic");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+              picTdImg.src = "data:image/png;base64," + this.responseText;
+            } else if (this.status == 401 || this.status == 403) {
+              localStorage.removeItem("jwt");
+              window.location.href = "./login.html";
+            } else {
+              picTdImg.src = "/shrug.png";
             }
          }
     };
