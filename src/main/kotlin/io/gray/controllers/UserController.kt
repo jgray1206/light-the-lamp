@@ -46,10 +46,16 @@ open class UserController(
                         this.password = null
                         this.email = null
                         this.ipAddress = null
+                        this.profilePic = byteArrayOf()
                     }
                 }
             }
         }
+    }
+
+    @Get("/{id}/pic")
+    fun getPic(id: Long): Mono<ByteArray> {
+        return userRepository.findById(id).map { it.profilePic }
     }
 
     @Post
@@ -95,7 +101,7 @@ open class UserController(
                                     ).then(Mono.just(user))
                         } ?: Mono.just(user)
                     } ?: Mono.just(user)
-                }.flatMap { user ->
+                }.flatMap { user ->3
                     userRepository.update(user.apply {
                         profilePic?.let { this.profilePic = it }
                         displayName?.let { this.displayName = it }
