@@ -54,8 +54,8 @@ open class UserController(
     }
 
     @Get("/{id}/pic")
-    fun getPic(id: Long): Mono<ByteArray> {
-        return userRepository.findById(id).map { it.profilePic }
+    fun getPic(id: Long): Mono<String> {
+        return userRepository.findById(id).map { String(Base64.getEncoder().encode(it.profilePic)) }
     }
 
     @Post
