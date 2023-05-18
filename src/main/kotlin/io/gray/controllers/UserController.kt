@@ -9,6 +9,7 @@ import io.gray.model.UserTeam
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import io.micronaut.http.server.util.DefaultHttpClientAddressResolver
@@ -54,8 +55,10 @@ open class UserController(
     }
 
     @Get("/{id}/pic")
-    fun getPic(id: Long): Mono<String> {
-        return userRepository.findById(id).map { String(Base64.getEncoder().encode(it.profilePic)) }
+    fun getPic(id: Long): Mono<HttpResponse<String>> {
+        return userRepository.findById(id).map {
+            HttpResponse.ok(String(Base64.getEncoder().encode(it.profilePic))).header("Cache-Control", "max-age=86400")
+        }
     }
 
     @Post
