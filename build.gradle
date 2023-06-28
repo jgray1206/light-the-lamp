@@ -3,7 +3,7 @@ plugins {
 	id("org.jetbrains.kotlin.kapt") version "1.7.21"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.7.21"
 	id("com.github.johnrengelman.shadow") version "7.1.2"
-	id("io.micronaut.application") version "3.7.4"
+	id("io.micronaut.application") version "3.7.10"
 	id("org.openapi.generator") version "6.4.0"
 	id("java")
 }
@@ -37,10 +37,8 @@ dependencies {
 	runtimeOnly("ch.qos.logback:logback-classic")
 
 	//db drivers
-	runtimeOnly("io.r2dbc:r2dbc-h2")
 	runtimeOnly("org.postgresql:r2dbc-postgresql")
 	runtimeOnly("org.postgresql:postgresql")
-	runtimeOnly("com.h2database:h2")
 
 	//for emailing
 	implementation 'com.sun.mail:jakarta.mail:2.0.1'
@@ -81,7 +79,7 @@ tasks {
 }
 graalvmNative.toolchainDetection = false
 micronaut {
-	version = "3.8.7"
+	version = "3.9.4"
 	runtime("netty")
 	testRuntime("junit5")
 	processing {

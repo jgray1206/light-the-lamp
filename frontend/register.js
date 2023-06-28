@@ -10,27 +10,33 @@ function teams() {
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-        if (this.status == 200) {
-            const options = JSON.parse(this.responseText);
-            console.log(options);
-            options.sort(function(x,y){ return x.teamName == "Detroit Red Wings" ? -1 : y.teamName == "Detroit Red Wings" ? 1 : 0; });
-            const batchTrack = document.getElementById("teams");
-            for (option of options) {
-                const newOption = document.createElement("option");
-                newOption.value = option.id;
-                newOption.text = option.teamName;
-                batchTrack.appendChild(newOption);
-            }
-        } else {
-            Swal.fire({
-              text: "Failed to retrieve teams, please refresh.",
-              icon: "error",
-              confirmButtonText: "OK",
-            });
+      if (this.status == 200) {
+        const options = JSON.parse(this.responseText);
+        console.log(options);
+        options.sort(function (x, y) {
+          return x.teamName == "Detroit Red Wings"
+            ? -1
+            : y.teamName == "Detroit Red Wings"
+            ? 1
+            : 0;
+        });
+        const batchTrack = document.getElementById("teams");
+        for (option of options) {
+          const newOption = document.createElement("option");
+          newOption.value = option.id;
+          newOption.text = option.teamName;
+          batchTrack.appendChild(newOption);
         }
+      } else {
+        Swal.fire({
+          text: "Failed to retrieve teams, please refresh.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
-  }
-};
+  };
+}
 
 teams();
 
@@ -38,7 +44,7 @@ function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   const displayName = document.getElementById("displayname").value;
-  const teams = document.getElementById('teams').selectedOptions;
+  const teams = document.getElementById("teams").selectedOptions;
   var teamValues = Array.from(teams).map(({ value }) => value);
 
   const xhttp = new XMLHttpRequest();
@@ -49,7 +55,7 @@ function register() {
       email: username,
       password: password,
       teams: teamValues,
-      displayName: displayName
+      displayName: displayName,
     })
   );
   xhttp.onreadystatechange = function () {
@@ -68,7 +74,8 @@ function register() {
         });
       } else {
         Swal.fire({
-          text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
+          text:
+            objects["_embedded"]["errors"][0]["message"] || objects["message"],
           icon: "error",
           confirmButtonText: "OK",
         });
