@@ -18,20 +18,23 @@ micronaut:
 flyway:
   datasources:
     flywaysrc:
+      enabled: true
       locations:
-        - classpath:local
+        - classpath:prod
+---
 datasources:
   flywaysrc:
-    url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
-    username: sa
-    password: ''
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: pass
+---
 r2dbc:
   datasources:
     default:
       dialect: H2
-      url: r2dbc:h2:file:///~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;SCHEMA=dbo;
-      username: sa
-      password: ''
+      url: r2dbc:postgresql://localhost:5432/postgres
+      username: postgres
+      password: pass
 ---
 logger:
   levels:

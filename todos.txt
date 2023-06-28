@@ -1,0 +1,5 @@
+1. create season dropdown, filter picks/games/leaders by season
+2. "show more" button on picks homepage, only display last 10(?) games by default
+3. show friends picks on picks homepages
+4. slim down data I return
+5. aggregate/parallelize networks calls
