@@ -1,6 +1,9 @@
 function loadGames() {
+  document.getElementById("teamsTabContent").innerHTML = '';
+  document.getElementById("teamsTabHeader").innerHTML = '';
+  var seasonDropdown = document.getElementById("season");
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/game/user");
+  xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();
@@ -21,7 +24,7 @@ function loadGames() {
         });
         console.log(games);
         const xhttp2 = new XMLHttpRequest();
-        xhttp2.open("GET", "/api/pick/user");
+        xhttp2.open("GET", "/api/pick/user?season=" + seasonDropdown.value);
         xhttp2.setRequestHeader(
           "Content-Type",
           "application/json;charset=UTF-8"
@@ -49,6 +52,12 @@ function loadGames() {
                     if (user.teams == null) {
                       document.getElementById("root-div").innerHTML =
                         "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
+                      return;
+                    }
+                    if (games.length == 0) {
+                        document.getElementById("teamsTabContent").innerHTML =
+                            "<h1>No games yet :( Plz come back hockey</h1>";
+                        return;
                     }
                     var activeTeam = user.teams?.find((team) => {
                       return (
@@ -342,6 +351,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
       row.insertCell(2).innerHTML = 0;
     }
   }
+  row.className="collapse multi-collapse";
 
   var header = table.createTHead();
   var headerRow = header.insertRow(0);

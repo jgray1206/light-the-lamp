@@ -36,9 +36,13 @@
 </nav>
 
 <div class="container-fluid p-3" id="root-div">
+    <select id="season" class="form-select mb-1" style="width:auto;" name="season" onchange="loadGames()">
+        <option value="2023">2023-2024</option>
+        <option value="2022">2022-2023</option>
+    </select>
+    <button class="btn btn-primary mb-1" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="showPicks">Show Friend Picks</button>
     <div class="card">
         <div class="card-body" id="card-body">
-            <button class="btn btn-primary" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="showPicks">Show Friend's Picks</button>
             <ul class="nav nav-tabs text-nowrap flex-nowrap" style="overflow-x: auto; overflow-y: hidden;" id="teamsTabHeader" role="tablist">
 
             </ul>

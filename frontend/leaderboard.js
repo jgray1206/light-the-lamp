@@ -25,8 +25,11 @@ function createTableHeaderForTeam(team, index) {
 }
 
 function loadLeaderboards() {
+  document.getElementById("teamsTabContent").innerHTML = '';
+  document.getElementById("teamsTabHeader").innerHTML = '';
+  var seasonDropdown = document.getElementById("season");
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/pick");
+  xhttp.open("GET", "/api/pick?season=" + seasonDropdown.value);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();
@@ -37,9 +40,9 @@ function loadLeaderboards() {
         console.log(picks);
         if (picks.length == 0) {
           document
-            .getElementById("card-body")
+            .getElementById("teamsTabContent")
             .append(
-              "You have not joined any teams yet! Please check your profile settings."
+              "No picks yet! Either there are no picks for this season yet, or you have not joined any teams. Please check your profile settings."
             );
         }
         var groupBy = function (xs, key) {

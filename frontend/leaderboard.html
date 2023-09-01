@@ -35,6 +35,10 @@
 </nav>
 
 <div class="container-fluid p-3">
+    <select id="season" class="form-select" name="season" onchange="loadLeaderboards()">
+        <option value="2023">2023-2024</option>
+        <option value="2022">2022-2023</option>
+    </select>
     <div class="card">
         <div class="card-body" id="card-body">
             <ul class="nav nav-tabs text-nowrap flex-nowrap" style="overflow-x: auto; overflow-y: hidden;" id="teamsTabHeader" role="tablist">

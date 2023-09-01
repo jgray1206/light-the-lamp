@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("user", type = Join.Type.FETCH)
     @Join("team", type = Join.Type.FETCH)
-    fun findAllByTeam(team: Team): Flux<Pick>
+    fun findAllByTeamAndGameIdBetween(team: Team, lower: Int, upper: Int): Flux<Pick>
 
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     @Join("user", type = Join.Type.FETCH)
@@ -21,7 +21,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     fun deleteByGame(aGame: Game): Mono<Long>
 
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
-    fun findAllByUser(aUser: User): Flux<Pick>
+    fun findAllByUserAndGameIdBetween(aUser: User, lower: Int, upper: Int): Flux<Pick>
 
     fun findByGameAndUserAndTeam(aGame: Game, aUser: User, aTeam: Team): Mono<Pick>
 

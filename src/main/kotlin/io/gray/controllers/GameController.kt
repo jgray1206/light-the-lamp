@@ -26,11 +26,11 @@ class GameController(
     }
 
     @Get("/user")
-    fun getGamesByUser(principal: Principal): Flux<Game> {
+    fun getGamesByUser(principal: Principal, @QueryValue season: String): Flux<Game> {
         return userRepository.findByEmail(principal.name).flatMapIterable { user ->
             user.teams
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeam(team, team)
+            gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team, team, "${season}000000".toInt(), "${season.toInt()+1}000000".toInt())
         }.distinct { it.id }
     }
 }

@@ -22,6 +22,12 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
     @Join("players", type = Join.Type.LEFT_FETCH)
     fun findByHomeTeamOrAwayTeam(homeTeam: Team, awayTeam: Team): Flux<Game>
 
+
+    @Join("homeTeam", type = Join.Type.FETCH)
+    @Join("awayTeam", type = Join.Type.FETCH)
+    @Join("players", type = Join.Type.LEFT_FETCH)
+    fun findByHomeTeamOrAwayTeamAndIdBetween(homeTeam: Team, awayTeam: Team, lower: Int, upper: Int): Flux<Game>
+
     @Join("homeTeam", type = Join.Type.FETCH)
     @Join("awayTeam", type = Join.Type.FETCH)
     fun findAllByGameStateNotEqualAndDateGreaterThan(gameState: String, date: LocalDateTime): Flux<Game>

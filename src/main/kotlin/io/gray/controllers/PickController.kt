@@ -21,11 +21,11 @@ class PickController(
         private val gameRepository: GameRepository
 ) {
     @Get
-    fun getAll(principal: Principal): Flux<Pick> {
+    fun getAll(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapIterable {
             it.teams
         }.flatMap {
-            pickRepository.findAllByTeam(it).map { pick ->
+            pickRepository.findAllByTeamAndGameIdBetween(it, "${season}000000".toInt(), "${season.toInt()+1}000000".toInt()).map { pick ->
                 pick.user?.password = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
@@ -43,15 +43,15 @@ class PickController(
     }
 
     @Get("/user")
-    fun getPickByUser(principal: Principal): Flux<Pick> {
-        return userRepository.findByEmail(principal.name).flatMapMany { pickRepository.findAllByUser(it) }
+    fun getPickByUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
+        return userRepository.findByEmail(principal.name).flatMapMany { pickRepository.findAllByUserAndGameIdBetween(it,"${season}000000".toInt(), "${season.toInt()+1}000000".toInt()) }
     }
 
     @Get("/friends")
-    fun getPicksByUserFriends(principal: Principal): Flux<Pick> {
+    fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name)
                 .flatMapIterable { it.friends }
-                .flatMap { pickRepository.findAllByUser(it) }
+                .flatMap { pickRepository.findAllByUserAndGameIdBetween(it,"${season}000000".toInt(), "${season.toInt()+1}000000".toInt()) }
     }
 
     @Post("/user")
