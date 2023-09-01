@@ -78,6 +78,7 @@ function removeFriend(id) {
     text: "Are you sure you want to delete this friend?",
     icon: "error",
     confirmButtonText: "YES",
+    showCancelButton: true
   }).then((result) => {
     if (result.isConfirmed) {
       const xhttp = new XMLHttpRequest();
