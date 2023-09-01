@@ -339,17 +339,17 @@ function createTable(
         ')">Pick</button>';
     } else {
       if (nonGoalies[i].position == "Defenseman") {
-        row.insertCell(2).innerHTML =
-          (nonGoalies[i].goals || 0) * 3 +
+        row.insertCell(2).innerHTML = "<h1>"+
+          ((nonGoalies[i].goals || 0) * 3 +
           (nonGoalies[i].assists || 0) +
           (nonGoalies[i].shortGoals || 0) * 3 +
-          (nonGoalies[i].shortAssists || 0);
+          (nonGoalies[i].shortAssists || 0))+"</h1>";
       } else if (nonGoalies[i].position == "Forward") {
-        row.insertCell(2).innerHTML =
-          (nonGoalies[i].goals || 0) * 2 +
+        row.insertCell(2).innerHTML =  "<h1>"+
+          ((nonGoalies[i].goals || 0) * 2 +
           (nonGoalies[i].assists || 0) +
           (nonGoalies[i].shortGoals || 0) * 2 +
-          (nonGoalies[i].shortAssists || 0);
+          (nonGoalies[i].shortAssists || 0)) + "</h1>";
       }
     }
   }
@@ -392,11 +392,11 @@ function createTable(
   } else {
     var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
     if (goals > 1) {
-      row.insertCell(2).innerHTML = 0;
+      row.insertCell(2).innerHTML = "<h1>0</h1>";
     } else if (goals > 0) {
-      row.insertCell(2).innerHTML = 2;
+      row.insertCell(2).innerHTML = "<h1>2</h1>";
     } else {
-      row.insertCell(2).innerHTML = 5;
+      row.insertCell(2).innerHTML = "<h1>5</h1>";
     }
   }
 
@@ -431,11 +431,11 @@ function createTable(
     var goals =
       teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
     if ((goals || 0) >= 5) {
-      row.insertCell(2).innerHTML = 5;
+      row.insertCell(2).innerHTML = "<h1>5</h1>";
     } else if ((goals || 0) >= 4) {
-      row.insertCell(2).innerHTML = 4;
+      row.insertCell(2).innerHTML = "<h1>4</h1>";
     } else {
-      row.insertCell(2).innerHTML = 0;
+      row.insertCell(2).innerHTML = "<h1>0</h1>";
     }
   }
   //how to make disappear: row.className = "collapse multi-collapse";

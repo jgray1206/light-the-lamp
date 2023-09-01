@@ -6,7 +6,7 @@
 .container-fluid {
   margin-right: auto;
   margin-left: auto;
-  max-width: 1600px; /* or 950px */
+  max-width: 950px;
 }
 
 .bg-mynav {
