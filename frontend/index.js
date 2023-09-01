@@ -64,7 +64,9 @@ function loadGames() {
                       if (this.readyState == 4) {
                         if (this.status == 200) {
                           const friendPicks = JSON.parse(this.responseText);
-                          console.log(friendPicks);
+                          friendPicks.forEach((friendPick) => {
+                            friendPick.user = user.friends?.find((user) => {return user.id == friendPick.user.id});
+                          });
                           if (user.teams == null) {
                             document.getElementById("root-div").innerHTML =
                               "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
@@ -151,7 +153,8 @@ function loadGames() {
                                 picks,
                                 user,
                                 activeGame,
-                                teamGames
+                                teamGames,
+                                friendPicks
                               );
                             });
                           });
@@ -181,7 +184,7 @@ function loadGames() {
   };
 }
 
-function createTable(team, game, picks, user, activeGame, sortedGames) {
+function createTable(team, game, picks, user, activeGame, sortedGames, allFriendPicks) {
   var teamIsAwayOrHome = game.awayTeam.id == team.id ? "away" : "home";
   var gameDate = new Date(
     Date.UTC(
@@ -199,9 +202,16 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
   var pick = picks.find(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
+  var friendPicks = allFriendPicks.filter(
+    (pick) => pick.game.id == game.id && pick.team.id == team.id
+  );
+  var friendPicksMap = friendPicks.reduce((acc, obj) => ((acc[obj.gamePlayer?.id?.playerId || (obj.theTeam && "theTeam") || (obj.goalies && "goalies")] = acc[obj.gamePlayer?.id?.playerId || (obj.theTeam && "theTeam") || (obj.goalies && "goalies")] || []).push(obj), acc), {})
+  console.log(friendPicksMap);
   var headers = ["Player", "Position", "Points"];
   if (pickEnabled) {
     headers.push("Pick");
+  } else {
+    headers.push("Friends");
   }
 
   var gameStringShort =
@@ -308,6 +318,11 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
           (nonGoalies[i].shortGoals || 0) * 2 +
           (nonGoalies[i].shortAssists || 0);
       }
+      if (id in friendPicksMap) {
+        row.insertCell(3).innerHTML = friendPicksMap[id].map(pick => pick.user.displayName).join("<br/>");
+      } else {
+        row.insertCell(3).innerHTML = "";
+      }
     }
   }
 
@@ -347,6 +362,11 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     } else {
       row.insertCell(2).innerHTML = 5;
     }
+    if ("goalies" in friendPicksMap) {
+      row.insertCell(3).innerHTML = friendPicksMap["goalies"].map(pick => pick.user.displayName).join("<br/>");
+    } else {
+      row.insertCell(3).innerHTML = "";
+    }
   }
 
   var row;
@@ -377,8 +397,13 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
     } else {
       row.insertCell(2).innerHTML = 0;
     }
+    if ("theTeam" in friendPicksMap) {
+      row.insertCell(3).innerHTML = friendPicksMap["theTeam"].map(pick => pick.user.displayName).join("<br/>");
+    } else {
+      row.insertCell(3).innerHTML = "";
+    }
   }
-  row.className = "collapse multi-collapse";
+  //how to make disappear: row.className = "collapse multi-collapse";
 
   var header = table.createTHead();
   var headerRow = header.insertRow(0);
