@@ -65,7 +65,9 @@ function loadGames() {
                         if (this.status == 200) {
                           const friendPicks = JSON.parse(this.responseText);
                           friendPicks.forEach((friendPick) => {
-                            friendPick.user = user.friends?.find((user) => {return user.id == friendPick.user.id});
+                            friendPick.user = user.friends?.find((user) => {
+                              return user.id == friendPick.user.id;
+                            });
                           });
                           if (user.teams == null) {
                             document.getElementById("root-div").innerHTML =
@@ -184,7 +186,15 @@ function loadGames() {
   };
 }
 
-function createTable(team, game, picks, user, activeGame, sortedGames, allFriendPicks) {
+function createTable(
+  team,
+  game,
+  picks,
+  user,
+  activeGame,
+  sortedGames,
+  allFriendPicks
+) {
   var teamIsAwayOrHome = game.awayTeam.id == team.id ? "away" : "home";
   var gameDate = new Date(
     Date.UTC(
@@ -196,22 +206,35 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     )
   );
   var curDate = new Date();
-  var pickEnabled =
-    picks.find((pick) => pick.game.id == game.id && pick.team.id == team.id) ==
-      undefined && gameDate > curDate;
+  var pickEnabled = picks.find((pick) => pick.game.id == game.id && pick.team.id == team.id) == undefined && gameDate > curDate;
   var pick = picks.find(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
   var friendPicks = allFriendPicks.filter(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
-  var friendPicksMap = friendPicks.reduce((acc, obj) => ((acc[obj.gamePlayer?.id?.playerId || (obj.theTeam && "theTeam") || (obj.goalies && "goalies")] = acc[obj.gamePlayer?.id?.playerId || (obj.theTeam && "theTeam") || (obj.goalies && "goalies")] || []).push(obj), acc), {})
+  var friendPicksMap = friendPicks.reduce(
+    (acc, obj) => (
+      (acc[
+        obj.gamePlayer?.id?.playerId ||
+          (obj.theTeam && "theTeam") ||
+          (obj.goalies && "goalies")
+      ] =
+        acc[
+          obj.gamePlayer?.id?.playerId ||
+            (obj.theTeam && "theTeam") ||
+            (obj.goalies && "goalies")
+        ] || []).push(obj),
+      acc
+    ),
+    {}
+  );
   console.log(friendPicksMap);
-  var headers = ["Player", "Pos", "Points"];
+  var headers = ["Player", "Friends", "Points"];
+  var collapseClassValue = "";
   if (pickEnabled) {
     headers.push("Pick");
-  } else {
-    headers.push("Friends");
+    collapseClassValue = "collapse multi-collapse";
   }
 
   var gameStringShort =
@@ -278,17 +301,27 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
         row.className = "table-warning";
       }
     }
+    var positionText = "FWD";
+    if (nonGoalies[i].position == "Defenseman") {
+      positionText = "DEF";
+    }
     row.insertCell(0).innerHTML =
       '<figure><img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/' +
       id +
       '.jpg" onerror=\'this.src="/shrug.png"\'>' +
       "<figcaption>" +
       nonGoalies[i].name +
+      "<br/>" +
+      positionText +
       "</figcaption></figure>";
-    if (nonGoalies[i].position == "Defenseman") {
-      row.insertCell(1).innerHTML = "DEF";
+    var friendsCell = row.insertCell(1);
+    friendsCell.className = collapseClassValue;
+    if (id in friendPicksMap) {
+      friendsCell.innerHTML = "- " + friendPicksMap[id]
+        .map((pick) => pick.user.displayName)
+        .join("<br/>- ");
     } else {
-      row.insertCell(1).innerHTML = "FWD";
+      friendsCell.innerHTML = "";
     }
     if (pickEnabled) {
       if (nonGoalies[i].position == "Defenseman") {
@@ -318,11 +351,6 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
           (nonGoalies[i].shortGoals || 0) * 2 +
           (nonGoalies[i].shortAssists || 0);
       }
-      if (id in friendPicksMap) {
-        row.insertCell(3).innerHTML = friendPicksMap[id].map(pick => pick.user.displayName).join("<br/>");
-      } else {
-        row.insertCell(3).innerHTML = "";
-      }
     }
   }
 
@@ -343,8 +371,16 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     )
     .join("");
   row.insertCell(0).innerHTML =
-    "<figure>" + goalieImages + "<figcatpion>The Goalies</figcatpion></figure>";
-  row.insertCell(1).innerHTML = "GOA";
+    "<figure>" + goalieImages + "<figcaption>The Goalies</figcaption></figure>";
+  var friendsCell = row.insertCell(1);
+  friendsCell.className = collapseClassValue;
+  if ("goalies" in friendPicksMap) {
+    friendsCell.innerHTML = "- " + friendPicksMap["goalies"]
+      .map((pick) => pick.user.displayName)
+      .join("<br/>- ");
+  } else {
+    friendsCell.innerHTML = "";
+  }
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
     row.insertCell(3).innerHTML =
@@ -362,11 +398,6 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     } else {
       row.insertCell(2).innerHTML = 5;
     }
-    if ("goalies" in friendPicksMap) {
-      row.insertCell(3).innerHTML = friendPicksMap["goalies"].map(pick => pick.user.displayName).join("<br/>");
-    } else {
-      row.insertCell(3).innerHTML = "";
-    }
   }
 
   var row;
@@ -377,10 +408,19 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     row = table.insertRow(nonGoalies.length + 1);
   }
   row.insertCell(0).innerHTML =
-    "<figure><figcatpion>The " + team.teamName + "!</figcatpion></figure>";
-  row.insertCell(1).innerHTML = "Team";
+    "<figure><figcaption>The " + team.teamName + "!</figcaption></figure>";
+  var friendsCell = row.insertCell(1);
+  friendsCell.className = collapseClassValue;
+  if ("theTeam" in friendPicksMap) {
+    friendsCell.innerHTML = "- "+friendPicksMap["theTeam"]
+      .map((pick) => pick.user.displayName)
+      .join("<br/>- ");
+  } else {
+    friendsCell.innerHTML = "";
+  }
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "5/5+ goal game, 4/4 goal game";
+
     row.insertCell(3).innerHTML =
       '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick(this,' +
       game.id +
@@ -397,11 +437,6 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     } else {
       row.insertCell(2).innerHTML = 0;
     }
-    if ("theTeam" in friendPicksMap) {
-      row.insertCell(3).innerHTML = friendPicksMap["theTeam"].map(pick => pick.user.displayName).join("<br/>");
-    } else {
-      row.insertCell(3).innerHTML = "";
-    }
   }
   //how to make disappear: row.className = "collapse multi-collapse";
 
@@ -409,7 +444,14 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
   var headerRow = header.insertRow(0);
   for (var i = 0; i < headers.length; i++) {
     var cell = headerRow.insertCell(i);
-    cell.outerHTML = '<th scope="col">' + headers[i] + "</th>";
+    if (headers[i] == "Friends") {
+      cell.outerHTML =
+        '<th scope="col" class="'+collapseClassValue+'">' +
+        headers[i] +
+        "</th>";
+    } else {
+      cell.outerHTML = '<th scope="col">' + headers[i] + "</th>";
+    }
   }
 
   document.getElementById("gameTabContent-" + team.id).append(tableDiv);
