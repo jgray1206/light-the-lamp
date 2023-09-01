@@ -74,21 +74,29 @@ function copyLink() {
 }
 
 function removeFriend(id) {
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", "/api/friends/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      if (this.status == 200) {
-        window.location.href = "./friends.html";
-      } else if (this.status == 401 || this.status == 403) {
-        localStorage.removeItem("jwt");
-        window.location.href = "./login.html";
-      }
+  Swal.fire({
+    text: "Are you sure you want to delete this friend?",
+    icon: "error",
+    confirmButtonText: "YES",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("DELETE", "/api/friends/" + id);
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
+      xhttp.send();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            window.location.href = "./friends.html";
+          } else if (this.status == 401 || this.status == 403) {
+            localStorage.removeItem("jwt");
+            window.location.href = "./login.html";
+          }
+        }
+      };
     }
-  };
+  });
 }
 
 function getPic(id, picTdImg) {
