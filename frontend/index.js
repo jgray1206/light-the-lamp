@@ -1,6 +1,6 @@
 function loadGames() {
-  document.getElementById("teamsTabContent").innerHTML = '';
-  document.getElementById("teamsTabHeader").innerHTML = '';
+  document.getElementById("teamsTabContent").innerHTML = "";
+  document.getElementById("teamsTabHeader").innerHTML = "";
   var seasonDropdown = document.getElementById("season");
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value);
@@ -49,91 +49,118 @@ function loadGames() {
                   if (this.status == 200) {
                     const user = JSON.parse(this.responseText);
                     console.log(user);
-                    if (user.teams == null) {
-                      document.getElementById("root-div").innerHTML =
-                        "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
-                      return;
-                    }
-                    if (games.length == 0) {
-                        document.getElementById("teamsTabContent").innerHTML =
-                            "<h1>No games yet :( Plz come back hockey</h1>";
-                        return;
-                    }
-                    var activeTeam = user.teams?.find((team) => {
-                      return (
-                        team.id == games[0].awayTeam.id ||
-                        team.id == games[0].homeTeam.id
-                      );
-                    });
-                    user.teams?.forEach((team) => {
-                      createTableHeaderForTeam(team, activeTeam);
-                      var teamContentDiv = document.createElement("div");
-                      if (team == activeTeam) {
-                        teamContentDiv.setAttribute(
-                          "class",
-                          "tab-pane fade active show"
-                        );
-                      } else {
-                        teamContentDiv.setAttribute("class", "tab-pane fade");
-                      }
-                      teamContentDiv.setAttribute("id", "team" + team.id);
-                      teamContentDiv.setAttribute("role", "tabpanel");
-                      teamContentDiv.setAttribute(
-                        "aria-labelledby",
-                        "tab" + team.id
-                      );
+                    const xhttp4 = new XMLHttpRequest();
+                    xhttp4.open(
+                      "GET",
+                      "/api/pick/friends?season=" + seasonDropdown.value
+                    );
+                    xhttp4.setRequestHeader(
+                      "Content-Type",
+                      "application/json;charset=UTF-8"
+                    );
+                    xhttp4.setRequestHeader("Authorization", "Bearer " + jwt);
+                    xhttp4.send();
+                    xhttp4.onreadystatechange = function () {
+                      if (this.readyState == 4) {
+                        if (this.status == 200) {
+                          const friendPicks = JSON.parse(this.responseText);
+                          console.log(friendPicks);
+                          if (user.teams == null) {
+                            document.getElementById("root-div").innerHTML =
+                              "<h1>You have not joined any teams yet!</h1><p>Please check your profile settings.</p>";
+                            return;
+                          }
+                          if (games.length == 0) {
+                            document.getElementById(
+                              "teamsTabContent"
+                            ).innerHTML =
+                              "<h1>No games yet :( Plz come back hockey</h1>";
+                            return;
+                          }
+                          var activeTeam = user.teams?.find((team) => {
+                            return (
+                              team.id == games[0].awayTeam.id ||
+                              team.id == games[0].homeTeam.id
+                            );
+                          });
+                          user.teams?.forEach((team) => {
+                            createTableHeaderForTeam(team, activeTeam);
+                            var teamContentDiv = document.createElement("div");
+                            if (team == activeTeam) {
+                              teamContentDiv.setAttribute(
+                                "class",
+                                "tab-pane fade active show"
+                              );
+                            } else {
+                              teamContentDiv.setAttribute(
+                                "class",
+                                "tab-pane fade"
+                              );
+                            }
+                            teamContentDiv.setAttribute("id", "team" + team.id);
+                            teamContentDiv.setAttribute("role", "tabpanel");
+                            teamContentDiv.setAttribute(
+                              "aria-labelledby",
+                              "tab" + team.id
+                            );
 
-                      var teamTabHeader = document.createElement("ul");
-                      teamTabHeader.setAttribute(
-                        "class",
-                        "nav nav-tabs text-nowrap flex-nowrap"
-                      );
-                      teamTabHeader.setAttribute(
-                        "style",
-                        "overflow-x: auto; overflow-y: hidden;"
-                      );
-                      teamTabHeader.setAttribute(
-                        "id",
-                        "teamTabHeader-" + team.id
-                      );
-                      teamTabHeader.setAttribute("role", "tablist");
-                      var gameTabContent = document.createElement("div");
-                      gameTabContent.setAttribute("class", "tab-content");
-                      gameTabContent.setAttribute(
-                        "id",
-                        "gameTabContent-" + team.id
-                      );
-                      teamContentDiv.append(teamTabHeader);
-                      teamContentDiv.append(gameTabContent);
-                      document
-                        .getElementById("teamsTabContent")
-                        .append(teamContentDiv);
-                      var teamGames = games.filter((game) => {
-                        return (
-                          game.awayTeam.id == team.id ||
-                          game.homeTeam.id == team.id
-                        );
-                      });
-                      var reversedGames = Array.from(teamGames).reverse();
-                      var activeGame =
-                        reversedGames.find((game) => {
-                          return game.gameState == "Live";
-                        }) ||
-                        reversedGames.find((game) => {
-                          return game.gameState == "Preview";
-                        }) ||
-                        teamGames[0];
-                      teamGames.forEach((game) => {
-                        createTable(
-                          team,
-                          game,
-                          picks,
-                          user,
-                          activeGame,
-                          teamGames
-                        );
-                      });
-                    });
+                            var teamTabHeader = document.createElement("ul");
+                            teamTabHeader.setAttribute(
+                              "class",
+                              "nav nav-tabs text-nowrap flex-nowrap"
+                            );
+                            teamTabHeader.setAttribute(
+                              "style",
+                              "overflow-x: auto; overflow-y: hidden;"
+                            );
+                            teamTabHeader.setAttribute(
+                              "id",
+                              "teamTabHeader-" + team.id
+                            );
+                            teamTabHeader.setAttribute("role", "tablist");
+                            var gameTabContent = document.createElement("div");
+                            gameTabContent.setAttribute("class", "tab-content");
+                            gameTabContent.setAttribute(
+                              "id",
+                              "gameTabContent-" + team.id
+                            );
+                            teamContentDiv.append(teamTabHeader);
+                            teamContentDiv.append(gameTabContent);
+                            document
+                              .getElementById("teamsTabContent")
+                              .append(teamContentDiv);
+                            var teamGames = games.filter((game) => {
+                              return (
+                                game.awayTeam.id == team.id ||
+                                game.homeTeam.id == team.id
+                              );
+                            });
+                            var reversedGames = Array.from(teamGames).reverse();
+                            var activeGame =
+                              reversedGames.find((game) => {
+                                return game.gameState == "Live";
+                              }) ||
+                              reversedGames.find((game) => {
+                                return game.gameState == "Preview";
+                              }) ||
+                              teamGames[0];
+                            teamGames.forEach((game) => {
+                              createTable(
+                                team,
+                                game,
+                                picks,
+                                user,
+                                activeGame,
+                                teamGames
+                              );
+                            });
+                          });
+                        } else if (this.status == 401 || this.status == 403) {
+                          localStorage.removeItem("jwt");
+                          window.location.href = "./login.html";
+                        }
+                      }
+                    };
                   } else if (this.status == 401 || this.status == 403) {
                     localStorage.removeItem("jwt");
                     window.location.href = "./login.html";
@@ -351,7 +378,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames) {
       row.insertCell(2).innerHTML = 0;
     }
   }
-  row.className="collapse multi-collapse";
+  row.className = "collapse multi-collapse";
 
   var header = table.createTHead();
   var headerRow = header.insertRow(0);
