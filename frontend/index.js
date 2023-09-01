@@ -286,9 +286,9 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
       nonGoalies[i].name +
       "</figcaption></figure>";
     if (nonGoalies[i].position == "Defenseman") {
-      row.insertCell(1).innerHTML = "D";
+      row.insertCell(1).innerHTML = "DEF";
     } else {
-      row.insertCell(1).innerHTML = "F";
+      row.insertCell(1).innerHTML = "FWD";
     }
     if (pickEnabled) {
       if (nonGoalies[i].position == "Defenseman") {
@@ -344,7 +344,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     .join("");
   row.insertCell(0).innerHTML =
     "<figure>" + goalieImages + "<figcatpion>The Goalies</figcatpion></figure>";
-  row.insertCell(1).innerHTML = "G";
+  row.insertCell(1).innerHTML = "GOA";
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
     row.insertCell(3).innerHTML =
