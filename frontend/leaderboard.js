@@ -28,8 +28,13 @@ function loadLeaderboards() {
   document.getElementById("teamsTabContent").innerHTML = '';
   document.getElementById("teamsTabHeader").innerHTML = '';
   var seasonDropdown = document.getElementById("season");
+  var friendsOnly = document.getElementById("friendsOnlySwitch").checked;
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/pick?season=" + seasonDropdown.value);
+  if (friendsOnly) {
+    xhttp.open("GET", "/api/pick/friends-and-self?season=" + seasonDropdown.value);
+  } else {
+    xhttp.open("GET", "/api/pick?season=" + seasonDropdown.value);
+  }
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();

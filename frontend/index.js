@@ -240,15 +240,15 @@ function createTable(
   var gameStringShort =
     gameDate.getMonth() +
     1 +
-    "-" +
+    "/" +
     gameDate.getDate() +
-    "-" +
+    "/" +
     gameDate.getFullYear() +
     " ";
   if (teamIsAwayOrHome == "away") {
-    gameStringShort += "<br/>@ " + game.homeTeam.teamName;
+    gameStringShort += "<br/>@ " + game.homeTeam.teamName.split(" ").slice(-1);
   } else {
-    gameStringShort += "<br/>v " + game.awayTeam.teamName;
+    gameStringShort += "<br/>v " + game.awayTeam.teamName.split(" ").slice(-1);
   }
   createTableHeaderForGame(game, pick, user, gameStringShort, activeGame, team);
 
