@@ -207,7 +207,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
   );
   var friendPicksMap = friendPicks.reduce((acc, obj) => ((acc[obj.gamePlayer?.id?.playerId || (obj.theTeam && "theTeam") || (obj.goalies && "goalies")] = acc[obj.gamePlayer?.id?.playerId || (obj.theTeam && "theTeam") || (obj.goalies && "goalies")] || []).push(obj), acc), {})
   console.log(friendPicksMap);
-  var headers = ["Player", "Position", "Points"];
+  var headers = ["Player", "Pos", "Points"];
   if (pickEnabled) {
     headers.push("Pick");
   } else {
@@ -286,9 +286,9 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
       nonGoalies[i].name +
       "</figcaption></figure>";
     if (nonGoalies[i].position == "Defenseman") {
-      row.insertCell(1).innerHTML = "Defense";
+      row.insertCell(1).innerHTML = "D";
     } else {
-      row.insertCell(1).innerHTML = nonGoalies[i].position;
+      row.insertCell(1).innerHTML = "F";
     }
     if (pickEnabled) {
       if (nonGoalies[i].position == "Defenseman") {
@@ -344,7 +344,7 @@ function createTable(team, game, picks, user, activeGame, sortedGames, allFriend
     .join("");
   row.insertCell(0).innerHTML =
     "<figure>" + goalieImages + "<figcatpion>The Goalies</figcatpion></figure>";
-  row.insertCell(1).innerHTML = "Goalie";
+  row.insertCell(1).innerHTML = "G";
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
     row.insertCell(3).innerHTML =
