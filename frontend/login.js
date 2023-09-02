@@ -63,7 +63,11 @@ function login() {
       console.log(objects);
       if (objects["access_token"]) {
         localStorage.setItem("jwt", objects["access_token"]);
-        window.location.href = "./index.html";
+        if (getURLParameter("redirect")) {
+            window.location.href = decodeURIComponent(getURLParameter("redirect"));
+        } else {
+            window.location.href = "./index.html";
+        }
       } else {
         Swal.fire({
           text: objects["message"],

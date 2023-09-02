@@ -55,7 +55,7 @@ function loadFriends() {
         }
       } else if (this.status == 401 || this.status == 403) {
         localStorage.removeItem("jwt");
-        window.location.href = "./login.html";
+        window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
       }
     }
   };
@@ -92,7 +92,7 @@ function removeFriend(id) {
             window.location.href = "./friends.html";
           } else if (this.status == 401 || this.status == 403) {
             localStorage.removeItem("jwt");
-            window.location.href = "./login.html";
+            window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
           }
         }
       };
@@ -112,7 +112,7 @@ function getPic(id, picTdImg) {
         picTdImg.src = "data:image/png;base64," + this.responseText;
       } else if (this.status == 401 || this.status == 403) {
         localStorage.removeItem("jwt");
-        window.location.href = "./login.html";
+        window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
       } else {
         picTdImg.src = "/shrug.png";
       }
@@ -132,7 +132,7 @@ if (getURLParameter("addFriend")) {
         window.location.href = "./friends.html";
       } else if (this.status == 401 || this.status == 403) {
         localStorage.removeItem("jwt");
-        window.location.href = "./login.html";
+        window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
       } else if (this.status >= 500) {
         var response = JSON.parse(this.responseText);
         Swal.fire({

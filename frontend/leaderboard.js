@@ -78,7 +78,7 @@ function loadLeaderboards() {
         });
       } else if (this.status == 401 || this.status == 403) {
         localStorage.removeItem("jwt");
-        window.location.href = "./login.html";
+        window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
       }
     }
   };
