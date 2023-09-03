@@ -301,9 +301,9 @@ function createTable(
         row.className = "table-warning";
       }
     }
-    var positionText = "FWD";
+    var positionText = "(F)";
     if (nonGoalies[i].position == "Defenseman") {
-      positionText = "DEF";
+      positionText = "(D)";
     }
     row.insertCell(0).innerHTML =
       '<figure><img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/' +
@@ -311,7 +311,7 @@ function createTable(
       '.jpg" onerror=\'this.src="/shrug.png"\'>' +
       "<figcaption>" +
       nonGoalies[i].name +
-      "<br/>" +
+      " " +
       positionText +
       "</figcaption></figure>";
     var friendsCell = row.insertCell(1);
