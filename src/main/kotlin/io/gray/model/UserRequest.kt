@@ -15,7 +15,7 @@ open class UserRequest {
     var email: String? = null
 
     @NotBlank
-    @Size(min = 12, max = 50)
+    @Size(min = 8, max = 50)
     @NotNull
     var password: String? = null
 
