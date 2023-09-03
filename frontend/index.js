@@ -162,25 +162,32 @@ function loadGames() {
                           });
                         } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
-                          window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
+                          window.location.href =
+                            "./login.html?redirect=" +
+                            encodeURIComponent(window.location.href);
                         }
                       }
                     };
                   } else if (this.status == 401 || this.status == 403) {
                     localStorage.removeItem("jwt");
-                    window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
+                    window.location.href =
+                      "./login.html?redirect=" +
+                      encodeURIComponent(window.location.href);
                   }
                 }
               };
             } else if (this.status == 401 || this.status == 403) {
               localStorage.removeItem("jwt");
-              window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
+              window.location.href =
+                "./login.html?redirect=" +
+                encodeURIComponent(window.location.href);
             }
           }
         };
       } else if (this.status == 401 || this.status == 403) {
         localStorage.removeItem("jwt");
-        window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
+        window.location.href =
+          "./login.html?redirect=" + encodeURIComponent(window.location.href);
       }
     }
   };
@@ -206,7 +213,9 @@ function createTable(
     )
   );
   var curDate = new Date();
-  var pickEnabled = picks.find((pick) => pick.game.id == game.id && pick.team.id == team.id) == undefined && gameDate > curDate;
+  var pickEnabled =
+    picks.find((pick) => pick.game.id == game.id && pick.team.id == team.id) ==
+      undefined && gameDate > curDate;
   var pick = picks.find(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
@@ -317,15 +326,15 @@ function createTable(
     var friendsCell = row.insertCell(1);
     friendsCell.className = collapseClassValue;
     if (id in friendPicksMap) {
-      friendsCell.innerHTML = "- " + friendPicksMap[id]
-        .map((pick) => pick.user.displayName)
-        .join("<br/>- ");
+      friendsCell.innerHTML =
+        "- " +
+        friendPicksMap[id].map((pick) => pick.user.displayName).join("<br/>- ");
     } else {
       friendsCell.innerHTML = "";
     }
     if (pickEnabled) {
       if (nonGoalies[i].position == "Defenseman") {
-        row.insertCell(2).innerHTML = "3/goal, 1/assist, *2/shorty";
+        row.insertCell(2).innerHTML = "3/goal, 2/assist, *2/shorty";
       } else if (nonGoalies[i].position == "Forward") {
         row.insertCell(2).innerHTML = "2/goal, 1/assist, *2/shorty";
       }
@@ -339,17 +348,21 @@ function createTable(
         ')">Pick</button>';
     } else {
       if (nonGoalies[i].position == "Defenseman") {
-        row.insertCell(2).innerHTML = "<h1>"+
+        row.insertCell(2).innerHTML =
+          "<h1>" +
           ((nonGoalies[i].goals || 0) * 3 +
-          (nonGoalies[i].assists || 0) +
-          (nonGoalies[i].shortGoals || 0) * 3 +
-          (nonGoalies[i].shortAssists || 0))+"</h1>";
+            (nonGoalies[i].assists || 0) * 2 +
+            (nonGoalies[i].shortGoals || 0) * 6 +
+            (nonGoalies[i].shortAssists || 0) * 4) +
+          "</h1>";
       } else if (nonGoalies[i].position == "Forward") {
-        row.insertCell(2).innerHTML =  "<h1>"+
+        row.insertCell(2).innerHTML =
+          "<h1>" +
           ((nonGoalies[i].goals || 0) * 2 +
-          (nonGoalies[i].assists || 0) +
-          (nonGoalies[i].shortGoals || 0) * 2 +
-          (nonGoalies[i].shortAssists || 0)) + "</h1>";
+            (nonGoalies[i].assists || 0) +
+            (nonGoalies[i].shortGoals || 0) * 4 +
+            (nonGoalies[i].shortAssists || 0) * 2) +
+          "</h1>";
       }
     }
   }
@@ -375,14 +388,16 @@ function createTable(
   var friendsCell = row.insertCell(1);
   friendsCell.className = collapseClassValue;
   if ("goalies" in friendPicksMap) {
-    friendsCell.innerHTML = "- " + friendPicksMap["goalies"]
-      .map((pick) => pick.user.displayName)
-      .join("<br/>- ");
+    friendsCell.innerHTML =
+      "- " +
+      friendPicksMap["goalies"]
+        .map((pick) => pick.user.displayName)
+        .join("<br/>- ");
   } else {
     friendsCell.innerHTML = "";
   }
   if (pickEnabled) {
-    row.insertCell(2).innerHTML = "5/shutout, 2/single-goal game";
+    row.insertCell(2).innerHTML = "5/shutout, 3/one-or-two goal game";
     row.insertCell(3).innerHTML =
       '<button type="button" class="btn btn-primary" onclick="doPick(this,' +
       game.id +
@@ -391,10 +406,10 @@ function createTable(
       ')">Pick</button>';
   } else {
     var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
-    if (goals > 1) {
+    if (goals > 2) {
       row.insertCell(2).innerHTML = "<h1>0</h1>";
     } else if (goals > 0) {
-      row.insertCell(2).innerHTML = "<h1>2</h1>";
+      row.insertCell(2).innerHTML = "<h1>3</h1>";
     } else {
       row.insertCell(2).innerHTML = "<h1>5</h1>";
     }
@@ -412,14 +427,17 @@ function createTable(
   var friendsCell = row.insertCell(1);
   friendsCell.className = collapseClassValue;
   if ("theTeam" in friendPicksMap) {
-    friendsCell.innerHTML = "- "+friendPicksMap["theTeam"]
-      .map((pick) => pick.user.displayName)
-      .join("<br/>- ");
+    friendsCell.innerHTML =
+      "- " +
+      friendPicksMap["theTeam"]
+        .map((pick) => pick.user.displayName)
+        .join("<br/>- ");
   } else {
     friendsCell.innerHTML = "";
   }
   if (pickEnabled) {
-    row.insertCell(2).innerHTML = "5/5+ goal game, 4/4 goal game";
+    row.insertCell(2).innerHTML =
+      "1 pt for every goal over 4 (4/4goal, 5/5goal, etc)";
 
     row.insertCell(3).innerHTML =
       '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick(this,' +
@@ -429,11 +447,10 @@ function createTable(
       ')">Pick</button>';
   } else {
     var goals =
-      teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals;
-    if ((goals || 0) >= 5) {
-      row.insertCell(2).innerHTML = "<h1>5</h1>";
-    } else if ((goals || 0) >= 4) {
-      row.insertCell(2).innerHTML = "<h1>4</h1>";
+      (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
+      0;
+    if (goals >= 4) {
+      row.insertCell(2).innerHTML = "<h1>" + goals + "</h1>";
     } else {
       row.insertCell(2).innerHTML = "<h1>0</h1>";
     }
@@ -446,7 +463,9 @@ function createTable(
     var cell = headerRow.insertCell(i);
     if (headers[i] == "Friends") {
       cell.outerHTML =
-        '<th scope="col" class="'+collapseClassValue+'">' +
+        '<th scope="col" class="' +
+        collapseClassValue +
+        '">' +
         headers[i] +
         "</th>";
     } else {
@@ -564,7 +583,9 @@ function doPick(elem, gameId, pick, teamId) {
             window.location.href = "./index.html";
           } else if (this.status == 401 || this.status == 403) {
             localStorage.removeItem("jwt");
-            window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
+            window.location.href =
+              "./login.html?redirect=" +
+              encodeURIComponent(window.location.href);
           } else {
             Swal.fire({
               text:

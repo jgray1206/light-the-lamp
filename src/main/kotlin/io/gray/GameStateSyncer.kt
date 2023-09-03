@@ -46,8 +46,9 @@ open class GameStateSyncer(
                 .flatMap { team ->
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
+                .filter { it.teamName == "Detroit Red Wings" || it.teamName == "Boston Bruins" || it.teamName == "Seattle Kraken" }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(180), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
@@ -91,12 +92,15 @@ open class GameStateSyncer(
         return pickRepository.findAllByGame(dbGame).flatMap {
             if (it.gamePlayer != null) {
                 if (it.gamePlayer?.position == "Forward") {
-                    it.points = (((it.gamePlayer?.goals ?: 0) + (it.gamePlayer?.shortGoals
-                            ?: 0)) * 2 + (it.gamePlayer?.assists
-                            ?: 0) + (it.gamePlayer?.shortAssists ?: 0)).toShort()
+                    it.points = (((it.gamePlayer?.goals ?: 0) * 2) +
+                            ((it.gamePlayer?.shortGoals ?: 0) * 4) +
+                            (it.gamePlayer?.assists ?: 0) +
+                            ((it.gamePlayer?.shortAssists ?: 0)*2)).toShort()
                 } else if (it.gamePlayer?.position == "Defenseman") {
-                    it.points = (((it.gamePlayer?.goals ?: 0) + (it.gamePlayer?.shortGoals ?: 0) * 3) +
-                            (it.gamePlayer?.assists ?: 0) + (it.gamePlayer?.shortAssists ?: 0)).toShort()
+                    it.points = (((it.gamePlayer?.goals ?: 0) * 3) +
+                            ((it.gamePlayer?.shortGoals ?: 0) * 6) +
+                            ((it.gamePlayer?.assists ?: 0)*2) +
+                            ((it.gamePlayer?.shortAssists ?: 0)*4)).toShort()
                 }
             } else if (it.goalies == true) {
                 dbGame.players?.filter { player ->
@@ -107,8 +111,8 @@ open class GameStateSyncer(
                             5
                         }
 
-                        1 -> {
-                            2
+                        1,2 -> {
+                            3
                         }
 
                         else -> {
@@ -122,10 +126,8 @@ open class GameStateSyncer(
                 } else {
                     dbGame.awayTeamGoals!!
                 }
-                it.points = if (teamGoals >= 5) {
-                    5
-                } else if (teamGoals >= 4) {
-                    4
+                it.points = if (teamGoals >= 4) {
+                    teamGoals
                 } else {
                     0
                 }
