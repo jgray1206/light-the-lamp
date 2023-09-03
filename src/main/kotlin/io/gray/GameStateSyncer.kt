@@ -11,7 +11,7 @@ import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
 import io.micronaut.scheduling.annotation.Scheduled
 import io.micronaut.transaction.TransactionDefinition
-import io.micronaut.transaction.annotation.TransactionalAdvice
+import io.micronaut.transaction.annotation.Transactional
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -92,7 +92,7 @@ open class GameStateSyncer(
                 .collectList().block()
     }
 
-    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun addMissingPlayers(dbGame: Game, game: ScheduleGame): Mono<Game> {
         val dbGamePlayerIds = dbGame.players?.mapNotNull { it.id?.playerId }?.toSet() ?: emptySet()
         return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
@@ -109,7 +109,7 @@ open class GameStateSyncer(
                 }
     }
 
-    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updatePoints(dbGame: Game): Flux<Pick> {
         logger.info("updating points for game ${dbGame.id}")
         return pickRepository.findAllByGame(dbGame).flatMap {
@@ -160,7 +160,7 @@ open class GameStateSyncer(
         }
     }
 
-    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createTeam(team: io.gray.nhl.model.Team): Mono<Team> {
         return teamRepository.save(Team().also {
             it.id = team.id!!.toLong()
@@ -170,13 +170,13 @@ open class GameStateSyncer(
         })
     }
 
-    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun deleteGameAndPicks(game: Game) {
         gameRepository.delete(game).block()
         pickRepository.deleteByGame(game).block()
     }
 
-    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updateGamePlayersAndGame(dbGame: Game, gameScore: GameBoxscore, game: ScheduleGame): Mono<Game> {
         logger.info("updating game ${game.gamePk} with status ${game.status?.abstractGameState} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
@@ -202,7 +202,7 @@ open class GameStateSyncer(
         return playerFlux.collectList().then(gameRepository.update(dbGame))
     }
 
-    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createGame(game: ScheduleGame): Mono<Game> {
         logger.info("creating game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
         return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)

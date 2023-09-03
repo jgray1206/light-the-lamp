@@ -4,8 +4,8 @@ import io.micronaut.data.annotation.Embeddable
 import io.micronaut.data.annotation.EmbeddedId
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.Relation
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
 @MappedEntity
 class GamePlayer {

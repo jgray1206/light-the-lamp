@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 
 
 @Singleton
-class AuthenticationProviderUserPassword(private val userRepository: UserRepository) : AuthenticationProvider {
+class AuthenticationProviderUserPassword(private val userRepository: UserRepository) : AuthenticationProvider<HttpRequest<*>> {
     override fun authenticate(@Nullable httpRequest: HttpRequest<*>?,
                               authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse?>? {
         return userRepository.findByEmail(authenticationRequest.identity as String).flatMap {

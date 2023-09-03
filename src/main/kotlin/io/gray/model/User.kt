@@ -1,12 +1,12 @@
 package io.gray.model
 
 import io.micronaut.data.annotation.*
-import io.micronaut.data.jdbc.annotation.JoinColumn
-import io.micronaut.data.jdbc.annotation.JoinTable
+import io.micronaut.data.annotation.sql.JoinColumn
+import io.micronaut.data.annotation.sql.JoinTable
 import io.micronaut.data.model.DataType
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Size
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Size
 
 @MappedEntity
 class User {

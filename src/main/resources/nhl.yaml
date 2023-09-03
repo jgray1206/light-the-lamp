@@ -127,8 +127,6 @@ paths:
           description: The draft year.
           schema:
             type: number
-            pattern: ^\d{4}$
-            example: 2018
       responses:
         200:
           description: OK
@@ -595,8 +593,6 @@ components:
       required: false
       schema:
         type: number
-        pattern: ^\d{8}$
-        example: 20172018
     teamExpand:
       name: expand
       in: query

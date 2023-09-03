@@ -19,8 +19,8 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.security.Principal
 import java.util.*
-import javax.validation.Valid
-import javax.validation.constraints.Size
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Size
 
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -68,14 +68,14 @@ open class UserController(
     @Post
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "usercreate")
-    open fun create(@Valid @Body userRequest: UserRequest, httpRequest: HttpRequest<User>): Mono<User> {
+    open fun create(@Valid @Body userRequest: UserRequest, @Header("X-Forwarded-For") xForwardFor: String): Mono<User> {
         return userRepository.findByEmail(userRequest.email!!)
                 .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
                 .switchIfEmpty(
                         userRepository.save(User().also {
                             it.email = userRequest.email
                             it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
-                            it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
+                            it.ipAddress = xForwardFor
                             it.confirmed = false
                             it.admin = false
                             it.displayName = userRequest.displayName

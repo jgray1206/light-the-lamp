@@ -1,7 +1,7 @@
 package io.gray.model
 
 import io.micronaut.data.annotation.*
-import javax.validation.constraints.Size
+import jakarta.validation.constraints.Size
 
 @MappedEntity
 class Announcer {

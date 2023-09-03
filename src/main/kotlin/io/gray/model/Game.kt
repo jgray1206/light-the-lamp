@@ -5,8 +5,8 @@ import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.Relation
 import io.micronaut.data.annotation.Relation.Cascade
 import java.time.LocalDateTime
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotNull
 
 @MappedEntity
 class Game {
