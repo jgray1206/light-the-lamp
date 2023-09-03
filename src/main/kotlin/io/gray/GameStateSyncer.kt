@@ -46,9 +46,8 @@ open class GameStateSyncer(
                 .flatMap { team ->
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
-                .filter { it.teamName == "Detroit Red Wings" || it.teamName == "Boston Bruins" || it.teamName == "Seattle Kraken" }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(180), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
