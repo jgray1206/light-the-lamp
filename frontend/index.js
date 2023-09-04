@@ -1,10 +1,11 @@
+var maxGames = 5;
+
 function loadGames() {
   document.getElementById("teamsTabContent").innerHTML = "";
   document.getElementById("teamsTabHeader").innerHTML = "";
   var seasonDropdown = document.getElementById("season");
-  var maxGames = document.getElementById("maxGames");
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value + "&maxGames=" + maxGames.value);
+  xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value + "&maxGames=" + maxGames);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();
@@ -160,6 +161,7 @@ function loadGames() {
                                 friendPicks
                               );
                             });
+                            createMoreGamesButton(teamGames, team);
                           });
                         } else if (this.status == 401 || this.status == 403) {
                           localStorage.removeItem("jwt");
@@ -515,6 +517,30 @@ function createTableHeaderForGame(
   headerLi.appendChild(headerButton);
 
   document.getElementById("teamTabHeader-" + team.id).append(headerLi);
+}
+
+function createMoreGamesButton(
+  games, team
+) {
+  if (games.length == maxGames) {
+      var headerLi = document.createElement("li");
+      headerLi.setAttribute("class", "nav-item");
+      headerLi.setAttribute("role", "presentation");
+
+      var headerButton = document.createElement("button");
+      headerButton.setAttribute("aria-selected", "false");
+      var classString = "nav-link text-secondary";
+      headerButton.setAttribute("class", classString);
+      headerButton.setAttribute("role", "tab");
+      headerButton.innerHTML = "Load More</br>Games";
+      headerButton.onclick = function incrementMaxGames() {
+        maxGames = maxGames + 20;
+        loadGames();
+      }
+      headerLi.appendChild(headerButton);
+
+      document.getElementById("teamTabHeader-" + team.id).append(headerLi);
+  }
 }
 
 function createTableHeaderForTeam(team, activeTeam) {
