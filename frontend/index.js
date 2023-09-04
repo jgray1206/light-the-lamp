@@ -5,7 +5,10 @@ function loadGames() {
   document.getElementById("teamsTabHeader").innerHTML = "";
   var seasonDropdown = document.getElementById("season");
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value + "&maxGames=" + maxGames);
+  xhttp.open(
+    "GET",
+    "/api/game/user?season=" + seasonDropdown.value + "&maxGames=" + maxGames
+  );
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();
@@ -350,23 +353,37 @@ function createTable(
         team.id +
         ')">Pick</button>';
     } else {
+      var htmlString = "";
       if (nonGoalies[i].position == "Defenseman") {
-        row.insertCell(2).innerHTML =
+        htmlString =
           "<h1>" +
           ((nonGoalies[i].goals || 0) * 3 +
             (nonGoalies[i].assists || 0) * 2 +
             (nonGoalies[i].shortGoals || 0) * 6 +
             (nonGoalies[i].shortAssists || 0) * 4) +
-          "</h1>";
+          "</h1></br>";
       } else if (nonGoalies[i].position == "Forward") {
-        row.insertCell(2).innerHTML =
+        htmlString =
           "<h1>" +
           ((nonGoalies[i].goals || 0) * 2 +
             (nonGoalies[i].assists || 0) +
             (nonGoalies[i].shortGoals || 0) * 4 +
             (nonGoalies[i].shortAssists || 0) * 2) +
-          "</h1>";
+          "</h1></br>";
       }
+      if (nonGoalies[i].goals) {
+        htmlString += "G: " + nonGoalies[i].goals + "</br>";
+      }
+      if (nonGoalies[i].assists) {
+        htmlString += "A: " + nonGoalies[i].assists + "</br>";
+      }
+      if (nonGoalies[i].shortGoals) {
+        htmlString += "SHG: " + nonGoalies[i].shortGoals + "</br>";
+      }
+      if (nonGoalies[i].shortAssists) {
+        htmlString += "SHA: " + nonGoalies[i].shortAssists;
+      }
+      row.insertCell(2).innerHTML = htmlString;
     }
   }
 
@@ -409,13 +426,16 @@ function createTable(
       ')">Pick</button>';
   } else {
     var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
+    var htmlString = "";
     if (goals > 2) {
-      row.insertCell(2).innerHTML = "<h1>0</h1>";
+      htmlString = "<h1>0</h1></br>";
     } else if (goals > 0) {
-      row.insertCell(2).innerHTML = "<h1>3</h1>";
+      htmlString = "<h1>3</h1></br>";
     } else {
-      row.insertCell(2).innerHTML = "<h1>5</h1>";
+      htmlString = "<h1>5</h1></br>";
     }
+    htmlString += "GA: " + goals;
+    row.insertCell(2).innerHTML = htmlString;
   }
 
   var row;
@@ -519,27 +539,25 @@ function createTableHeaderForGame(
   document.getElementById("teamTabHeader-" + team.id).append(headerLi);
 }
 
-function createMoreGamesButton(
-  games, team
-) {
+function createMoreGamesButton(games, team) {
   if (games.length == maxGames) {
-      var headerLi = document.createElement("li");
-      headerLi.setAttribute("class", "nav-item");
-      headerLi.setAttribute("role", "presentation");
+    var headerLi = document.createElement("li");
+    headerLi.setAttribute("class", "nav-item");
+    headerLi.setAttribute("role", "presentation");
 
-      var headerButton = document.createElement("button");
-      headerButton.setAttribute("aria-selected", "false");
-      var classString = "nav-link text-secondary";
-      headerButton.setAttribute("class", classString);
-      headerButton.setAttribute("role", "tab");
-      headerButton.innerHTML = "Load More</br>Games";
-      headerButton.onclick = function incrementMaxGames() {
-        maxGames = maxGames + 20;
-        loadGames();
-      }
-      headerLi.appendChild(headerButton);
+    var headerButton = document.createElement("button");
+    headerButton.setAttribute("aria-selected", "false");
+    var classString = "nav-link text-secondary";
+    headerButton.setAttribute("class", classString);
+    headerButton.setAttribute("role", "tab");
+    headerButton.innerHTML = "Load More</br>Games";
+    headerButton.onclick = function incrementMaxGames() {
+      maxGames = maxGames + 20;
+      loadGames();
+    };
+    headerLi.appendChild(headerButton);
 
-      document.getElementById("teamTabHeader-" + team.id).append(headerLi);
+    document.getElementById("teamTabHeader-" + team.id).append(headerLi);
   }
 }
 
