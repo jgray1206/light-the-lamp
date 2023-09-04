@@ -8,6 +8,7 @@ import io.gray.model.User
 import io.gray.model.UserTeam
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
+import io.micronaut.data.annotation.Query
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
@@ -37,7 +38,7 @@ open class UserController(
 ) {
 
     @Get
-    fun get(principal: Principal): Mono<User> {
+    fun get(principal: Principal, @QueryValue profilePic: Boolean?): Mono<User> {
         return userRepository.findByEmail(principal.name).map {
             it.apply {
                 it.password = null
@@ -50,6 +51,7 @@ open class UserController(
                         this.profilePic = byteArrayOf()
                     }
                 }
+                it.profilePic = if (profilePic == true) { it.profilePic } else { byteArrayOf() }
             }
         }
     }

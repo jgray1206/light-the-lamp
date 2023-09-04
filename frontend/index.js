@@ -2,8 +2,9 @@ function loadGames() {
   document.getElementById("teamsTabContent").innerHTML = "";
   document.getElementById("teamsTabHeader").innerHTML = "";
   var seasonDropdown = document.getElementById("season");
+  var maxGames = document.getElementById("maxGames");
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value);
+  xhttp.open("GET", "/api/game/user?season=" + seasonDropdown.value + "&maxGames=" + maxGames.value);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
   xhttp.send();

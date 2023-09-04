@@ -11,7 +11,7 @@ function getUser() {
         teams.sort((a, b) => a.teamName.localeCompare(b.teamName));
         console.log(teams);
         const xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/api/user");
+        xhttp.open("GET", "/api/user?profilePic=true");
         xhttp.setRequestHeader(
           "Content-Type",
           "application/json;charset=UTF-8"

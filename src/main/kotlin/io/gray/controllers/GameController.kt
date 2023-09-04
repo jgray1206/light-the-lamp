@@ -2,6 +2,7 @@ package io.gray.controllers
 
 import io.gray.model.*
 import io.gray.repos.*
+import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -26,11 +27,16 @@ class GameController(
     }
 
     @Get("/user")
-    fun getGamesByUser(principal: Principal, @QueryValue season: String): Flux<Game> {
+    fun getGamesByUser(principal: Principal, @QueryValue season: String, @QueryValue maxGames: Int): Flux<Game> {
         return userRepository.findByEmail(principal.name).flatMapIterable { user ->
             user.teams
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team, team, "${season}000000".toInt(), "${season.toInt()+1}000000".toInt())
+            gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team,
+                    team,
+                    "${season}000000".toInt(),
+                    "${season.toInt() + 1}000000".toInt(),
+                    maxGames
+            )
         }.distinct { it.id }
     }
 }

@@ -13,7 +13,7 @@ micronaut:
         signatures:
           secret:
             generator:
-              secret: "${random.uuid}"
+              secret: "thisarealgoodsecretgeneratorsecret"
 ---
 flyway:
   datasources:
@@ -31,14 +31,14 @@ datasources:
 r2dbc:
   datasources:
     default:
-      dialect: H2
       url: r2dbc:postgresql://localhost:5432/postgres
       username: postgres
       password: pass
 ---
 logger:
   levels:
-    io.r2dbc.h2: DEBUG
+    io.r2dbc: TRACE
+    io.micronaut.data: TRACE
 ---
 credential.path: ${HOMEPATH}\credentials.json
 token.path: ${HOMEPATH}\tokens

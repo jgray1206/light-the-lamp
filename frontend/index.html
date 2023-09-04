@@ -36,10 +36,18 @@
 </nav>
 
 <div class="container-fluid p-3" id="root-div">
-    <select id="season" class="form-select mb-1" style="width:auto;" name="season" onchange="loadGames()">
+    <div class="container">
+    <select id="season" class="form-select mb-1" style="width:auto;display:inline-block" name="season" onchange="loadGames()">
         <option value="2023">2023-2024</option>
         <option value="2022">2022-2023</option>
     </select>
+    <select id="maxGames" class="form-select mb-1" style="width:auto;display:inline-block" name="maxGames" onchange="loadGames()">
+        <option value="5">5 (max games)</option>
+        <option value="15">15</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+        </div>
     <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="hideFriendsPickSwitch" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="showPicks" checked>
         <label class="form-check-label" for="hideFriendsPickSwitch">Hide Friend Picks When Picking</label>
