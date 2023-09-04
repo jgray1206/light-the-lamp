@@ -1,5 +1,4 @@
-1. create season dropdown, filter picks/games/leaders by season
-2. "show more" button on picks homepage, only display last 10(?) games by default
-3. show friends picks on picks homepages
-4. slim down data I return
-5. aggregate/parallelize networks calls
+1. aggregate/parallelize networks calls
+2. show profiles pics next to friends pics
+3. shows stats in picks
+4. add reddit username column and reddit leaderboard
