@@ -1,4 +1,4 @@
 1. aggregate/parallelize networks calls
 2. show profiles pics next to friends pics
-3. shows stats in picks
+3. make more frequent scheduled thread to update during live games
 4. add reddit username column and reddit leaderboard

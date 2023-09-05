@@ -472,13 +472,15 @@ function createTable(
     var goals =
       (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
       0;
+    var htmlString = "";
     if (goals >= 4) {
-      row.insertCell(2).innerHTML = "<h1>" + goals + "</h1>";
+      htmlString = "<h1>" + goals + "</h1></br>";
     } else {
-      row.insertCell(2).innerHTML = "<h1>0</h1>";
+      htmlString = "<h1>0</h1></br>";
     }
+    htmlString += "G: " + goals;
+    row.insertCell(2).innerHTML = htmlString;
   }
-  //how to make disappear: row.className = "collapse multi-collapse";
 
   var header = table.createTHead();
   var headerRow = header.insertRow(0);
