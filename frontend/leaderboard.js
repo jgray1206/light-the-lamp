@@ -123,4 +123,7 @@ function createTable(picks, team) {
   document.getElementById("team" + team.id).append(table);
 }
 
+document.getElementById("season").onchange = function () {
+  loadLeaderboards()
+}
 loadLeaderboards();

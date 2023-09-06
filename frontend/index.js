@@ -644,4 +644,7 @@ function doPick(elem, gameId, pick, teamId) {
   });
 }
 
+document.getElementById("season").onchange = function () {
+  loadGames()
+}
 loadGames();

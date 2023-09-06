@@ -84,3 +84,14 @@ function register() {
   };
   return false;
 }
+
+document.getElementById("register-form").onsubmit = function() {
+    return register();
+}
+
+document.getElementById("confirm-password").addEventListener('input', function() {
+    var pass1 = document.getElementById("password");
+    var pass2 = document.getElementById("confirm-password");
+    pass2.setCustomValidity(pass2.value != pass1.value ? "Passwords do not match." : "");
+    pass2.reportValidity();
+}, true);
