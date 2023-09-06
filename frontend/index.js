@@ -116,11 +116,7 @@ function loadGames() {
                             var teamTabHeader = document.createElement("ul");
                             teamTabHeader.setAttribute(
                               "class",
-                              "nav nav-tabs text-nowrap flex-nowrap"
-                            );
-                            teamTabHeader.setAttribute(
-                              "style",
-                              "overflow-x: auto; overflow-y: hidden;"
+                              "nav nav-tabs text-nowrap flex-nowrap teamtabheader"
                             );
                             teamTabHeader.setAttribute(
                               "id",
