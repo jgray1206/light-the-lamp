@@ -215,12 +215,10 @@ function createTable(
     )
   );
   var curDate = new Date();
-  var pickEnabled =
-    picks.find((pick) => pick.game.id == game.id && pick.team.id == team.id) ==
-      undefined && gameDate > curDate;
   var pick = picks.find(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
+  var pickEnabled = pick == undefined && gameDate > curDate;
   var friendPicks = allFriendPicks.filter(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
@@ -240,7 +238,6 @@ function createTable(
     ),
     {}
   );
-  console.log(friendPicksMap);
   var headers = ["Player", "Friends", "Points"];
   var collapseClassValue = "";
   if (pickEnabled) {
@@ -316,15 +313,24 @@ function createTable(
     if (nonGoalies[i].position == "Defenseman") {
       positionText = "(D)";
     }
-    row.insertCell(0).innerHTML =
-      '<figure><img width="90" height="90" class="rounded-circle img-thumbnail" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/' +
+    var picCell = row.insertCell(0);
+    var figure = document.createElement("figure");
+    picCell.appendChild(figure);
+    var image = document.createElement("img");
+    var caption = document.createElement("figcaption");
+    figure.appendChild(image);
+    figure.appendChild(caption);
+    image.width = "90";
+    image.height = "90";
+    image.className = "rounded-circle img-thumbnail";
+    image.src =
+      "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" +
       id +
-      '.jpg" onerror=\'this.src="/shrug.png"\'>' +
-      "<figcaption>" +
-      nonGoalies[i].name +
-      " " +
-      positionText +
-      "</figcaption></figure>";
+      ".jpg";
+    image.onerror = function (e) {
+      e.target.src = "/shrug.png";
+    };
+    caption.innerText = nonGoalies[i].name + " " + positionText;
     var friendsCell = row.insertCell(1);
     friendsCell.className = collapseClassValue;
     if (id in friendPicksMap) {
@@ -340,14 +346,7 @@ function createTable(
       } else if (nonGoalies[i].position == "Forward") {
         row.insertCell(2).innerHTML = "2/goal, 1/assist, *2/shorty";
       }
-      row.insertCell(3).innerHTML =
-        '<button type="button" class="btn btn-primary" onclick="doPick(this,' +
-        game.id +
-        ",'" +
-        nonGoalies[i].name +
-        "'," +
-        team.id +
-        ')">Pick</button>';
+      createPickButton(game.id, nonGoalies[i].name, team.id, row.insertCell(3));
     } else {
       var htmlString = "";
       if (nonGoalies[i].position == "Defenseman") {
@@ -391,16 +390,26 @@ function createTable(
   } else {
     row = table.insertRow(nonGoalies.length);
   }
-  var goalieImages = goalies
-    .map(
-      (player) =>
-        '<img width="90" height="90" class="rounded-circle img-thumbnail" onerror=\'this.src="/shrug.png"\' src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/' +
-        player.id.playerId +
-        '.jpg">'
-    )
-    .join("");
-  row.insertCell(0).innerHTML =
-    "<figure>" + goalieImages + "<figcaption>The Goalies</figcaption></figure>";
+  var picCell = row.insertCell(0);
+  var figure = document.createElement("figure");
+  picCell.appendChild(figure);
+  var goalieImages = goalies.forEach((player) => {
+    var image = document.createElement("img");
+    figure.appendChild(image);
+    image.width = "90";
+    image.height = "90";
+    image.className = "rounded-circle img-thumbnail";
+    image.src =
+      "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" +
+      player.id.playerId +
+      ".jpg";
+    image.onerror = function (e) {
+      e.target.src = "/shrug.png";
+    };
+  });
+  var caption = document.createElement("figcaption");
+  caption.innerText = "The Goalies";
+  figure.appendChild(caption);
   var friendsCell = row.insertCell(1);
   friendsCell.className = collapseClassValue;
   if ("goalies" in friendPicksMap) {
@@ -414,12 +423,7 @@ function createTable(
   }
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "5/shutout, 3/one-or-two goal game";
-    row.insertCell(3).innerHTML =
-      '<button type="button" class="btn btn-primary" onclick="doPick(this,' +
-      game.id +
-      ",'goalies'," +
-      team.id +
-      ')">Pick</button>';
+    createPickButton(game.id, "goalies", team.id, row.insertCell(3));
   } else {
     var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
     var htmlString = "";
@@ -457,13 +461,7 @@ function createTable(
   if (pickEnabled) {
     row.insertCell(2).innerHTML =
       "1 pt for every goal over 4 (4/4goal, 5/5goal, etc)";
-
-    row.insertCell(3).innerHTML =
-      '<button type="button" class="btn btn-primary" onerror=\'this.src="/shrug.png"\' onclick="doPick(this,' +
-      game.id +
-      ",'team'," +
-      team.id +
-      ')">Pick</button>';
+    createPickButton(game.id, "team", team.id, row.insertCell(3));
   } else {
     var goals =
       (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
@@ -495,6 +493,21 @@ function createTable(
   }
 
   document.getElementById("gameTabContent-" + team.id).append(tableDiv);
+}
+
+function createPickButton(gameId, pick, teamId, cell) {
+  var pickButton = document.createElement("button");
+  pickButton.type = "button";
+  pickButton.className = "btn btn-primary";
+  pickButton.textContent = "Pick";
+  pickButton.addEventListener(
+    "click",
+    function (e) {
+      doPick(e.target, gameId, pick, teamId);
+    },
+    false
+  );
+  cell.appendChild(pickButton);
 }
 
 function createTableHeaderForGame(
@@ -645,6 +658,6 @@ function doPick(elem, gameId, pick, teamId) {
 }
 
 document.getElementById("season").onchange = function () {
-  loadGames()
-}
+  loadGames();
+};
 loadGames();

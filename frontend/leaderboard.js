@@ -22,7 +22,7 @@ function createTableHeaderForTeam(team, index) {
   headerLi.appendChild(headerButton);
 
   document.getElementById("teamsTabHeader").append(headerLi);
-}
+};
 
 function loadLeaderboards() {
   document.getElementById("teamsTabContent").innerHTML = '';
@@ -82,7 +82,7 @@ function loadLeaderboards() {
       }
     }
   };
-}
+};
 
 function createTable(picks, team) {
   var headers = ["User", "Points"];
@@ -121,9 +121,11 @@ function createTable(picks, team) {
     headerRow.insertCell(i).innerHTML = headers[i];
   }
   document.getElementById("team" + team.id).append(table);
-}
-
+};
+document.getElementById("friendsOnlySwitch").onchange = function () {
+  loadLeaderboards()
+};
 document.getElementById("season").onchange = function () {
   loadLeaderboards()
-}
+};
 loadLeaderboards();
