@@ -79,3 +79,7 @@ function login() {
   };
   return false;
 }
+
+document.getElementById("login-form").onsubmit = function() {
+  return login()
+}
