@@ -3,26 +3,26 @@ if (jwt == null) {
   window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
 }
 
-function logout() {
+document.getElementById("logout").onclick = function () {
   localStorage.removeItem("jwt");
   window.location.href = "./login.html";
-}
+};
 
-function toPicks() {
+document.getElementById("toPicks").onclick = function () {
   window.location.href = "./index.html";
-}
+};
 
-function toLeaderboard() {
+document.getElementById("toLeaderboard").onclick = function () {
   window.location.href = "./leaderboard.html";
-}
+};
 
-function toProfile() {
+document.getElementById("toProfile").onclick = function () {
   window.location.href = "./profile.html";
-}
+};
 
-function toFriends() {
+document.getElementById("toFriends").onclick = function () {
   window.location.href = "./friends.html";
-}
+};
 
 function getURLParameter(sParam) {
   var sPageURL = window.location.search.substring(1);
