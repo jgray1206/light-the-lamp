@@ -25,6 +25,6 @@ open class UserRequest {
 
     @NotBlank
     @NotNull
-    @Size(max = 50)
+    @Size(max = 18)
     var displayName: String? = null
 }
