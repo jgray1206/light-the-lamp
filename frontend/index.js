@@ -334,17 +334,17 @@ function createTable(
     var friendsCell = row.insertCell(1);
     friendsCell.className = collapseClassValue;
     if (id in friendPicksMap) {
-      friendsCell.innerHTML =
-        "- " +
-        friendPicksMap[id].map((pick) => pick.user.displayName).join("<br/>- ");
+        friendPicksMap[id].forEach((pick) => {
+          addFriendsPickToCell(friendsCell, pick);
+        });
     } else {
       friendsCell.innerHTML = "";
     }
     if (pickEnabled) {
       if (nonGoalies[i].position == "Defenseman") {
-        row.insertCell(2).innerHTML = "3/goal, 2/assist, *2/shorty";
+        row.insertCell(2).innerHTML = "3/goal<br/>2/assist<br/>*2/shorty";
       } else if (nonGoalies[i].position == "Forward") {
-        row.insertCell(2).innerHTML = "2/goal, 1/assist, *2/shorty";
+        row.insertCell(2).innerHTML = "2/goal<br/>1/assist<br/>*2/shorty";
       }
       createPickButton(game.id, nonGoalies[i].name, team.id, row.insertCell(3));
     } else {
@@ -413,16 +413,14 @@ function createTable(
   var friendsCell = row.insertCell(1);
   friendsCell.className = collapseClassValue;
   if ("goalies" in friendPicksMap) {
-    friendsCell.innerHTML =
-      "- " +
-      friendPicksMap["goalies"]
-        .map((pick) => pick.user.displayName)
-        .join("<br/>- ");
+    friendPicksMap["goalies"].forEach((pick) => {
+          addFriendsPickToCell(friendsCell, pick);
+    });
   } else {
     friendsCell.innerHTML = "";
   }
   if (pickEnabled) {
-    row.insertCell(2).innerHTML = "5/shutout, 3/one-or-two goal game";
+    row.insertCell(2).innerHTML = "5/shutout<br/>3/one-or-two GA";
     createPickButton(game.id, "goalies", team.id, row.insertCell(3));
   } else {
     var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
@@ -450,17 +448,15 @@ function createTable(
   var friendsCell = row.insertCell(1);
   friendsCell.className = collapseClassValue;
   if ("theTeam" in friendPicksMap) {
-    friendsCell.innerHTML =
-      "- " +
-      friendPicksMap["theTeam"]
-        .map((pick) => pick.user.displayName)
-        .join("<br/>- ");
+    friendPicksMap["theTeam"].forEach((pick) => {
+      addFriendsPickToCell(friendsCell, pick);
+    });
   } else {
     friendsCell.innerHTML = "";
   }
   if (pickEnabled) {
     row.insertCell(2).innerHTML =
-      "1 pt for every goal over 4 (4/4goal, 5/5goal, etc)";
+      "4/4goals<br/>5/5goals<br/>6/6goals etc";
     createPickButton(game.id, "team", team.id, row.insertCell(3));
   } else {
     var goals =
@@ -493,6 +489,21 @@ function createTable(
   }
 
   document.getElementById("gameTabContent-" + team.id).append(tableDiv);
+}
+
+function addFriendsPickToCell(friendsCell, pick) {
+  picTdImg = document.createElement("img");
+  picTdImg.width = "30";
+  picTdImg.height = "30";
+  picTdImg.style.marginBottom = "1px";
+  picTdImg.className = "rounded-circle";
+  getPic(pick.user.id, picTdImg);
+  friendsCell.appendChild(picTdImg);
+  var span = document.createElement("span");
+  span.style.fontSize = "14px";
+  span.innerHTML = " " + pick.user.displayName;
+  friendsCell.appendChild(span);
+  friendsCell.appendChild(document.createElement("br"));
 }
 
 function createPickButton(gameId, pick, teamId, cell) {
