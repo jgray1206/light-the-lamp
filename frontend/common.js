@@ -1,4 +1,5 @@
 var jwt = localStorage.getItem("jwt");
+
 if (jwt == null) {
   window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
 }
@@ -18,6 +19,10 @@ document.getElementById("toLeaderboard").onclick = function () {
 
 document.getElementById("toProfile").onclick = function () {
   window.location.href = "./profile.html";
+};
+
+document.getElementById("toAbout").onclick = function () {
+  window.location.href = "./about.html";
 };
 
 document.getElementById("toFriends").onclick = function () {
