@@ -29,6 +29,8 @@ function getUser() {
               if (user.profilePic) {
                 document.getElementById("profilePicPreview").src =
                   "data:image/png;base64," + user.profilePic;
+              } else {
+                document.getElementById("profilePicPreview").src = "/shrug.png";
               }
               var index = 0;
               teams.forEach((team) => {
