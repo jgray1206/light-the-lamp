@@ -44,7 +44,11 @@ function getPic(id, picTdImg) {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
       if (this.status == 200) {
-        picTdImg.src = "data:image/png;base64," + this.responseText;
+        if (this.responseText) {
+            picTdImg.src = "data:image/png;base64," + this.responseText;
+        } else {
+            picTdImg.src = "/shrug.png";
+        }
       } else if (this.status == 401 || this.status == 403) {
         localStorage.removeItem("jwt");
         window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
