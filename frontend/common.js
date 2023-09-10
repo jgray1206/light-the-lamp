@@ -1,6 +1,6 @@
 var jwt = localStorage.getItem("jwt");
 
-if (jwt == null) {
+if (jwt == null && window.location.pathname != "/about.html") {
   window.location.href = "./login.html?redirect=" + encodeURIComponent(window.location.href);
 }
 
