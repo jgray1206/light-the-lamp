@@ -1,14 +1,12 @@
 package io.gray.controllers
 
 import io.github.resilience4j.micronaut.annotation.RateLimiter
-import io.gray.model.UserRequest
 import io.gray.email.MailService
-import io.gray.model.Team
 import io.gray.model.User
+import io.gray.model.UserRequest
 import io.gray.model.UserTeam
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
-import io.micronaut.data.annotation.Query
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
@@ -19,13 +17,9 @@ import io.micronaut.security.rules.SecurityRule
 import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.lang.IllegalStateException
 import java.security.Principal
 import java.util.*
 import javax.validation.Valid
-import kotlin.String
-import kotlin.also
-import kotlin.apply
 
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -51,7 +45,11 @@ open class UserController(
                         this.profilePic = byteArrayOf()
                     }
                 }
-                it.profilePic = if (profilePic == true) { it.profilePic } else { byteArrayOf() }
+                it.profilePic = if (profilePic == true) {
+                    it.profilePic
+                } else {
+                    byteArrayOf()
+                }
             }
         }
     }
@@ -92,7 +90,7 @@ open class UserController(
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
-    fun update(profilePic: ByteArray?, displayName: String?, teams: List<Long>?, principal: Principal): Mono<User> {
+    fun update(profilePic: ByteArray?, displayName: String?, redditUsername: String?, teams: List<Long>?, principal: Principal): Mono<User> {
         return userRepository.findByEmail(principal.name)
                 .flatMap { user ->
                     teams?.let { teams ->
@@ -106,10 +104,12 @@ open class UserController(
                                     ).then(Mono.just(user))
                         } ?: Mono.just(user)
                     } ?: Mono.just(user)
-                }.flatMap { user ->3
+                }.flatMap { user ->
+                    3
                     userRepository.update(user.apply {
                         profilePic?.let { this.profilePic = it }
                         displayName?.let { this.displayName = it }
+                        redditUsername?.let { this.redditUsername = it }
                     })
                 }
                 .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }

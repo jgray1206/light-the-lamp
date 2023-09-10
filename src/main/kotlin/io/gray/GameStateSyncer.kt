@@ -67,7 +67,7 @@ open class GameStateSyncer(
                     logger.info("refreshing db for game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
 
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
-                        createGame(game)
+                            createGame(game)
                     ).map { Pair(it, game) }
                 }
                 .filter { it.second.status?.abstractGameState != "Preview" }
@@ -94,12 +94,12 @@ open class GameStateSyncer(
                     it.points = (((it.gamePlayer?.goals ?: 0) * 2) +
                             ((it.gamePlayer?.shortGoals ?: 0) * 4) +
                             (it.gamePlayer?.assists ?: 0) +
-                            ((it.gamePlayer?.shortAssists ?: 0)*2)).toShort()
+                            ((it.gamePlayer?.shortAssists ?: 0) * 2)).toShort()
                 } else if (it.gamePlayer?.position == "Defenseman") {
                     it.points = (((it.gamePlayer?.goals ?: 0) * 3) +
                             ((it.gamePlayer?.shortGoals ?: 0) * 6) +
-                            ((it.gamePlayer?.assists ?: 0)*2) +
-                            ((it.gamePlayer?.shortAssists ?: 0)*4)).toShort()
+                            ((it.gamePlayer?.assists ?: 0) * 2) +
+                            ((it.gamePlayer?.shortAssists ?: 0) * 4)).toShort()
                 }
             } else if (it.goalies == true) {
                 dbGame.players?.filter { player ->
@@ -110,7 +110,7 @@ open class GameStateSyncer(
                             5
                         }
 
-                        1,2 -> {
+                        1, 2 -> {
                             3
                         }
 

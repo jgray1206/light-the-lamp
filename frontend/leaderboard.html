@@ -40,10 +40,11 @@
         <option value="2023">2023-2024</option>
         <option value="2022">2022-2023</option>
     </select>
-    <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="friendsOnlySwitch" checked>
-        <label class="form-check-label" for="friendsOnlySwitch">Friends Only</label>
-    </div>
+    <select id="displayType" class="form-select mb-1" name="type">
+        <option value="Friends">Friends</option>
+        <option value="Global">Global</option>
+        <option value="Reddit">Reddit</option>
+    </select>
     <div class="card">
         <div class="card-body" id="card-body">
             <ul class="nav nav-tabs text-nowrap flex-nowrap" id="teamsTabHeader" role="tablist">

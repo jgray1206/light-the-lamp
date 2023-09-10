@@ -19,9 +19,9 @@ import jakarta.inject.Singleton
 import jakarta.mail.Session
 import jakarta.mail.internet.InternetAddress
 import jakarta.mail.internet.MimeMessage
+import org.apache.commons.codec.binary.Base64
 import java.io.*
 import java.util.*
-import org.apache.commons.codec.binary.Base64
 
 @Singleton
 class MailService(
@@ -85,7 +85,7 @@ class MailService(
         try {
             // Create send message
             message = service.users().messages().send("me", message).execute()
-            println("Message id: " + message.getId())
+            println("Message id: " + message.id)
             println(message.toPrettyString())
             return message
         } catch (e: GoogleJsonResponseException) {

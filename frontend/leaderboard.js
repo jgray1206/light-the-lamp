@@ -28,10 +28,12 @@ function loadLeaderboards() {
   document.getElementById("teamsTabContent").innerHTML = '';
   document.getElementById("teamsTabHeader").innerHTML = '';
   var seasonDropdown = document.getElementById("season");
-  var friendsOnly = document.getElementById("friendsOnlySwitch").checked;
+  var leaderboardDisplayType = document.getElementById("displayType").value;
   const xhttp = new XMLHttpRequest();
-  if (friendsOnly) {
+  if (leaderboardDisplayType == "Friends") {
     xhttp.open("GET", "/api/pick/friends-and-self?season=" + seasonDropdown.value);
+  } else if (leaderboardDisplayType == "Reddit") {
+    xhttp.open("GET", "/api/pick/reddit?season=" + seasonDropdown.value);
   } else {
     xhttp.open("GET", "/api/pick?season=" + seasonDropdown.value);
   }
@@ -73,7 +75,7 @@ function loadLeaderboards() {
           teamContentDiv.setAttribute("role", "tabpanel");
           teamContentDiv.setAttribute("aria-labelledby", "tab" + team.id);
           document.getElementById("teamsTabContent").append(teamContentDiv);
-          createTable(picks, team);
+          createTable(picks, team, leaderboardDisplayType == "Reddit");
           index++;
         });
       } else if (this.status == 401 || this.status == 403) {
@@ -84,7 +86,7 @@ function loadLeaderboards() {
   };
 };
 
-function createTable(picks, team) {
+function createTable(picks, team, isRedditDisplay) {
   var headers = ["User", "Points"];
   var table = document.createElement("table"); //makes a table element for the page
   table.setAttribute("class", "table table-hover");
@@ -96,7 +98,7 @@ function createTable(picks, team) {
     }, {})
   )
     .map((pick) => {
-      pick[2] = pick[1][0].user.displayName;
+      pick[2] = isRedditDisplay ? pick[1][0].user.redditUsername : pick[1][0].user.displayName;
       pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
       return pick;
     })
@@ -122,7 +124,7 @@ function createTable(picks, team) {
   }
   document.getElementById("team" + team.id).append(table);
 };
-document.getElementById("friendsOnlySwitch").onchange = function () {
+document.getElementById("displayType").onchange = function () {
   loadLeaderboards()
 };
 document.getElementById("season").onchange = function () {

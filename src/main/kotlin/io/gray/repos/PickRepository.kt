@@ -1,6 +1,9 @@
 package io.gray.repos
 
-import io.gray.model.*
+import io.gray.model.Game
+import io.gray.model.Pick
+import io.gray.model.Team
+import io.gray.model.User
 import io.micronaut.data.annotation.Join
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.r2dbc.annotation.R2dbcRepository
@@ -17,6 +20,10 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("user", type = Join.Type.FETCH)
     @Join("team", type = Join.Type.FETCH)
     fun findAllByTeamInAndUserInAndGameIdBetween(teams: List<Team>, users: List<User>, lower: Int, upper: Int): Flux<Pick>
+
+    @Join("user", type = Join.Type.FETCH)
+    @Join("team", type = Join.Type.FETCH)
+    fun findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(teams: List<Team>, lower: Int, upper: Int): Flux<Pick>
 
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     @Join("user", type = Join.Type.FETCH)

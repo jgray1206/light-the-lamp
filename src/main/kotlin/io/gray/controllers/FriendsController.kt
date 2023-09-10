@@ -8,7 +8,6 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.lang.IllegalStateException
 import java.security.Principal
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -35,16 +34,16 @@ class FriendsController(
                 Mono.error { IllegalStateException("You can't add yourself as a friend you big ol' silly head!") }
             } else {
                 friendRepository.findOneByToUserAndFromUser(userTuple.t1.id!!, userTuple.t2.id!!).switchIfEmpty(
-                    friendRepository.save(UserUser().also {
-                        it.toUser = userTuple.t1.id
-                        it.fromUser = userTuple.t2.id
-                })).then(
-                    friendRepository.findOneByToUserAndFromUser(userTuple.t2.id!!, userTuple.t1.id!!).switchIfEmpty(
                         friendRepository.save(UserUser().also {
-                            it.toUser = userTuple.t2.id
-                            it.fromUser = userTuple.t1.id
-                        })
-                    )
+                            it.toUser = userTuple.t1.id
+                            it.fromUser = userTuple.t2.id
+                        })).then(
+                        friendRepository.findOneByToUserAndFromUser(userTuple.t2.id!!, userTuple.t1.id!!).switchIfEmpty(
+                                friendRepository.save(UserUser().also {
+                                    it.toUser = userTuple.t2.id
+                                    it.fromUser = userTuple.t1.id
+                                })
+                        )
                 )
             }
         }

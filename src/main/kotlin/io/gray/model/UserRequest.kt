@@ -1,6 +1,7 @@
 package io.gray.model
 
 import io.micronaut.core.annotation.Introspected
+import io.micronaut.core.annotation.Nullable
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -27,4 +28,8 @@ open class UserRequest {
     @NotNull
     @Size(max = 18)
     var displayName: String? = null
+
+    @Nullable
+    @Size(max = 40)
+    var redditUsername: String? = null
 }

@@ -1,6 +1,5 @@
 package io.gray.repos
 
-import io.gray.model.Game
 import io.gray.model.GamePlayer
 import io.gray.model.GamePlayerId
 import io.micronaut.data.annotation.Join

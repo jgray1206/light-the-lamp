@@ -1,10 +1,6 @@
 package io.gray.model
 
-import io.micronaut.data.annotation.GeneratedValue
-import io.micronaut.data.annotation.Id
-import io.micronaut.data.annotation.MappedEntity
-import io.micronaut.data.annotation.Relation
-import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.annotation.*
 import io.micronaut.data.jdbc.annotation.JoinColumn
 import io.micronaut.data.jdbc.annotation.JoinTable
 import io.micronaut.data.model.DataType
@@ -23,7 +19,7 @@ class User {
     @Email
     var email: String? = null
 
-    @Size(max = 50)
+    @Size(max = 18)
     var displayName: String? = null
 
     @TypeDef(type = DataType.BYTE_ARRAY)
@@ -48,10 +44,13 @@ class User {
 
     var ipAddress: String? = null
 
+    @Size(max = 40)
+    var redditUsername: String? = null
+
     @Relation(Relation.Kind.MANY_TO_MANY)
-    @JoinTable(name="user_user",
-            joinColumns=[JoinColumn(name="to_user")],
-            inverseJoinColumns=[JoinColumn(name="from_user")])
+    @JoinTable(name = "user_user",
+            joinColumns = [JoinColumn(name = "to_user")],
+            inverseJoinColumns = [JoinColumn(name = "from_user")])
     var friends: List<User>? = null
 
 }

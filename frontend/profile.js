@@ -26,6 +26,9 @@ function getUser() {
               if (user.displayName) {
                 document.getElementById("displayName").value = user.displayName;
               }
+              if (user.redditUsername) {
+                document.getElementById("redditUsername").value = user.redditUsername;
+              }
               if (user.profilePic) {
                 document.getElementById("profilePicPreview").src =
                   "data:image/png;base64," + user.profilePic;
@@ -66,6 +69,11 @@ document.forms.userUpdate.addEventListener("submit", (e) => {
   }
   if (document.getElementById("displayName").value) {
     formData.set("displayName", document.getElementById("displayName").value);
+  }
+  if (document.getElementById("redditUsername").value) {
+    formData.set("redditUsername", document.getElementById("redditUsername").value);
+  } else {
+    formData.set("redditUsername", "");
   }
   var teamOptions = document.getElementById("teams").selectedOptions;
   var teamValues = Array.from(teamOptions).map(({ value }) => value);
