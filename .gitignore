@@ -4,6 +4,7 @@ build/**
 !build/**/
 !build/libs/*-all.jar
 build/generated/**
+js-src/**
 
 *.log
 *.gz
