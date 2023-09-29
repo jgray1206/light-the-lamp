@@ -39,12 +39,9 @@ open class GameStateSyncer(
     @ExecuteOn(TaskExecutors.IO)
     fun syncInProgressGameState() {
         syncAllGamesWithStatus("live")
-    }
-
-    @Scheduled(fixedDelay = "6m", initialDelay = "2m")
-    @ExecuteOn(TaskExecutors.IO)
-    fun syncFinishedGameState() {
-        syncAllGamesWithStatus("final")
+        if (LocalDateTime.now().minute % 5 == 0) {
+            syncAllGamesWithStatus("final")
+        }
     }
 
     fun syncAllGamesWithStatus(status: String) {
@@ -55,7 +52,7 @@ open class GameStateSyncer(
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(4), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
