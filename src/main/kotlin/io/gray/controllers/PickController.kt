@@ -25,7 +25,7 @@ class PickController(
         return userRepository.findByEmail(principal.name).flatMapIterable {
             it.teams
         }.flatMap {
-            pickRepository.findAllByTeamAndGameIdBetween(it, "${season}000000".toInt(), "${season.toInt() + 1}000000".toInt()).map { pick ->
+            pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
@@ -46,7 +46,7 @@ class PickController(
     @Get("/user")
     fun getPickByUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapMany {
-            pickRepository.findAllByUserAndGameIdBetween(it, "${season}000000".toInt(), "${season.toInt() + 1}000000".toInt())
+            pickRepository.findAllByUserAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
         }
     }
 
@@ -54,13 +54,13 @@ class PickController(
     fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name)
                 .flatMapIterable { it.friends }
-                .flatMap { pickRepository.findAllByUserAndGameIdBetween(it, "${season}000000".toInt(), "${season.toInt() + 1}000000".toInt()) }
+                .flatMap { pickRepository.findAllByUserAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()) }
     }
 
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it), "${season}000000".toInt(), "${season.toInt() + 1}000000".toInt()).map { pick ->
+            pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it), "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
@@ -75,7 +75,7 @@ class PickController(
     @Get("/reddit")
     fun getPicksByReddit(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).filter { it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}000000".toInt(), "${season.toInt() + 1}000000".toInt()).map { pick ->
+            pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null

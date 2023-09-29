@@ -32,8 +32,8 @@ class GameController(
         }.flatMap { team ->
             gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team,
                     team,
-                    "${season}000000".toInt(),
-                    "${season.toInt() + 1}000000".toInt(),
+                    "${season}0000".toInt(),
+                    "${season}9999".toInt(),
                     maxGames
             )
         }.distinct { it.id }
