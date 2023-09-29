@@ -83,7 +83,7 @@ function loadGames() {
                             document.getElementById(
                               "teamsTabContent"
                             ).innerHTML =
-                              "<h1>No games yet :( Plz come back hockey</h1>";
+                              "<h1>No games yet :(</h1>";
                             return;
                           }
                           var activeTeam = user.teams?.find((team) => {
