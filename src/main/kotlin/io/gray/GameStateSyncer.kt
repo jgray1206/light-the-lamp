@@ -35,11 +35,19 @@ open class GameStateSyncer(
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    //to get pics
-    //https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8477968.jpg
-    @Scheduled(fixedDelay = "3m")
+    @Scheduled(fixedDelay = "1m")
     @ExecuteOn(TaskExecutors.IO)
-    fun syncGameState() {
+    fun syncInProgressGameState() {
+        syncAllGamesWithStatus("live")
+    }
+
+    @Scheduled(fixedDelay = "6m", initialDelay = "2m")
+    @ExecuteOn(TaskExecutors.IO)
+    fun syncFinishedGameState() {
+        syncAllGamesWithStatus("final")
+    }
+
+    fun syncAllGamesWithStatus(status: String) {
         teamsApi.getTeams(null, null).flatMapIterable {
             it?.teams ?: listOf()
         }.filter { it.id != null }
@@ -47,7 +55,7 @@ open class GameStateSyncer(
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(4), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
@@ -64,13 +72,12 @@ open class GameStateSyncer(
                     //        deleteGameAndPicks(futureGame)
                     //    }
                     //}
-                    logger.info("refreshing db for game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
 
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
                             createGame(game)
                     ).map { Pair(it, game) }
                 }
-                .filter { it.second.status?.abstractGameState != "Preview" }
+                .filter { it.second.status?.abstractGameState.equals(status, ignoreCase = true) }
                 .flatMap { pair ->
                     gamesApi.getGameBoxscore(pair.second.gamePk!!).map { Pair(pair, it) }
                 }
@@ -83,11 +90,11 @@ open class GameStateSyncer(
                     updatePoints(pDbGame)
                 }
                 .collectList().subscribe()
-
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updatePoints(dbGame: Game): Flux<Pick> {
+        logger.info("updating points for game ${dbGame.id}")
         return pickRepository.findAllByGame(dbGame).flatMap {
             if (it.gamePlayer != null) {
                 if (it.gamePlayer?.position == "Forward") {
@@ -102,21 +109,22 @@ open class GameStateSyncer(
                             ((it.gamePlayer?.shortAssists ?: 0) * 4)).toShort()
                 }
             } else if (it.goalies == true) {
-                dbGame.players?.filter { player ->
-                    player.team?.id == it.team?.id!! && player.position == "Goalie"
-                }?.sumOf { it.goalsAgainst?.toInt() ?: 0 }?.let { goalsAgainst ->
-                    it.points = when (goalsAgainst) {
-                        0 -> {
-                            5
-                        }
+                val goalsAgainst = if (dbGame.homeTeam?.id == it.team?.id!!) {
+                    dbGame.awayTeamGoals!!
+                } else {
+                    dbGame.homeTeamGoals!!
+                }
+                it.points = when (goalsAgainst.toInt()) {
+                    0 -> {
+                        5
+                    }
 
-                        1, 2 -> {
-                            3
-                        }
+                    1, 2 -> {
+                        3
+                    }
 
-                        else -> {
-                            0
-                        }
+                    else -> {
+                        0
                     }
                 }
             } else if (it.theTeam == true) {
@@ -151,6 +159,7 @@ open class GameStateSyncer(
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updateGamePlayersAndGame(dbGame: Game, gameScore: GameBoxscore, game: ScheduleGame): Mono<Game> {
+        logger.info("updating game ${game.gamePk} with status ${game.status?.abstractGameState} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
             gameScore.teams?.away?.players?.get("ID" + dbPlayer.id?.playerId?.toString())
                     ?: gameScore.teams?.home?.players?.get("ID" + dbPlayer.id?.playerId?.toString())
@@ -176,7 +185,7 @@ open class GameStateSyncer(
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createGame(game: ScheduleGame): Mono<Game> {
-        logger.info("creating game: ${game.gamePk}")
+        logger.info("creating game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
         return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
                 .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
                 .flatMap { tuple ->

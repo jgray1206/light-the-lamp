@@ -35,10 +35,10 @@ r2dbc:
       username: postgres
       password: pass
 ---
-logger:
-  levels:
-    io.r2dbc: TRACE
-    io.micronaut.data: TRACE
+#logger:
+#  levels:
+#    io.r2dbc: TRACE
+#    io.micronaut.data: TRACE
 ---
 credential.path: ${HOMEPATH}\credentials.json
 token.path: ${HOMEPATH}\tokens

@@ -423,7 +423,7 @@ function createTable(
     row.insertCell(2).innerHTML = "5/shutout<br/>3/one-or-two GA";
     createPickButton(game.id, "goalies", team.id, row.insertCell(3));
   } else {
-    var goals = goalies.reduce((a, b) => a + (b.goalsAgainst || 0), 0);
+    var goals = (teamIsAwayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) || 0;
     var htmlString = "";
     if (goals > 2) {
       htmlString = "<h1>0</h1></br>";
