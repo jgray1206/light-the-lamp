@@ -87,7 +87,8 @@ function loadLeaderboards() {
 };
 
 function createTable(picks, team, isRedditDisplay) {
-  var headers = ["User", "Points"];
+  var curUserEmail = getSubFromJwt()
+  var headers = ["", "User", "Num Picks", "Points"];
   var table = document.createElement("table"); //makes a table element for the page
   table.setAttribute("class", "table table-hover");
 
@@ -99,21 +100,35 @@ function createTable(picks, team, isRedditDisplay) {
   )
     .map((pick) => {
       pick[2] = isRedditDisplay ? pick[1][0].user.redditUsername : pick[1][0].user.displayName;
+      pick[3] = pick[1].length;
       pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
       return pick;
     })
-    .sort((aPick, bPick) => bPick[1] - aPick[1]);
+    .sort((aPick, bPick) => bPick[1] - aPick[1] || aPick[3] - bPick[3]);
 
   console.log(groupedPicks);
   var i = 0;
+  var rank = 0;
+  var lastPoints = -1;
+  var lastNumPicks = -1;
   groupedPicks.forEach((pick) => {
     var row = table.insertRow(i);
-    if (pick[2]) {
-      row.insertCell(0).innerHTML = pick[2];
-    } else {
-      row.insertCell(0).innerHTML = pick[0].split("@")[0];
+    if (pick[0] == curUserEmail) {
+        row.className = "table-active";
     }
-    row.insertCell(1).innerHTML = pick[1];
+    if (pick[1] != lastPoints || pick[3] != lastNumPicks) {
+        rank += 1;
+        lastPoints = pick[1];
+        lastNumPicks = pick[3];
+    }
+    row.insertCell(0).innerHTML = rank;
+    if (pick[2]) {
+      row.insertCell(1).innerHTML = pick[2];
+    } else {
+      row.insertCell(1).innerHTML = pick[0].split("@")[0];
+    }
+    row.insertCell(2).innerHTML = pick[3];
+    row.insertCell(3).innerHTML = "<b>" + pick[1] + "</b>";
     i++;
   });
 
