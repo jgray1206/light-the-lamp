@@ -49,12 +49,7 @@ open class GameStateSyncer(
             it?.teams ?: listOf()
         }.filter { it.id != null }
                 .flatMap { team ->
-                    val dbTeam = teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
-                    val dbTeamBlock = dbTeam.block()!!
-                    dbTeamBlock.abbreviation = team.abbreviation
-                    dbTeamBlock.shortName = team.teamName
-                    teamRepository.update(dbTeamBlock).block()
-                    dbTeam
+                    teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
                     scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
