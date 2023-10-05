@@ -73,7 +73,7 @@ open class UserController(
                             it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
                             it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
                             it.confirmed = false
-                            it.isAdmin = false
+                            it.admin = false
                             it.displayName = userRequest.displayName
                             it.confirmationUuid = UUID.randomUUID().toString()
                         }).flatMap { user ->
