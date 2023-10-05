@@ -27,7 +27,13 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
                     Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))
                 }
             } else if (it.password != null && BCrypt.checkpw(authenticationRequest.secret as String, it.password)) {
-                userRepository.update(it.also { it.attempts = 0 }).map { AuthenticationResponse.success(authenticationRequest.identity as String) }
+                userRepository.update(it.also { it.attempts = 0 }).map { user ->
+                    if (user.isAdmin == true) {
+                        AuthenticationResponse.success(authenticationRequest.identity as String, listOf("admin"))
+                    } else {
+                        AuthenticationResponse.success(authenticationRequest.identity as String)
+                    }
+                }
             } else {
                 userRepository.update(it.also { it.attempts = it.attempts?.plus(1)?.toShort() ?: 1 }).flatMap {
                     Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH))

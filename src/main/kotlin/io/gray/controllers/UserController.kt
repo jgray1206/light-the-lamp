@@ -73,6 +73,7 @@ open class UserController(
                             it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
                             it.ipAddress = httpClientAddressResolver.resolve(httpRequest)
                             it.confirmed = false
+                            it.isAdmin = false
                             it.displayName = userRequest.displayName
                             it.confirmationUuid = UUID.randomUUID().toString()
                         }).flatMap { user ->
@@ -105,7 +106,6 @@ open class UserController(
                         } ?: Mono.just(user)
                     } ?: Mono.just(user)
                 }.flatMap { user ->
-                    3
                     userRepository.update(user.apply {
                         profilePic?.let { this.profilePic = it }
                         displayName?.let { this.displayName = it }

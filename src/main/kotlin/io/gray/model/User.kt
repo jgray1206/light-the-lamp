@@ -34,6 +34,8 @@ class User {
 
     var confirmed: Boolean? = null
 
+    var isAdmin: Boolean? = null
+
     @NotBlank
     @Size(max = 36)
     var confirmationUuid: String? = null
