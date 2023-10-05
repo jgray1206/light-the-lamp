@@ -1,0 +1,2 @@
+ALTER TABLE "team" ADD COLUMN abbreviation VARCHAR(8) NULL;
+ALTER TABLE "team" ADD COLUMN short_name VARCHAR(32) NULL;

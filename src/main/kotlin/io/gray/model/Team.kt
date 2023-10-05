@@ -13,4 +13,12 @@ class Team {
     @NotBlank
     @Size(max = 128)
     var teamName: String? = null
+
+    @NotBlank
+    @Size(max = 8)
+    var abbreviation: String? = null
+
+    @NotBlank
+    @Size(max = 32)
+    var shortName: String? = null
 }
