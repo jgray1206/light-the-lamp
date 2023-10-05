@@ -254,9 +254,9 @@ function createTable(
     gameDate.getFullYear() +
     " ";
   if (teamIsAwayOrHome == "away") {
-    gameStringShort += "<br/>@ " + game.homeTeam.teamName.split(" ").slice(-1);
+    gameStringShort += "<br/>@ " + game.homeTeam.shortName;
   } else {
-    gameStringShort += "<br/>v " + game.awayTeam.teamName.split(" ").slice(-1);
+    gameStringShort += "<br/>v " + game.awayTeam.shortName;
   }
   createTableHeaderForGame(game, pick, user, gameStringShort, activeGame, team);
 
@@ -279,7 +279,8 @@ function createTable(
   var table = document.createElement("table"); //makes a table element for the page
   tableDiv.appendChild(table);
   table.setAttribute("class", "table table-hover");
-
+  var seasonDropdown = document.getElementById("season");
+  var seasonText = seasonDropdown.options[seasonDropdown.selectedIndex].text.split(" ")[0].replace("-","");
   var players = game.players.filter((player) => player.team.id == team.id);
   var nonGoalies = players
     .filter((player) => player.position != "Goalie")
@@ -324,9 +325,7 @@ function createTable(
     image.height = "90";
     image.className = "rounded-circle img-thumbnail";
     image.src =
-      "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" +
-      id +
-      ".jpg";
+      "https://assets.nhle.com/mugs/nhl/"+seasonText+"/"+team.abbreviation+"/"+ id + ".png"
     image.onerror = function (e) {
       e.target.src = "/shrug.png";
     };
@@ -400,9 +399,7 @@ function createTable(
     image.height = "90";
     image.className = "rounded-circle img-thumbnail";
     image.src =
-      "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" +
-      player.id.playerId +
-      ".jpg";
+          "https://assets.nhle.com/mugs/nhl/"+seasonText+"/"+team.abbreviation+"/"+ player.id.playerId + ".png"
     image.onerror = function (e) {
       e.target.src = "/shrug.png";
     };
