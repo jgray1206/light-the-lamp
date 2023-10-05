@@ -305,7 +305,7 @@ function createTable(
       var lastGameStats = lastGame.players.find(
         (player) => player.id.playerId == id
       );
-      if (lastGameStats && !lastGameStats.timeOnIce) {
+      if (lastGameStats && (!lastGameStats.timeOnIce || lastGameStats.timeOnIce == "0:00")) {
         row.className = "table-warning";
       }
     }
