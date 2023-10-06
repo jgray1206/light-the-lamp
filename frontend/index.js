@@ -676,9 +676,15 @@ if (isAdmin()) {
     select.id = "pickfor";
     select.className = "form-select mb-1";
     select.name = "pickfor";
-    var selectDiv = document.getElementById("pickfordiv");
-    selectDiv.appendChild(select);
-    var option = document.createElement("option");
-    option.text = "Announcer";
-    select.appendChild(option);
+    var element = document.getElementById("season");
+    element.parentNode.insertBefore(select, element.nextSibling);
+    var announcers =  ["Announcer", "Mickey Redmond", "Larry Murphy", "Chris Osgood", "Ken Daniels", "Trevor Thompson", "John Keating"]
+    for (var idx in announcers) {
+        var optionElement = document.createElement("option");
+        optionElement.text = announcers[idx];
+        select.appendChild(optionElement);
+    }
 }
+document.getElementById("pickfor").onchange = function () {
+  loadGames();
+};
