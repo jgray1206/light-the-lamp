@@ -258,7 +258,7 @@ function createTable(
   } else {
     gameStringShort += "<br/>v " + game.awayTeam.shortName;
   }
-  createTableHeaderForGame(game, pick, user, gameStringShort, activeGame, team);
+  createTableHeaderForGame(game, pick, pickEnabled, user, gameStringShort, activeGame, team);
 
   var lastGame = sortedGames.filter(
     (prevGame) => prevGame.gameState == "Final"
@@ -521,6 +521,7 @@ function createPickButton(gameId, pick, teamId, cell) {
 function createTableHeaderForGame(
   game,
   pick,
+  pickEnabled,
   user,
   gameString,
   activeGame,
@@ -540,9 +541,9 @@ function createTableHeaderForGame(
   }
   if (pick && game.gameState != "Final") {
     classString += " text-danger";
-  } else if (game.gameState != "Final") {
+  } else if (pickEnabled && game.gameState != "Final") {
     classString += " text-success";
-  } else if (game.gameState == "Final") {
+  } else {
     classString += " text-secondary";
   }
   headerButton.setAttribute("class", classString);
@@ -669,3 +670,15 @@ document.getElementById("season").onchange = function () {
   loadGames();
 };
 loadGames();
+
+if (isAdmin()) {
+    var select = document.createElement("select");
+    select.id = "pickfor";
+    select.className = "form-select mb-1";
+    select.name = "pickfor";
+    var selectDiv = document.getElementById("pickfordiv");
+    selectDiv.appendChild(select);
+    var option = document.createElement("option");
+    option.text = "Announcer";
+    select.appendChild(option);
+}
