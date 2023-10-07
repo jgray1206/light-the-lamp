@@ -1,0 +1,2 @@
+ALTER TABLE "pick" ADD COLUMN announcer_id BIGINT;
+ALTER TABLE "pick" ALTER COLUMN user_id DROP NOT NULL;

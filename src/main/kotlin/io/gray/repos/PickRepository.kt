@@ -1,9 +1,6 @@
 package io.gray.repos
 
-import io.gray.model.Game
-import io.gray.model.Pick
-import io.gray.model.Team
-import io.gray.model.User
+import io.gray.model.*
 import io.micronaut.data.annotation.Join
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.r2dbc.annotation.R2dbcRepository
@@ -13,7 +10,8 @@ import reactor.core.publisher.Mono
 
 @R2dbcRepository(dialect = Dialect.POSTGRES)
 interface PickRepository : ReactorCrudRepository<Pick, Long> {
-    @Join("user", type = Join.Type.FETCH)
+    @Join("user", type = Join.Type.LEFT_FETCH)
+    @Join("announcer", type = Join.Type.LEFT_FETCH)
     @Join("team", type = Join.Type.FETCH)
     fun findAllByTeamAndGameIdBetween(team: Team, lower: Int, upper: Int): Flux<Pick>
 
@@ -26,7 +24,6 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     fun findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(teams: List<Team>, lower: Int, upper: Int): Flux<Pick>
 
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
-    @Join("user", type = Join.Type.FETCH)
     fun findAllByGame(aGame: Game): Flux<Pick>
 
     fun deleteByGame(aGame: Game): Mono<Long>
@@ -34,6 +31,11 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     fun findAllByUserAndGameIdBetween(aUser: User, lower: Int, upper: Int): Flux<Pick>
 
+    @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
+    fun findAllByAnnouncerAndGameIdBetween(aAnnouncer: Announcer, lower: Int, upper: Int): Flux<Pick>
+
     fun findByGameAndUserAndTeam(aGame: Game, aUser: User, aTeam: Team): Mono<Pick>
+
+    fun findByGameAndAnnouncer(aGame: Game, aAnnouncer: Announcer): Mono<Pick>
 
 }

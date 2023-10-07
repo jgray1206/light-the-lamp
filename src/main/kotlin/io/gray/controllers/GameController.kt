@@ -13,7 +13,8 @@ import java.security.Principal
 @Controller("/game")
 class GameController(
         private val gameRepository: GameRepository,
-        private val userRepository: UserRepository
+        private val userRepository: UserRepository,
+        private val announcerRepository: AnnouncerRepository
 ) {
     @Get("/{id}")
     fun all(id: Long): Mono<Game> {
@@ -31,6 +32,19 @@ class GameController(
             user.teams
         }.flatMap { team ->
             gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team,
+                    team,
+                    "${season}0000".toInt(),
+                    "${season}9999".toInt(),
+                    maxGames
+            )
+        }.distinct { it.id }
+    }
+    @Get("/announcers")
+    fun getGamesByAnnouncers(@QueryValue season: String, @QueryValue maxGames: Int): Flux<Game> {
+        return announcerRepository.findAll().map { announcer ->
+            announcer.team
+        }.flatMap { team ->
+            gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team!!,
                     team,
                     "${season}0000".toInt(),
                     "${season}9999".toInt(),

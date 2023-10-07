@@ -94,13 +94,14 @@ function createTable(picks, team, isRedditDisplay) {
 
   var groupedPicks = Object.entries(
     picks.reduce((x, y) => {
-      (x[y.user.email] = x[y.user.email] || []).push(y);
+      (x[y.user?.email || y.announcer.id] = x[y.user?.email || y.announcer.id] || []).push(y);
       return x;
     }, {})
   )
     .map((pick) => {
-      pick[2] = isRedditDisplay ? pick[1][0].user.redditUsername : pick[1][0].user.displayName;
+      pick[2] = isRedditDisplay ? pick[1][0].user.redditUsername : (pick[1][0].user?.displayName || pick[1][0].announcer.displayName);
       pick[3] = pick[1].length;
+      pick[4] = pick[1][0].user == undefined
       pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
       return pick;
     })
@@ -115,6 +116,9 @@ function createTable(picks, team, isRedditDisplay) {
     var row = table.insertRow(i);
     if (pick[0] == curUserEmail) {
         row.className = "table-active";
+    }
+    if (pick[4]) {
+        row.className = "table-danger";
     }
     if (pick[1] != lastPoints || pick[3] != lastNumPicks) {
         rank += 1;

@@ -83,3 +83,21 @@ function isAdmin() {
 
     return JSON.parse(jsonPayload)['roles'].includes("admin");
 }
+
+if (isAdmin()) {
+    var leaderboardElement = document.getElementById("toLeaderboard")
+    var menuItem = document.createElement("li")
+    var anchor = document.createElement("a")
+    if (window.location.pathname == "/announcers.html") {
+        anchor.className = "dropdown-item active"
+    } else {
+        anchor.className = "dropdown-item"
+    }
+    anchor.id = "toAnnouncers"
+    anchor.innerHTML = "Announcers"
+    menuItem.appendChild(anchor)
+    leaderboardElement.parentNode.insertBefore(menuItem, leaderboardElement.nextSibling);
+    anchor.onclick = function () {
+      window.location.href = "./announcers.html";
+    };
+}

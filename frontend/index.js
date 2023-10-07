@@ -652,6 +652,7 @@ function doPick(elem, gameId, pick, teamId) {
               "./login.html?redirect=" +
               encodeURIComponent(window.location.href);
           } else {
+            const objects = JSON.parse(this.responseText);
             Swal.fire({
               text:
                 objects["_embedded"]["errors"][0]["message"] ||
@@ -670,21 +671,3 @@ document.getElementById("season").onchange = function () {
   loadGames();
 };
 loadGames();
-
-if (isAdmin()) {
-    var select = document.createElement("select");
-    select.id = "pickfor";
-    select.className = "form-select mb-1";
-    select.name = "pickfor";
-    var element = document.getElementById("season");
-    element.parentNode.insertBefore(select, element.nextSibling);
-    var announcers =  ["Announcer", "Mickey Redmond", "Larry Murphy", "Chris Osgood", "Ken Daniels", "Trevor Thompson", "John Keating"]
-    for (var idx in announcers) {
-        var optionElement = document.createElement("option");
-        optionElement.text = announcers[idx];
-        select.appendChild(optionElement);
-    }
-}
-document.getElementById("pickfor").onchange = function () {
-  loadGames();
-};
