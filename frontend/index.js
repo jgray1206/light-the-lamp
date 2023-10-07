@@ -70,9 +70,11 @@ function loadGames() {
                         if (this.status == 200) {
                           const friendPicks = JSON.parse(this.responseText);
                           friendPicks.forEach((friendPick) => {
-                            friendPick.user = user.friends?.find((user) => {
-                              return user.id == friendPick.user.id;
-                            });
+                            if (friendPick.user) {
+                              friendPick.user = user.friends?.find((user) => {
+                                return user.id == friendPick.user.id;
+                              });
+                            }
                           });
                           if (user.teams == null) {
                             document.getElementById("root-div").innerHTML =
@@ -82,8 +84,7 @@ function loadGames() {
                           if (games.length == 0) {
                             document.getElementById(
                               "teamsTabContent"
-                            ).innerHTML =
-                              "<h1>No games yet :(</h1>";
+                            ).innerHTML = "<h1>No games yet :(</h1>";
                             return;
                           }
                           var activeTeam = user.teams?.find((team) => {
@@ -258,7 +259,15 @@ function createTable(
   } else {
     gameStringShort += "<br/>v " + game.awayTeam.shortName;
   }
-  createTableHeaderForGame(game, pick, pickEnabled, user, gameStringShort, activeGame, team);
+  createTableHeaderForGame(
+    game,
+    pick,
+    pickEnabled,
+    user,
+    gameStringShort,
+    activeGame,
+    team
+  );
 
   var lastGame = sortedGames.filter(
     (prevGame) => prevGame.gameState == "Final"
@@ -280,7 +289,9 @@ function createTable(
   tableDiv.appendChild(table);
   table.setAttribute("class", "table table-hover");
   var seasonDropdown = document.getElementById("season");
-  var seasonText = seasonDropdown.options[seasonDropdown.selectedIndex].text.split(" ")[0].replace("-","");
+  var seasonText = seasonDropdown.options[seasonDropdown.selectedIndex].text
+    .split(" ")[0]
+    .replace("-", "");
   var players = game.players.filter((player) => player.team.id == team.id);
   var nonGoalies = players
     .filter((player) => player.position != "Goalie")
@@ -306,7 +317,10 @@ function createTable(
       var lastGameStats = lastGame.players.find(
         (player) => player.id.playerId == id
       );
-      if (lastGameStats && (!lastGameStats.timeOnIce || lastGameStats.timeOnIce == "0:00")) {
+      if (
+        lastGameStats &&
+        (!lastGameStats.timeOnIce || lastGameStats.timeOnIce == "0:00")
+      ) {
         row.className = "table-warning";
       }
     }
@@ -325,7 +339,13 @@ function createTable(
     image.height = "90";
     image.className = "rounded-circle img-thumbnail";
     image.src =
-      "https://assets.nhle.com/mugs/nhl/"+seasonText+"/"+team.abbreviation+"/"+ id + ".png"
+      "https://assets.nhle.com/mugs/nhl/" +
+      seasonText +
+      "/" +
+      team.abbreviation +
+      "/" +
+      id +
+      ".png";
     image.onerror = function (e) {
       e.target.src = "/shrug.png";
     };
@@ -333,9 +353,9 @@ function createTable(
     var friendsCell = row.insertCell(1);
     friendsCell.className = collapseClassValue;
     if (id in friendPicksMap) {
-        friendPicksMap[id].forEach((pick) => {
-          addFriendsPickToCell(friendsCell, pick);
-        });
+      friendPicksMap[id].forEach((pick) => {
+        addFriendsPickToCell(friendsCell, pick);
+      });
     } else {
       friendsCell.innerHTML = "";
     }
@@ -399,7 +419,13 @@ function createTable(
     image.height = "90";
     image.className = "rounded-circle img-thumbnail";
     image.src =
-          "https://assets.nhle.com/mugs/nhl/"+seasonText+"/"+team.abbreviation+"/"+ player.id.playerId + ".png"
+      "https://assets.nhle.com/mugs/nhl/" +
+      seasonText +
+      "/" +
+      team.abbreviation +
+      "/" +
+      player.id.playerId +
+      ".png";
     image.onerror = function (e) {
       e.target.src = "/shrug.png";
     };
@@ -411,7 +437,7 @@ function createTable(
   friendsCell.className = collapseClassValue;
   if ("goalies" in friendPicksMap) {
     friendPicksMap["goalies"].forEach((pick) => {
-          addFriendsPickToCell(friendsCell, pick);
+      addFriendsPickToCell(friendsCell, pick);
     });
   } else {
     friendsCell.innerHTML = "";
@@ -420,7 +446,9 @@ function createTable(
     row.insertCell(2).innerHTML = "5/shutout<br/>3/one-or-two GA";
     createPickButton(game.id, "goalies", team.id, row.insertCell(3));
   } else {
-    var goals = (teamIsAwayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) || 0;
+    var goals =
+      (teamIsAwayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
+      0;
     var htmlString = "";
     if (goals > 2) {
       htmlString = "<h1>0</h1></br>";
@@ -452,8 +480,7 @@ function createTable(
     friendsCell.innerHTML = "";
   }
   if (pickEnabled) {
-    row.insertCell(2).innerHTML =
-      "4/4goals<br/>5/5goals<br/>6/6goals etc";
+    row.insertCell(2).innerHTML = "4/4goals<br/>5/5goals<br/>6/6goals etc";
     createPickButton(game.id, "team", team.id, row.insertCell(3));
   } else {
     var goals =
@@ -489,18 +516,26 @@ function createTable(
 }
 
 function addFriendsPickToCell(friendsCell, pick) {
-  picTdImg = document.createElement("img");
-  picTdImg.width = "30";
-  picTdImg.height = "30";
-  picTdImg.style.marginBottom = "1px";
-  picTdImg.className = "rounded-circle";
-  getPic(pick.user.id, picTdImg);
-  friendsCell.appendChild(picTdImg);
-  var span = document.createElement("span");
-  span.style.fontSize = "14px";
-  span.innerHTML = " " + pick.user.displayName;
-  friendsCell.appendChild(span);
-  friendsCell.appendChild(document.createElement("br"));
+  if (pick.user) {
+    picTdImg = document.createElement("img");
+    picTdImg.width = "30";
+    picTdImg.height = "30";
+    picTdImg.style.marginBottom = "1px";
+    picTdImg.className = "rounded-circle";
+    getPic(pick.user.id, picTdImg);
+    friendsCell.appendChild(picTdImg);
+    var span = document.createElement("span");
+    span.style.fontSize = "14px";
+    span.innerHTML = " " + pick.user.displayName;
+    friendsCell.appendChild(span);
+    friendsCell.appendChild(document.createElement("br"));
+  } else {
+    var span = document.createElement("span");
+    span.style.fontSize = "13px";
+    span.innerHTML = " " + pick.announcer.nickname;
+    friendsCell.appendChild(span);
+    friendsCell.appendChild(document.createElement("br"));
+  }
 }
 
 function createPickButton(gameId, pick, teamId, cell) {

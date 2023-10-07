@@ -64,6 +64,11 @@ class PickController(
         return userRepository.findByEmail(principal.name)
                 .flatMapIterable { it.friends }
                 .flatMap { pickRepository.findAllByUserAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()) }
+                .mergeWith(
+                    announcerRepository.findAll().flatMap {
+                        pickRepository.findAllByAnnouncerAndGameIdBetween(it,"${season}0000".toInt(), "${season}9999".toInt())
+                    }
+                )
     }
 
     @Get("/friends-and-self")
