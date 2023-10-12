@@ -25,12 +25,10 @@ dependencies {
 	implementation("io.micronaut:micronaut-jackson-databind")
 	implementation("io.micronaut.data:micronaut-data-jdbc")
 	implementation("io.micronaut.data:micronaut-data-r2dbc")
-	implementation("io.micronaut.views:micronaut-views-velocity")
 	implementation("io.micronaut.flyway:micronaut-flyway")
 	implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 	implementation("io.micronaut.security:micronaut-security-jwt")
 	implementation("jakarta.annotation:jakarta.annotation-api")
-	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
 	implementation("io.micronaut:micronaut-validation")
@@ -38,6 +36,7 @@ dependencies {
 
 	//db drivers
 	runtimeOnly("org.postgresql:r2dbc-postgresql")
+	runtimeOnly("io.r2dbc:r2dbc-pool")
 	runtimeOnly("org.postgresql:postgresql")
 
 	//for emailing

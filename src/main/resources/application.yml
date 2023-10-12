@@ -34,6 +34,10 @@ r2dbc:
       url: r2dbc:postgresql://localhost:5432/lightthelamp
       username: ${DB_USER:}
       password: ${DB_PASS:}
+      options:
+        driver: pool
+        protocol: postgresql
+        maxSize: 100
 ---
 netty:
   default:

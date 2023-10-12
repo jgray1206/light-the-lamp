@@ -34,7 +34,11 @@ r2dbc:
       url: r2dbc:postgresql://localhost:5432/postgres
       username: postgres
       password: pass
----
+      options:
+        driver: pool
+        protocol: postgresql
+        maxSize: 100
+#---
 #logger:
 #  levels:
 #    io.r2dbc: TRACE
