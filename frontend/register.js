@@ -51,14 +51,17 @@ function register() {
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "/api/user");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  var jsonToSend = {
+     email: username,
+     password: password,
+     teams: teamValues,
+     displayName: displayName
+  }
+  if (redditUsername) {
+    jsonToSend.redditUsername = redditUsername
+  }
   xhttp.send(
-    JSON.stringify({
-      email: username,
-      password: password,
-      teams: teamValues,
-      displayName: displayName,
-      redditUsername: redditUsername
-    })
+    JSON.stringify(jsonToSend)
   );
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
