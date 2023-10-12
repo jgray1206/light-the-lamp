@@ -86,7 +86,7 @@ open class GameStateSyncer(
                 }.flatMap { pDbGame ->
                     updatePoints(pDbGame)
                 }
-                .collectList().subscribe()
+                .collectList().block()
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
