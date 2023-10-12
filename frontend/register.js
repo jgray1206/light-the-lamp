@@ -44,6 +44,7 @@ function register() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   const displayName = document.getElementById("displayname").value;
+  const redditUsername = document.getElementById("redditusername").value;
   const teams = document.getElementById("teams").selectedOptions;
   var teamValues = Array.from(teams).map(({ value }) => value);
 
@@ -56,6 +57,7 @@ function register() {
       password: password,
       teams: teamValues,
       displayName: displayName,
+      redditUsername: redditUsername
     })
   );
   xhttp.onreadystatechange = function () {

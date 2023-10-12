@@ -75,6 +75,7 @@ open class UserController(
                             it.confirmed = false
                             it.admin = false
                             it.displayName = userRequest.displayName
+                            it.redditUsername = userRequest.redditUsername
                             it.confirmationUuid = UUID.randomUUID().toString()
                         }).flatMap { user ->
                             Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${user.confirmationUuid}") }
