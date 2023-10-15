@@ -52,7 +52,7 @@ open class GameStateSyncer(
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(5), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
@@ -102,8 +102,8 @@ open class GameStateSyncer(
                 } else if (it.gamePlayer?.position == "Defenseman") {
                     it.points = (((it.gamePlayer?.goals ?: 0) * 3) +
                             ((it.gamePlayer?.shortGoals ?: 0) * 6) +
-                            ((it.gamePlayer?.assists ?: 0) * 2) +
-                            ((it.gamePlayer?.shortAssists ?: 0) * 4)).toShort()
+                            (it.gamePlayer?.assists ?: 0) +
+                            ((it.gamePlayer?.shortAssists ?: 0) * 2)).toShort()
                 }
             } else if (it.goalies == true) {
                 val goalsAgainst = if (dbGame.homeTeam?.id == it.team?.id!!) {

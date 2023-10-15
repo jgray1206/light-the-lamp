@@ -361,7 +361,7 @@ function createTable(
     }
     if (pickEnabled) {
       if (nonGoalies[i].position == "Defenseman") {
-        row.insertCell(2).innerHTML = "3/goal<br/>2/assist<br/>*2/shorty";
+        row.insertCell(2).innerHTML = "3/goal<br/>1/assist<br/>*2/shorty";
       } else if (nonGoalies[i].position == "Forward") {
         row.insertCell(2).innerHTML = "2/goal<br/>1/assist<br/>*2/shorty";
       }
@@ -372,9 +372,9 @@ function createTable(
         htmlString =
           "<h1>" +
           ((nonGoalies[i].goals || 0) * 3 +
-            (nonGoalies[i].assists || 0) * 2 +
+            (nonGoalies[i].assists || 0) +
             (nonGoalies[i].shortGoals || 0) * 6 +
-            (nonGoalies[i].shortAssists || 0) * 4) +
+            (nonGoalies[i].shortAssists || 0) * 2) +
           "</h1></br>";
       } else if (nonGoalies[i].position == "Forward") {
         htmlString =
