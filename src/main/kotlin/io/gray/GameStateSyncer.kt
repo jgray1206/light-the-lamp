@@ -52,7 +52,7 @@ open class GameStateSyncer(
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(5), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
