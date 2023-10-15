@@ -52,7 +52,7 @@ open class GameStateSyncer(
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(5), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
@@ -82,11 +82,29 @@ open class GameStateSyncer(
                     val game = gameScorePair.first.second
                     val dbGame = gameScorePair.first.first
                     val gameScore = gameScorePair.second
-                    updateGamePlayersAndGame(dbGame, gameScore, game)
+                    makePlayersIfNecessary(dbGame, game).then(updateGamePlayersAndGame(dbGame, gameScore, game))
                 }.flatMap { pDbGame ->
                     updatePoints(pDbGame)
                 }
                 .collectList().block()
+    }
+
+    @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    open fun makePlayersIfNecessary(dbGame: Game, game: ScheduleGame): Mono<Game> {
+        return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
+                .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
+                .flatMap { tuple ->
+                    getPlayers(game, tuple.t1).collectList().zipWith(getPlayers(game, tuple.t2).collectList()).flatMap { players ->
+                        val dbGamePlayerIds = dbGame.players?.mapNotNull { it.id?.playerId }?.toSet() ?: emptySet()
+                        players.t1.plus(players.t2).forEach { player ->
+                            if (!dbGamePlayerIds.contains(player.id?.playerId)) {
+                                logger.info("making missing player ${player.name} for game ${game.gamePk}")
+                                gamePlayerRepository.save(player)
+                            }
+                        }
+                        Mono.just(dbGame)
+                    }
+                }
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
