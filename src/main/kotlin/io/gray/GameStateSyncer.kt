@@ -66,10 +66,11 @@ open class GameStateSyncer(
                     //        deleteGameAndPicks(futureGame)
                     //    }
                     //}
-
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
                             createGame(game)
-                    ).map { Pair(it, game) }
+                    ).flatMap { addMissingPlayers(it, game) }
+                            .flatMap { gameRepository.findById(game.gamePk!!.toLong()) }
+                            .map { Pair(it, game) }
                 }
                 .filter {
                     it.second.status?.abstractGameState.equals("live", ignoreCase = true) ||
@@ -79,9 +80,7 @@ open class GameStateSyncer(
                     gamesApi.getGameBoxscore(pair.second.gamePk!!).map { Triple(pair.first, pair.second, it) }
                 }
                 .flatMap { (dbGame, game, gameScore) ->
-                    makePlayersIfNecessary(dbGame, game).then(gameRepository.findById(dbGame.id!!)).flatMap {
-                        updateGamePlayersAndGame(it, gameScore, game)
-                    }
+                    updateGamePlayersAndGame(dbGame, gameScore, game)
                 }.flatMap { pDbGame ->
                     updatePoints(pDbGame)
                 }
@@ -89,7 +88,7 @@ open class GameStateSyncer(
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
-    open fun makePlayersIfNecessary(dbGame: Game, game: ScheduleGame): Mono<Game> {
+    open fun addMissingPlayers(dbGame: Game, game: ScheduleGame): Mono<Game> {
         val dbGamePlayerIds = dbGame.players?.mapNotNull { it.id?.playerId }?.toSet() ?: emptySet()
         return if (dbGame.gameState.equals("preview", ignoreCase = true)) {
             teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
