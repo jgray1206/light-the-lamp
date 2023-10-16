@@ -38,10 +38,10 @@ open class GameStateSyncer(
     @Scheduled(fixedDelay = "1m")
     @ExecuteOn(TaskExecutors.IO)
     fun syncInProgressGameState() {
-        syncAllGames(LocalDateTime.now().minute % 5 == 0)
+        syncAllGames(LocalDateTime.now().minute)
     }
 
-    fun syncAllGames(syncFinalGames: Boolean) {
+    fun syncAllGames(minuteOfHour: Int) {
         teamsApi.getTeams(null, null).flatMapIterable {
             it?.teams ?: listOf()
         }.filter { it.id != null }
@@ -68,13 +68,18 @@ open class GameStateSyncer(
                     //}
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
                             createGame(game)
-                    ).flatMap { addMissingPlayers(it, game) }
-                            .flatMap { gameRepository.findById(game.gamePk!!.toLong()) }
-                            .map { Pair(it, game) }
+                    ).flatMap {
+                        if (minuteOfHour % 5 == 0) {
+                            logger.info("checking for missing players for game ${game.gamePk}")
+                            addMissingPlayers(it, game).then(gameRepository.findById(game.gamePk!!.toLong()))
+                        } else {
+                            Mono.just(it)
+                        }
+                    }.map { Pair(it, game) }
                 }
                 .filter {
                     it.second.status?.abstractGameState.equals("live", ignoreCase = true) ||
-                            (syncFinalGames && it.second.status?.abstractGameState.equals("final", ignoreCase = true))
+                            (minuteOfHour % 5 == 0 && it.second.status?.abstractGameState.equals("final", ignoreCase = true))
                 }
                 .flatMap { pair ->
                     gamesApi.getGameBoxscore(pair.second.gamePk!!).map { Triple(pair.first, pair.second, it) }
@@ -103,7 +108,9 @@ open class GameStateSyncer(
                             }
                         }.then(Mono.just(dbGame))
                     }
-        } else { Mono.just(dbGame) }
+        } else {
+            Mono.just(dbGame)
+        }
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
