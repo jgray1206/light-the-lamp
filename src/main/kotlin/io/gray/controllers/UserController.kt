@@ -20,6 +20,7 @@ import reactor.core.publisher.Mono
 import java.security.Principal
 import java.util.*
 import javax.validation.Valid
+import javax.validation.constraints.Size
 
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -92,7 +93,7 @@ open class UserController(
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
-    fun update(profilePic: ByteArray?, displayName: String?, redditUsername: String?, teams: List<Long>?, principal: Principal): Mono<User> {
+    open fun update(profilePic: ByteArray?, displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?, principal: Principal): Mono<User> {
         return userRepository.findByEmail(principal.name)
                 .flatMap { user ->
                     teams?.let { teams ->
@@ -111,6 +112,7 @@ open class UserController(
                         profilePic?.let { this.profilePic = it }
                         displayName?.let { this.displayName = it }
                         redditUsername?.let { this.redditUsername = it }
+                        password?.let { this.password = BCrypt.hashpw(it, BCrypt.gensalt(12)) }
                     })
                 }
                 .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }

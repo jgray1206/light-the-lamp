@@ -75,6 +75,9 @@ document.forms.userUpdate.addEventListener("submit", (e) => {
   } else {
     formData.set("redditUsername", "");
   }
+  if (document.getElementById("password").value) {
+    formData.set("password", document.getElementById("password").value);
+  }
   var teamOptions = document.getElementById("teams").selectedOptions;
   var teamValues = Array.from(teamOptions).map(({ value }) => value);
   formData.set("teams", teamValues);
@@ -121,3 +124,10 @@ document.forms.userUpdate.addEventListener("submit", (e) => {
 });
 
 getUser();
+
+document.getElementById("confirm-password").addEventListener('input', function() {
+    var pass1 = document.getElementById("password");
+    var pass2 = document.getElementById("confirm-password");
+    pass2.setCustomValidity(pass2.value != pass1.value ? "Passwords do not match." : "");
+    pass2.reportValidity();
+}, true);
