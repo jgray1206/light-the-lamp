@@ -38,13 +38,10 @@ open class GameStateSyncer(
     @Scheduled(fixedDelay = "1m")
     @ExecuteOn(TaskExecutors.IO)
     fun syncInProgressGameState() {
-        syncAllGamesWithStatus("live")
-        if (LocalDateTime.now().minute % 5 == 0) {
-            syncAllGamesWithStatus("final")
-        }
+        syncAllGames(LocalDateTime.now().minute % 5 == 0)
     }
 
-    fun syncAllGamesWithStatus(status: String) {
+    fun syncAllGames(syncFinalGames: Boolean) {
         teamsApi.getTeams(null, null).flatMapIterable {
             it?.teams ?: listOf()
         }.filter { it.id != null }
@@ -74,7 +71,10 @@ open class GameStateSyncer(
                             createGame(game)
                     ).map { Pair(it, game) }
                 }
-                .filter { it.second.status?.abstractGameState.equals(status, ignoreCase = true) }
+                .filter {
+                    it.second.status?.abstractGameState.equals("live", ignoreCase = true) ||
+                            (syncFinalGames && it.second.status?.abstractGameState.equals("final", ignoreCase = true))
+                }
                 .flatMap { pair ->
                     gamesApi.getGameBoxscore(pair.second.gamePk!!).map { Pair(pair, it) }
                 }
