@@ -96,13 +96,14 @@ open class GameStateSyncer(
                 .flatMap { tuple ->
                     getPlayers(game, tuple.t1).collectList().zipWith(getPlayers(game, tuple.t2).collectList()).flatMap { players ->
                         val dbGamePlayerIds = dbGame.players?.mapNotNull { it.id?.playerId }?.toSet() ?: emptySet()
-                        players.t1.plus(players.t2).forEach { player ->
+                        Flux.fromIterable(players.t1.plus(players.t2)).flatMap { player ->
                             if (!dbGamePlayerIds.contains(player.id?.playerId)) {
                                 logger.info("making missing player ${player.name} for game ${game.gamePk}")
                                 gamePlayerRepository.save(player)
+                            } else {
+                                Mono.empty()
                             }
-                        }
-                        Mono.just(dbGame)
+                        }.then(Mono.just(dbGame))
                     }
                 }
     }
