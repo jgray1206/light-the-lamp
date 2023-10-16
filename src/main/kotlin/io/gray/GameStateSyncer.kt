@@ -76,12 +76,9 @@ open class GameStateSyncer(
                             (syncFinalGames && it.second.status?.abstractGameState.equals("final", ignoreCase = true))
                 }
                 .flatMap { pair ->
-                    gamesApi.getGameBoxscore(pair.second.gamePk!!).map { Pair(pair, it) }
+                    gamesApi.getGameBoxscore(pair.second.gamePk!!).map { Triple(pair.first, pair.second, it) }
                 }
-                .flatMap { gameScorePair ->
-                    val game = gameScorePair.first.second
-                    val dbGame = gameScorePair.first.first
-                    val gameScore = gameScorePair.second
+                .flatMap { (dbGame, game, gameScore) ->
                     makePlayersIfNecessary(dbGame, game).then(gameRepository.findById(dbGame.id!!)).flatMap {
                         updateGamePlayersAndGame(it, gameScore, game)
                     }
@@ -94,18 +91,20 @@ open class GameStateSyncer(
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun makePlayersIfNecessary(dbGame: Game, game: ScheduleGame): Mono<Game> {
         val dbGamePlayerIds = dbGame.players?.mapNotNull { it.id?.playerId }?.toSet() ?: emptySet()
-        return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
-                .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
-                .flatMap { tuple ->
-                    getPlayers(game, tuple.t1).mergeWith(getPlayers(game, tuple.t2)).flatMap { player ->
-                        if (!dbGamePlayerIds.contains(player.id?.playerId)) {
-                            logger.info("making missing player ${player.name} for game ${game.gamePk}")
-                            gamePlayerRepository.save(player)
-                        } else {
-                            Mono.empty()
-                        }
-                    }.then(Mono.just(dbGame))
-                }
+        return if (dbGame.gameState.equals("preview", ignoreCase = true)) {
+            teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
+                    .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
+                    .flatMap { tuple ->
+                        getPlayers(game, tuple.t1).mergeWith(getPlayers(game, tuple.t2)).flatMap { player ->
+                            if (!dbGamePlayerIds.contains(player.id?.playerId)) {
+                                logger.info("making missing player ${player.name} for game ${game.gamePk}")
+                                gamePlayerRepository.save(player)
+                            } else {
+                                Mono.empty()
+                            }
+                        }.then(Mono.just(dbGame))
+                    }
+        } else { Mono.just(dbGame) }
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
