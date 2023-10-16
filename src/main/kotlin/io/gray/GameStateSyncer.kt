@@ -69,7 +69,7 @@ open class GameStateSyncer(
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
                             createGame(game)
                     ).flatMap {
-                        if (minuteOfHour % 5 == 0) {
+                        if (minuteOfHour % 5 == 0 && it.gameState.equals("preview", ignoreCase = true)) {
                             logger.info("checking for missing players for game ${game.gamePk}")
                             addMissingPlayers(it, game).then(gameRepository.findById(game.gamePk!!.toLong()))
                         } else {
@@ -95,22 +95,18 @@ open class GameStateSyncer(
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun addMissingPlayers(dbGame: Game, game: ScheduleGame): Mono<Game> {
         val dbGamePlayerIds = dbGame.players?.mapNotNull { it.id?.playerId }?.toSet() ?: emptySet()
-        return if (dbGame.gameState.equals("preview", ignoreCase = true)) {
-            teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
-                    .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
-                    .flatMap { tuple ->
-                        getPlayers(game, tuple.t1).mergeWith(getPlayers(game, tuple.t2)).flatMap { player ->
-                            if (!dbGamePlayerIds.contains(player.id?.playerId)) {
-                                logger.info("making missing player ${player.name} for game ${game.gamePk}")
-                                gamePlayerRepository.save(player)
-                            } else {
-                                Mono.empty()
-                            }
-                        }.then(Mono.just(dbGame))
-                    }
-        } else {
-            Mono.just(dbGame)
-        }
+        return teamRepository.findById(game.teams?.home?.team?.id?.toLong()!!)
+                .zipWith(teamRepository.findById(game.teams?.away?.team?.id?.toLong()!!))
+                .flatMap { tuple ->
+                    getPlayers(game, tuple.t1).mergeWith(getPlayers(game, tuple.t2)).flatMap { player ->
+                        if (!dbGamePlayerIds.contains(player.id?.playerId)) {
+                            logger.info("making missing player ${player.name} for game ${game.gamePk}")
+                            gamePlayerRepository.save(player)
+                        } else {
+                            Mono.empty()
+                        }
+                    }.then(Mono.just(dbGame))
+                }
     }
 
     @TransactionalAdvice(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
