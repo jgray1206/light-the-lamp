@@ -1,11 +1,6 @@
 package io.gray.model
 
 import io.micronaut.data.annotation.*
-import io.micronaut.data.jdbc.annotation.JoinColumn
-import io.micronaut.data.jdbc.annotation.JoinTable
-import io.micronaut.data.model.DataType
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @MappedEntity

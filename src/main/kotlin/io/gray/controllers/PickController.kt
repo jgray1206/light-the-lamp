@@ -29,12 +29,14 @@ class PickController(
             it.teams
         }.flatMap {
             pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
+                pick.user?.email = null
                 pick.user?.password = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
                 pick.user?.profilePic = byteArrayOf()
                 pick.user?.attempts = null
                 pick.user?.locked = null
+                pick.user?.confirmed = null
                 pick
             }
         }
@@ -65,9 +67,9 @@ class PickController(
                 .flatMapIterable { it.friends }
                 .flatMap { pickRepository.findAllByUserAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()) }
                 .mergeWith(
-                    announcerRepository.findAll().flatMap {
-                        pickRepository.findAllByAnnouncerAndGameIdBetween(it,"${season}0000".toInt(), "${season}9999".toInt())
-                    }
+                        announcerRepository.findAll().flatMap {
+                            pickRepository.findAllByAnnouncerAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
+                        }
                 )
     }
 
@@ -76,11 +78,13 @@ class PickController(
         return userRepository.findByEmail(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
             pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it), "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
+                pick.user?.email = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
                 pick.user?.profilePic = byteArrayOf()
                 pick.user?.attempts = null
                 pick.user?.locked = null
+                pick.user?.confirmed = null
                 pick
             }
         }
@@ -91,11 +95,13 @@ class PickController(
         return userRepository.findByEmail(principal.name).filter { it.teams != null }.flatMapMany {
             pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
+                pick.user?.email = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
                 pick.user?.profilePic = byteArrayOf()
                 pick.user?.attempts = null
                 pick.user?.locked = null
+                pick.user?.confirmed = null
                 pick
             }
         }
@@ -134,8 +140,13 @@ class PickController(
             )
         }.map {
             it.user?.password = null
+            it.user?.email = null
             it.user?.ipAddress = null
+            it.user?.confirmationUuid = null
             it.user?.profilePic = byteArrayOf()
+            it.user?.attempts = null
+            it.user?.locked = null
+            it.user?.confirmed = null
             it
         }
     }

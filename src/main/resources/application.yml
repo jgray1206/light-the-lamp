@@ -64,6 +64,8 @@ resilience4j:
     instances:
       usercreate:
         baseConfig: default
+      passwordreset:
+        baseConfig: default
 ---
 credential.path: ${HOME}/credentials.json
 token.path: ${HOME}/tokens

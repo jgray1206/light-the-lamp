@@ -94,7 +94,7 @@ function createTable(picks, team, isRedditDisplay) {
 
   var groupedPicks = Object.entries(
     picks.reduce((x, y) => {
-      (x[y.user?.email || y.announcer.id] = x[y.user?.email || y.announcer.id] || []).push(y);
+      (x[y.user?.id || y.announcer.id] = x[y.user?.id || y.announcer.id] || []).push(y);
       return x;
     }, {})
   )

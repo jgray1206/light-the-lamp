@@ -83,3 +83,38 @@ function login() {
 document.getElementById("login-form").onsubmit = function() {
   return login()
 }
+
+document.getElementById("forgotpassword").onclick = function() {
+    const username = document.getElementById("username").value;
+    if (!username || username.trim().length === 0) {
+       Swal.fire({
+             text: "Please enter your email before clicking forgot password",
+             icon: "error",
+             confirmButtonText: "OK",
+       });
+       return;
+    }
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/passwordreset?email="+username);
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      if (this.status == 200) {
+        Swal.fire({
+          text: "Password reset email sent! Check your email and click the link. If you don't find the email, do check your spam.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      } else {
+        const objects = JSON.parse(this.responseText);
+        Swal.fire({
+          text: objects["_embedded"]["errors"][0]["message"] || objects["message"],
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+  };
+}

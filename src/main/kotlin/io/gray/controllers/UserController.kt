@@ -37,12 +37,15 @@ open class UserController(
         return userRepository.findByEmail(principal.name).map {
             it.apply {
                 it.password = null
+                it.email = null
+                it.confirmationUuid = null
                 it.ipAddress = null
                 it.friends = it.friends?.map { friend ->
                     friend.apply {
                         this.password = null
                         this.email = null
                         this.ipAddress = null
+                        this.confirmationUuid = null
                         this.profilePic = byteArrayOf()
                     }
                 }
@@ -115,7 +118,15 @@ open class UserController(
                         password?.let { this.password = BCrypt.hashpw(it, BCrypt.gensalt(12)) }
                     })
                 }
-                .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+                .map {
+                    it.apply {
+                        it.password = null
+                        it.ipAddress = null
+                        it.email = null
+                        it.friends = null
+                        it.confirmationUuid = null
+                    }
+                }
     }
 
     @Get("/confirm/{uuid}")
@@ -124,7 +135,15 @@ open class UserController(
     open fun confirm(@PathVariable uuid: String): Mono<User> {
         return userRepository.findOneByConfirmationUuidAndConfirmed(uuid, false).flatMap {
             userRepository.update(it.also { it.confirmed = true })
-        }.map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+        }.map {
+            it.apply {
+                it.password = null
+                it.ipAddress = null
+                it.email = null
+                it.confirmationUuid = null
+                it.friends = null
+            }
+        }
     }
 
 }

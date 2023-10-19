@@ -39,6 +39,7 @@ class GameController(
             )
         }.distinct { it.id }
     }
+
     @Get("/announcers")
     fun getGamesByAnnouncers(@QueryValue season: String, @QueryValue maxGames: Int): Flux<Game> {
         return announcerRepository.findAll().map { announcer ->

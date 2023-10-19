@@ -1,0 +1,1 @@
+CREATE TABLE "password_reset" (id SERIAL PRIMARY KEY, user_id BIGINT NOT NULL, reset_uuid VARCHAR(36) NOT NULL, create_time TIMESTAMP NOT NULL);
