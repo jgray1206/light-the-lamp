@@ -38,7 +38,6 @@ open class UserController(
             it.apply {
                 it.password = null
                 it.email = null
-                it.confirmationUuid = null
                 it.ipAddress = null
                 it.friends = it.friends?.map { friend ->
                     friend.apply {
@@ -129,7 +128,7 @@ open class UserController(
                 }
     }
 
-    @Get("/confirm/{uuid}")
+    @Get("/confirm/{uuid}", processes = [MediaType.APPLICATION_JSON])
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "usercreate")
     open fun confirm(@PathVariable uuid: String): Mono<User> {
