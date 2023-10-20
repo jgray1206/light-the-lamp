@@ -29,7 +29,9 @@ class PickController(
             it.teams
         }.flatMap {
             pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
-                pick.user?.email = null
+                if (principal.name != pick.user?.email) {
+                    pick.user?.email = null
+                }
                 pick.user?.password = null
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
@@ -78,7 +80,9 @@ class PickController(
         return userRepository.findByEmail(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
             pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it), "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
-                pick.user?.email = null
+                if (principal.name != pick.user?.email) {
+                    pick.user?.email = null
+                }
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
                 pick.user?.profilePic = byteArrayOf()
@@ -95,7 +99,9 @@ class PickController(
         return userRepository.findByEmail(principal.name).filter { it.teams != null }.flatMapMany {
             pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
                 pick.user?.password = null
-                pick.user?.email = null
+                if (principal.name != pick.user?.email) {
+                    pick.user?.email = null
+                }
                 pick.user?.ipAddress = null
                 pick.user?.confirmationUuid = null
                 pick.user?.profilePic = byteArrayOf()
@@ -140,7 +146,9 @@ class PickController(
             )
         }.map {
             it.user?.password = null
-            it.user?.email = null
+            if (principal.name != it.user?.email) {
+                it.user?.email = null
+            }
             it.user?.ipAddress = null
             it.user?.confirmationUuid = null
             it.user?.profilePic = byteArrayOf()
