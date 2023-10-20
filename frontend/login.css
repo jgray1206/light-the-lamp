@@ -12,6 +12,10 @@ body {
   margin: auto;
 }
 
+.card {
+  border-radius: 1rem;
+}
+
 #help {
     text-decoration: none;
     color: black;
