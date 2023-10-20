@@ -49,7 +49,7 @@ open class GameStateSyncer(
                     teamRepository.findById(team.id!!.toLong()).switchIfEmpty(createTeam(team))
                 }
                 .flatMap { team ->
-                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2), LocalDateTime.now().plusHours(3).toLocalDate())
+                    scheduleApi.getSchedule(null, team.id!!.toString(), LocalDate.now().minusDays(2).toString(), LocalDateTime.now().plusHours(3).toLocalDate().toString())
                 }
                 .flatMapIterable { it.dates }
                 .flatMapIterable { it.games }
@@ -66,6 +66,7 @@ open class GameStateSyncer(
                     //        deleteGameAndPicks(futureGame)
                     //    }
                     //}
+                    logger.info("processing game ${game.gamePk} on date ${game.gameDate} between team ${game.teams?.away?.team?.name} and ${game.teams?.home?.team?.name}")
                     gameRepository.findById(game.gamePk!!.toLong()).switchIfEmpty(
                             createGame(game)
                     ).flatMap {

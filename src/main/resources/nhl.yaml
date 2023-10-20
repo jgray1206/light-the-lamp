@@ -354,16 +354,12 @@ paths:
           required: false
           schema:
             type: string
-            format: date
-            example: "2018-02-11"
           description: Start date for the search.
         - name: endDate
           in: query
           required: false
           schema:
             type: string
-            format: date
-            example: "2018-02-18"
           description: End date for the search.
       responses:
         200:
