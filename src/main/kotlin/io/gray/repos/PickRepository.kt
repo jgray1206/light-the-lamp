@@ -23,6 +23,8 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("team", type = Join.Type.FETCH)
     fun findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(teams: List<Team>, lower: Int, upper: Int): Flux<Pick>
 
+    @Join("user", type = Join.Type.LEFT_FETCH)
+    @Join("announcer", type = Join.Type.LEFT_FETCH)
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     fun findAllByGame(aGame: Game): Flux<Pick>
 
