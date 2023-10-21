@@ -112,7 +112,7 @@ class PickController(
                 "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
             }
 
-            check(game.date?.isAfter(LocalDateTime.now()) == true && gameId != "2023020065") {
+            check(game.date?.isAfter(LocalDateTime.now()) == true || gameId == "2023020065") {
                 "can't submit pick on game that has already started, you little silly billy"
             }
 
