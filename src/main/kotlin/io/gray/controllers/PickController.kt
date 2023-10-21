@@ -11,6 +11,8 @@ import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.security.Principal
@@ -24,6 +26,9 @@ class PickController(
         private val gameRepository: GameRepository,
         private val announcerRepository: AnnouncerRepository
 ) {
+    companion object {
+        val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    }
     @Get
     fun getAll(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapIterable {
@@ -110,6 +115,8 @@ class PickController(
             check(game.date?.isAfter(LocalDateTime.now()) == true) {
                 "can't submit pick on game that has already started, you little silly billy"
             }
+
+            logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
 
             pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
                     pickRepository.save(Pick().also { pickEntity ->

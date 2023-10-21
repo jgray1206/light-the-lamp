@@ -220,7 +220,7 @@ function createTable(
   var pick = picks.find(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
-  var pickEnabled = pick == undefined && gameDate > curDate;
+  var pickEnabled = pick == undefined && (gameDate > curDate || game.id == 2023020065);
   var friendPicks = allFriendPicks.filter(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
