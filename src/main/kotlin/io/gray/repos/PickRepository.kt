@@ -17,7 +17,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
 
     @Join("user", type = Join.Type.FETCH)
     @Join("team", type = Join.Type.FETCH)
-    fun findAllByTeamInAndUserInAndGameIdBetween(teams: List<Team>, users: List<User>, lower: Int, upper: Int): Flux<Pick>
+    fun findAllByTeamInAndUserInAndGameIdBetween(teams: List<Team>, users: List<UserDTO>, lower: Int, upper: Int): Flux<Pick>
 
     @Join("user", type = Join.Type.FETCH)
     @Join("team", type = Join.Type.FETCH)
@@ -28,14 +28,15 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
 
     fun deleteByGame(aGame: Game): Mono<Long>
 
+    @Join("user", type = Join.Type.LEFT_FETCH)
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
-    fun findAllByUserAndGameIdBetween(aUser: User, lower: Int, upper: Int): Flux<Pick>
+    fun findAllByUserAndGameIdBetween(aUser: UserDTO, lower: Int, upper: Int): Flux<Pick>
 
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     @Join("announcer", type = Join.Type.LEFT_FETCH)
     fun findAllByAnnouncerAndGameIdBetween(aAnnouncer: Announcer, lower: Int, upper: Int): Flux<Pick>
 
-    fun findByGameAndUserAndTeam(aGame: Game, aUser: User, aTeam: Team): Mono<Pick>
+    fun findByGameAndUserAndTeam(aGame: Game, aUser: UserDTO, aTeam: Team): Mono<Pick>
 
     fun findByGameAndAnnouncer(aGame: Game, aAnnouncer: Announcer): Mono<Pick>
 

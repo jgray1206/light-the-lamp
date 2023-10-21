@@ -69,6 +69,7 @@ function loadGames() {
                       if (this.readyState == 4) {
                         if (this.status == 200) {
                           const friendPicks = JSON.parse(this.responseText);
+                          console.log(friendPicks);
                           friendPicks.forEach((friendPick) => {
                             if (friendPick.user) {
                               friendPick.user = user.friends?.find((user) => {

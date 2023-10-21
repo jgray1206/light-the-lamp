@@ -2,6 +2,7 @@ package io.gray.controllers
 
 import io.gray.model.Pick
 import io.gray.model.Team
+import io.gray.model.UserDTO
 import io.gray.repos.AnnouncerRepository
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
@@ -28,19 +29,7 @@ class PickController(
         return userRepository.findByEmail(principal.name).flatMapIterable {
             it.teams
         }.flatMap {
-            pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
-                if (principal.name != pick.user?.email) {
-                    pick.user?.email = null
-                }
-                pick.user?.password = null
-                pick.user?.ipAddress = null
-                pick.user?.confirmationUuid = null
-                pick.user?.profilePic = byteArrayOf()
-                pick.user?.attempts = null
-                pick.user?.locked = null
-                pick.user?.confirmed = null
-                pick
-            }
+            pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
         }
     }
 
@@ -52,7 +41,11 @@ class PickController(
     @Get("/user")
     fun getPickByUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapMany {
-            pickRepository.findAllByUserAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
+            pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
+                this.id = it.id
+                this.displayName = it.displayName
+                this.redditUsername = it.redditUsername
+            }, "${season}0000".toInt(), "${season}9999".toInt())
         }
     }
 
@@ -67,7 +60,11 @@ class PickController(
     fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name)
                 .flatMapIterable { it.friends }
-                .flatMap { pickRepository.findAllByUserAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt()) }
+                .flatMap { pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
+                    this.id = it.id
+                    this.displayName = it.displayName
+                    this.redditUsername = it.redditUsername
+                }, "${season}0000".toInt(), "${season}9999".toInt()) }
                 .mergeWith(
                         announcerRepository.findAll().flatMap {
                             pickRepository.findAllByAnnouncerAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
@@ -78,49 +75,35 @@ class PickController(
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it), "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
-                pick.user?.password = null
-                if (principal.name != pick.user?.email) {
-                    pick.user?.email = null
+            pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it).map {
+                UserDTO().apply {
+                    this.id = it.id
+                    this.displayName = it.displayName
+                    this.redditUsername = it.redditUsername
                 }
-                pick.user?.ipAddress = null
-                pick.user?.confirmationUuid = null
-                pick.user?.profilePic = byteArrayOf()
-                pick.user?.attempts = null
-                pick.user?.locked = null
-                pick.user?.confirmed = null
-                pick
-            }
+            }, "${season}0000".toInt(), "${season}9999".toInt())
         }
     }
 
     @Get("/reddit")
     fun getPicksByReddit(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).filter { it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt()).map { pick ->
-                pick.user?.password = null
-                if (principal.name != pick.user?.email) {
-                    pick.user?.email = null
-                }
-                pick.user?.ipAddress = null
-                pick.user?.confirmationUuid = null
-                pick.user?.profilePic = byteArrayOf()
-                pick.user?.attempts = null
-                pick.user?.locked = null
-                pick.user?.confirmed = null
-                pick
-            }
+            pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt())
         }
     }
 
     @Post("/user")
     fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, principal: Principal): Mono<Pick> {
         return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
-            val user = tuple.t1
+            val user = UserDTO().apply {
+                this.id = tuple.t1.id
+                this.displayName = tuple.t1.displayName
+                this.redditUsername = tuple.t1.redditUsername
+            }
             val game = tuple.t2
             val team = Team().apply { this.id = teamId }
 
-            check(user.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
+            check(tuple.t1.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
                 "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
             }
 
@@ -144,18 +127,6 @@ class PickController(
                         }
                     })
             )
-        }.map {
-            it.user?.password = null
-            if (principal.name != it.user?.email) {
-                it.user?.email = null
-            }
-            it.user?.ipAddress = null
-            it.user?.confirmationUuid = null
-            it.user?.profilePic = byteArrayOf()
-            it.user?.attempts = null
-            it.user?.locked = null
-            it.user?.confirmed = null
-            it
         }
     }
 

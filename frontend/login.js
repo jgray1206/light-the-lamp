@@ -60,7 +60,6 @@ function login() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
       const objects = JSON.parse(this.responseText);
-      console.log(objects);
       if (objects["access_token"]) {
         localStorage.setItem("jwt", objects["access_token"]);
         if (getURLParameter("redirect")) {

@@ -22,7 +22,7 @@ r2dbc:
   datasources:
     default:
       dialect: H2
-      url: r2dbc:h2:file:///~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;SCHEMA=dbo;
+      url: r2dbc:h2:file:///~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
       username: sa
       password: ''
       options: {}

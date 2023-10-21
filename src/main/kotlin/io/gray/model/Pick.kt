@@ -12,7 +12,7 @@ class Pick {
     var id: Long? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)
-    var user: User? = null
+    var user: UserDTO? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)
     var announcer: Announcer? = null

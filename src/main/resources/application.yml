@@ -6,10 +6,10 @@ micronaut:
       enabled: false
     authentication: bearer
     token:
+      generator:
+        access-token:
+          expiration: 604800
       jwt:
-        generator:
-          access-token:
-            expiration: 604800
         signatures:
           secret:
             generator:

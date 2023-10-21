@@ -29,9 +29,9 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
             } else if (it.password != null && BCrypt.checkpw(authenticationRequest.secret as String, it.password)) {
                 userRepository.update(it.also { it.attempts = 0 }).map { user ->
                     if (user.admin == true) {
-                        AuthenticationResponse.success(authenticationRequest.identity as String, listOf("admin"))
+                        AuthenticationResponse.success(authenticationRequest.identity as String, listOf("admin"), mapOf("id" to user.id))
                     } else {
-                        AuthenticationResponse.success(authenticationRequest.identity as String)
+                        AuthenticationResponse.success(authenticationRequest.identity as String, mapOf("id" to user.id))
                     }
                 }
             } else {

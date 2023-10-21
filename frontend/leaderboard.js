@@ -87,7 +87,7 @@ function loadLeaderboards() {
 };
 
 function createTable(picks, team, isRedditDisplay) {
-  var curUserEmail = getSubFromJwt()
+  var curUserId = getIdFromJwt()
   var headers = ["", "User", "Num Picks", "Points"];
   var table = document.createElement("table"); //makes a table element for the page
   table.setAttribute("class", "table table-hover");
@@ -101,9 +101,6 @@ function createTable(picks, team, isRedditDisplay) {
     .map((pick) => {
       pick[2] = isRedditDisplay ? pick[1][0].user.redditUsername : (pick[1][0].user?.displayName || pick[1][0].announcer.displayName);
       pick[3] = pick[1].length;
-      if (pick[1][0].user?.email) {
-        pick[4] = pick[1][0].user?.email;
-      }
       pick[1] = pick[1].reduce((a, b) => a + (b.points || 0), 0);
       return pick;
     })
@@ -116,7 +113,7 @@ function createTable(picks, team, isRedditDisplay) {
   var lastNumPicks = -1;
   groupedPicks.forEach((pick) => {
     var row = table.insertRow(i);
-    if (pick[4] == curUserEmail) {
+    if (pick[0] == curUserId) {
         row.className = "table-active";
     }
     if (pick[0][0]=='a') {
