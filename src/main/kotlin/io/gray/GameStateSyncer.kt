@@ -157,6 +157,9 @@ open class GameStateSyncer(
                     0
                 }
             }
+            if (it.user == null && it.announcer == null) {
+                error("John you idiot you almost wiped everyone's points again!")
+            }
             pickRepository.update(it)
         }
     }

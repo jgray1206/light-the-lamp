@@ -5,9 +5,9 @@ import io.micronaut.data.annotation.*
 
 @Introspected
 @MappedEntity("user")
-data class UserDTO(
-    @field:Id
-    var id: Long? = null,
-    var displayName: String? = null,
+class UserDTO {
+    @Id
+    var id: Long? = null
+    var displayName: String? = null
     var redditUsername: String? = null
-)
+}
