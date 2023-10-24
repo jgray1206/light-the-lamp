@@ -7,22 +7,33 @@ micronaut:
             generator:
               secret: "secretsecretsecretsecretsecretsecretsecretsecretsecret"
 ---
+server:
+  host: localhost
+  port: -1
+---
+openapi-micronaut-client-base-path: /nhl
+---
+mail.service.enabled: false
+game.sync.delay: 1000m
+credential.path: ''
+token.path: ''
+---
 flyway:
   datasources:
     flywaysrc:
       enabled: true
       locations:
-        - classpath:local
+        - classpath:test
 datasources:
   flywaysrc:
-    url: jdbc:h2:file:~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+    url: jdbc:h2:mem:lightthelamp;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
     username: sa
     password: ''
 r2dbc:
   datasources:
     default:
       dialect: H2
-      url: r2dbc:h2:file:///~/db/testdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+      url: r2dbc:h2:mem:///lightthelamp;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
       username: sa
       password: ''
       options: {}

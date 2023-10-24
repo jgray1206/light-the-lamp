@@ -1,0 +1,328 @@
+{
+  "copyright": "NHL and the NHL Shield are registered trademarks of the National Hockey League. NHL and NHL team marks are the property of the NHL and its teams. © NHL 2023. All Rights Reserved.",
+  "roster": [
+    {
+      "person": {
+        "id": 8479293,
+        "fullName": "Brandon Tanev",
+        "link": "/api/v1/people/8479293"
+      },
+      "jerseyNumber": "13",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8474586,
+        "fullName": "Jordan Eberle",
+        "link": "/api/v1/people/8474586"
+      },
+      "jerseyNumber": "7",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8474602,
+        "fullName": "Justin Schultz",
+        "link": "/api/v1/people/8474602"
+      },
+      "jerseyNumber": "4",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8475208,
+        "fullName": "Brian Dumoulin",
+        "link": "/api/v1/people/8475208"
+      },
+      "jerseyNumber": "8",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8475768,
+        "fullName": "Jaden Schwartz",
+        "link": "/api/v1/people/8475768"
+      },
+      "jerseyNumber": "17",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8475831,
+        "fullName": "Philipp Grubauer",
+        "link": "/api/v1/people/8475831"
+      },
+      "jerseyNumber": "31",
+      "position": {
+        "code": "G",
+        "name": "Goalie",
+        "type": "Goalie",
+        "abbreviation": "G"
+      }
+    },
+    {
+      "person": {
+        "id": 8476457,
+        "fullName": "Adam Larsson",
+        "link": "/api/v1/people/8476457"
+      },
+      "jerseyNumber": "6",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8476467,
+        "fullName": "Jamie Oleksiak",
+        "link": "/api/v1/people/8476467"
+      },
+      "jerseyNumber": "24",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8476826,
+        "fullName": "Yanni Gourde",
+        "link": "/api/v1/people/8476826"
+      },
+      "jerseyNumber": "37",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8476913,
+        "fullName": "Devin Shore",
+        "link": "/api/v1/people/8476913"
+      },
+      "jerseyNumber": "94",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8477034,
+        "fullName": "Jaycob Megna",
+        "link": "/api/v1/people/8477034"
+      },
+      "jerseyNumber": "44",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8477416,
+        "fullName": "Oliver Bjorkstrand",
+        "link": "/api/v1/people/8477416"
+      },
+      "jerseyNumber": "22",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8477444,
+        "fullName": "Andre Burakovsky",
+        "link": "/api/v1/people/8477444"
+      },
+      "jerseyNumber": "95",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8477505,
+        "fullName": "Alex Wennberg",
+        "link": "/api/v1/people/8477505"
+      },
+      "jerseyNumber": "21",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8477930,
+        "fullName": "Pierre-Edouard Bellemare",
+        "link": "/api/v1/people/8477930"
+      },
+      "jerseyNumber": "41",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8477955,
+        "fullName": "Jared McCann",
+        "link": "/api/v1/people/8477955"
+      },
+      "jerseyNumber": "19",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8478407,
+        "fullName": "Vince Dunn",
+        "link": "/api/v1/people/8478407"
+      },
+      "jerseyNumber": "29",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8478840,
+        "fullName": "Will Borgen",
+        "link": "/api/v1/people/8478840"
+      },
+      "jerseyNumber": "3",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8478916,
+        "fullName": "Joey Daccord",
+        "link": "/api/v1/people/8478916"
+      },
+      "jerseyNumber": "35",
+      "position": {
+        "code": "G",
+        "name": "Goalie",
+        "type": "Goalie",
+        "abbreviation": "G"
+      }
+    },
+    {
+      "person": {
+        "id": 8479977,
+        "fullName": "Kailer Yamamoto",
+        "link": "/api/v1/people/8479977"
+      },
+      "jerseyNumber": "56",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8480009,
+        "fullName": "Eeli Tolvanen",
+        "link": "/api/v1/people/8480009"
+      },
+      "jerseyNumber": "20",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8481789,
+        "fullName": "Tye Kartye",
+        "link": "/api/v1/people/8481789"
+      },
+      "jerseyNumber": "52",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8482665,
+        "fullName": "Matty Beniers",
+        "link": "/api/v1/people/8482665"
+      },
+      "jerseyNumber": "10",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    }
+  ],
+  "link": "/api/v1/teams/55/roster"
+}

@@ -1,9 +1,9 @@
 package io.gray.model
 
 import io.micronaut.data.annotation.*
-import java.time.Instant
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
+import java.time.Instant
 
 @MappedEntity
 class PasswordReset {

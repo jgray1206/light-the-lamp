@@ -1,0 +1,76 @@
+{
+  "copyright": "NHL and the NHL Shield are registered trademarks of the National Hockey League. NHL and NHL team marks are the property of the NHL and its teams. © NHL 2023. All Rights Reserved.",
+  "totalItems": 1,
+  "totalEvents": 0,
+  "totalGames": 1,
+  "totalMatches": 0,
+  "metaData": {
+    "timeStamp": "20231024_055530"
+  },
+  "wait": 10,
+  "dates": [
+    {
+      "date": "2023-10-24",
+      "totalItems": 1,
+      "totalEvents": 0,
+      "totalGames": 1,
+      "totalMatches": 0,
+      "games": [
+        {
+          "gamePk": 2023020091,
+          "link": "/api/v1/game/2023020091/feed/live",
+          "gameType": "R",
+          "season": "20232024",
+          "gameDate": "2023-10-25T00:15:00Z",
+          "status": {
+            "abstractGameState": "Preview",
+            "codedGameState": "1",
+            "detailedState": "Scheduled",
+            "statusCode": "1",
+            "startTimeTBD": false
+          },
+          "teams": {
+            "away": {
+              "leagueRecord": {
+                "wins": 1,
+                "losses": 4,
+                "ot": 1,
+                "type": "league"
+              },
+              "score": 0,
+              "team": {
+                "id": 55,
+                "name": "Seattle Kraken",
+                "link": "/api/v1/teams/55"
+              }
+            },
+            "home": {
+              "leagueRecord": {
+                "wins": 5,
+                "losses": 1,
+                "ot": 0,
+                "type": "league"
+              },
+              "score": 0,
+              "team": {
+                "id": 17,
+                "name": "Detroit Red Wings",
+                "link": "/api/v1/teams/17"
+              }
+            }
+          },
+          "venue": {
+            "id": 5145,
+            "name": "Little Caesars Arena",
+            "link": "/api/v1/venues/5145"
+          },
+          "content": {
+            "link": "/api/v1/game/2023020091/content"
+          }
+        }
+      ],
+      "events": [],
+      "matches": []
+    }
+  ]
+}

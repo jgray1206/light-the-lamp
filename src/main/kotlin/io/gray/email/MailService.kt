@@ -28,7 +28,9 @@ class MailService(
         @Value("\${credential.path}")
         private val credPath: String,
         @Value("\${token.path}")
-        private val tokenPath: String
+        private val tokenPath: String,
+        @Value("\${mail.service.enabled:true}")
+        private val enabled: String
 ) {
     /**
      * Global instance of the JSON factory.
@@ -58,44 +60,44 @@ class MailService(
         return AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
     }
 
-    fun sendEmail(toEmailAddress: String, messageSubject: String, bodyText: String): Message? {
-        // Build a new authorized API client service.
-        val httpTransport: NetHttpTransport = GoogleNetHttpTransport.newTrustedTransport()
-        val service: Gmail = Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
-                .setApplicationName("Light The Lamp")
-                .build()
+    fun sendEmail(toEmailAddress: String, messageSubject: String, bodyText: String) {
+        if (enabled.toBoolean()) {
+            // Build a new authorized API client service.
+            val httpTransport: NetHttpTransport = GoogleNetHttpTransport.newTrustedTransport()
+            val service: Gmail = Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
+                    .setApplicationName("Light The Lamp")
+                    .build()
 
-        // Encode as MIME message
-        val props = Properties()
-        val session = Session.getDefaultInstance(props, null)
-        val email = MimeMessage(session)
-        email.setFrom(InternetAddress("grayio.lightthelamp@gmail.com"))
-        email.addRecipient(jakarta.mail.Message.RecipientType.TO,
-                InternetAddress(toEmailAddress))
-        email.subject = messageSubject
-        email.setText(bodyText)
+            // Encode as MIME message
+            val props = Properties()
+            val session = Session.getDefaultInstance(props, null)
+            val email = MimeMessage(session)
+            email.setFrom(InternetAddress("grayio.lightthelamp@gmail.com"))
+            email.addRecipient(jakarta.mail.Message.RecipientType.TO,
+                    InternetAddress(toEmailAddress))
+            email.subject = messageSubject
+            email.setText(bodyText)
 
-        // Encode and wrap the MIME message into a gmail message
-        val buffer = ByteArrayOutputStream()
-        email.writeTo(buffer)
-        val rawMessageBytes = buffer.toByteArray()
-        val encodedEmail: String = Base64.encodeBase64URLSafeString(rawMessageBytes)
-        var message = Message()
-        message.raw = encodedEmail
-        try {
-            // Create send message
-            message = service.users().messages().send("me", message).execute()
-            println("Message id: " + message.id)
-            println(message.toPrettyString())
-            return message
-        } catch (e: GoogleJsonResponseException) {
-            val error = e.details
-            if (error.code == 403) {
-                System.err.println("Unable to send message: " + e.details)
-            } else {
-                throw e
+            // Encode and wrap the MIME message into a gmail message
+            val buffer = ByteArrayOutputStream()
+            email.writeTo(buffer)
+            val rawMessageBytes = buffer.toByteArray()
+            val encodedEmail: String = Base64.encodeBase64URLSafeString(rawMessageBytes)
+            var message = Message()
+            message.raw = encodedEmail
+            try {
+                // Create send message
+                message = service.users().messages().send("me", message).execute()
+                println("Message id: " + message.id)
+                println(message.toPrettyString())
+            } catch (e: GoogleJsonResponseException) {
+                val error = e.details
+                if (error.code == 403) {
+                    System.err.println("Unable to send message: " + e.details)
+                } else {
+                    throw e
+                }
             }
         }
-        return null
     }
 }

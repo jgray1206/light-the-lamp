@@ -35,7 +35,7 @@ open class GameStateSyncer(
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    @Scheduled(fixedDelay = "1m")
+    @Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
     @ExecuteOn(TaskExecutors.IO)
     fun syncInProgressGameState() {
         syncAllGames(LocalDateTime.now().minute)
@@ -166,6 +166,7 @@ open class GameStateSyncer(
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createTeam(team: io.gray.nhl.model.Team): Mono<Team> {
+        logger.info("creating team ${team.teamName}")
         return teamRepository.save(Team().also {
             it.id = team.id!!.toLong()
             it.teamName = team.name

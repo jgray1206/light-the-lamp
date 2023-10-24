@@ -7,20 +7,19 @@ import io.gray.model.UserRequest
 import io.gray.model.UserTeam
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
-import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
 import io.micronaut.http.server.util.DefaultHttpClientAddressResolver
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Size
 import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.security.Principal
 import java.util.*
-import jakarta.validation.Valid
-import jakarta.validation.constraints.Size
 
 
 @Secured(SecurityRule.IS_AUTHENTICATED)

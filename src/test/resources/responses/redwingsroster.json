@@ -1,0 +1,341 @@
+{
+  "roster": [
+    {
+      "person": {
+        "id": 8477952,
+        "fullName": "Robby Fabbri",
+        "link": "/api/v1/people/8477952"
+      },
+      "jerseyNumber": "14",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8481013,
+        "fullName": "Jonatan Berggren",
+        "link": "/api/v1/people/8481013"
+      },
+      "jerseyNumber": "48",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8473503,
+        "fullName": "James Reimer",
+        "link": "/api/v1/people/8473503"
+      },
+      "jerseyNumber": "47",
+      "position": {
+        "code": "G",
+        "name": "Goalie",
+        "type": "Goalie",
+        "abbreviation": "G"
+      }
+    },
+    {
+      "person": {
+        "id": 8473507,
+        "fullName": "Jeff Petry",
+        "link": "/api/v1/people/8473507"
+      },
+      "jerseyNumber": "46",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8474102,
+        "fullName": "David Perron",
+        "link": "/api/v1/people/8474102"
+      },
+      "jerseyNumber": "57",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8475279,
+        "fullName": "Ben Chiarot",
+        "link": "/api/v1/people/8475279"
+      },
+      "jerseyNumber": "8",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8475718,
+        "fullName": "Justin Holl",
+        "link": "/api/v1/people/8475718"
+      },
+      "jerseyNumber": "3",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8476874,
+        "fullName": "Olli Maatta",
+        "link": "/api/v1/people/8476874"
+      },
+      "jerseyNumber": "2",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8476906,
+        "fullName": "Shayne Gostisbehere",
+        "link": "/api/v1/people/8476906"
+      },
+      "jerseyNumber": "41",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8477429,
+        "fullName": "Andrew Copp",
+        "link": "/api/v1/people/8477429"
+      },
+      "jerseyNumber": "18",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8477456,
+        "fullName": "J.T. Compher",
+        "link": "/api/v1/people/8477456"
+      },
+      "jerseyNumber": "37",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    },
+    {
+      "person": {
+        "id": 8477946,
+        "fullName": "Dylan Larkin",
+        "link": "/api/v1/people/8477946"
+      },
+      "jerseyNumber": "71",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8478013,
+        "fullName": "Jake Walman",
+        "link": "/api/v1/people/8478013"
+      },
+      "jerseyNumber": "96",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8478024,
+        "fullName": "Ville Husso",
+        "link": "/api/v1/people/8478024"
+      },
+      "jerseyNumber": "35",
+      "position": {
+        "code": "G",
+        "name": "Goalie",
+        "type": "Goalie",
+        "abbreviation": "G"
+      }
+    },
+    {
+      "person": {
+        "id": 8478432,
+        "fullName": "Christian Fischer",
+        "link": "/api/v1/people/8478432"
+      },
+      "jerseyNumber": "36",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8478466,
+        "fullName": "Daniel Sprong",
+        "link": "/api/v1/people/8478466"
+      },
+      "jerseyNumber": "88",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8478512,
+        "fullName": "Austin Czarnik",
+        "link": "/api/v1/people/8478512"
+      },
+      "jerseyNumber": "21",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8479312,
+        "fullName": "Alex Lyon",
+        "link": "/api/v1/people/8479312"
+      },
+      "jerseyNumber": "34",
+      "position": {
+        "code": "G",
+        "name": "Goalie",
+        "type": "Goalie",
+        "abbreviation": "G"
+      }
+    },
+    {
+      "person": {
+        "id": 8479337,
+        "fullName": "Alex DeBrincat",
+        "link": "/api/v1/people/8479337"
+      },
+      "jerseyNumber": "93",
+      "position": {
+        "code": "R",
+        "name": "Right Wing",
+        "type": "Forward",
+        "abbreviation": "RW"
+      }
+    },
+    {
+      "person": {
+        "id": 8479992,
+        "fullName": "Michael Rasmussen",
+        "link": "/api/v1/people/8479992"
+      },
+      "jerseyNumber": "27",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8480011,
+        "fullName": "Klim Kostin",
+        "link": "/api/v1/people/8480011"
+      },
+      "jerseyNumber": "24",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8480813,
+        "fullName": "Joe Veleno",
+        "link": "/api/v1/people/8480813"
+      },
+      "jerseyNumber": "90",
+      "position": {
+        "code": "C",
+        "name": "Center",
+        "type": "Forward",
+        "abbreviation": "C"
+      }
+    },
+    {
+      "person": {
+        "id": 8481542,
+        "fullName": "Moritz Seider",
+        "link": "/api/v1/people/8481542"
+      },
+      "jerseyNumber": "53",
+      "position": {
+        "code": "D",
+        "name": "Defenseman",
+        "type": "Defenseman",
+        "abbreviation": "D"
+      }
+    },
+    {
+      "person": {
+        "id": 8482078,
+        "fullName": "Lucas Raymond",
+        "link": "/api/v1/people/8482078"
+      },
+      "jerseyNumber": "23",
+      "position": {
+        "code": "L",
+        "name": "Left Wing",
+        "type": "Forward",
+        "abbreviation": "LW"
+      }
+    }
+  ],
+  "link": "/api/v1/teams/17/roster"
+}
