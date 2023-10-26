@@ -112,6 +112,10 @@ class PickController(
                 "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
             }
 
+            check(game.awayTeam?.id == teamId || game.homeTeam?.id == teamId) {
+                "can't submit pick for a team in a game they aren't playing in, you goofy goober"
+            }
+
             check(game.date?.isAfter(LocalDateTime.now()) == true) {
                 "can't submit pick on game that has already started, you little silly billy"
             }
@@ -164,8 +168,8 @@ class PickController(
             pickRepository.findByGameAndAnnouncer(game, announcer)
                     .flatMap {
                         pickRepository.update(it.also {
-                            it.goalies = false
-                            it.theTeam = false
+                            it.goalies = null
+                            it.theTeam = null
                             it.gamePlayer = null
                             if (pick == "goalies") {
                                 it.goalies = true

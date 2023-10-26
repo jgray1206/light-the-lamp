@@ -17,13 +17,13 @@ interface UserClient {
     fun get(principal: Principal, @QueryValue profilePic: Boolean?): User
 
     @Get("/{id}/pic")
-    fun getPic(id: Long): HttpResponse<String>
+    fun getPic(id: Long, @Header authorization: String): HttpResponse<String>
 
     @Post
     fun create(@Valid @Body userRequest: UserRequest, @Header("X-Forwarded-For") xForwardFor: String): User
 
     @Put
-    fun update(profilePic: ByteArray?, displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?): User
+    fun update(profilePic: ByteArray?, displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?, @Header authorization: String): User
 
     @Get("/confirm/{uuid}")
     fun confirm(@PathVariable uuid: String): User

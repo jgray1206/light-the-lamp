@@ -3,41 +3,39 @@ package io.gray.client
 import io.gray.model.Pick
 import io.micronaut.http.annotation.*
 import io.micronaut.http.client.annotation.Client
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.security.Principal
 
 @Client("/pick")
 interface PickClient {
 
         @Get
-        fun getAll(principal: Principal, @QueryValue season: String, @Header authentication: String): Flux<Pick>
+        fun getAll(@QueryValue season: String, @Header authorization: String): List<Pick>
 
         @Get("/{id}")
-        fun get(@PathVariable id: Long, @Header authentication: String): Mono<Pick>
+        fun get(@PathVariable id: Long, @Header authorization: String): Pick
 
         @Get("/user")
-        fun getPickByUser(principal: Principal, @QueryValue season: String, @Header authentication: String): Flux<Pick>
+        fun getPickByUser(@QueryValue season: String, @Header authorization: String): List<Pick>
 
         @Get("/announcer")
-        fun getPickByAnnouncer(@QueryValue season: String, @Header authentication: String): Flux<Pick>
+        fun getPickByAnnouncer(@QueryValue season: String, @Header authorization: String): List<Pick>
 
         @Get("/friends")
-        fun getPicksByUserFriends(principal: Principal, @QueryValue season: String, @Header authentication: String): Flux<Pick>
+        fun getPicksByUserFriends(@QueryValue season: String, @Header authorization: String): List<Pick>
 
         @Get("/friends-and-self")
-        fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String, @Header authentication: String): Flux<Pick>
+        fun getPicksByUserFriendsAndUser(@QueryValue season: String, @Header authorization: String): List<Pick>
 
         @Get("/reddit")
-        fun getPicksByReddit(principal: Principal, @QueryValue season: String, @Header authentication: String): Flux<Pick>
+        fun getPicksByReddit(@QueryValue season: String, @Header authorization: String): List<Pick>
 
         @Post("/user")
-        fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, @Header authentication: String): Mono<Pick>
+        fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, @Header authorization: String): Pick
 
         @Delete("/announcer")
-        fun deleteForAnnouncer(@QueryValue("gameId") gameId: Long, @QueryValue("announcerId") announcerId: Long, @Header authentication: String): Mono<Long>
+        fun deleteForAnnouncer(@QueryValue("gameId") gameId: Long, @QueryValue("announcerId") announcerId: Long, @Header authorization: String): Long
 
         @Post("/announcer")
-        fun createForAnnouncer(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("announcerId") announcerId: Long, @Header authentication: String): Mono<Pick>
+        fun createForAnnouncer(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("announcerId") announcerId: Long, @Header authorization: String): Pick
 
 }
