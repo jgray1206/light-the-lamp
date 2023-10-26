@@ -5,17 +5,17 @@ import io.gray.client.LoginRequest
 import io.gray.client.PickClient
 import io.gray.client.UserClient
 import io.gray.model.UserRequest
-import io.gray.repos.GamePlayerRepository
-import io.gray.repos.GameRepository
-import io.gray.repos.TeamRepository
-import io.gray.repos.UserRepository
+import io.gray.repos.*
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.client.exceptions.HttpClientException
 import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.http.client.multipart.MultipartBody
+import io.micronaut.http.multipart.MultipartException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.*
+import org.mindrot.jbcrypt.BCrypt
 import java.time.LocalDateTime
 
 @MicronautTest(transactional = false, packages = ["io.gray"])
@@ -50,6 +50,9 @@ class LightTheLampApplicationTests {
 	lateinit var userRepository: UserRepository
 
 	@Inject
+	lateinit var userTeamRepository: UserTeamRepository
+
+	@Inject
 	lateinit var gameStateSyncer: GameStateSyncer
 
 	lateinit var token: String
@@ -61,7 +64,7 @@ class LightTheLampApplicationTests {
 		gameStateSyncer.syncAllGames(1)
 
 		val teams = teamRepository.findAll().collectList().block()!!
-		assertThat(teams.size).isEqualTo(32)
+		assertThat(teams).hasSize(32)
 		val redWings = teams.find { it.shortName == "Red Wings" }!!
 		assertThat(redWings.id).isEqualTo(17)
 		assertThat(redWings.teamName).isEqualTo("Detroit Red Wings")
@@ -74,7 +77,7 @@ class LightTheLampApplicationTests {
 		assertThat(kraken.abbreviation).isEqualTo("SEA")
 
 		val games = gameRepository.findAll().collectList().block()!!
-		assertThat(games.size).isEqualTo(1)
+		assertThat(games).hasSize(1)
 
 		val game = games.first()
 		gameId = game.id.toString()
@@ -87,11 +90,11 @@ class LightTheLampApplicationTests {
 		assertThat(game.awayTeamGoals).isNull()
 
 		val players = gamePlayerRepository.findAll().collectList().block()!!
-		assertThat(players.size).isEqualTo(46)
+		assertThat(players).hasSize(46)
 		val redWingsPlayers = players.filter { it.team?.id == redWings.id }
-		assertThat(redWingsPlayers.size).isEqualTo(23)
+		assertThat(redWingsPlayers).hasSize(23)
 		val krakenPlayers = players.filter { it.team?.id == kraken.id }
-		assertThat(krakenPlayers.size).isEqualTo(23)
+		assertThat(krakenPlayers).hasSize(23)
 		players.forEach { player ->
 			assertThat(player.id?.gameId).isEqualTo(game.id)
 			assertThat(player.id?.playerId).isNotNull
@@ -101,7 +104,7 @@ class LightTheLampApplicationTests {
 		//test missing player logic
 		RETURN_UPDATED_ROSTER = true
 		gameStateSyncer.syncAllGames(5)
-		assertThat(gamePlayerRepository.findAll().collectList().block()!!.size).isEqualTo(players.size+1)
+		assertThat(gamePlayerRepository.findAll().collectList().block()!!).hasSize(players.size+1)
 	}
 
 	@Test
@@ -116,19 +119,32 @@ class LightTheLampApplicationTests {
 					it.email = "test@email.com"
 					it.displayName = "test mcgee"
 					it.password = "testtest"
-					it.teams = listOf(17L)
+					it.teams = listOf(17L, 18L)
 				}, "ip.address"
 		)
 
-		assertThat(user.redditUsername).isNull()
-		assertThat(user.teams?.size).isEqualTo(1)
-		assertThat(user.teams?.get(0)?.id).isEqualTo(17)
+		val dbUserAfterCreate = userRepository.findById(1).block()!!
+		assertThat(dbUserAfterCreate.redditUsername).isNull()
+		assertThat(dbUserAfterCreate.email).isEqualTo("test@email.com")
+		assertThat(dbUserAfterCreate.displayName).isEqualTo("test mcgee")
+
+		val userTeamsAfterCreate = userTeamRepository.findByUserId(1).collectList().block()!!
+		assertThat(userTeamsAfterCreate).hasSize(2)
+		assertThat(userTeamsAfterCreate[0]?.teamId).isEqualTo(17)
+		assertThat(userTeamsAfterCreate[1]?.teamId).isEqualTo(18)
 		assertThrows<HttpClientResponseException> {
 			authClient.login(LoginRequest("test@email.com", "testtest"))
 		}
 
+		val dbUser = userRepository.findById(1).block()!!
+		assertThat(BCrypt.checkpw("testtest", dbUser.password)).isTrue
+		assertThat(BCrypt.checkpw("testtest2", dbUser.password)).isFalse
+
 		//check fields
 		userClient.confirm(userRepository.findByEmail("test@email.com").block()?.confirmationUuid!!)
+		assertThrows<HttpClientResponseException> {
+			authClient.login(LoginRequest("test@email.com", "testtest2"))
+		}
 
 		token = "Bearer " + authClient.login(LoginRequest("test@email.com", "testtest")).accessToken
 
@@ -136,15 +152,64 @@ class LightTheLampApplicationTests {
 			userClient.getPic(user.id!!, "")
 		}
 		assertThat(userClient.getPic(user.id!!, token).body()).isNull()
+		assertThrows<HttpClientResponseException> {
+			userClient.update(MultipartBody.builder()
+					.addPart("profilePic", "test")
+					.addPart("displayName", "test mcgee 2")
+					.addPart("redditUsername", "redditname")
+					.addPart("teams", "[17]")
+					.addPart("password", "testtest2").build(), "")
+		}
+		assertThrows<HttpClientResponseException> {
+			userClient.update(MultipartBody.builder()
+					.addPart("profilePic", "test")
+					.addPart("displayName", "")
+					.addPart("redditUsername", "redditname")
+					.addPart("teams", "[17]")
+					.addPart("password", "testtest2").build(), token)
+		}
+		userClient.update(MultipartBody.builder()
+				.addPart("profilePic", "test")
+				.addPart("displayName", "test mcgee 2")
+				.addPart("redditUsername", "redditname")
+				.addPart("teams", "17")
+				.addPart("password", "testtest2").build(), token)
+		val dbUserAfterUpdate = userRepository.findById(1).block()!!
+		assertThat(dbUserAfterUpdate.displayName).isEqualTo("test mcgee 2")
+		assertThat(dbUserAfterUpdate.redditUsername).isEqualTo("redditname")
+		assertThat(userClient.getPic(user.id!!, token).body()).isEqualTo("dGVzdA==")
+		assertThat(BCrypt.checkpw("testtest", dbUserAfterUpdate.password)).isFalse
+		assertThat(BCrypt.checkpw("testtest2", dbUserAfterUpdate.password)).isTrue
+		authClient.login(LoginRequest("test@email.com", "testtest2"))
+		assertThrows<HttpClientResponseException> {
+			authClient.login(LoginRequest("test@email.com", "testtest"))
+		}
 
-		//userClient.update() test updating
+		userClient.update(MultipartBody.builder()
+				.addPart("displayName", "test mcgee")
+				.addPart("redditUsername", "").build(), token)
+		val userTeamsAfterUpdate = userTeamRepository.findByUserId(1).collectList().block()!!
+		assertThat(userTeamsAfterUpdate).hasSize(1)
+		assertThat(userTeamsAfterUpdate[0]?.teamId).isEqualTo(17)
+		val dbUserAfterUpdate2 = userRepository.findById(1).block()!!
+		assertThat(dbUserAfterUpdate2.displayName).isEqualTo("test mcgee")
+		assertThat(dbUserAfterUpdate2.redditUsername).isEqualTo("")
+		assertThat(userClient.getPic(user.id!!, token).body()).isEqualTo("dGVzdA==")
+		authClient.login(LoginRequest("test@email.com", "testtest2"))
+
+		userClient.update(MultipartBody.builder()
+				.addPart("displayName", "test mcgee")
+				.addPart("password", "testtest").build(), token)
+		assertThrows<HttpClientResponseException> {
+			authClient.login(LoginRequest("test@email.com", "testtest2"))
+		}
 	}
 
 	@Test
 	@Order(3)
 	fun pickTests() {
 		gameRepository.update(gameRepository.findById(gameId.toLong()).block().apply { this?.date = LocalDateTime.now().plusSeconds(10) }).block()
-		assertThat(pickClient.getAll("202302", token).size).isEqualTo(0)
+		assertThat(pickClient.getAll("202302", token)).hasSize(0)
 		assertThrows<HttpClientResponseException> {
 			pickClient.createForUser(gameId, "Dylan Lakin", 17, token) //invalid pick
 		}
@@ -161,9 +226,9 @@ class LightTheLampApplicationTests {
 		assertThat(initialPick.team?.id).isEqualTo(17)
 
 
-		assertThat(pickClient.getAll("202302", token).size).isEqualTo(1)
+		assertThat(pickClient.getAll("202302", token)).hasSize(1)
 		assertThat(pickClient.createForUser(gameId, "Dylan Larkin", 17, token).id).isEqualTo(initialPick.id)
-		assertThat(pickClient.getAll("202302", token).size).isEqualTo(1)
+		assertThat(pickClient.getAll("202302", token)).hasSize(1)
 		val otherTeamPick = pickClient.createForUser(gameId, "Matty Beniers", 55, token) //make sure same user can pick for both teams
 		assertThat(otherTeamPick.team?.id).isEqualTo(55)
 		assertThat(otherTeamPick.id).isEqualTo(2)

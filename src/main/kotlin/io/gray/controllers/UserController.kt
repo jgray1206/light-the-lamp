@@ -14,6 +14,7 @@ import io.micronaut.http.server.util.DefaultHttpClientAddressResolver
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Flux
@@ -94,7 +95,7 @@ open class UserController(
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
-    open fun update(profilePic: ByteArray?, displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?, principal: Principal): Mono<User> {
+    open fun update(profilePic: ByteArray?, @Size(min = 1, max = 50) displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?, principal: Principal): Mono<User> {
         return userRepository.findByEmail(principal.name)
                 .flatMap { user ->
                     teams?.let { teams ->
