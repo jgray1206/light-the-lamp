@@ -111,57 +111,68 @@ open class GameStateSyncer(
     }
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
-    open fun updatePoints(dbGame: Game): Flux<Pick> {
-        logger.info("updating points for game ${dbGame.id}")
-        return pickRepository.findAllByGame(dbGame).flatMap {
-            if (it.gamePlayer != null) {
-                if (it.gamePlayer?.position == "Forward") {
-                    it.points = (((it.gamePlayer?.goals ?: 0) * 2) +
-                            ((it.gamePlayer?.shortGoals ?: 0) * 4) +
-                            (it.gamePlayer?.assists ?: 0) +
-                            ((it.gamePlayer?.shortAssists ?: 0) * 2)).toShort()
-                } else if (it.gamePlayer?.position == "Defenseman") {
-                    it.points = (((it.gamePlayer?.goals ?: 0) * 3) +
-                            ((it.gamePlayer?.shortGoals ?: 0) * 6) +
-                            (it.gamePlayer?.assists ?: 0) +
-                            ((it.gamePlayer?.shortAssists ?: 0) * 2)).toShort()
-                }
-            } else if (it.goalies == true) {
-                val goalsAgainst = if (dbGame.homeTeam?.id == it.team?.id!!) {
-                    dbGame.awayTeamGoals!!
-                } else {
-                    dbGame.homeTeamGoals!!
-                }
-                it.points = when (goalsAgainst.toInt()) {
-                    0 -> {
-                        5
-                    }
-
-                    1, 2 -> {
-                        3
-                    }
-
-                    else -> {
-                        0
-                    }
-                }
-            } else if (it.theTeam == true) {
-                val teamGoals = if (dbGame.homeTeam?.id == it.team?.id!!) {
-                    dbGame.homeTeamGoals!!
-                } else {
-                    dbGame.awayTeamGoals!!
-                }
-                it.points = if (teamGoals >= 4) {
-                    teamGoals
-                } else {
-                    0
-                }
+    open fun updatePointsForGamePlayer(gamePlayer: GamePlayer): Mono<Int> {
+        val points = when (gamePlayer.position) {
+            "Forward" -> {
+                (((gamePlayer.goals ?: 0) * 2) +
+                        ((gamePlayer.shortGoals ?: 0) * 4) +
+                        (gamePlayer.assists ?: 0) +
+                        ((gamePlayer.shortAssists ?: 0) * 2)).toShort()
             }
-            if (it.user == null && it.announcer == null) {
-                error("John you idiot you almost wiped everyone's points again!")
+
+            "Defenseman" -> {
+                (((gamePlayer.goals ?: 0) * 3) +
+                        ((gamePlayer.shortGoals ?: 0) * 6) +
+                        (gamePlayer.assists ?: 0) +
+                        ((gamePlayer.shortAssists ?: 0) * 2)).toShort()
             }
-            pickRepository.update(it)
+
+            else -> {
+                return Mono.empty()
+            }
         }
+        return pickRepository.updatePointsForGamePlayer(points, gamePlayer.id!!.gameId, gamePlayer.id!!.playerId)
+    }
+
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    open fun updatePointsForTeam(team: Team, goals: Short, goalsAgainst: Short, game: Game): Flux<Int> {
+        val goaliePoints: Short = when (goalsAgainst.toInt()) {
+            0 -> {
+                5
+            }
+
+            1, 2 -> {
+                3
+            }
+
+            else -> {
+                0
+            }
+        }
+        val teamPoints = if (goals >= 4) {
+            goals
+        } else {
+            0
+        }
+        return Flux.concat(pickRepository.updatePointsForGoalies(goaliePoints, game.id!!, team.id!!), pickRepository.updatePointsForTheTeam(teamPoints, game.id!!, team.id!!))
+    }
+
+    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    open fun updatePoints(dbGame: Game): Flux<Int> {
+        logger.info("updating points for game ${dbGame.id}")
+        var flux = Flux.empty<Int>()
+        dbGame.players?.forEach {
+            flux = Flux.concat(flux, updatePointsForGamePlayer(it))
+        }
+        dbGame.homeTeam?.let {
+            flux = Flux.concat(flux, updatePointsForTeam(it, dbGame.homeTeamGoals ?: 0, dbGame.awayTeamGoals
+                    ?: 0, dbGame))
+        }
+        dbGame.awayTeam?.let {
+            flux = Flux.concat(flux, updatePointsForTeam(it, dbGame.awayTeamGoals ?: 0, dbGame.homeTeamGoals
+                    ?: 0, dbGame))
+        }
+        return flux
     }
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
