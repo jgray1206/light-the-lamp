@@ -44,7 +44,6 @@ function loadLeaderboards() {
     if (this.readyState == 4) {
       if (this.status == 200) {
         var picks = JSON.parse(this.responseText);
-        console.log(picks);
         if (picks.length == 0) {
           document
             .getElementById("teamsTabContent")
@@ -92,8 +91,24 @@ function createTable(picks, team, isRedditDisplay) {
   var table = document.createElement("table"); //makes a table element for the page
   table.setAttribute("class", "table table-hover");
 
+  var filterGames = new Set();
+  if (document.getElementById("my-picks").checked) {
+    picks.filter((pick) => pick.user?.id == curUserId).forEach((pick) => filterGames.add(pick.game.id));
+  }
+  if (document.getElementById("announcer-picks").checked) {
+    picks.filter((pick) => pick.announcer).forEach((pick) => filterGames.add(pick.game.id));
+  }
+
   var groupedPicks = Object.entries(
-    picks.reduce((x, y) => {
+    picks
+    .filter((pick) => {
+        if (filterGames.size > 0) {
+            return filterGames.has(pick.game.id);
+        } else {
+            return true;
+        }
+    })
+    .reduce((x, y) => {
       (x[y.user?.id || ("a"+y.announcer.id)] = x[y.user?.id || ("a"+y.announcer.id)] || []).push(y);
       return x;
     }, {})
@@ -106,7 +121,6 @@ function createTable(picks, team, isRedditDisplay) {
     })
     .sort((aPick, bPick) => bPick[1] - aPick[1] || aPick[3] - bPick[3]);
 
-  console.log(groupedPicks);
   var i = 0;
   var rank = 0;
   var lastPoints = -1;
@@ -147,5 +161,17 @@ document.getElementById("displayType").onchange = function () {
 };
 document.getElementById("season").onchange = function () {
   loadLeaderboards()
+};
+document.getElementById("my-picks").onchange = function () {
+  if (document.getElementById("announcer-picks").checked) {
+        document.getElementById("announcer-picks").checked = false;
+  }
+  loadLeaderboards();
+};
+document.getElementById("announcer-picks").onchange = function () {
+  if (document.getElementById("my-picks").checked) {
+        document.getElementById("my-picks").checked = false;
+  }
+  loadLeaderboards();
 };
 loadLeaderboards();
