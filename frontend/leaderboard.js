@@ -156,7 +156,13 @@ function createTable(picks, team, isRedditDisplay) {
   }
   document.getElementById("team" + team.id).append(table);
 };
+document.getElementById("announcer-pick-form").style.display = "none";
 document.getElementById("displayType").onchange = function () {
+  if (document.getElementById("displayType").value == "Global") {
+    document.getElementById("announcer-pick-form").style.display = '';
+  } else {
+    document.getElementById("announcer-pick-form").style.display = "none";
+  }
   loadLeaderboards()
 };
 document.getElementById("season").onchange = function () {
