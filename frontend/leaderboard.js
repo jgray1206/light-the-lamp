@@ -161,6 +161,7 @@ document.getElementById("displayType").onchange = function () {
   if (document.getElementById("displayType").value == "Global") {
     document.getElementById("announcer-pick-form").style.display = '';
   } else {
+    document.getElementById("announcer-picks").checked = false;
     document.getElementById("announcer-pick-form").style.display = "none";
   }
   loadLeaderboards()
