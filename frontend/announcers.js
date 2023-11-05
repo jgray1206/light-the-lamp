@@ -346,6 +346,11 @@ function createTable(team, game, picks, activeGame, sortedGames, announcers) {
 
 function createPickButton(gameId, pickName, announcer, cell, picks) {
   var pickButton = document.createElement("button");
+  var hasPicked = picks.find(
+      (pick) =>
+        pick.announcer.id == announcer.id &&
+        pick.game.id == gameId
+    );
   var pick = picks.find(
     (pick) =>
       pick.announcer.id == announcer.id &&
@@ -368,7 +373,9 @@ function createPickButton(gameId, pickName, announcer, cell, picks) {
     },
     false
   );
-  cell.appendChild(pickButton);
+  if (pick != undefined || !hasPicked) {
+    cell.appendChild(pickButton);
+  }
 }
 
 function createTableHeaderForGame(
