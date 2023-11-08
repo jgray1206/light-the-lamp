@@ -77,9 +77,9 @@ class LightTheLampApplicationTests {
 		assertThat(kraken.abbreviation).isEqualTo("SEA")
 
 		val games = gameRepository.findAll().collectList().block()!!
-		assertThat(games).hasSize(1)
+		assertThat(games).hasSize(46)
 
-		val game = games.first()
+		val game = games.first { it.id == 2023020091L }
 		gameId = game.id.toString()
 		assertThat(game.id).isEqualTo(2023020091)
 		assertThat(game.gameState).isEqualTo("Preview")
@@ -89,10 +89,10 @@ class LightTheLampApplicationTests {
 		assertThat(game.homeTeamGoals).isNull()
 		assertThat(game.awayTeamGoals).isNull()
 
-		val players = gamePlayerRepository.findAll().collectList().block()!!
-		assertThat(players).hasSize(46)
+		val players = gamePlayerRepository.findAll().collectList().block()!!.filter { it.id?.gameId == gameId.toLong() }
+		assertThat(players).hasSize(45)
 		val redWingsPlayers = players.filter { it.team?.id == redWings.id }
-		assertThat(redWingsPlayers).hasSize(23)
+		assertThat(redWingsPlayers).hasSize(22)
 		val krakenPlayers = players.filter { it.team?.id == kraken.id }
 		assertThat(krakenPlayers).hasSize(23)
 		players.forEach { player ->
@@ -104,7 +104,7 @@ class LightTheLampApplicationTests {
 		//test missing player logic
 		RETURN_UPDATED_ROSTER = true
 		gameStateSyncer.syncAllGames(5)
-		assertThat(gamePlayerRepository.findAll().collectList().block()!!).hasSize(players.size+1)
+		assertThat(gamePlayerRepository.findAll().collectList().block()!!.filter { it.id?.gameId == gameId.toLong() }).hasSize(players.size+1)
 	}
 
 	@Test

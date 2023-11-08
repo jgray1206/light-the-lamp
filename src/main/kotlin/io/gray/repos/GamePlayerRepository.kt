@@ -12,4 +12,5 @@ import reactor.core.publisher.Mono
 interface GamePlayerRepository : ReactorCrudRepository<GamePlayer, GamePlayerId> {
     @Join("team", type = Join.Type.FETCH)
     override fun findById(aGamePlayerId: GamePlayerId): Mono<GamePlayer>
+
 }

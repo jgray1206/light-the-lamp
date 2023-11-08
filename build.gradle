@@ -92,13 +92,6 @@ micronaut {
 		incremental(true)
 		annotations("io.gray.*")
 	}
-	openapi {
-		client(file("src/main/resources/nhl.yaml")) {
-			apiPackageName = "io.gray.nhl.api"
-			modelPackageName = "io.gray.nhl.model"
-			dateTimeFormat = "LOCAL_DATETIME"
-		}
-	}
 	aot {
 		// Please review carefully the optimizations enabled below
 		// Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details

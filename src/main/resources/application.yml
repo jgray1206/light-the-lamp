@@ -44,7 +44,8 @@ netty:
     allocator:
       max-order: 3
 ---
-openapi-micronaut-client-base-path: https://statsapi.web.nhl.com/api/v1/
+nhl-api-base-path: https://api-web.nhle.com/v1/
+nhl-franchise-api-base-path: https://api.nhle.com/stats/rest/en/
 ---
 logger:
   levels:

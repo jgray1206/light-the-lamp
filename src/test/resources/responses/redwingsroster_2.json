@@ -1,341 +1,571 @@
 {
-  "roster": [
+  "forwards": [
     {
-      "person": {
-        "id": 8477952,
-        "fullName": "Robby Fabbri",
-        "link": "/api/v1/people/8477952"
+      "id": 8477456,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8477456.png",
+      "firstName": {
+        "default": "J.T."
       },
-      "jerseyNumber": "14",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
+      "lastName": {
+        "default": "Compher"
+      },
+      "sweaterNumber": 37,
+      "positionCode": "L",
+      "shootsCatches": "R",
+      "heightInInches": 72,
+      "weightInPounds": 190,
+      "heightInCentimeters": 183,
+      "weightInKilograms": 86,
+      "birthDate": "1995-04-08",
+      "birthCity": {
+        "default": "Northbrook"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "IL"
       }
     },
     {
-      "person": {
-        "id": 8481013,
-        "fullName": "Jonatan Berggren",
-        "link": "/api/v1/people/8481013"
+      "id": 8477429,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8477429.png",
+      "firstName": {
+        "default": "Andrew"
       },
-      "jerseyNumber": "48",
-      "position": {
-        "code": "R",
-        "name": "Right Wing",
-        "type": "Forward",
-        "abbreviation": "RW"
+      "lastName": {
+        "default": "Copp"
+      },
+      "sweaterNumber": 18,
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "heightInInches": 73,
+      "weightInPounds": 203,
+      "heightInCentimeters": 185,
+      "weightInKilograms": 92,
+      "birthDate": "1994-07-08",
+      "birthCity": {
+        "default": "Ann Arbor"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MI"
       }
     },
     {
-      "person": {
-        "id": 8473503,
-        "fullName": "James Reimer",
-        "link": "/api/v1/people/8473503"
+      "id": 8478512,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8478512.png",
+      "firstName": {
+        "default": "Austin"
       },
-      "jerseyNumber": "47",
-      "position": {
-        "code": "G",
-        "name": "Goalie",
-        "type": "Goalie",
-        "abbreviation": "G"
+      "lastName": {
+        "default": "Czarnik"
+      },
+      "sweaterNumber": 21,
+      "positionCode": "C",
+      "shootsCatches": "R",
+      "heightInInches": 69,
+      "weightInPounds": 170,
+      "heightInCentimeters": 175,
+      "weightInKilograms": 77,
+      "birthDate": "1992-12-12",
+      "birthCity": {
+        "default": "Detroit"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MI"
       }
     },
     {
-      "person": {
-        "id": 8473507,
-        "fullName": "Jeff Petry",
-        "link": "/api/v1/people/8473507"
+      "id": 8479337,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8479337.png",
+      "firstName": {
+        "default": "Alex"
       },
-      "jerseyNumber": "46",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
+      "lastName": {
+        "default": "DeBrincat"
+      },
+      "sweaterNumber": 93,
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "heightInInches": 68,
+      "weightInPounds": 180,
+      "heightInCentimeters": 173,
+      "weightInKilograms": 82,
+      "birthDate": "1997-12-18",
+      "birthCity": {
+        "default": "Farmington Hills"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MI"
       }
     },
     {
-      "person": {
-        "id": 8474102,
-        "fullName": "David Perron",
-        "link": "/api/v1/people/8474102"
+      "id": 8477952,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8477952.png",
+      "firstName": {
+        "default": "Robby"
       },
-      "jerseyNumber": "57",
-      "position": {
-        "code": "L",
-        "name": "Left Wing",
-        "type": "Forward",
-        "abbreviation": "LW"
+      "lastName": {
+        "default": "Fabbri"
+      },
+      "sweaterNumber": 14,
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "heightInInches": 73,
+      "weightInPounds": 185,
+      "heightInCentimeters": 185,
+      "weightInKilograms": 84,
+      "birthDate": "1996-01-22",
+      "birthCity": {
+        "default": "Mississauga"
+      },
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "ON"
       }
     },
     {
-      "person": {
-        "id": 8475279,
-        "fullName": "Ben Chiarot",
-        "link": "/api/v1/people/8475279"
+      "id": 8478432,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8478432.png",
+      "firstName": {
+        "default": "Christian"
       },
-      "jerseyNumber": "8",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
+      "lastName": {
+        "default": "Fischer"
+      },
+      "sweaterNumber": 36,
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "heightInInches": 74,
+      "weightInPounds": 212,
+      "heightInCentimeters": 188,
+      "weightInKilograms": 96,
+      "birthDate": "1997-04-15",
+      "birthCity": {
+        "default": "Chicago"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "IL"
       }
     },
     {
-      "person": {
-        "id": 8475718,
-        "fullName": "Justin Holl",
-        "link": "/api/v1/people/8475718"
+      "id": 8480011,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8480011.png",
+      "firstName": {
+        "default": "Klim"
       },
-      "jerseyNumber": "3",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
+      "lastName": {
+        "default": "Kostin"
+      },
+      "sweaterNumber": 24,
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "heightInInches": 76,
+      "weightInPounds": 232,
+      "heightInCentimeters": 193,
+      "weightInKilograms": 105,
+      "birthDate": "1999-05-05",
+      "birthCity": {
+        "default": "Penza"
+      },
+      "birthCountry": "RUS"
+    },
+    {
+      "id": 8477946,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8477946.png",
+      "firstName": {
+        "default": "Dylan"
+      },
+      "lastName": {
+        "default": "Larkin"
+      },
+      "sweaterNumber": 71,
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "heightInInches": 73,
+      "weightInPounds": 199,
+      "heightInCentimeters": 185,
+      "weightInKilograms": 90,
+      "birthDate": "1996-07-30",
+      "birthCity": {
+        "default": "Waterford"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MI"
       }
     },
     {
-      "person": {
-        "id": 8476874,
-        "fullName": "Olli Maatta",
-        "link": "/api/v1/people/8476874"
+      "id": 8474102,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8474102.png",
+      "firstName": {
+        "default": "David"
       },
-      "jerseyNumber": "2",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
+      "lastName": {
+        "default": "Perron"
+      },
+      "sweaterNumber": 57,
+      "positionCode": "L",
+      "shootsCatches": "R",
+      "heightInInches": 72,
+      "weightInPounds": 195,
+      "heightInCentimeters": 183,
+      "weightInKilograms": 88,
+      "birthDate": "1988-05-28",
+      "birthCity": {
+        "default": "Sherbrooke"
+      },
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "QC"
       }
     },
     {
-      "person": {
-        "id": 8476906,
-        "fullName": "Shayne Gostisbehere",
-        "link": "/api/v1/people/8476906"
+      "id": 8479992,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8479992.png",
+      "firstName": {
+        "default": "Michael"
       },
-      "jerseyNumber": "41",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
+      "lastName": {
+        "default": "Rasmussen"
+      },
+      "sweaterNumber": 27,
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "heightInInches": 78,
+      "weightInPounds": 220,
+      "heightInCentimeters": 198,
+      "weightInKilograms": 100,
+      "birthDate": "1999-04-17",
+      "birthCity": {
+        "default": "Surrey"
+      },
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "BC"
       }
     },
     {
-      "person": {
-        "id": 8477429,
-        "fullName": "Andrew Copp",
-        "link": "/api/v1/people/8477429"
+      "id": 8482078,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8482078.png",
+      "firstName": {
+        "default": "Lucas"
       },
-      "jerseyNumber": "18",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
-      }
+      "lastName": {
+        "default": "Raymond"
+      },
+      "sweaterNumber": 23,
+      "positionCode": "L",
+      "shootsCatches": "R",
+      "heightInInches": 71,
+      "weightInPounds": 188,
+      "heightInCentimeters": 180,
+      "weightInKilograms": 85,
+      "birthDate": "2002-03-28",
+      "birthCity": {
+        "default": "Gothenburg"
+      },
+      "birthCountry": "SWE"
     },
     {
-      "person": {
-        "id": 8477456,
-        "fullName": "J.T. Compher",
-        "link": "/api/v1/people/8477456"
+      "id": 8478466,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8478466.png",
+      "firstName": {
+        "default": "Daniel"
       },
-      "jerseyNumber": "37",
-      "position": {
-        "code": "L",
-        "name": "Left Wing",
-        "type": "Forward",
-        "abbreviation": "LW"
-      }
+      "lastName": {
+        "default": "Sprong"
+      },
+      "sweaterNumber": 88,
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "heightInInches": 72,
+      "weightInPounds": 195,
+      "heightInCentimeters": 183,
+      "weightInKilograms": 88,
+      "birthDate": "1997-03-17",
+      "birthCity": {
+        "default": "Amsterdam"
+      },
+      "birthCountry": "NLD"
     },
     {
-      "person": {
-        "id": 8477946,
-        "fullName": "Dylan Larkin",
-        "link": "/api/v1/people/8477946"
+      "id": 8480813,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8480813.png",
+      "firstName": {
+        "default": "Joe",
+        "cs": "Joseph",
+        "de": "Joseph",
+        "es": "Joseph",
+        "fi": "Joseph",
+        "sk": "Joseph",
+        "sv": "Joseph"
       },
-      "jerseyNumber": "71",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
-      }
-    },
-    {
-      "person": {
-        "id": 8478013,
-        "fullName": "Jake Walman",
-        "link": "/api/v1/people/8478013"
+      "lastName": {
+        "default": "Veleno"
       },
-      "jerseyNumber": "96",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
-      }
-    },
-    {
-      "person": {
-        "id": 8478024,
-        "fullName": "Ville Husso",
-        "link": "/api/v1/people/8478024"
+      "sweaterNumber": 90,
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "heightInInches": 73,
+      "weightInPounds": 201,
+      "heightInCentimeters": 185,
+      "weightInKilograms": 91,
+      "birthDate": "2000-01-13",
+      "birthCity": {
+        "default": "Montréal"
       },
-      "jerseyNumber": "35",
-      "position": {
-        "code": "G",
-        "name": "Goalie",
-        "type": "Goalie",
-        "abbreviation": "G"
-      }
-    },
-    {
-      "person": {
-        "id": 8478432,
-        "fullName": "Christian Fischer",
-        "link": "/api/v1/people/8478432"
-      },
-      "jerseyNumber": "36",
-      "position": {
-        "code": "R",
-        "name": "Right Wing",
-        "type": "Forward",
-        "abbreviation": "RW"
-      }
-    },
-    {
-      "person": {
-        "id": 8478466,
-        "fullName": "Daniel Sprong",
-        "link": "/api/v1/people/8478466"
-      },
-      "jerseyNumber": "88",
-      "position": {
-        "code": "R",
-        "name": "Right Wing",
-        "type": "Forward",
-        "abbreviation": "RW"
-      }
-    },
-    {
-      "person": {
-        "id": 8478512,
-        "fullName": "Austin Czarnik",
-        "link": "/api/v1/people/8478512"
-      },
-      "jerseyNumber": "21",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
-      }
-    },
-    {
-      "person": {
-        "id": 8479312,
-        "fullName": "Alex Lyon",
-        "link": "/api/v1/people/8479312"
-      },
-      "jerseyNumber": "34",
-      "position": {
-        "code": "G",
-        "name": "Goalie",
-        "type": "Goalie",
-        "abbreviation": "G"
-      }
-    },
-    {
-      "person": {
-        "id": 8479337,
-        "fullName": "Alex DeBrincat",
-        "link": "/api/v1/people/8479337"
-      },
-      "jerseyNumber": "93",
-      "position": {
-        "code": "R",
-        "name": "Right Wing",
-        "type": "Forward",
-        "abbreviation": "RW"
-      }
-    },
-    {
-      "person": {
-        "id": 8479992,
-        "fullName": "Michael Rasmussen",
-        "link": "/api/v1/people/8479992"
-      },
-      "jerseyNumber": "27",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
-      }
-    },
-    {
-      "person": {
-        "id": 8480011,
-        "fullName": "Klim Kostin",
-        "link": "/api/v1/people/8480011"
-      },
-      "jerseyNumber": "24",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
-      }
-    },
-    {
-      "person": {
-        "id": 8480813,
-        "fullName": "Joe Veleno",
-        "link": "/api/v1/people/8480813"
-      },
-      "jerseyNumber": "90",
-      "position": {
-        "code": "C",
-        "name": "Center",
-        "type": "Forward",
-        "abbreviation": "C"
-      }
-    },
-    {
-      "person": {
-        "id": 8481542,
-        "fullName": "Moritz Seider",
-        "link": "/api/v1/people/8481542"
-      },
-      "jerseyNumber": "53",
-      "position": {
-        "code": "D",
-        "name": "Defenseman",
-        "type": "Defenseman",
-        "abbreviation": "D"
-      }
-    },
-    {
-      "person": {
-        "id": 8482078,
-        "fullName": "Lucas Raymond",
-        "link": "/api/v1/people/8482078"
-      },
-      "jerseyNumber": "23",
-      "position": {
-        "code": "L",
-        "name": "Left Wing",
-        "type": "Forward",
-        "abbreviation": "LW"
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "QC"
       }
     }
   ],
-  "link": "/api/v1/teams/17/roster"
+  "defensemen": [
+    {
+      "id": 8475279,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8475279.png",
+      "firstName": {
+        "default": "Ben"
+      },
+      "lastName": {
+        "default": "Chiarot"
+      },
+      "sweaterNumber": 8,
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "heightInInches": 75,
+      "weightInPounds": 224,
+      "heightInCentimeters": 191,
+      "weightInKilograms": 102,
+      "birthDate": "1991-05-09",
+      "birthCity": {
+        "default": "Hamilton"
+      },
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "ON"
+      }
+    },
+    {
+      "id": 8476906,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8476906.png",
+      "firstName": {
+        "default": "Shayne"
+      },
+      "lastName": {
+        "default": "Gostisbehere"
+      },
+      "sweaterNumber": 41,
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "heightInInches": 71,
+      "weightInPounds": 183,
+      "heightInCentimeters": 180,
+      "weightInKilograms": 83,
+      "birthDate": "1993-04-20",
+      "birthCity": {
+        "default": "Pembroke Pines"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "FL"
+      }
+    },
+    {
+      "id": 8475718,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8475718.png",
+      "firstName": {
+        "default": "Justin"
+      },
+      "lastName": {
+        "default": "Holl"
+      },
+      "sweaterNumber": 3,
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "heightInInches": 76,
+      "weightInPounds": 194,
+      "heightInCentimeters": 193,
+      "weightInKilograms": 88,
+      "birthDate": "1992-01-30",
+      "birthCity": {
+        "default": "Tonka Bay"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MN"
+      }
+    },
+    {
+      "id": 8476874,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8476874.png",
+      "firstName": {
+        "default": "Olli"
+      },
+      "lastName": {
+        "default": "Maatta"
+      },
+      "sweaterNumber": 2,
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "heightInInches": 74,
+      "weightInPounds": 207,
+      "heightInCentimeters": 188,
+      "weightInKilograms": 94,
+      "birthDate": "1994-08-22",
+      "birthCity": {
+        "default": "Jyväskylä"
+      },
+      "birthCountry": "FIN"
+    },
+    {
+      "id": 8473507,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8473507.png",
+      "firstName": {
+        "default": "Jeff"
+      },
+      "lastName": {
+        "default": "Petry"
+      },
+      "sweaterNumber": 46,
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "heightInInches": 75,
+      "weightInPounds": 208,
+      "heightInCentimeters": 191,
+      "weightInKilograms": 94,
+      "birthDate": "1987-12-09",
+      "birthCity": {
+        "default": "Ann Arbor"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MI"
+      }
+    },
+    {
+      "id": 8481542,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8481542.png",
+      "firstName": {
+        "default": "Moritz"
+      },
+      "lastName": {
+        "default": "Seider"
+      },
+      "sweaterNumber": 53,
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "heightInInches": 75,
+      "weightInPounds": 205,
+      "heightInCentimeters": 191,
+      "weightInKilograms": 93,
+      "birthDate": "2001-04-06",
+      "birthCity": {
+        "default": "Zell"
+      },
+      "birthCountry": "DEU"
+    },
+    {
+      "id": 8478013,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8478013.png",
+      "firstName": {
+        "default": "Jake"
+      },
+      "lastName": {
+        "default": "Walman"
+      },
+      "sweaterNumber": 96,
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "heightInInches": 73,
+      "weightInPounds": 218,
+      "heightInCentimeters": 185,
+      "weightInKilograms": 99,
+      "birthDate": "1996-02-20",
+      "birthCity": {
+        "default": "Toronto"
+      },
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "ON"
+      }
+    }
+  ],
+  "goalies": [
+    {
+      "id": 8478024,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8478024.png",
+      "firstName": {
+        "default": "Ville"
+      },
+      "lastName": {
+        "default": "Husso"
+      },
+      "sweaterNumber": 35,
+      "positionCode": "G",
+      "shootsCatches": "L",
+      "heightInInches": 75,
+      "weightInPounds": 205,
+      "heightInCentimeters": 191,
+      "weightInKilograms": 93,
+      "birthDate": "1995-02-06",
+      "birthCity": {
+        "default": "Helsinki"
+      },
+      "birthCountry": "FIN"
+    },
+    {
+      "id": 8479312,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8479312.png",
+      "firstName": {
+        "default": "Alex"
+      },
+      "lastName": {
+        "default": "Lyon"
+      },
+      "sweaterNumber": 34,
+      "positionCode": "G",
+      "shootsCatches": "L",
+      "heightInInches": 73,
+      "weightInPounds": 196,
+      "heightInCentimeters": 185,
+      "weightInKilograms": 89,
+      "birthDate": "1992-12-09",
+      "birthCity": {
+        "default": "Baudette"
+      },
+      "birthCountry": "USA",
+      "birthStateProvince": {
+        "default": "MN"
+      }
+    },
+    {
+      "id": 8473503,
+      "headshot": "https://assets.nhle.com/mugs/nhl/20232024/DET/8473503.png",
+      "firstName": {
+        "default": "James"
+      },
+      "lastName": {
+        "default": "Reimer"
+      },
+      "sweaterNumber": 47,
+      "positionCode": "G",
+      "shootsCatches": "L",
+      "heightInInches": 74,
+      "weightInPounds": 200,
+      "heightInCentimeters": 188,
+      "weightInKilograms": 91,
+      "birthDate": "1988-03-15",
+      "birthCity": {
+        "default": "Morweena"
+      },
+      "birthCountry": "CAN",
+      "birthStateProvince": {
+        "default": "MB"
+      }
+    }
+  ]
 }

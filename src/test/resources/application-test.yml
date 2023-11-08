@@ -11,7 +11,8 @@ server:
   host: localhost
   port: -1
 ---
-openapi-micronaut-client-base-path: /nhl
+nhl-api-base-path: /nhl
+nhl-franchise-api-base-path: /nhl
 ---
 mail.service.enabled: false
 game.sync.delay: 1000m

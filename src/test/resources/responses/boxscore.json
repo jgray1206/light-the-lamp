@@ -1,2863 +1,1242 @@
 {
-  "teams": {
-    "away": {
-      "team": {
-        "id": 55,
-        "name": "Seattle Kraken",
-        "link": "/api/v1/teams/55"
-      },
-      "teamStats": {
-        "teamSkaterStats": {
-          "goals": 5,
-          "pim": 14,
-          "shots": 38,
-          "powerPlayPercentage": "40.0",
-          "powerPlayGoals": 2,
-          "powerPlayOpportunities": 5,
-          "faceOffWinPercentage": "51.7",
-          "blocked": 17,
-          "takeaways": 8,
-          "giveaways": 1,
-          "hits": 16
-        }
-      },
-      "players": {
-        "ID8474602": {
-          "person": {
-            "id": 8474602,
-            "fullName": "Justin Schultz",
-            "link": "/api/v1/people/8474602",
-            "firstName": "Justin",
-            "lastName": "Schultz",
-            "primaryNumber": "4",
-            "birthDate": "1990-07-06",
-            "currentAge": 33,
-            "birthCity": "Kelowna",
-            "birthStateProvince": "BC",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 2\"",
-            "weight": 190,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "4",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "14:36",
-              "assists": 0,
-              "goals": 0,
-              "shots": 0,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 2,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "11:46",
-              "powerPlayTimeOnIce": "2:50",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8475768": {
-          "person": {
-            "id": 8475768,
-            "fullName": "Jaden Schwartz",
-            "link": "/api/v1/people/8475768",
-            "firstName": "Jaden",
-            "lastName": "Schwartz",
-            "primaryNumber": "17",
-            "birthDate": "1992-06-25",
-            "currentAge": 31,
-            "birthCity": "Wilcox",
-            "birthStateProvince": "SK",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "5' 10\"",
-            "weight": 185,
-            "active": true,
-            "alternateCaptain": true,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "17",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "17:04",
-              "assists": 0,
-              "goals": 2,
-              "shots": 5,
-              "hits": 0,
-              "powerPlayGoals": 1,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 60,
-              "faceOffWins": 3,
-              "faceoffTaken": 5,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "13:42",
-              "powerPlayTimeOnIce": "3:22",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8475208": {
-          "person": {
-            "id": 8475208,
-            "fullName": "Brian Dumoulin",
-            "link": "/api/v1/people/8475208",
-            "firstName": "Brian",
-            "lastName": "Dumoulin",
-            "primaryNumber": "8",
-            "birthDate": "1991-09-06",
-            "currentAge": 32,
-            "birthCity": "Biddeford",
-            "birthStateProvince": "ME",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 4\"",
-            "weight": 207,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "8",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "14:52",
-              "assists": 1,
-              "goals": 0,
-              "shots": 1,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "11:49",
-              "powerPlayTimeOnIce": "0:02",
-              "shortHandedTimeOnIce": "3:01"
-            }
-          }
-        },
-        "ID8476913": {
-          "person": {
-            "id": 8476913,
-            "fullName": "Devin Shore",
-            "link": "/api/v1/people/8476913",
-            "firstName": "Devin",
-            "lastName": "Shore",
-            "primaryNumber": "94",
-            "birthDate": "1994-07-19",
-            "currentAge": 29,
-            "birthCity": "Ajax",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 1\"",
-            "weight": 206,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "94",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "6:51",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 2,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 4,
-              "faceOffPct": 100,
-              "faceOffWins": 1,
-              "faceoffTaken": 1,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": 0,
-              "evenTimeOnIce": "6:51",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8476826": {
-          "person": {
-            "id": 8476826,
-            "fullName": "Yanni Gourde",
-            "link": "/api/v1/people/8476826",
-            "firstName": "Yanni",
-            "lastName": "Gourde",
-            "primaryNumber": "37",
-            "birthDate": "1991-12-15",
-            "currentAge": 31,
-            "birthCity": "Saint-Narcisse",
-            "birthStateProvince": "QC",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "5' 9\"",
-            "weight": 174,
-            "active": true,
-            "alternateCaptain": true,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "37",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "17:14",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 58.33,
-              "faceOffWins": 7,
-              "faceoffTaken": 12,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": -1,
-              "evenTimeOnIce": "13:10",
-              "powerPlayTimeOnIce": "0:59",
-              "shortHandedTimeOnIce": "3:05"
-            }
-          }
-        },
-        "ID8478916": {
-          "person": {
-            "id": 8478916,
-            "fullName": "Joey Daccord",
-            "link": "/api/v1/people/8478916",
-            "firstName": "Joey",
-            "lastName": "Daccord",
-            "primaryNumber": "35",
-            "birthDate": "1996-08-19",
-            "currentAge": 27,
-            "birthCity": "Boston",
-            "birthStateProvince": "MA",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 2\"",
-            "weight": 201,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "G",
-              "name": "Goalie",
-              "type": "Goalie",
-              "abbreviation": "G"
-            }
-          },
-          "jerseyNumber": "35",
-          "position": {
-            "code": "G",
-            "name": "Goalie",
-            "type": "Goalie",
-            "abbreviation": "G"
-          },
-          "stats": {
-            "goalieStats": {
-              "timeOnIce": "64:36",
-              "assists": 0,
-              "goals": 0,
-              "pim": 0,
-              "shots": 27,
-              "saves": 23,
-              "powerPlaySaves": 5,
-              "shortHandedSaves": 0,
-              "evenSaves": 18,
-              "shortHandedShotsAgainst": 0,
-              "evenShotsAgainst": 19,
-              "powerPlayShotsAgainst": 8,
-              "decision": "W",
-              "savePercentage": 85.18518518518519,
-              "powerPlaySavePercentage": 62.5,
-              "evenStrengthSavePercentage": 94.73684210526315
-            }
-          }
-        },
-        "ID8476457": {
-          "person": {
-            "id": 8476457,
-            "fullName": "Adam Larsson",
-            "link": "/api/v1/people/8476457",
-            "firstName": "Adam",
-            "lastName": "Larsson",
-            "primaryNumber": "6",
-            "birthDate": "1992-11-12",
-            "currentAge": 30,
-            "birthCity": "Skelleftea",
-            "birthCountry": "SWE",
-            "nationality": "SWE",
-            "height": "6' 3\"",
-            "weight": 209,
-            "active": true,
-            "alternateCaptain": true,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "6",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "28:50",
-              "assists": 0,
-              "goals": 0,
-              "shots": 0,
-              "hits": 4,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 4,
-              "plusMinus": 1,
-              "evenTimeOnIce": "23:19",
-              "powerPlayTimeOnIce": "0:10",
-              "shortHandedTimeOnIce": "5:21"
-            }
-          }
-        },
-        "ID8477505": {
-          "person": {
-            "id": 8477505,
-            "fullName": "Alex Wennberg",
-            "link": "/api/v1/people/8477505",
-            "firstName": "Alex",
-            "lastName": "Wennberg",
-            "primaryNumber": "21",
-            "birthDate": "1994-09-22",
-            "currentAge": 29,
-            "birthCity": "Stockholm",
-            "birthCountry": "SWE",
-            "nationality": "SWE",
-            "height": "6' 2\"",
-            "weight": 190,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "21",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "23:31",
-              "assists": 1,
-              "goals": 0,
-              "shots": 1,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 2,
-              "faceOffPct": 61.54,
-              "faceOffWins": 8,
-              "faceoffTaken": 13,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": 2,
-              "evenTimeOnIce": "16:51",
-              "powerPlayTimeOnIce": "2:04",
-              "shortHandedTimeOnIce": "4:36"
-            }
-          }
-        },
-        "ID8478407": {
-          "person": {
-            "id": 8478407,
-            "fullName": "Vince Dunn",
-            "link": "/api/v1/people/8478407",
-            "firstName": "Vince",
-            "lastName": "Dunn",
-            "primaryNumber": "29",
-            "birthDate": "1996-10-29",
-            "currentAge": 26,
-            "birthCity": "Mississauga",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 0\"",
-            "weight": 200,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "29",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "25:12",
-              "assists": 2,
-              "goals": 0,
-              "shots": 0,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 1,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 2,
-              "evenTimeOnIce": "21:22",
-              "powerPlayTimeOnIce": "3:35",
-              "shortHandedTimeOnIce": "0:15"
-            }
-          }
-        },
-        "ID8479977": {
-          "person": {
-            "id": 8479977,
-            "fullName": "Kailer Yamamoto",
-            "link": "/api/v1/people/8479977",
-            "firstName": "Kailer",
-            "lastName": "Yamamoto",
-            "primaryNumber": "56",
-            "birthDate": "1998-09-29",
-            "currentAge": 25,
-            "birthCity": "Spokane",
-            "birthStateProvince": "WA",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "5' 8\"",
-            "weight": 153,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "56",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "6:59",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 100,
-              "faceOffWins": 1,
-              "faceoffTaken": 1,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 0,
-              "evenTimeOnIce": "3:55",
-              "powerPlayTimeOnIce": "3:04",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8477955": {
-          "person": {
-            "id": 8477955,
-            "fullName": "Jared McCann",
-            "link": "/api/v1/people/8477955",
-            "firstName": "Jared",
-            "lastName": "McCann",
-            "primaryNumber": "19",
-            "birthDate": "1996-05-31",
-            "currentAge": 27,
-            "birthCity": "Stratford",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 1\"",
-            "weight": 191,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "19",
-          "position": {
-            "code": "L",
-            "name": "Left Wing",
-            "type": "Forward",
-            "abbreviation": "LW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "18:53",
-              "assists": 1,
-              "goals": 1,
-              "shots": 4,
-              "hits": 1,
-              "powerPlayGoals": 1,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 100,
-              "faceOffWins": 1,
-              "faceoffTaken": 1,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 0,
-              "evenTimeOnIce": "13:05",
-              "powerPlayTimeOnIce": "3:18",
-              "shortHandedTimeOnIce": "2:30"
-            }
-          }
-        },
-        "ID8477416": {
-          "person": {
-            "id": 8477416,
-            "fullName": "Oliver Bjorkstrand",
-            "link": "/api/v1/people/8477416",
-            "firstName": "Oliver",
-            "lastName": "Bjorkstrand",
-            "primaryNumber": "22",
-            "birthDate": "1995-04-10",
-            "currentAge": 28,
-            "birthCity": "Herning",
-            "birthCountry": "DNK",
-            "nationality": "DNK",
-            "height": "6' 0\"",
-            "weight": 175,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "22",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "16:49",
-              "assists": 1,
-              "goals": 0,
-              "shots": 3,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 1,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "13:39",
-              "powerPlayTimeOnIce": "3:10",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8481789": {
-          "person": {
-            "id": 8481789,
-            "fullName": "Tye Kartye",
-            "link": "/api/v1/people/8481789",
-            "firstName": "Tye",
-            "lastName": "Kartye",
-            "primaryNumber": "52",
-            "birthDate": "2001-04-30",
-            "currentAge": 22,
-            "birthCity": "Kingston",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "5' 11\"",
-            "weight": 202,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": true,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "52",
-          "position": {
-            "code": "L",
-            "name": "Left Wing",
-            "type": "Forward",
-            "abbreviation": "LW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "13:47",
-              "assists": 0,
-              "goals": 1,
-              "shots": 5,
-              "hits": 3,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "13:47",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8477444": {
-          "person": {
-            "id": 8477444,
-            "fullName": "Andre Burakovsky",
-            "link": "/api/v1/people/8477444",
-            "firstName": "Andre",
-            "lastName": "Burakovsky",
-            "primaryNumber": "95",
-            "birthDate": "1995-02-09",
-            "currentAge": 28,
-            "birthCity": "Klagenfurt",
-            "birthCountry": "AUT",
-            "nationality": "SWE",
-            "height": "6' 3\"",
-            "weight": 209,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "95",
-          "position": {
-            "code": "N/A",
-            "name": "Unknown",
-            "type": "Unknown",
-            "abbreviation": "N/A"
-          },
-          "stats": {}
-        },
-        "ID8478840": {
-          "person": {
-            "id": 8478840,
-            "fullName": "Will Borgen",
-            "link": "/api/v1/people/8478840",
-            "firstName": "Will",
-            "lastName": "Borgen",
-            "primaryNumber": "3",
-            "birthDate": "1996-12-19",
-            "currentAge": 26,
-            "birthCity": "Moorhead",
-            "birthStateProvince": "MN",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 3\"",
-            "weight": 204,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "3",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "16:13",
-              "assists": 0,
-              "goals": 0,
-              "shots": 2,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 3,
-              "plusMinus": -1,
-              "evenTimeOnIce": "13:20",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "2:53"
-            }
-          }
-        },
-        "ID8480009": {
-          "person": {
-            "id": 8480009,
-            "fullName": "Eeli Tolvanen",
-            "link": "/api/v1/people/8480009",
-            "firstName": "Eeli",
-            "lastName": "Tolvanen",
-            "primaryNumber": "20",
-            "birthDate": "1999-04-22",
-            "currentAge": 24,
-            "birthCity": "Vihti",
-            "birthCountry": "FIN",
-            "nationality": "FIN",
-            "height": "5' 10\"",
-            "weight": 191,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "20",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "13:45",
-              "assists": 0,
-              "goals": 0,
-              "shots": 2,
-              "hits": 3,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": -1,
-              "evenTimeOnIce": "10:48",
-              "powerPlayTimeOnIce": "2:57",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8477930": {
-          "person": {
-            "id": 8477930,
-            "fullName": "Pierre-Edouard Bellemare",
-            "link": "/api/v1/people/8477930",
-            "firstName": "Pierre-Edouard",
-            "lastName": "Bellemare",
-            "primaryNumber": "41",
-            "birthDate": "1985-03-06",
-            "currentAge": 38,
-            "birthCity": "Le Blanc-Mesnil",
-            "birthCountry": "FRA",
-            "nationality": "FRA",
-            "height": "5' 11\"",
-            "weight": 198,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "41",
-          "position": {
-            "code": "L",
-            "name": "Left Wing",
-            "type": "Forward",
-            "abbreviation": "LW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "10:14",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 54.55,
-              "faceOffWins": 6,
-              "faceoffTaken": 11,
-              "takeaways": 1,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": 0,
-              "evenTimeOnIce": "4:17",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "5:57"
-            }
-          }
-        },
-        "ID8474586": {
-          "person": {
-            "id": 8474586,
-            "fullName": "Jordan Eberle",
-            "link": "/api/v1/people/8474586",
-            "firstName": "Jordan",
-            "lastName": "Eberle",
-            "primaryNumber": "7",
-            "birthDate": "1990-05-15",
-            "currentAge": 33,
-            "birthCity": "Regina",
-            "birthStateProvince": "SK",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "5' 11\"",
-            "weight": 190,
-            "active": true,
-            "alternateCaptain": true,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "7",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "19:26",
-              "assists": 1,
-              "goals": 1,
-              "shots": 5,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 1,
-              "penaltyMinutes": 4,
-              "faceOffPct": 100,
-              "faceOffWins": 1,
-              "faceoffTaken": 1,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 2,
-              "evenTimeOnIce": "15:56",
-              "powerPlayTimeOnIce": "3:30",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8476467": {
-          "person": {
-            "id": 8476467,
-            "fullName": "Jamie Oleksiak",
-            "link": "/api/v1/people/8476467",
-            "firstName": "Jamie",
-            "lastName": "Oleksiak",
-            "primaryNumber": "24",
-            "birthDate": "1992-12-21",
-            "currentAge": 30,
-            "birthCity": "Toronto",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 7\"",
-            "weight": 257,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "24",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "19:23",
-              "assists": 0,
-              "goals": 0,
-              "shots": 3,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 3,
-              "plusMinus": -1,
-              "evenTimeOnIce": "14:04",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "5:19"
-            }
-          }
-        },
-        "ID8477034": {
-          "person": {
-            "id": 8477034,
-            "fullName": "Jaycob Megna",
-            "link": "/api/v1/people/8477034",
-            "firstName": "Jaycob",
-            "lastName": "Megna",
-            "primaryNumber": "44",
-            "birthDate": "1992-12-10",
-            "currentAge": 30,
-            "birthCity": "Plantation",
-            "birthStateProvince": "FL",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 6\"",
-            "weight": 220,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "44",
-          "position": {
-            "code": "N/A",
-            "name": "Unknown",
-            "type": "Unknown",
-            "abbreviation": "N/A"
-          },
-          "stats": {}
-        },
-        "ID8482665": {
-          "person": {
-            "id": 8482665,
-            "fullName": "Matty Beniers",
-            "link": "/api/v1/people/8482665",
-            "firstName": "Matty",
-            "lastName": "Beniers",
-            "primaryNumber": "10",
-            "birthDate": "2002-11-05",
-            "currentAge": 20,
-            "birthCity": "Hingham",
-            "birthStateProvince": "MA",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 2\"",
-            "weight": 178,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 55,
-              "name": "Seattle Kraken",
-              "link": "/api/v1/teams/55"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "10",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "20:56",
-              "assists": 2,
-              "goals": 0,
-              "shots": 3,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 2,
-              "penaltyMinutes": 2,
-              "faceOffPct": 16.67,
-              "faceOffWins": 2,
-              "faceoffTaken": 12,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 0,
-              "evenTimeOnIce": "16:44",
-              "powerPlayTimeOnIce": "3:33",
-              "shortHandedTimeOnIce": "0:39"
-            }
-          }
-        }
-      },
-      "goalies": [
-        8478916
-      ],
-      "skaters": [
-        8478840,
-        8474602,
-        8476457,
-        8474586,
-        8475208,
-        8482665,
-        8475768,
-        8477955,
-        8480009,
-        8477505,
-        8477416,
-        8476467,
-        8478407,
-        8476826,
-        8477930,
-        8481789,
-        8479977,
-        8476913,
-        8477034,
-        8477444
-      ],
-      "onIce": [],
-      "onIcePlus": [],
-      "scratches": [
-        8477034,
-        8477444
-      ],
-      "penaltyBox": [],
-      "coaches": [
-        {
-          "person": {
-            "fullName": "Dave Hakstol",
-            "link": "/api/v1/people/null"
-          },
-          "position": {
-            "code": "HC",
-            "name": "Head Coach",
-            "type": "Head Coach",
-            "abbreviation": "Head Coach"
-          }
-        }
-      ]
+  "id": 2023020091,
+  "season": 20232024,
+  "gameType": 2,
+  "gameDate": "2023-10-24",
+  "venue": {
+    "default": "Little Caesars Arena"
+  },
+  "startTimeUTC": "2023-10-25T00:15:00Z",
+  "easternUTCOffset": "-04:00",
+  "venueUTCOffset": "-04:00",
+  "tvBroadcasts": [
+    {
+      "id": 351,
+      "market": "H",
+      "countryCode": "US",
+      "network": "BSDET"
     },
-    "home": {
-      "team": {
-        "id": 17,
-        "name": "Detroit Red Wings",
-        "link": "/api/v1/teams/17"
-      },
-      "teamStats": {
-        "teamSkaterStats": {
-          "goals": 4,
-          "pim": 12,
-          "shots": 27,
-          "powerPlayPercentage": "50.0",
-          "powerPlayGoals": 3,
-          "powerPlayOpportunities": 6,
-          "faceOffWinPercentage": "48.3",
-          "blocked": 20,
-          "takeaways": 9,
-          "giveaways": 9,
-          "hits": 20
-        }
-      },
-      "players": {
-        "ID8473507": {
-          "person": {
-            "id": 8473507,
-            "fullName": "Jeff Petry",
-            "link": "/api/v1/people/8473507",
-            "firstName": "Jeff",
-            "lastName": "Petry",
-            "primaryNumber": "46",
-            "birthDate": "1987-12-09",
-            "currentAge": 35,
-            "birthCity": "Ann Arbor",
-            "birthStateProvince": "MI",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 3\"",
-            "weight": 208,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "46",
-          "position": {
-            "code": "N/A",
-            "name": "Unknown",
-            "type": "Unknown",
-            "abbreviation": "N/A"
-          },
-          "stats": {}
-        },
-        "ID8475718": {
-          "person": {
-            "id": 8475718,
-            "fullName": "Justin Holl",
-            "link": "/api/v1/people/8475718",
-            "firstName": "Justin",
-            "lastName": "Holl",
-            "primaryNumber": "3",
-            "birthDate": "1992-01-30",
-            "currentAge": 31,
-            "birthCity": "Tonka Bay",
-            "birthStateProvince": "MN",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 4\"",
-            "weight": 194,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "3",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "20:08",
-              "assists": 0,
-              "goals": 0,
-              "shots": 0,
-              "hits": 2,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 4,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": -1,
-              "evenTimeOnIce": "18:09",
-              "powerPlayTimeOnIce": "0:03",
-              "shortHandedTimeOnIce": "1:56"
-            }
-          }
-        },
-        "ID8476906": {
-          "person": {
-            "id": 8476906,
-            "fullName": "Shayne Gostisbehere",
-            "link": "/api/v1/people/8476906",
-            "firstName": "Shayne",
-            "lastName": "Gostisbehere",
-            "primaryNumber": "41",
-            "birthDate": "1993-04-20",
-            "currentAge": 30,
-            "birthCity": "Pembroke Pines",
-            "birthStateProvince": "FL",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "5' 11\"",
-            "weight": 183,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "41",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "21:41",
-              "assists": 2,
-              "goals": 1,
-              "shots": 3,
-              "hits": 1,
-              "powerPlayGoals": 1,
-              "powerPlayAssists": 2,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": 0,
-              "evenTimeOnIce": "15:53",
-              "powerPlayTimeOnIce": "5:13",
-              "shortHandedTimeOnIce": "0:35"
-            }
-          }
-        },
-        "ID8477429": {
-          "person": {
-            "id": 8477429,
-            "fullName": "Andrew Copp",
-            "link": "/api/v1/people/8477429",
-            "firstName": "Andrew",
-            "lastName": "Copp",
-            "primaryNumber": "18",
-            "birthDate": "1994-07-08",
-            "currentAge": 29,
-            "birthCity": "Ann Arbor",
-            "birthStateProvince": "MI",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 1\"",
-            "weight": 203,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "18",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "19:57",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 42.86,
-              "faceOffWins": 3,
-              "faceoffTaken": 7,
-              "takeaways": 2,
-              "giveaways": 2,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": -1,
-              "evenTimeOnIce": "13:23",
-              "powerPlayTimeOnIce": "3:07",
-              "shortHandedTimeOnIce": "3:27"
-            }
-          }
-        },
-        "ID8477946": {
-          "person": {
-            "id": 8477946,
-            "fullName": "Dylan Larkin",
-            "link": "/api/v1/people/8477946",
-            "firstName": "Dylan",
-            "lastName": "Larkin",
-            "primaryNumber": "71",
-            "birthDate": "1996-07-30",
-            "currentAge": 27,
-            "birthCity": "Waterford",
-            "birthStateProvince": "MI",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 1\"",
-            "weight": 199,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": true,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "71",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "21:52",
-              "assists": 2,
-              "goals": 1,
-              "shots": 3,
-              "hits": 1,
-              "powerPlayGoals": 1,
-              "powerPlayAssists": 2,
-              "penaltyMinutes": 2,
-              "faceOffPct": 61.9,
-              "faceOffWins": 13,
-              "faceoffTaken": 21,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 0,
-              "evenTimeOnIce": "14:18",
-              "powerPlayTimeOnIce": "5:15",
-              "shortHandedTimeOnIce": "2:19"
-            }
-          }
-        },
-        "ID8479337": {
-          "person": {
-            "id": 8479337,
-            "fullName": "Alex DeBrincat",
-            "link": "/api/v1/people/8479337",
-            "firstName": "Alex",
-            "lastName": "DeBrincat",
-            "primaryNumber": "93",
-            "birthDate": "1997-12-18",
-            "currentAge": 25,
-            "birthCity": "Farmington Hills",
-            "birthStateProvince": "MI",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "5' 8\"",
-            "weight": 180,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "93",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "21:14",
-              "assists": 0,
-              "goals": 1,
-              "shots": 4,
-              "hits": 2,
-              "powerPlayGoals": 1,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": -1,
-              "evenTimeOnIce": "15:58",
-              "powerPlayTimeOnIce": "5:16",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8478466": {
-          "person": {
-            "id": 8478466,
-            "fullName": "Daniel Sprong",
-            "link": "/api/v1/people/8478466",
-            "firstName": "Daniel",
-            "lastName": "Sprong",
-            "primaryNumber": "88",
-            "birthDate": "1997-03-17",
-            "currentAge": 26,
-            "birthCity": "Amsterdam",
-            "birthCountry": "NLD",
-            "nationality": "NLD",
-            "height": "6' 0\"",
-            "weight": 195,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "88",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "14:48",
-              "assists": 1,
-              "goals": 0,
-              "shots": 2,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 2,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "11:39",
-              "powerPlayTimeOnIce": "3:09",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8476874": {
-          "person": {
-            "id": 8476874,
-            "fullName": "Olli Maatta",
-            "link": "/api/v1/people/8476874",
-            "firstName": "Olli",
-            "lastName": "Maatta",
-            "primaryNumber": "2",
-            "birthDate": "1994-08-22",
-            "currentAge": 29,
-            "birthCity": "Jyväskylä",
-            "birthCountry": "FIN",
-            "nationality": "FIN",
-            "height": "6' 2\"",
-            "weight": 207,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "2",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "12:20",
-              "assists": 1,
-              "goals": 0,
-              "shots": 0,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 3,
-              "plusMinus": 1,
-              "evenTimeOnIce": "11:33",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:47"
-            }
-          }
-        },
-        "ID8475279": {
-          "person": {
-            "id": 8475279,
-            "fullName": "Ben Chiarot",
-            "link": "/api/v1/people/8475279",
-            "firstName": "Ben",
-            "lastName": "Chiarot",
-            "primaryNumber": "8",
-            "birthDate": "1991-05-09",
-            "currentAge": 32,
-            "birthCity": "Hamilton",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 3\"",
-            "weight": 224,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "8",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "18:01",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 2,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 2,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": 0,
-              "evenTimeOnIce": "16:17",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "1:44"
-            }
-          }
-        },
-        "ID8478512": {
-          "person": {
-            "id": 8478512,
-            "fullName": "Austin Czarnik",
-            "link": "/api/v1/people/8478512",
-            "firstName": "Austin",
-            "lastName": "Czarnik",
-            "primaryNumber": "21",
-            "birthDate": "1992-12-12",
-            "currentAge": 30,
-            "birthCity": "Detroit",
-            "birthStateProvince": "MI",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "5' 9\"",
-            "weight": 170,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "21",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "5:38",
-              "assists": 0,
-              "goals": 0,
-              "shots": 2,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 16.67,
-              "faceOffWins": 1,
-              "faceoffTaken": 6,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 0,
-              "evenTimeOnIce": "5:38",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8477456": {
-          "person": {
-            "id": 8477456,
-            "fullName": "J.T. Compher",
-            "link": "/api/v1/people/8477456",
-            "firstName": "J.T.",
-            "lastName": "Compher",
-            "primaryNumber": "37",
-            "birthDate": "1995-04-08",
-            "currentAge": 28,
-            "birthCity": "Northbrook",
-            "birthStateProvince": "IL",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 0\"",
-            "weight": 190,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "37",
-          "position": {
-            "code": "L",
-            "name": "Left Wing",
-            "type": "Forward",
-            "abbreviation": "LW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "22:37",
-              "assists": 0,
-              "goals": 0,
-              "shots": 0,
-              "hits": 2,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 33.33,
-              "faceOffWins": 4,
-              "faceoffTaken": 12,
-              "takeaways": 1,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": -2,
-              "evenTimeOnIce": "14:54",
-              "powerPlayTimeOnIce": "3:08",
-              "shortHandedTimeOnIce": "4:35"
-            }
-          }
-        },
-        "ID8480813": {
-          "person": {
-            "id": 8480813,
-            "fullName": "Joe Veleno",
-            "link": "/api/v1/people/8480813",
-            "firstName": "Joe",
-            "lastName": "Veleno",
-            "primaryNumber": "90",
-            "birthDate": "2000-01-13",
-            "currentAge": 23,
-            "birthCity": "Montréal",
-            "birthStateProvince": "QC",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 1\"",
-            "weight": 201,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "90",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "14:47",
-              "assists": 0,
-              "goals": 1,
-              "shots": 2,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 63.64,
-              "faceOffWins": 7,
-              "faceoffTaken": 11,
-              "takeaways": 1,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": 0,
-              "evenTimeOnIce": "14:47",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8474102": {
-          "person": {
-            "id": 8474102,
-            "fullName": "David Perron",
-            "link": "/api/v1/people/8474102",
-            "firstName": "David",
-            "lastName": "Perron",
-            "primaryNumber": "57",
-            "birthDate": "1988-05-28",
-            "currentAge": 35,
-            "birthCity": "Sherbrooke",
-            "birthStateProvince": "QC",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 0\"",
-            "weight": 195,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "57",
-          "position": {
-            "code": "L",
-            "name": "Left Wing",
-            "type": "Forward",
-            "abbreviation": "LW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "17:05",
-              "assists": 0,
-              "goals": 0,
-              "shots": 3,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffPct": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 1,
-              "takeaways": 0,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 1,
-              "evenTimeOnIce": "11:51",
-              "powerPlayTimeOnIce": "5:14",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8479312": {
-          "person": {
-            "id": 8479312,
-            "fullName": "Alex Lyon",
-            "link": "/api/v1/people/8479312",
-            "firstName": "Alex",
-            "lastName": "Lyon",
-            "primaryNumber": "34",
-            "birthDate": "1992-12-09",
-            "currentAge": 30,
-            "birthCity": "Baudette",
-            "birthStateProvince": "MN",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 1\"",
-            "weight": 196,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "G",
-              "name": "Goalie",
-              "type": "Goalie",
-              "abbreviation": "G"
-            }
-          },
-          "jerseyNumber": "34",
-          "position": {
-            "code": "N/A",
-            "name": "Unknown",
-            "type": "Unknown",
-            "abbreviation": "N/A"
-          },
-          "stats": {}
-        },
-        "ID8478432": {
-          "person": {
-            "id": 8478432,
-            "fullName": "Christian Fischer",
-            "link": "/api/v1/people/8478432",
-            "firstName": "Christian",
-            "lastName": "Fischer",
-            "primaryNumber": "36",
-            "birthDate": "1997-04-15",
-            "currentAge": 26,
-            "birthCity": "Chicago",
-            "birthStateProvince": "IL",
-            "birthCountry": "USA",
-            "nationality": "USA",
-            "height": "6' 2\"",
-            "weight": 212,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "36",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "6:41",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": -1,
-              "evenTimeOnIce": "6:41",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8479992": {
-          "person": {
-            "id": 8479992,
-            "fullName": "Michael Rasmussen",
-            "link": "/api/v1/people/8479992",
-            "firstName": "Michael",
-            "lastName": "Rasmussen",
-            "primaryNumber": "27",
-            "birthDate": "1999-04-17",
-            "currentAge": 24,
-            "birthCity": "Surrey",
-            "birthStateProvince": "BC",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 6\"",
-            "weight": 220,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "27",
-          "position": {
-            "code": "C",
-            "name": "Center",
-            "type": "Forward",
-            "abbreviation": "C"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "15:38",
-              "assists": 0,
-              "goals": 0,
-              "shots": 2,
-              "hits": 2,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": -1,
-              "evenTimeOnIce": "13:05",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "2:33"
-            }
-          }
-        },
-        "ID8478013": {
-          "person": {
-            "id": 8478013,
-            "fullName": "Jake Walman",
-            "link": "/api/v1/people/8478013",
-            "firstName": "Jake",
-            "lastName": "Walman",
-            "primaryNumber": "96",
-            "birthDate": "1996-02-20",
-            "currentAge": 27,
-            "birthCity": "Toronto",
-            "birthStateProvince": "ON",
-            "birthCountry": "CAN",
-            "nationality": "CAN",
-            "height": "6' 1\"",
-            "weight": 218,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "96",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "23:12",
-              "assists": 0,
-              "goals": 0,
-              "shots": 1,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 2,
-              "giveaways": 1,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 1,
-              "plusMinus": -1,
-              "evenTimeOnIce": "16:03",
-              "powerPlayTimeOnIce": "3:11",
-              "shortHandedTimeOnIce": "3:58"
-            }
-          }
-        },
-        "ID8478024": {
-          "person": {
-            "id": 8478024,
-            "fullName": "Ville Husso",
-            "link": "/api/v1/people/8478024",
-            "firstName": "Ville",
-            "lastName": "Husso",
-            "primaryNumber": "35",
-            "birthDate": "1995-02-06",
-            "currentAge": 28,
-            "birthCity": "Helsinki",
-            "birthCountry": "FIN",
-            "nationality": "FIN",
-            "height": "6' 3\"",
-            "weight": 205,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "G",
-              "name": "Goalie",
-              "type": "Goalie",
-              "abbreviation": "G"
-            }
-          },
-          "jerseyNumber": "35",
-          "position": {
-            "code": "G",
-            "name": "Goalie",
-            "type": "Goalie",
-            "abbreviation": "G"
-          },
-          "stats": {
-            "goalieStats": {
-              "timeOnIce": "64:55",
-              "assists": 0,
-              "goals": 0,
-              "pim": 0,
-              "shots": 38,
-              "saves": 33,
-              "powerPlaySaves": 3,
-              "shortHandedSaves": 1,
-              "evenSaves": 29,
-              "shortHandedShotsAgainst": 1,
-              "evenShotsAgainst": 32,
-              "powerPlayShotsAgainst": 5,
-              "decision": "L",
-              "savePercentage": 86.8421052631579,
-              "powerPlaySavePercentage": 60,
-              "shortHandedSavePercentage": 100,
-              "evenStrengthSavePercentage": 90.625
-            }
-          }
-        },
-        "ID8482078": {
-          "person": {
-            "id": 8482078,
-            "fullName": "Lucas Raymond",
-            "link": "/api/v1/people/8482078",
-            "firstName": "Lucas",
-            "lastName": "Raymond",
-            "primaryNumber": "23",
-            "birthDate": "2002-03-28",
-            "currentAge": 21,
-            "birthCity": "Gothenburg",
-            "birthCountry": "SWE",
-            "nationality": "SWE",
-            "height": "5' 11\"",
-            "weight": 188,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "L",
-              "name": "Left Wing",
-              "type": "Forward",
-              "abbreviation": "LW"
-            }
-          },
-          "jerseyNumber": "23",
-          "position": {
-            "code": "L",
-            "name": "Left Wing",
-            "type": "Forward",
-            "abbreviation": "LW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "18:52",
-              "assists": 0,
-              "goals": 0,
-              "shots": 0,
-              "hits": 1,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": -1,
-              "evenTimeOnIce": "15:42",
-              "powerPlayTimeOnIce": "3:10",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8480011": {
-          "person": {
-            "id": 8480011,
-            "fullName": "Klim Kostin",
-            "link": "/api/v1/people/8480011",
-            "firstName": "Klim",
-            "lastName": "Kostin",
-            "primaryNumber": "24",
-            "birthDate": "1999-05-05",
-            "currentAge": 24,
-            "birthCity": "Penza",
-            "birthCountry": "RUS",
-            "nationality": "RUS",
-            "height": "6' 4\"",
-            "weight": 232,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "C",
-              "name": "Center",
-              "type": "Forward",
-              "abbreviation": "C"
-            }
-          },
-          "jerseyNumber": "24",
-          "position": {
-            "code": "N/A",
-            "name": "Unknown",
-            "type": "Unknown",
-            "abbreviation": "N/A"
-          },
-          "stats": {}
-        },
-        "ID8481013": {
-          "person": {
-            "id": 8481013,
-            "fullName": "Jonatan Berggren",
-            "link": "/api/v1/people/8481013",
-            "firstName": "Jonatan",
-            "lastName": "Berggren",
-            "primaryNumber": "48",
-            "birthDate": "2000-07-16",
-            "currentAge": 23,
-            "birthCity": "Uppsala",
-            "birthCountry": "SWE",
-            "nationality": "SWE",
-            "height": "5' 11\"",
-            "weight": 197,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "L",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "R",
-              "name": "Right Wing",
-              "type": "Forward",
-              "abbreviation": "RW"
-            }
-          },
-          "jerseyNumber": "48",
-          "position": {
-            "code": "R",
-            "name": "Right Wing",
-            "type": "Forward",
-            "abbreviation": "RW"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "5:10",
-              "assists": 0,
-              "goals": 0,
-              "shots": 2,
-              "hits": 0,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 0,
-              "penaltyMinutes": 0,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 0,
-              "plusMinus": 0,
-              "evenTimeOnIce": "5:10",
-              "powerPlayTimeOnIce": "0:00",
-              "shortHandedTimeOnIce": "0:00"
-            }
-          }
-        },
-        "ID8481542": {
-          "person": {
-            "id": 8481542,
-            "fullName": "Moritz Seider",
-            "link": "/api/v1/people/8481542",
-            "firstName": "Moritz",
-            "lastName": "Seider",
-            "primaryNumber": "53",
-            "birthDate": "2001-04-06",
-            "currentAge": 22,
-            "birthCity": "Zell",
-            "birthCountry": "DEU",
-            "nationality": "DEU",
-            "height": "6' 3\"",
-            "weight": 205,
-            "active": true,
-            "alternateCaptain": false,
-            "captain": false,
-            "rookie": false,
-            "shootsCatches": "R",
-            "rosterStatus": "Y",
-            "currentTeam": {
-              "id": 17,
-              "name": "Detroit Red Wings",
-              "link": "/api/v1/teams/17"
-            },
-            "primaryPosition": {
-              "code": "D",
-              "name": "Defenseman",
-              "type": "Defenseman",
-              "abbreviation": "D"
-            }
-          },
-          "jerseyNumber": "53",
-          "position": {
-            "code": "D",
-            "name": "Defenseman",
-            "type": "Defenseman",
-            "abbreviation": "D"
-          },
-          "stats": {
-            "skaterStats": {
-              "timeOnIce": "26:32",
-              "assists": 2,
-              "goals": 0,
-              "shots": 0,
-              "hits": 4,
-              "powerPlayGoals": 0,
-              "powerPlayAssists": 2,
-              "penaltyMinutes": 2,
-              "faceOffWins": 0,
-              "faceoffTaken": 0,
-              "takeaways": 0,
-              "giveaways": 0,
-              "shortHandedGoals": 0,
-              "shortHandedAssists": 0,
-              "blocked": 2,
-              "plusMinus": -2,
-              "evenTimeOnIce": "17:24",
-              "powerPlayTimeOnIce": "5:14",
-              "shortHandedTimeOnIce": "3:54"
-            }
-          }
-        }
-      },
-      "goalies": [
-        8478024
-      ],
-      "skaters": [
-        8476874,
-        8475718,
-        8475279,
-        8477429,
-        8478512,
-        8482078,
-        8479992,
-        8478432,
-        8477456,
-        8476906,
-        8481013,
-        8481542,
-        8474102,
-        8477946,
-        8478466,
-        8480813,
-        8479337,
-        8478013,
-        8480011,
-        8479312,
-        8473507
-      ],
-      "onIce": [],
-      "onIcePlus": [],
-      "scratches": [
-        8480011,
-        8479312,
-        8473507
-      ],
-      "penaltyBox": [],
-      "coaches": [
+    {
+      "id": 386,
+      "market": "A",
+      "countryCode": "US",
+      "network": "ROOT-NW"
+    }
+  ],
+  "gameState": "OFF",
+  "gameScheduleState": "OK",
+  "period": 4,
+  "periodDescriptor": {
+    "number": 4,
+    "periodType": "OT"
+  },
+  "awayTeam": {
+    "id": 55,
+    "name": {
+      "default": "Kraken"
+    },
+    "abbrev": "SEA",
+    "score": 5,
+    "sog": 38,
+    "faceoffWinningPctg": 51.7,
+    "powerPlayConversion": "2/5",
+    "pim": 14,
+    "hits": 16,
+    "blocks": 16,
+    "logo": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg"
+  },
+  "homeTeam": {
+    "id": 17,
+    "name": {
+      "default": "Red Wings"
+    },
+    "abbrev": "DET",
+    "score": 4,
+    "sog": 27,
+    "faceoffWinningPctg": 48.3,
+    "powerPlayConversion": "3/6",
+    "pim": 12,
+    "hits": 20,
+    "blocks": 20,
+    "logo": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg"
+  },
+  "clock": {
+    "timeRemaining": "00:05",
+    "secondsRemaining": 5,
+    "running": false,
+    "inIntermission": false
+  },
+  "boxscore": {
+    "linescore": {
+      "byPeriod": [
         {
-          "person": {
-            "fullName": "Derek Lalonde",
-            "link": "/api/v1/people/null"
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG"
           },
-          "position": {
-            "code": "HC",
-            "name": "Head Coach",
-            "type": "Head Coach",
-            "abbreviation": "Head Coach"
-          }
+          "away": 0,
+          "home": 0
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG"
+          },
+          "away": 3,
+          "home": 1
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "away": 1,
+          "home": 3
+        },
+        {
+          "period": 4,
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "away": 1,
+          "home": 0
         }
-      ]
+      ],
+      "totals": {
+        "away": 5,
+        "home": 4
+      }
+    },
+    "shotsByPeriod": [
+      {
+        "period": 1,
+        "periodDescriptor": {
+          "number": 1,
+          "periodType": "REG"
+        },
+        "away": 11,
+        "home": 11
+      },
+      {
+        "period": 2,
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG"
+        },
+        "away": 13,
+        "home": 8
+      },
+      {
+        "period": 3,
+        "periodDescriptor": {
+          "number": 3,
+          "periodType": "REG"
+        },
+        "away": 13,
+        "home": 8
+      },
+      {
+        "period": 4,
+        "periodDescriptor": {
+          "number": 4,
+          "periodType": "OT"
+        },
+        "away": 1,
+        "home": 0
+      }
+    ],
+    "gameReports": {
+      "gameSummary": "https://www.nhl.com/scores/htmlreports/20232024/GS020091.HTM",
+      "eventSummary": "https://www.nhl.com/scores/htmlreports/20232024/ES020091.HTM",
+      "playByPlay": "https://www.nhl.com/scores/htmlreports/20232024/PL020091.HTM",
+      "faceoffSummary": "https://www.nhl.com/scores/htmlreports/20232024/FS020091.HTM",
+      "faceoffComparison": "https://www.nhl.com/scores/htmlreports/20232024/FC020091.HTM",
+      "rosters": "https://www.nhl.com/scores/htmlreports/20232024/RO020091.HTM",
+      "shotSummary": "https://www.nhl.com/scores/htmlreports/20232024/SS020091.HTM",
+      "shiftChart": "https://www.nhl.com/stats/shiftcharts?id=2023020091",
+      "toiAway": "https://www.nhl.com/scores/htmlreports/20232024/TV020091.HTM",
+      "toiHome": "https://www.nhl.com/scores/htmlreports/20232024/TH020091.HTM"
+    },
+    "playerByGameStats": {
+      "awayTeam": {
+        "forwards": [
+          {
+            "playerId": 8474586,
+            "sweaterNumber": 7,
+            "name": {
+              "default": "J. Eberle"
+            },
+            "position": "R",
+            "goals": 1,
+            "assists": 1,
+            "points": 2,
+            "plusMinus": 2,
+            "pim": 4,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 1,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 5,
+            "faceoffs": "1/1",
+            "faceoffWinningPctg": 100,
+            "toi": "19:26",
+            "powerPlayToi": "03:30",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8482665,
+            "sweaterNumber": 10,
+            "name": {
+              "default": "M. Beniers"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 2,
+            "points": 2,
+            "plusMinus": 0,
+            "pim": 2,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 2,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 3,
+            "faceoffs": "2/12",
+            "faceoffWinningPctg": 16.67,
+            "toi": "20:56",
+            "powerPlayToi": "03:33",
+            "shorthandedToi": "00:39"
+          },
+          {
+            "playerId": 8475768,
+            "sweaterNumber": 17,
+            "name": {
+              "default": "J. Schwartz"
+            },
+            "position": "C",
+            "goals": 2,
+            "assists": 0,
+            "points": 2,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 1,
+            "powerPlayPoints": 1,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 5,
+            "faceoffs": "3/5",
+            "faceoffWinningPctg": 60,
+            "toi": "17:04",
+            "powerPlayToi": "03:22",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8477955,
+            "sweaterNumber": 19,
+            "name": {
+              "default": "J. McCann"
+            },
+            "position": "L",
+            "goals": 1,
+            "assists": 1,
+            "points": 2,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 0,
+            "powerPlayGoals": 1,
+            "powerPlayPoints": 1,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 4,
+            "faceoffs": "1/1",
+            "faceoffWinningPctg": 100,
+            "toi": "18:53",
+            "powerPlayToi": "03:18",
+            "shorthandedToi": "02:30"
+          },
+          {
+            "playerId": 8480009,
+            "sweaterNumber": 20,
+            "name": {
+              "default": "E. Tolvanen"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 3,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "13:45",
+            "powerPlayToi": "02:57",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8477505,
+            "sweaterNumber": 21,
+            "name": {
+              "default": "A. Wennberg"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 2,
+            "pim": 2,
+            "hits": 0,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "8/13",
+            "faceoffWinningPctg": 61.54,
+            "toi": "23:31",
+            "powerPlayToi": "02:04",
+            "shorthandedToi": "04:36"
+          },
+          {
+            "playerId": 8477416,
+            "sweaterNumber": 22,
+            "name": {
+              "default": "O. Bjorkstrand"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 3,
+            "faceoffs": "0/1",
+            "faceoffWinningPctg": 0,
+            "toi": "16:49",
+            "powerPlayToi": "03:10",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8476826,
+            "sweaterNumber": 37,
+            "name": {
+              "default": "Y. Gourde"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "7/12",
+            "faceoffWinningPctg": 58.33,
+            "toi": "17:14",
+            "powerPlayToi": "00:59",
+            "shorthandedToi": "03:05"
+          },
+          {
+            "playerId": 8477930,
+            "sweaterNumber": 41,
+            "name": {
+              "default": "P. Bellemare"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "6/11",
+            "faceoffWinningPctg": 54.55,
+            "toi": "10:14",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "05:57"
+          },
+          {
+            "playerId": 8481789,
+            "sweaterNumber": 52,
+            "name": {
+              "default": "T. Kartye"
+            },
+            "position": "L",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 3,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 5,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "13:47",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8479977,
+            "sweaterNumber": 56,
+            "name": {
+              "default": "K. Yamamoto"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "1/1",
+            "faceoffWinningPctg": 100,
+            "toi": "06:59",
+            "powerPlayToi": "03:04",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8476913,
+            "sweaterNumber": 94,
+            "name": {
+              "default": "D. Shore"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 4,
+            "hits": 2,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "1/1",
+            "faceoffWinningPctg": 100,
+            "toi": "06:51",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:00"
+          }
+        ],
+        "defense": [
+          {
+            "playerId": 8478840,
+            "sweaterNumber": 3,
+            "name": {
+              "default": "W. Borgen"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 3,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "16:13",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "02:53"
+          },
+          {
+            "playerId": 8474602,
+            "sweaterNumber": 4,
+            "name": {
+              "default": "J. Schultz"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 1,
+            "pim": 2,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "14:36",
+            "powerPlayToi": "02:50",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8476457,
+            "sweaterNumber": 6,
+            "name": {
+              "default": "A. Larsson"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 4,
+            "blockedShots": 4,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "28:50",
+            "powerPlayToi": "00:10",
+            "shorthandedToi": "05:21"
+          },
+          {
+            "playerId": 8475208,
+            "sweaterNumber": 8,
+            "name": {
+              "default": "B. Dumoulin"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "14:52",
+            "powerPlayToi": "00:02",
+            "shorthandedToi": "03:01"
+          },
+          {
+            "playerId": 8476467,
+            "sweaterNumber": 24,
+            "name": {
+              "default": "J. Oleksiak"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 3,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 3,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "19:23",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "05:19"
+          },
+          {
+            "playerId": 8478407,
+            "sweaterNumber": 29,
+            "name": {
+              "default": "V. Dunn"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 2,
+            "points": 2,
+            "plusMinus": 2,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 1,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "25:12",
+            "powerPlayToi": "03:35",
+            "shorthandedToi": "00:15"
+          }
+        ],
+        "goalies": [
+          {
+            "playerId": 8475831,
+            "sweaterNumber": 31,
+            "name": {
+              "default": "P. Grubauer"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "0/0",
+            "powerPlayShotsAgainst": "0/0",
+            "shorthandedShotsAgainst": "0/0",
+            "saveShotsAgainst": "0/0",
+            "evenStrengthGoalsAgainst": 0,
+            "powerPlayGoalsAgainst": 0,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 0,
+            "toi": "00:00"
+          },
+          {
+            "playerId": 8478916,
+            "sweaterNumber": 35,
+            "name": {
+              "default": "J. Daccord"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "18/19",
+            "powerPlayShotsAgainst": "5/8",
+            "shorthandedShotsAgainst": "0/0",
+            "saveShotsAgainst": "23/27",
+            "savePctg": "0.852",
+            "evenStrengthGoalsAgainst": 1,
+            "powerPlayGoalsAgainst": 3,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 4,
+            "toi": "64:36"
+          }
+        ]
+      },
+      "homeTeam": {
+        "forwards": [
+          {
+            "playerId": 8477429,
+            "sweaterNumber": 18,
+            "name": {
+              "default": "A. Copp"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "3/7",
+            "faceoffWinningPctg": 42.86,
+            "toi": "19:57",
+            "powerPlayToi": "03:07",
+            "shorthandedToi": "03:27"
+          },
+          {
+            "playerId": 8478512,
+            "sweaterNumber": 21,
+            "name": {
+              "default": "A. Czarnik"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "1/6",
+            "faceoffWinningPctg": 16.67,
+            "toi": "05:38",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8482078,
+            "sweaterNumber": 23,
+            "name": {
+              "default": "L. Raymond"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "18:52",
+            "powerPlayToi": "03:10",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8479992,
+            "sweaterNumber": 27,
+            "name": {
+              "default": "M. Rasmussen"
+            },
+            "position": "C",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 2,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "15:38",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "02:33"
+          },
+          {
+            "playerId": 8478432,
+            "sweaterNumber": 36,
+            "name": {
+              "default": "C. Fischer"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "06:41",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8477456,
+            "sweaterNumber": 37,
+            "name": {
+              "default": "J. Compher"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -2,
+            "pim": 0,
+            "hits": 2,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "4/12",
+            "faceoffWinningPctg": 33.33,
+            "toi": "22:37",
+            "powerPlayToi": "03:08",
+            "shorthandedToi": "04:35"
+          },
+          {
+            "playerId": 8481013,
+            "sweaterNumber": 48,
+            "name": {
+              "default": "J. Berggren"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "05:10",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8474102,
+            "sweaterNumber": 57,
+            "name": {
+              "default": "D. Perron"
+            },
+            "position": "L",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 3,
+            "faceoffs": "0/1",
+            "faceoffWinningPctg": 0,
+            "toi": "17:05",
+            "powerPlayToi": "05:14",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8477946,
+            "sweaterNumber": 71,
+            "name": {
+              "default": "D. Larkin"
+            },
+            "position": "C",
+            "goals": 1,
+            "assists": 2,
+            "points": 3,
+            "plusMinus": 0,
+            "pim": 2,
+            "hits": 1,
+            "blockedShots": 0,
+            "powerPlayGoals": 1,
+            "powerPlayPoints": 3,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 3,
+            "faceoffs": "13/21",
+            "faceoffWinningPctg": 61.9,
+            "toi": "21:52",
+            "powerPlayToi": "05:15",
+            "shorthandedToi": "02:19"
+          },
+          {
+            "playerId": 8478466,
+            "sweaterNumber": 88,
+            "name": {
+              "default": "D. Sprong"
+            },
+            "position": "R",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 2,
+            "hits": 0,
+            "blockedShots": 0,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "14:48",
+            "powerPlayToi": "03:09",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8480813,
+            "sweaterNumber": 90,
+            "name": {
+              "default": "J. Veleno"
+            },
+            "position": "C",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 0,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 2,
+            "faceoffs": "7/11",
+            "faceoffWinningPctg": 63.64,
+            "toi": "14:47",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:00"
+          },
+          {
+            "playerId": 8479337,
+            "sweaterNumber": 93,
+            "name": {
+              "default": "A. DeBrincat"
+            },
+            "position": "R",
+            "goals": 1,
+            "assists": 0,
+            "points": 1,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 2,
+            "blockedShots": 0,
+            "powerPlayGoals": 1,
+            "powerPlayPoints": 1,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 4,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "21:14",
+            "powerPlayToi": "05:16",
+            "shorthandedToi": "00:00"
+          }
+        ],
+        "defense": [
+          {
+            "playerId": 8476874,
+            "sweaterNumber": 2,
+            "name": {
+              "default": "O. Maatta"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 1,
+            "points": 1,
+            "plusMinus": 1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 3,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "12:20",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "00:47"
+          },
+          {
+            "playerId": 8475718,
+            "sweaterNumber": 3,
+            "name": {
+              "default": "J. Holl"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 4,
+            "hits": 2,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "20:08",
+            "powerPlayToi": "00:03",
+            "shorthandedToi": "01:56"
+          },
+          {
+            "playerId": 8475279,
+            "sweaterNumber": 8,
+            "name": {
+              "default": "B. Chiarot"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": 0,
+            "pim": 2,
+            "hits": 2,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "18:01",
+            "powerPlayToi": "00:00",
+            "shorthandedToi": "01:44"
+          },
+          {
+            "playerId": 8476906,
+            "sweaterNumber": 41,
+            "name": {
+              "default": "S. Gostisbehere"
+            },
+            "position": "D",
+            "goals": 1,
+            "assists": 2,
+            "points": 3,
+            "plusMinus": 0,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 2,
+            "powerPlayGoals": 1,
+            "powerPlayPoints": 3,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 3,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "21:41",
+            "powerPlayToi": "05:13",
+            "shorthandedToi": "00:35"
+          },
+          {
+            "playerId": 8481542,
+            "sweaterNumber": 53,
+            "name": {
+              "default": "M. Seider"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 2,
+            "points": 2,
+            "plusMinus": -2,
+            "pim": 2,
+            "hits": 4,
+            "blockedShots": 2,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 2,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 0,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "26:32",
+            "powerPlayToi": "05:14",
+            "shorthandedToi": "03:54"
+          },
+          {
+            "playerId": 8478013,
+            "sweaterNumber": 96,
+            "name": {
+              "default": "J. Walman"
+            },
+            "position": "D",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "plusMinus": -1,
+            "pim": 0,
+            "hits": 1,
+            "blockedShots": 1,
+            "powerPlayGoals": 0,
+            "powerPlayPoints": 0,
+            "shorthandedGoals": 0,
+            "shPoints": 0,
+            "shots": 1,
+            "faceoffs": "0/0",
+            "faceoffWinningPctg": 0,
+            "toi": "23:12",
+            "powerPlayToi": "03:11",
+            "shorthandedToi": "03:58"
+          }
+        ],
+        "goalies": [
+          {
+            "playerId": 8478024,
+            "sweaterNumber": 35,
+            "name": {
+              "default": "V. Husso"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "29/32",
+            "powerPlayShotsAgainst": "3/5",
+            "shorthandedShotsAgainst": "1/1",
+            "saveShotsAgainst": "33/38",
+            "savePctg": "0.868",
+            "evenStrengthGoalsAgainst": 3,
+            "powerPlayGoalsAgainst": 2,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 5,
+            "toi": "64:55"
+          },
+          {
+            "playerId": 8473503,
+            "sweaterNumber": 47,
+            "name": {
+              "default": "J. Reimer"
+            },
+            "position": "G",
+            "evenStrengthShotsAgainst": "0/0",
+            "powerPlayShotsAgainst": "0/0",
+            "shorthandedShotsAgainst": "0/0",
+            "saveShotsAgainst": "0/0",
+            "evenStrengthGoalsAgainst": 0,
+            "powerPlayGoalsAgainst": 0,
+            "shorthandedGoalsAgainst": 0,
+            "pim": 0,
+            "goalsAgainst": 0,
+            "toi": "00:00"
+          }
+        ]
+      }
+    },
+    "gameInfo": {
+      "referees": [
+        {
+          "default": "Mitch Dunning"
+        },
+        {
+          "default": "Jake Brenk"
+        }
+      ],
+      "linesmen": [
+        {
+          "default": "Devin Berg"
+        },
+        {
+          "default": "Tyson Baker"
+        }
+      ],
+      "awayTeam": {
+        "headCoach": {
+          "default": "Dave Hakstol"
+        },
+        "scratches": [
+          {
+            "id": 8477034,
+            "firstName": {
+              "default": "Jaycob"
+            },
+            "lastName": {
+              "default": "Megna"
+            }
+          },
+          {
+            "id": 8477444,
+            "firstName": {
+              "default": "Andre"
+            },
+            "lastName": {
+              "default": "Burakovsky"
+            }
+          }
+        ]
+      },
+      "homeTeam": {
+        "headCoach": {
+          "default": "Derek Lalonde"
+        },
+        "scratches": [
+          {
+            "id": 8473507,
+            "firstName": {
+              "default": "Jeff"
+            },
+            "lastName": {
+              "default": "Petry"
+            }
+          },
+          {
+            "id": 8479312,
+            "firstName": {
+              "default": "Alex"
+            },
+            "lastName": {
+              "default": "Lyon"
+            }
+          },
+          {
+            "id": 8480011,
+            "firstName": {
+              "default": "Klim"
+            },
+            "lastName": {
+              "default": "Kostin"
+            }
+          }
+        ]
+      }
     }
   },
-  "officials": [
-    {
-      "official": {
-        "id": 7405,
-        "fullName": "Mitch Dunning",
-        "link": "/api/v1/people/7405"
-      },
-      "officialType": "Referee"
-    },
-    {
-      "official": {
-        "id": 6818,
-        "fullName": "Jake Brenk",
-        "link": "/api/v1/people/6818"
-      },
-      "officialType": "Referee"
-    },
-    {
-      "official": {
-        "id": 4717,
-        "fullName": "Devin Berg",
-        "link": "/api/v1/people/4717"
-      },
-      "officialType": "Linesman"
-    },
-    {
-      "official": {
-        "id": 7403,
-        "fullName": "Tyson Baker",
-        "link": "/api/v1/people/7403"
-      },
-      "officialType": "Linesman"
-    }
-  ]
+  "gameOutcome": {
+    "lastPeriodType": "OT",
+    "otPeriods": 1
+  },
+  "gameVideo": {
+    "threeMinRecap": 6339812478112,
+    "condensedGame": 6339811299112
+  }
 }

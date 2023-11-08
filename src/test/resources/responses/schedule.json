@@ -1,0 +1,3835 @@
+{
+  "nextStartDate": "2023-10-29",
+  "previousStartDate": "2023-10-15",
+  "gameWeek": [
+    {
+      "date": "2023-10-22",
+      "dayAbbrev": "SUN",
+      "numberOfGames": 2,
+      "games": [
+        {
+          "id": 2023020080,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Little Caesars Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-22T21:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/Detroit",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 281,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS"
+            },
+            {
+              "id": 284,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN1"
+            },
+            {
+              "id": 289,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SNW"
+            },
+            {
+              "id": 351,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSDET"
+            }
+          ],
+          "awayTeam": {
+            "id": 20,
+            "placeName": {
+              "default": "Calgary"
+            },
+            "abbrev": "CGY",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CGY_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 17,
+            "placeName": {
+              "default": "Detroit"
+            },
+            "abbrev": "DET",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/DET_dark.svg",
+            "homeSplitSquad": false,
+            "score": 6
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8473503,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Reimer"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8477946,
+            "firstInitial": {
+              "default": "D."
+            },
+            "lastName": {
+              "default": "Larkin"
+            }
+          },
+          "threeMinRecap": "/video/recap-flames-at-red-wings-10-22-23-6339683852112",
+          "threeMinRecapFr": "/fr/video/recap-flames-at-red-wings-10-22-23-6339683066112",
+          "gameCenterLink": "/gamecenter/cgy-vs-det/2023/10/22/2023020080"
+        },
+        {
+          "id": 2023020081,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Honda Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-23T00:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "America/Los_Angeles",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 31,
+              "market": "A",
+              "countryCode": "US",
+              "network": "NESN"
+            },
+            {
+              "id": 281,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS"
+            },
+            {
+              "id": 284,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN1"
+            },
+            {
+              "id": 324,
+              "market": "N",
+              "countryCode": "US",
+              "network": "NHLN"
+            },
+            {
+              "id": 341,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSC"
+            },
+            {
+              "id": 365,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSD"
+            }
+          ],
+          "awayTeam": {
+            "id": 6,
+            "placeName": {
+              "default": "Boston"
+            },
+            "abbrev": "BOS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BOS_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 24,
+            "placeName": {
+              "default": "Anaheim"
+            },
+            "abbrev": "ANA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8476999,
+            "firstInitial": {
+              "default": "L."
+            },
+            "lastName": {
+              "default": "Ullmark"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8483505,
+            "firstInitial": {
+              "default": "M."
+            },
+            "lastName": {
+              "default": "Poitras"
+            }
+          },
+          "threeMinRecap": "/video/recap-bruins-at-ducks-10-22-23-6339688221112",
+          "threeMinRecapFr": "/fr/video/recap-bruins-at-ducks-10-22-23-6339686246112",
+          "gameCenterLink": "/gamecenter/bos-vs-ana/2023/10/22/2023020081"
+        }
+      ]
+    },
+    {
+      "date": "2023-10-23",
+      "dayAbbrev": "MON",
+      "numberOfGames": 1,
+      "games": [
+        {
+          "id": 2023020082,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "KeyBank Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-23T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/New_York",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 28,
+              "market": "H",
+              "countryCode": "US",
+              "network": "MSG-B"
+            },
+            {
+              "id": 33,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "RDS"
+            },
+            {
+              "id": 282,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN"
+            },
+            {
+              "id": 324,
+              "market": "N",
+              "countryCode": "US",
+              "network": "NHLN"
+            }
+          ],
+          "awayTeam": {
+            "id": 8,
+            "placeName": {
+              "default": "Montréal"
+            },
+            "abbrev": "MTL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 7,
+            "placeName": {
+              "default": "Buffalo"
+            },
+            "abbrev": "BUF",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8474596,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Allen"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8475848,
+            "firstInitial": {
+              "default": "B."
+            },
+            "lastName": {
+              "default": "Gallagher"
+            }
+          },
+          "threeMinRecap": "/video/recap-canadiens-at-sabres-10-23-23-6339744039112",
+          "threeMinRecapFr": "/fr/video/recap-canadiens-at-sabres-10-23-23-6339744434112",
+          "gameCenterLink": "/gamecenter/mtl-vs-buf/2023/10/23/2023020082"
+        }
+      ]
+    },
+    {
+      "date": "2023-10-24",
+      "dayAbbrev": "TUE",
+      "numberOfGames": 16,
+      "games": [
+        {
+          "id": 2023020083,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Capital One Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-24T22:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 293,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "TSN4"
+            },
+            {
+              "id": 309,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN"
+            },
+            {
+              "id": 329,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN+"
+            }
+          ],
+          "awayTeam": {
+            "id": 10,
+            "placeName": {
+              "default": "Toronto"
+            },
+            "abbrev": "TOR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 15,
+            "placeName": {
+              "default": "Washington"
+            },
+            "abbrev": "WSH",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WSH_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/WSH_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8479361,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Woll"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8475166,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Tavares"
+            }
+          },
+          "threeMinRecap": "/video/recap-maple-leafs-at-capitals-10-24-23-6339803494112",
+          "gameCenterLink": "/gamecenter/tor-vs-wsh/2023/10/24/2023020083"
+        },
+        {
+          "id": 2023020085,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Canadian Tire Centre"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-24T22:45:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 28,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSG-B"
+            },
+            {
+              "id": 230,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "RDS2"
+            },
+            {
+              "id": 294,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "TSN5"
+            }
+          ],
+          "awayTeam": {
+            "id": 7,
+            "placeName": {
+              "default": "Buffalo"
+            },
+            "abbrev": "BUF",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg",
+            "awaySplitSquad": false,
+            "score": 6
+          },
+          "homeTeam": {
+            "id": 9,
+            "placeName": {
+              "default": "Ottawa"
+            },
+            "abbrev": "OTT",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/OTT_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480045,
+            "firstInitial": {
+              "default": "U."
+            },
+            "lastName": {
+              "default": "Luukkonen"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8479420,
+            "firstInitial": {
+              "default": "T."
+            },
+            "lastName": {
+              "default": "Thompson"
+            }
+          },
+          "threeMinRecap": "/video/recap-sabres-at-senators-10-24-23-6339807513112",
+          "threeMinRecapFr": "/fr/video/recap-sabres-at-senators-10-24-23-6339808007112",
+          "gameCenterLink": "/gamecenter/buf-vs-ott/2023/10/24/2023020085"
+        },
+        {
+          "id": 2023020086,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Amalie Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-24T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 359,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSUN"
+            },
+            {
+              "id": 375,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSO"
+            }
+          ],
+          "awayTeam": {
+            "id": 12,
+            "placeName": {
+              "default": "Carolina",
+              "fr": "Caroline"
+            },
+            "abbrev": "CAR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CAR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CAR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 0
+          },
+          "homeTeam": {
+            "id": 14,
+            "placeName": {
+              "default": "Tampa Bay"
+            },
+            "abbrev": "TBL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/TBL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/TBL_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477992,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Johansson"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478010,
+            "firstInitial": {
+              "default": "B."
+            },
+            "lastName": {
+              "default": "Point"
+            }
+          },
+          "threeMinRecap": "/video/recap-hurricanes-at-lightning-10-24-23-6339806247112",
+          "gameCenterLink": "/gamecenter/car-vs-tbl/2023/10/24/2023020086"
+        },
+        {
+          "id": 2023020087,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Centre Bell"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-24T23:15:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/Montreal",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 33,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "RDS"
+            },
+            {
+              "id": 131,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "TSN2"
+            },
+            {
+              "id": 410,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSGSN2"
+            }
+          ],
+          "awayTeam": {
+            "id": 1,
+            "placeName": {
+              "default": "New Jersey"
+            },
+            "abbrev": "NJD",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NJD_dark.svg",
+            "awaySplitSquad": false,
+            "score": 5
+          },
+          "homeTeam": {
+            "id": 8,
+            "placeName": {
+              "default": "Montréal"
+            },
+            "abbrev": "MTL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg",
+            "homeSplitSquad": false,
+            "score": 2
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477970,
+            "firstInitial": {
+              "default": "V."
+            },
+            "lastName": {
+              "default": "Vanecek"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8480002,
+            "firstInitial": {
+              "default": "N."
+            },
+            "lastName": {
+              "default": "Hischier"
+            }
+          },
+          "threeMinRecap": "/video/recap-devils-at-canadiens-10-24-23-6339809529112",
+          "threeMinRecapFr": "/fr/video/recap-devils-at-canadiens-10-24-23-6339807861112",
+          "gameCenterLink": "/gamecenter/njd-vs-mtl/2023/10/24/2023020087"
+        },
+        {
+          "id": 2023020088,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "PPG Paints Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-24T23:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 349,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSW"
+            },
+            {
+              "id": 528,
+              "market": "H",
+              "countryCode": "US",
+              "network": "SN-PIT"
+            }
+          ],
+          "awayTeam": {
+            "id": 25,
+            "placeName": {
+              "default": "Dallas"
+            },
+            "abbrev": "DAL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/DAL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 5,
+            "placeName": {
+              "default": "Pittsburgh"
+            },
+            "abbrev": "PIT",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/PIT_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8479979,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Oettinger"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8474149,
+            "firstInitial": {
+              "default": "E."
+            },
+            "lastName": {
+              "default": "Dadonov"
+            }
+          },
+          "threeMinRecap": "/video/recap-stars-at-penguins-10-24-23-6339810209112",
+          "gameCenterLink": "/gamecenter/dal-vs-pit/2023/10/24/2023020088"
+        },
+        {
+          "id": 2023020089,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Amerant Bank Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-24T23:45:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 314,
+              "market": "A",
+              "countryCode": "US",
+              "network": "NBCSCA"
+            },
+            {
+              "id": 353,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSFL"
+            }
+          ],
+          "awayTeam": {
+            "id": 28,
+            "placeName": {
+              "default": "San Jose"
+            },
+            "abbrev": "SJS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg",
+            "awaySplitSquad": false,
+            "score": 1
+          },
+          "homeTeam": {
+            "id": 13,
+            "placeName": {
+              "default": "Florida",
+              "fr": "Floride"
+            },
+            "abbrev": "FLA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/FLA_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8476932,
+            "firstInitial": {
+              "default": "A."
+            },
+            "lastName": {
+              "default": "Stolarz"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8477933,
+            "firstInitial": {
+              "default": "S."
+            },
+            "lastName": {
+              "default": "Reinhart"
+            }
+          },
+          "threeMinRecap": "/video/recap-sharks-at-panthers-10-24-23-6339810227112",
+          "gameCenterLink": "/gamecenter/sjs-vs-fla/2023/10/24/2023020089"
+        },
+        {
+          "id": 2023020090,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "UBS Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T00:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/New_York",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 2,
+              "market": "A",
+              "countryCode": "US",
+              "network": "ALT"
+            },
+            {
+              "id": 409,
+              "market": "H",
+              "countryCode": "US",
+              "network": "MSGSN"
+            }
+          ],
+          "awayTeam": {
+            "id": 21,
+            "placeName": {
+              "default": "Colorado"
+            },
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/COL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 7
+          },
+          "homeTeam": {
+            "id": 2,
+            "placeName": {
+              "default": "New York"
+            },
+            "abbrev": "NYI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NYI_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480382,
+            "firstInitial": {
+              "default": "A."
+            },
+            "lastName": {
+              "default": "Georgiev",
+              "cs": "Georgijev",
+              "fi": "Georgijev",
+              "sk": "Georgijev"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478420,
+            "firstInitial": {
+              "default": "M."
+            },
+            "lastName": {
+              "default": "Rantanen"
+            }
+          },
+          "threeMinRecap": "/video/recap-avalanche-at-islanders-10-24-23-6339812143112",
+          "gameCenterLink": "/gamecenter/col-vs-nyi/2023/10/24/2023020090"
+        },
+        {
+          "id": 2023020091,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Little Caesars Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T00:15:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/Detroit",
+          "gameState": "FUT",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 351,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSDET"
+            },
+            {
+              "id": 386,
+              "market": "A",
+              "countryCode": "US",
+              "network": "ROOT-NW"
+            }
+          ],
+          "awayTeam": {
+            "id": 55,
+            "placeName": {
+              "default": "Seattle"
+            },
+            "abbrev": "SEA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/SEA_dark.svg",
+            "awaySplitSquad": false,
+            "score": 5
+          },
+          "homeTeam": {
+            "id": 17,
+            "placeName": {
+              "default": "Detroit"
+            },
+            "abbrev": "DET",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/DET_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {}
+        },
+        {
+          "id": 2023020084,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Nationwide Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T00:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 341,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSC"
+            },
+            {
+              "id": 347,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSOH"
+            },
+            {
+              "id": 365,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSD"
+            }
+          ],
+          "awayTeam": {
+            "id": 24,
+            "placeName": {
+              "default": "Anaheim"
+            },
+            "abbrev": "ANA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 29,
+            "placeName": {
+              "default": "Columbus"
+            },
+            "abbrev": "CBJ",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CBJ_dark.svg",
+            "homeSplitSquad": false,
+            "score": 2
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8480843,
+            "firstInitial": {
+              "default": "L."
+            },
+            "lastName": {
+              "default": "Dostal"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478366,
+            "firstInitial": {
+              "default": "F."
+            },
+            "lastName": {
+              "default": "Vatrano"
+            }
+          },
+          "threeMinRecap": "/video/recap-ducks-at-blue-jackets-10-24-23-6339813943112",
+          "gameCenterLink": "/gamecenter/ana-vs-cbj/2023/10/24/2023020084"
+        },
+        {
+          "id": 2023020092,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "United Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T00:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "venueTimezone": "America/Chicago",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 281,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS"
+            },
+            {
+              "id": 309,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN"
+            },
+            {
+              "id": 329,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN+"
+            }
+          ],
+          "awayTeam": {
+            "id": 6,
+            "placeName": {
+              "default": "Boston"
+            },
+            "abbrev": "BOS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BOS_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 16,
+            "placeName": {
+              "default": "Chicago"
+            },
+            "abbrev": "CHI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CHI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CHI_dark.svg",
+            "homeSplitSquad": false,
+            "score": 0
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480280,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Swayman"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478401,
+            "firstInitial": {
+              "default": "P."
+            },
+            "lastName": {
+              "default": "Zacha"
+            }
+          },
+          "threeMinRecap": "/video/recap-bruins-at-blackhawks-10-24-23-6339814177112",
+          "threeMinRecapFr": "/fr/video/recap-bruins-at-blackhawks-10-24-23-6339813219112",
+          "gameCenterLink": "/gamecenter/bos-vs-chi/2023/10/24/2023020092"
+        },
+        {
+          "id": 2023020093,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Canada Life Centre"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T00:45:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "venueTimezone": "America/Winnipeg",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 292,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "TSN3"
+            },
+            {
+              "id": 357,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSMW"
+            }
+          ],
+          "awayTeam": {
+            "id": 19,
+            "placeName": {
+              "default": "St. Louis"
+            },
+            "abbrev": "STL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/STL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/STL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 52,
+            "placeName": {
+              "default": "Winnipeg"
+            },
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/WPG_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8476945,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "Hellebuyck"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478398,
+            "firstInitial": {
+              "default": "K."
+            },
+            "lastName": {
+              "default": "Connor"
+            }
+          },
+          "threeMinRecap": "/video/recap-blues-at-jets-10-24-23-6339813183112",
+          "gameCenterLink": "/gamecenter/stl-vs-wpg/2023/10/24/2023020093"
+        },
+        {
+          "id": 2023020094,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Xcel Energy Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T01:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "venueTimezone": "US/Central",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 289,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "SNW"
+            },
+            {
+              "id": 361,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSN"
+            },
+            {
+              "id": 363,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSWI"
+            }
+          ],
+          "awayTeam": {
+            "id": 22,
+            "placeName": {
+              "default": "Edmonton"
+            },
+            "abbrev": "EDM",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 30,
+            "placeName": {
+              "default": "Minnesota"
+            },
+            "abbrev": "MIN",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MIN_dark.svg",
+            "homeSplitSquad": false,
+            "score": 7
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8479406,
+            "firstInitial": {
+              "default": "F."
+            },
+            "lastName": {
+              "default": "Gustavsson"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478493,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Eriksson Ek"
+            }
+          },
+          "threeMinRecap": "/video/recap-oilers-at-wild-10-24-23-6339813410112",
+          "gameCenterLink": "/gamecenter/edm-vs-min/2023/10/24/2023020094"
+        },
+        {
+          "id": 2023020095,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Bridgestone Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T01:15:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "venueTimezone": "US/Central",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 290,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "SNP"
+            },
+            {
+              "id": 375,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSO"
+            }
+          ],
+          "awayTeam": {
+            "id": 23,
+            "placeName": {
+              "default": "Vancouver"
+            },
+            "abbrev": "VAN",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/VAN_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 18,
+            "placeName": {
+              "default": "Nashville"
+            },
+            "abbrev": "NSH",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NSH_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NSH_dark.svg",
+            "homeSplitSquad": false,
+            "score": 2
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477967,
+            "firstInitial": {
+              "default": "T."
+            },
+            "lastName": {
+              "default": "Demko"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8481535,
+            "firstInitial": {
+              "default": "N."
+            },
+            "lastName": {
+              "default": "Hoglander"
+            }
+          },
+          "threeMinRecap": "/video/recap-canucks-at-predators-10-24-23-6339813801112",
+          "gameCenterLink": "/gamecenter/van-vs-nsh/2023/10/24/2023020095"
+        },
+        {
+          "id": 2023020096,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Scotiabank Saddledome"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T01:45:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-06:00",
+          "venueTimezone": "US/Mountain",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 27,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSG"
+            },
+            {
+              "id": 283,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN360"
+            }
+          ],
+          "awayTeam": {
+            "id": 3,
+            "placeName": {
+              "default": "New York"
+            },
+            "abbrev": "NYR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NYR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 20,
+            "placeName": {
+              "default": "Calgary"
+            },
+            "abbrev": "CGY",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CGY_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8478048,
+            "firstInitial": {
+              "default": "I."
+            },
+            "lastName": {
+              "default": "Shesterkin",
+              "cs": "Šesťorkin",
+              "sk": "Šesťorkin"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8475184,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "Kreider"
+            }
+          },
+          "threeMinRecap": "/video/recap-rangers-at-flames-10-24-23-6339814315112",
+          "gameCenterLink": "/gamecenter/nyr-vs-cgy/2023/10/24/2023020096"
+        },
+        {
+          "id": 2023020097,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Crypto.com Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T02:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "America/Los_Angeles",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 355,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSW"
+            },
+            {
+              "id": 521,
+              "market": "A",
+              "countryCode": "US",
+              "network": "SCRIPPS"
+            }
+          ],
+          "awayTeam": {
+            "id": 53,
+            "placeName": {
+              "default": "Arizona"
+            },
+            "abbrev": "ARI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/ARI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/ARI_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 26,
+            "placeName": {
+              "default": "Los Angeles"
+            },
+            "abbrev": "LAK",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/LAK_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/LAK_dark.svg",
+            "homeSplitSquad": false,
+            "score": 6
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477831,
+            "firstInitial": {
+              "default": "P."
+            },
+            "lastName": {
+              "default": "Copley"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8481481,
+            "firstInitial": {
+              "default": "B."
+            },
+            "lastName": {
+              "default": "Lizotte"
+            }
+          },
+          "threeMinRecap": "/video/recap-coyotes-at-kings-10-24-23-6339825097112",
+          "gameCenterLink": "/gamecenter/ari-vs-lak/2023/10/24/2023020097"
+        },
+        {
+          "id": 2023020098,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "T-Mobile Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T03:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "US/Pacific",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 309,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN"
+            },
+            {
+              "id": 329,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN+"
+            }
+          ],
+          "awayTeam": {
+            "id": 4,
+            "placeName": {
+              "default": "Philadelphia",
+              "fr": "Philadelphie"
+            },
+            "abbrev": "PHI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/PHI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/PHI_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 54,
+            "placeName": {
+              "default": "Vegas"
+            },
+            "abbrev": "VGK",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/VGK_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480313,
+            "firstInitial": {
+              "default": "L."
+            },
+            "lastName": {
+              "default": "Thompson"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8477447,
+            "firstInitial": {
+              "default": "S."
+            },
+            "lastName": {
+              "default": "Theodore"
+            }
+          },
+          "threeMinRecap": "/video/recap-flyers-at-golden-knights-10-24-23-6339825695112",
+          "gameCenterLink": "/gamecenter/phi-vs-vgk/2023/10/24/2023020098"
+        }
+      ]
+    },
+    {
+      "date": "2023-10-25",
+      "dayAbbrev": "WED",
+      "numberOfGames": 1,
+      "games": [
+        {
+          "id": 2023020099,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Prudential Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-25T23:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 281,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS"
+            },
+            {
+              "id": 385,
+              "market": "N",
+              "countryCode": "US",
+              "network": "TNT"
+            },
+            {
+              "id": 519,
+              "market": "N",
+              "countryCode": "US",
+              "network": "MAX"
+            }
+          ],
+          "awayTeam": {
+            "id": 15,
+            "placeName": {
+              "default": "Washington"
+            },
+            "abbrev": "WSH",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WSH_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/WSH_dark.svg",
+            "awaySplitSquad": false,
+            "score": 6
+          },
+          "homeTeam": {
+            "id": 1,
+            "placeName": {
+              "default": "New Jersey"
+            },
+            "abbrev": "NJD",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NJD_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8482411,
+            "firstInitial": {
+              "default": "H."
+            },
+            "lastName": {
+              "default": "Shepard"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8481580,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "McMichael"
+            }
+          },
+          "threeMinRecap": "/video/recap-capitals-at-devils-10-25-23-6339876012112",
+          "threeMinRecapFr": "/fr/video/recap-capitals-at-devils-10-25-23-6339877008112",
+          "gameCenterLink": "/gamecenter/wsh-vs-njd/2023/10/25/2023020099"
+        }
+      ]
+    },
+    {
+      "date": "2023-10-26",
+      "dayAbbrev": "THU",
+      "numberOfGames": 11,
+      "games": [
+        {
+          "id": 2023020100,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "TD Garden"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 31,
+              "market": "H",
+              "countryCode": "US",
+              "network": "NESN"
+            },
+            {
+              "id": 287,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SNE"
+            },
+            {
+              "id": 288,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SNO"
+            },
+            {
+              "id": 290,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SNP"
+            },
+            {
+              "id": 341,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSC"
+            },
+            {
+              "id": 365,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSD"
+            }
+          ],
+          "awayTeam": {
+            "id": 24,
+            "placeName": {
+              "default": "Anaheim"
+            },
+            "abbrev": "ANA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 6,
+            "placeName": {
+              "default": "Boston"
+            },
+            "abbrev": "BOS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BOS_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8476434,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Gibson"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8482745,
+            "firstInitial": {
+              "default": "M."
+            },
+            "lastName": {
+              "default": "McTavish"
+            }
+          },
+          "threeMinRecap": "/video/recap-ducks-at-bruins-10-26-23-6339944360112",
+          "gameCenterLink": "/gamecenter/ana-vs-bos/2023/10/26/2023020100"
+        },
+        {
+          "id": 2023020101,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "PNC Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 375,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSO"
+            },
+            {
+              "id": 386,
+              "market": "A",
+              "countryCode": "US",
+              "network": "ROOT-NW"
+            }
+          ],
+          "awayTeam": {
+            "id": 55,
+            "placeName": {
+              "default": "Seattle"
+            },
+            "abbrev": "SEA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/SEA_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 12,
+            "placeName": {
+              "default": "Carolina",
+              "fr": "Caroline"
+            },
+            "abbrev": "CAR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CAR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CAR_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8475883,
+            "firstInitial": {
+              "default": "F."
+            },
+            "lastName": {
+              "default": "Andersen"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8480039,
+            "firstInitial": {
+              "default": "M."
+            },
+            "lastName": {
+              "default": "Necas"
+            }
+          },
+          "threeMinRecap": "/video/recap-kraken-at-hurricanes-10-26-23-6339943865112",
+          "gameCenterLink": "/gamecenter/sea-vs-car/2023/10/26/2023020101"
+        },
+        {
+          "id": 2023020102,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Little Caesars Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/Detroit",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 292,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "TSN3"
+            },
+            {
+              "id": 351,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSDET"
+            }
+          ],
+          "awayTeam": {
+            "id": 52,
+            "placeName": {
+              "default": "Winnipeg"
+            },
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/WPG_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 17,
+            "placeName": {
+              "default": "Detroit"
+            },
+            "abbrev": "DET",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/DET_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8476945,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "Hellebuyck"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478398,
+            "firstInitial": {
+              "default": "K."
+            },
+            "lastName": {
+              "default": "Connor"
+            }
+          },
+          "threeMinRecap": "/video/recap-jets-at-red-wings-10-26-23-6339942942112",
+          "gameCenterLink": "/gamecenter/wpg-vs-det/2023/10/26/2023020102"
+        },
+        {
+          "id": 2023020103,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Centre Bell"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/Montreal",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 33,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "RDS"
+            },
+            {
+              "id": 131,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "TSN2"
+            },
+            {
+              "id": 347,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSOH"
+            }
+          ],
+          "awayTeam": {
+            "id": 29,
+            "placeName": {
+              "default": "Columbus"
+            },
+            "abbrev": "CBJ",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CBJ_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 8,
+            "placeName": {
+              "default": "Montréal"
+            },
+            "abbrev": "MTL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8478470,
+            "firstInitial": {
+              "default": "S."
+            },
+            "lastName": {
+              "default": "Montembeault"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8481540,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "Caufield"
+            }
+          },
+          "threeMinRecap": "/video/recap-blue-jackets-at-canadiens-10-26-23-6339942304112",
+          "threeMinRecapFr": "/fr/video/recap-blue-jackets-at-canadiens-10-26-23-6339942975112",
+          "gameCenterLink": "/gamecenter/cbj-vs-mtl/2023/10/26/2023020103"
+        },
+        {
+          "id": 2023020105,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "PPG Paints Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 2,
+              "market": "A",
+              "countryCode": "US",
+              "network": "ALT"
+            },
+            {
+              "id": 528,
+              "market": "H",
+              "countryCode": "US",
+              "network": "SN-PIT"
+            },
+            {
+              "id": 530,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS-D"
+            }
+          ],
+          "awayTeam": {
+            "id": 21,
+            "placeName": {
+              "default": "Colorado"
+            },
+            "abbrev": "COL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/COL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 0
+          },
+          "homeTeam": {
+            "id": 5,
+            "placeName": {
+              "default": "Pittsburgh"
+            },
+            "abbrev": "PIT",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/PIT_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477465,
+            "firstInitial": {
+              "default": "T."
+            },
+            "lastName": {
+              "default": "Jarry"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8475191,
+            "firstInitial": {
+              "default": "R."
+            },
+            "lastName": {
+              "default": "Smith"
+            }
+          },
+          "threeMinRecap": "/video/recap-avalanche-at-penguins-10-26-23-6339943634112",
+          "gameCenterLink": "/gamecenter/col-vs-pit/2023/10/26/2023020105"
+        },
+        {
+          "id": 2023020106,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Amalie Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 314,
+              "market": "A",
+              "countryCode": "US",
+              "network": "NBCSCA"
+            },
+            {
+              "id": 359,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSUN"
+            }
+          ],
+          "awayTeam": {
+            "id": 28,
+            "placeName": {
+              "default": "San Jose"
+            },
+            "abbrev": "SJS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg",
+            "awaySplitSquad": false,
+            "score": 0
+          },
+          "homeTeam": {
+            "id": 14,
+            "placeName": {
+              "default": "Tampa Bay"
+            },
+            "abbrev": "TBL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/TBL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/TBL_dark.svg",
+            "homeSplitSquad": false,
+            "score": 6
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477992,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Johansson"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478010,
+            "firstInitial": {
+              "default": "B."
+            },
+            "lastName": {
+              "default": "Point"
+            }
+          },
+          "threeMinRecap": "/video/recap-sharks-at-lightning-10-26-23-6339943627112",
+          "gameCenterLink": "/gamecenter/sjs-vs-tbl/2023/10/26/2023020106"
+        },
+        {
+          "id": 2023020104,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Wells Fargo Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 329,
+              "market": "N",
+              "countryCode": "US",
+              "network": "ESPN+"
+            },
+            {
+              "id": 391,
+              "market": "N",
+              "countryCode": "US",
+              "network": "HULU"
+            }
+          ],
+          "awayTeam": {
+            "id": 30,
+            "placeName": {
+              "default": "Minnesota"
+            },
+            "abbrev": "MIN",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MIN_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 4,
+            "placeName": {
+              "default": "Philadelphia",
+              "fr": "Philadelphie"
+            },
+            "abbrev": "PHI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/PHI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/PHI_dark.svg",
+            "homeSplitSquad": false,
+            "score": 6
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8479394,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "Hart"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8481553,
+            "firstInitial": {
+              "default": "B."
+            },
+            "lastName": {
+              "default": "Brink"
+            }
+          },
+          "threeMinRecap": "/video/recap-wild-at-flyers-10-26-23-6339943111112",
+          "gameCenterLink": "/gamecenter/min-vs-phi/2023/10/26/2023020104"
+        },
+        {
+          "id": 2023020107,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "UBS Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-26T23:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/New_York",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 230,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "RDS2"
+            },
+            {
+              "id": 294,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "TSN5"
+            },
+            {
+              "id": 409,
+              "market": "H",
+              "countryCode": "US",
+              "network": "MSGSN"
+            }
+          ],
+          "awayTeam": {
+            "id": 9,
+            "placeName": {
+              "default": "Ottawa"
+            },
+            "abbrev": "OTT",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/OTT_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 2,
+            "placeName": {
+              "default": "New York"
+            },
+            "abbrev": "NYI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NYI_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8478009,
+            "firstInitial": {
+              "default": "I."
+            },
+            "lastName": {
+              "default": "Sorokin"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8480865,
+            "firstInitial": {
+              "default": "N."
+            },
+            "lastName": {
+              "default": "Dobson"
+            }
+          },
+          "threeMinRecap": "/video/recap-senators-at-islanders-10-26-23-6339943800112",
+          "threeMinRecapFr": "/fr/video/recap-senators-at-islanders-10-26-23-6339945242112",
+          "gameCenterLink": "/gamecenter/ott-vs-nyi/2023/10/26/2023020107"
+        },
+        {
+          "id": 2023020108,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "American Airlines Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T00:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "venueTimezone": "US/Central",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 293,
+              "market": "A",
+              "countryCode": "CA",
+              "network": "TSN4"
+            },
+            {
+              "id": 349,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSW"
+            }
+          ],
+          "awayTeam": {
+            "id": 10,
+            "placeName": {
+              "default": "Toronto"
+            },
+            "abbrev": "TOR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 25,
+            "placeName": {
+              "default": "Dallas"
+            },
+            "abbrev": "DAL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/DAL_dark.svg",
+            "homeSplitSquad": false,
+            "score": 1
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8479361,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Woll"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8478483,
+            "firstInitial": {
+              "default": "M."
+            },
+            "lastName": {
+              "default": "Marner"
+            }
+          },
+          "threeMinRecap": "/video/recap-maple-leafs-at-stars-10-26-23-6339945563112",
+          "gameCenterLink": "/gamecenter/tor-vs-dal/2023/10/26/2023020108"
+        },
+        {
+          "id": 2023020109,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Scotiabank Saddledome"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T01:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-06:00",
+          "venueTimezone": "US/Mountain",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 289,
+              "market": "H",
+              "countryCode": "CA",
+              "network": "SNW"
+            },
+            {
+              "id": 357,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSMW"
+            }
+          ],
+          "awayTeam": {
+            "id": 19,
+            "placeName": {
+              "default": "St. Louis"
+            },
+            "abbrev": "STL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/STL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/STL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 20,
+            "placeName": {
+              "default": "Calgary"
+            },
+            "abbrev": "CGY",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CGY_dark.svg",
+            "homeSplitSquad": false,
+            "score": 0
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480981,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Hofer"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8477953,
+            "firstInitial": {
+              "default": "K."
+            },
+            "lastName": {
+              "default": "Kapanen"
+            }
+          },
+          "threeMinRecap": "/video/recap-blues-at-flames-10-26-23-6339948200112",
+          "gameCenterLink": "/gamecenter/stl-vs-cgy/2023/10/26/2023020109"
+        },
+        {
+          "id": 2023020110,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Rogers Place"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T01:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-06:00",
+          "venueTimezone": "America/Edmonton",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 27,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSG"
+            },
+            {
+              "id": 281,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS"
+            },
+            {
+              "id": 284,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN1"
+            }
+          ],
+          "awayTeam": {
+            "id": 3,
+            "placeName": {
+              "default": "New York"
+            },
+            "abbrev": "NYR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NYR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 22,
+            "placeName": {
+              "default": "Edmonton"
+            },
+            "abbrev": "EDM",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg",
+            "homeSplitSquad": false,
+            "score": 0
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8471734,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Quick"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8479323,
+            "firstInitial": {
+              "default": "A."
+            },
+            "lastName": {
+              "default": "Fox"
+            }
+          },
+          "threeMinRecap": "/video/recap-rangers-at-oilers-10-26-23-6339948512112",
+          "threeMinRecapFr": "/fr/video/recap-rangers-at-oilers-10-26-23-6339948511112",
+          "gameCenterLink": "/gamecenter/nyr-vs-edm/2023/10/26/2023020110"
+        }
+      ]
+    },
+    {
+      "date": "2023-10-27",
+      "dayAbbrev": "FRI",
+      "numberOfGames": 6,
+      "games": [
+        {
+          "id": 2023020111,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "T-Mobile Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T22:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "US/Pacific",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 291,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS2"
+            },
+            {
+              "id": 318,
+              "market": "A",
+              "countryCode": "US",
+              "network": "NBCSCH"
+            },
+            {
+              "id": 324,
+              "market": "N",
+              "countryCode": "US",
+              "network": "NHLN"
+            },
+            {
+              "id": 521,
+              "market": "H",
+              "countryCode": "US",
+              "network": "SCRIPPS"
+            }
+          ],
+          "awayTeam": {
+            "id": 16,
+            "placeName": {
+              "default": "Chicago"
+            },
+            "abbrev": "CHI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CHI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CHI_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 54,
+            "placeName": {
+              "default": "Vegas"
+            },
+            "abbrev": "VGK",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/VGK_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8475852,
+            "firstInitial": {
+              "default": "P."
+            },
+            "lastName": {
+              "default": "Mrazek"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8480798,
+            "firstInitial": {
+              "default": "P."
+            },
+            "lastName": {
+              "default": "Kurashev"
+            }
+          },
+          "threeMinRecap": "/video/recap-blackhawks-at-golden-knights-10-27-23-6340017656112",
+          "threeMinRecapFr": "/fr/video/recap-blackhawks-at-golden-knights-10-27-23-6340016874112",
+          "gameCenterLink": "/gamecenter/chi-vs-vgk/2023/10/27/2023020111"
+        },
+        {
+          "id": 2023020112,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "PNC Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 314,
+              "market": "A",
+              "countryCode": "US",
+              "network": "NBCSCA"
+            },
+            {
+              "id": 375,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSO"
+            }
+          ],
+          "awayTeam": {
+            "id": 28,
+            "placeName": {
+              "default": "San Jose"
+            },
+            "abbrev": "SJS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg",
+            "awaySplitSquad": false,
+            "score": 0
+          },
+          "homeTeam": {
+            "id": 12,
+            "placeName": {
+              "default": "Carolina",
+              "fr": "Caroline"
+            },
+            "abbrev": "CAR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CAR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CAR_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477293,
+            "firstInitial": {
+              "default": "A."
+            },
+            "lastName": {
+              "default": "Raanta"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8476882,
+            "firstInitial": {
+              "default": "T."
+            },
+            "lastName": {
+              "default": "Teravainen"
+            }
+          },
+          "threeMinRecap": "/video/recap-sharks-at-hurricanes-10-27-23-6340021129112",
+          "gameCenterLink": "/gamecenter/sjs-vs-car/2023/10/27/2023020112"
+        },
+        {
+          "id": 2023020113,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Prudential Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 28,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSG-B"
+            },
+            {
+              "id": 284,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN1"
+            },
+            {
+              "id": 409,
+              "market": "H",
+              "countryCode": "US",
+              "network": "MSGSN"
+            }
+          ],
+          "awayTeam": {
+            "id": 7,
+            "placeName": {
+              "default": "Buffalo"
+            },
+            "abbrev": "BUF",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 1,
+            "placeName": {
+              "default": "New Jersey"
+            },
+            "abbrev": "NJD",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NJD_dark.svg",
+            "homeSplitSquad": false,
+            "score": 5
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477970,
+            "firstInitial": {
+              "default": "V."
+            },
+            "lastName": {
+              "default": "Vanecek"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8475287,
+            "firstInitial": {
+              "default": "E."
+            },
+            "lastName": {
+              "default": "Haula"
+            }
+          },
+          "threeMinRecap": "/video/recap-sabres-at-devils-10-27-23-6340020551112",
+          "gameCenterLink": "/gamecenter/buf-vs-njd/2023/10/27/2023020113"
+        },
+        {
+          "id": 2023020114,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Capital One Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-27T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 361,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSN"
+            },
+            {
+              "id": 363,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSWI"
+            },
+            {
+              "id": 517,
+              "market": "H",
+              "countryCode": "US",
+              "network": "MNMT"
+            }
+          ],
+          "awayTeam": {
+            "id": 30,
+            "placeName": {
+              "default": "Minnesota"
+            },
+            "abbrev": "MIN",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MIN_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 15,
+            "placeName": {
+              "default": "Washington"
+            },
+            "abbrev": "WSH",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WSH_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/WSH_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 5,
+            "periodType": "SO"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "SO"
+          },
+          "winningGoalie": {
+            "playerId": 8475311,
+            "firstInitial": {
+              "default": "D."
+            },
+            "lastName": {
+              "default": "Kuemper"
+            }
+          },
+          "threeMinRecap": "/video/recap-wild-at-capitals-10-27-23-6340019857112",
+          "gameCenterLink": "/gamecenter/min-vs-wsh/2023/10/27/2023020114"
+        },
+        {
+          "id": 2023020115,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Mullett Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T02:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "America/Phoenix",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 291,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS2"
+            },
+            {
+              "id": 355,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSW"
+            },
+            {
+              "id": 521,
+              "market": "H",
+              "countryCode": "US",
+              "network": "SCRIPPS"
+            }
+          ],
+          "awayTeam": {
+            "id": 26,
+            "placeName": {
+              "default": "Los Angeles"
+            },
+            "abbrev": "LAK",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/LAK_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/LAK_dark.svg",
+            "awaySplitSquad": false,
+            "score": 5
+          },
+          "homeTeam": {
+            "id": 53,
+            "placeName": {
+              "default": "Arizona"
+            },
+            "abbrev": "ARI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/ARI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/ARI_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8475660,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "Talbot"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8474563,
+            "firstInitial": {
+              "default": "D."
+            },
+            "lastName": {
+              "default": "Doughty"
+            }
+          },
+          "threeMinRecap": "/video/recap-kings-at-coyotes-10-27-23-6340028324112",
+          "threeMinRecapFr": "/fr/video/recap-kings-at-coyotes-10-27-23-6340028521112",
+          "gameCenterLink": "/gamecenter/lak-vs-ari/2023/10/27/2023020115"
+        },
+        {
+          "id": 2023020116,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Rogers Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T02:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "America/Vancouver",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 284,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN1"
+            },
+            {
+              "id": 357,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSMW"
+            }
+          ],
+          "awayTeam": {
+            "id": 19,
+            "placeName": {
+              "default": "St. Louis"
+            },
+            "abbrev": "STL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/STL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/STL_dark.svg",
+            "awaySplitSquad": false,
+            "score": 0
+          },
+          "homeTeam": {
+            "id": 23,
+            "placeName": {
+              "default": "Vancouver"
+            },
+            "abbrev": "VAN",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/VAN_dark.svg",
+            "homeSplitSquad": false,
+            "score": 5
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8477967,
+            "firstInitial": {
+              "default": "T."
+            },
+            "lastName": {
+              "default": "Demko"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8480800,
+            "firstInitial": {
+              "default": "Q."
+            },
+            "lastName": {
+              "default": "Hughes"
+            }
+          },
+          "threeMinRecap": "/video/recap-blues-at-canucks-10-27-23-6340028000112",
+          "gameCenterLink": "/gamecenter/stl-vs-van/2023/10/27/2023020116"
+        }
+      ]
+    },
+    {
+      "date": "2023-10-28",
+      "dayAbbrev": "SAT",
+      "numberOfGames": 9,
+      "games": [
+        {
+          "id": 2023020117,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Wells Fargo Center"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T17:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 282,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN"
+            },
+            {
+              "id": 322,
+              "market": "H",
+              "countryCode": "US",
+              "network": "NBCSP"
+            },
+            {
+              "id": 341,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSC"
+            },
+            {
+              "id": 365,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSSD"
+            }
+          ],
+          "awayTeam": {
+            "id": 24,
+            "placeName": {
+              "default": "Anaheim"
+            },
+            "abbrev": "ANA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg",
+            "awaySplitSquad": false,
+            "score": 7
+          },
+          "homeTeam": {
+            "id": 4,
+            "placeName": {
+              "default": "Philadelphia",
+              "fr": "Philadelphie"
+            },
+            "abbrev": "PHI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/PHI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/PHI_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480843,
+            "firstInitial": {
+              "default": "L."
+            },
+            "lastName": {
+              "default": "Dostal"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8481533,
+            "firstInitial": {
+              "default": "T."
+            },
+            "lastName": {
+              "default": "Zegras"
+            }
+          },
+          "threeMinRecap": "/video/recap-ducks-at-flyers-10-28-23-6340060119112",
+          "gameCenterLink": "/gamecenter/ana-vs-phi/2023/10/28/2023020117"
+        },
+        {
+          "id": 2023020118,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Amerant Bank Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T22:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 353,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSFL"
+            },
+            {
+              "id": 386,
+              "market": "A",
+              "countryCode": "US",
+              "network": "ROOT-NW"
+            }
+          ],
+          "awayTeam": {
+            "id": 55,
+            "placeName": {
+              "default": "Seattle"
+            },
+            "abbrev": "SEA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/SEA_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 13,
+            "placeName": {
+              "default": "Florida",
+              "fr": "Floride"
+            },
+            "abbrev": "FLA",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/FLA_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8475683,
+            "firstInitial": {
+              "default": "S."
+            },
+            "lastName": {
+              "default": "Bobrovsky",
+              "cs": "Bobrovskij",
+              "sk": "Bobrovskij"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8476393,
+            "firstInitial": {
+              "default": "N."
+            },
+            "lastName": {
+              "default": "Cousins"
+            }
+          },
+          "threeMinRecap": "/video/recap-kraken-at-panthers-10-28-23-6340070338112",
+          "gameCenterLink": "/gamecenter/sea-vs-fla/2023/10/28/2023020118"
+        },
+        {
+          "id": 2023020119,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "TD Garden"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 31,
+              "market": "H",
+              "countryCode": "US",
+              "network": "NESN"
+            },
+            {
+              "id": 392,
+              "market": "A",
+              "countryCode": "US",
+              "network": "BSDETX"
+            }
+          ],
+          "awayTeam": {
+            "id": 17,
+            "placeName": {
+              "default": "Detroit"
+            },
+            "abbrev": "DET",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/DET_dark.svg",
+            "awaySplitSquad": false,
+            "score": 1
+          },
+          "homeTeam": {
+            "id": 6,
+            "placeName": {
+              "default": "Boston"
+            },
+            "abbrev": "BOS",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/BOS_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8480280,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Swayman"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8479325,
+            "firstInitial": {
+              "default": "C."
+            },
+            "lastName": {
+              "default": "McAvoy"
+            }
+          },
+          "threeMinRecap": "/video/recap-red-wings-at-bruins-10-28-23-6340073585112",
+          "gameCenterLink": "/gamecenter/det-vs-bos/2023/10/28/2023020119"
+        },
+        {
+          "id": 2023020120,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Nationwide Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 347,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSOH"
+            },
+            {
+              "id": 409,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSGSN"
+            }
+          ],
+          "awayTeam": {
+            "id": 2,
+            "placeName": {
+              "default": "New York"
+            },
+            "abbrev": "NYI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NYI_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 29,
+            "placeName": {
+              "default": "Columbus"
+            },
+            "abbrev": "CBJ",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/CBJ_dark.svg",
+            "homeSplitSquad": false,
+            "score": 0
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8473575,
+            "firstInitial": {
+              "default": "S."
+            },
+            "lastName": {
+              "default": "Varlamov"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8475151,
+            "firstInitial": {
+              "default": "K."
+            },
+            "lastName": {
+              "default": "Palmieri"
+            }
+          },
+          "threeMinRecap": "/video/recap-islanders-at-blue-jackets-10-28-23-6340071364112",
+          "gameCenterLink": "/gamecenter/nyi-vs-cbj/2023/10/28/2023020120"
+        },
+        {
+          "id": 2023020121,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Centre Bell"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "America/Montreal",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 281,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "TVAS"
+            },
+            {
+              "id": 286,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "CITY"
+            }
+          ],
+          "awayTeam": {
+            "id": 52,
+            "placeName": {
+              "default": "Winnipeg"
+            },
+            "abbrev": "WPG",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/WPG_dark.svg",
+            "awaySplitSquad": false,
+            "score": 3
+          },
+          "homeTeam": {
+            "id": 8,
+            "placeName": {
+              "default": "Montréal"
+            },
+            "abbrev": "MTL",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg",
+            "homeSplitSquad": false,
+            "score": 4
+          },
+          "periodDescriptor": {
+            "number": 5,
+            "periodType": "SO"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "SO"
+          },
+          "winningGoalie": {
+            "playerId": 8474596,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Allen"
+            }
+          },
+          "threeMinRecap": "/video/recap-jets-at-canadiens-10-28-23-6340073292112",
+          "threeMinRecapFr": "/fr/video/recap-jets-at-canadiens-10-28-23-6340074090112",
+          "gameCenterLink": "/gamecenter/wpg-vs-mtl/2023/10/28/2023020121"
+        },
+        {
+          "id": 2023020122,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Bridgestone Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-05:00",
+          "venueTimezone": "US/Central",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 4,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "CBC"
+            },
+            {
+              "id": 324,
+              "market": "N",
+              "countryCode": "US",
+              "network": "NHLN"
+            },
+            {
+              "id": 375,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSSO"
+            }
+          ],
+          "awayTeam": {
+            "id": 10,
+            "placeName": {
+              "default": "Toronto"
+            },
+            "abbrev": "TOR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 2
+          },
+          "homeTeam": {
+            "id": 18,
+            "placeName": {
+              "default": "Nashville"
+            },
+            "abbrev": "NSH",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NSH_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NSH_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8477424,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Saros"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8474600,
+            "firstInitial": {
+              "default": "R."
+            },
+            "lastName": {
+              "default": "Josi"
+            }
+          },
+          "threeMinRecap": "/video/recap-maple-leafs-at-predators-10-28-23-6340074080112",
+          "gameCenterLink": "/gamecenter/tor-vs-nsh/2023/10/28/2023020122"
+        },
+        {
+          "id": 2023020123,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "PPG Paints Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-28T23:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-04:00",
+          "venueTimezone": "US/Eastern",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 283,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN360"
+            },
+            {
+              "id": 528,
+              "market": "H",
+              "countryCode": "US",
+              "network": "SN-PIT"
+            }
+          ],
+          "awayTeam": {
+            "id": 9,
+            "placeName": {
+              "default": "Ottawa"
+            },
+            "abbrev": "OTT",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/OTT_dark.svg",
+            "awaySplitSquad": false,
+            "score": 5
+          },
+          "homeTeam": {
+            "id": 5,
+            "placeName": {
+              "default": "Pittsburgh"
+            },
+            "abbrev": "PIT",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/PIT_dark.svg",
+            "homeSplitSquad": false,
+            "score": 2
+          },
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          },
+          "winningGoalie": {
+            "playerId": 8476914,
+            "firstInitial": {
+              "default": "J."
+            },
+            "lastName": {
+              "default": "Korpisalo"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8477330,
+            "firstInitial": {
+              "default": "D."
+            },
+            "lastName": {
+              "default": "Kubalik"
+            }
+          },
+          "threeMinRecap": "/video/recap-senators-at-penguins-10-28-23-6340075229112",
+          "gameCenterLink": "/gamecenter/ott-vs-pit/2023/10/28/2023020123"
+        },
+        {
+          "id": 2023020124,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Rogers Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-29T02:00:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "America/Vancouver",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 4,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "CBC"
+            },
+            {
+              "id": 27,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSG"
+            },
+            {
+              "id": 55,
+              "market": "A",
+              "countryCode": "US",
+              "network": "MSG 2"
+            },
+            {
+              "id": 283,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN360"
+            },
+            {
+              "id": 284,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "SN1"
+            },
+            {
+              "id": 286,
+              "market": "N",
+              "countryCode": "CA",
+              "network": "CITY"
+            }
+          ],
+          "awayTeam": {
+            "id": 3,
+            "placeName": {
+              "default": "New York"
+            },
+            "abbrev": "NYR",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/NYR_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 23,
+            "placeName": {
+              "default": "Vancouver"
+            },
+            "abbrev": "VAN",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/VAN_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT"
+          },
+          "winningGoalie": {
+            "playerId": 8478048,
+            "firstInitial": {
+              "default": "I."
+            },
+            "lastName": {
+              "default": "Shesterkin",
+              "cs": "Šesťorkin",
+              "sk": "Šesťorkin"
+            }
+          },
+          "winningGoalScorer": {
+            "playerId": 8480817,
+            "firstInitial": {
+              "default": "K."
+            },
+            "lastName": {
+              "default": "Miller"
+            }
+          },
+          "threeMinRecap": "/video/recap-rangers-at-canucks-10-28-23-6340079198112",
+          "gameCenterLink": "/gamecenter/nyr-vs-van/2023/10/28/2023020124"
+        },
+        {
+          "id": 2023020125,
+          "season": 20232024,
+          "gameType": 2,
+          "venue": {
+            "default": "Crypto.com Arena"
+          },
+          "neutralSite": false,
+          "startTimeUTC": "2023-10-29T02:30:00Z",
+          "easternUTCOffset": "-04:00",
+          "venueUTCOffset": "-07:00",
+          "venueTimezone": "America/Los_Angeles",
+          "gameState": "OFF",
+          "gameScheduleState": "OK",
+          "tvBroadcasts": [
+            {
+              "id": 355,
+              "market": "H",
+              "countryCode": "US",
+              "network": "BSW"
+            },
+            {
+              "id": 521,
+              "market": "A",
+              "countryCode": "US",
+              "network": "SCRIPPS"
+            }
+          ],
+          "awayTeam": {
+            "id": 54,
+            "placeName": {
+              "default": "Vegas"
+            },
+            "abbrev": "VGK",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/VGK_dark.svg",
+            "awaySplitSquad": false,
+            "score": 4
+          },
+          "homeTeam": {
+            "id": 26,
+            "placeName": {
+              "default": "Los Angeles"
+            },
+            "abbrev": "LAK",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/LAK_light.svg",
+            "darkLogo": "https://assets.nhle.com/logos/nhl/svg/LAK_dark.svg",
+            "homeSplitSquad": false,
+            "score": 3
+          },
+          "periodDescriptor": {
+            "number": 5,
+            "periodType": "SO"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "SO"
+          },
+          "winningGoalie": {
+            "playerId": 8480313,
+            "firstInitial": {
+              "default": "L."
+            },
+            "lastName": {
+              "default": "Thompson"
+            }
+          },
+          "threeMinRecap": "/video/recap-golden-knights-at-kings-10-28-23-6340080084112",
+          "gameCenterLink": "/gamecenter/vgk-vs-lak/2023/10/28/2023020125"
+        }
+      ]
+    }
+  ],
+  "preSeasonStartDate": "2023-09-23",
+  "regularSeasonStartDate": "2023-10-10",
+  "regularSeasonEndDate": "2024-04-18",
+  "playoffEndDate": "2024-06-18",
+  "numberOfGames": 46
+}
