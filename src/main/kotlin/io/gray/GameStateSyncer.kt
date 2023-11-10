@@ -236,7 +236,7 @@ open class GameStateSyncer(
     private fun mapNewStateToOldState(gameState: GameState) = when (gameState) {
         GameState.OFF, GameState.FINAL -> "Final"
         GameState.LIVE, GameState.CRIT -> "Live"
-        GameState.FUT -> "Preview"
+        GameState.FUT, GameState.PRE -> "Preview"
     }
 
 }

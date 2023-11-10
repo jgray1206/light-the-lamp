@@ -19,7 +19,7 @@ data class Game(
 )
 
 enum class GameState {
-    OFF, LIVE, FUT, FINAL, CRIT
+    OFF, LIVE, FUT, FINAL, CRIT, PRE
 }
 
 data class Team(
