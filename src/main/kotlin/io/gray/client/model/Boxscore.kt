@@ -26,7 +26,7 @@ data class BoxscorePlayer(
         val assists: Short,
         val shorthandedGoals: Short,
         val shPoints: Short,
-        val toi: String
+        val toi: String?
 )
 
 data class TeamBoxscore(
