@@ -30,14 +30,13 @@ datasources:
 r2dbc:
   datasources:
     default:
-      dialect: H2
       url: r2dbc:postgresql://localhost:5432/lightthelamp
       username: ${DB_USER:}
       password: ${DB_PASS:}
       options:
         driver: pool
         protocol: postgresql
-        maxSize: 100
+        maxSize: 80
 ---
 netty:
   default:
