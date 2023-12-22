@@ -69,7 +69,7 @@ open class GameStateSyncer(
                 }
                 .filter {
                     mapNewStateToOldState(it.second.gameState) == "Live" ||
-                            (minuteOfHour % 1 == 0 && mapNewStateToOldState(it.second.gameState) == "Final")
+                            (minuteOfHour % 5 == 0 && mapNewStateToOldState(it.second.gameState) == "Final")
                 }
                 .flatMap { pair ->
                     boxScoreClient.getBoxscore(pair.second.id.toString()).map { Triple(pair.first, pair.second, it) }
