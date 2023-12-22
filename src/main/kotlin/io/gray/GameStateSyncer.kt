@@ -44,7 +44,7 @@ open class GameStateSyncer(
     }
 
     fun syncAllGames(minuteOfHour: Int) {
-        scheduleClient.getSchedule(LocalDate.now().minusDays(2).toString())
+        scheduleClient.getSchedule(LocalDate.now().minusDays(6).toString())
                 .flatMapIterable { it.gameWeek }
                 .filter {  LocalDate.parse(it.date).isBefore(LocalDateTime.now().plusHours(3).toLocalDate().plusDays(1)) }
                 .flatMapIterable { it.games }
