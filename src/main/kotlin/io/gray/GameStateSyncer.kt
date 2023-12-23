@@ -44,7 +44,7 @@ open class GameStateSyncer(
     }
 
     fun syncAllGames(minuteOfHour: Int) {
-        scheduleClient.getSchedule(LocalDate.now().minusDays(10).toString())
+        scheduleClient.getSchedule(LocalDate.now().minusDays(2).toString())
                 .flatMapIterable { it.gameWeek }
                 .filter {  LocalDate.parse(it.date).isBefore(LocalDateTime.now().plusHours(3).toLocalDate().plusDays(1)) }
                 .flatMapIterable { it.games }
@@ -59,7 +59,7 @@ open class GameStateSyncer(
                     gameRepository.findById(game.id).switchIfEmpty(
                             createGame(game)
                     ).flatMap {
-                        if (minuteOfHour % 1 == 0 && it.gameState.equals("preview", ignoreCase = true)) {
+                        if (minuteOfHour % 5 == 0 && it.gameState.equals("preview", ignoreCase = true)) {
                             logger.info("checking for missing players for game ${game.id}")
                             addMissingPlayers(it, game).then(gameRepository.findById(game.id))
                         } else {
