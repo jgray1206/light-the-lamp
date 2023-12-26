@@ -228,7 +228,14 @@ function createTable(team, game, picks, activeGame, sortedGames, announcers) {
   tableDiv.setAttribute("id", "game" + game.id + team.id);
   tableDiv.setAttribute("role", "tabpanel");
   tableDiv.setAttribute("aria-labelledby", "tab" + game.id + team.id);
+  var refreshGameButton = document.createElement("button");
+  refreshGameButton.innerHTML = "Refresh Points";
+  refreshGameButton.className = "btn btn-primary mt-1";
+  refreshGameButton.onclick = function saveActiveGame() {
+    refreshGame(game.id);
+  };
   var table = document.createElement("table"); //makes a table element for the page
+  tableDiv.appendChild(refreshGameButton);
   tableDiv.appendChild(table);
   table.setAttribute("class", "table table-hover");
   var seasonDropdown = document.getElementById("season");
@@ -347,10 +354,8 @@ function createTable(team, game, picks, activeGame, sortedGames, announcers) {
 function createPickButton(gameId, pickName, announcer, cell, picks) {
   var pickButton = document.createElement("button");
   var hasPicked = picks.find(
-      (pick) =>
-        pick.announcer.id == announcer.id &&
-        pick.game.id == gameId
-    );
+    (pick) => pick.announcer.id == announcer.id && pick.game.id == gameId
+  );
   var pick = picks.find(
     (pick) =>
       pick.announcer.id == announcer.id &&
@@ -466,12 +471,43 @@ function createTableHeaderForTeam(team, activeTeam) {
   document.getElementById("teamsTabHeader").append(headerLi);
 }
 
+function refreshGame(gameId) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "/api/game/refresh-points?gameId=" + gameId);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader("Authorization", "Bearer " + jwt);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      if (this.status == 200) {
+        loadGames();
+      } else if (this.status == 401 || this.status == 403) {
+        localStorage.removeItem("jwt");
+        window.location.href =
+          "./login.html?redirect=" + encodeURIComponent(window.location.href);
+      } else {
+        const objects = JSON.parse(this.responseText);
+        Swal.fire({
+          text:
+            objects["_embedded"]["errors"][0]["message"] || objects["message"],
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+  };
+}
+
 function doPick(elem, gameId, pick, announcerId, pickId) {
   const xhttp = new XMLHttpRequest();
   if (pickId) {
     xhttp.open(
       "DELETE",
-      "/api/pick/announcer?" + "gameId=" + gameId + "&announcerId=" + announcerId
+      "/api/pick/announcer?" +
+        "gameId=" +
+        gameId +
+        "&announcerId=" +
+        announcerId
     );
   } else {
     xhttp.open(

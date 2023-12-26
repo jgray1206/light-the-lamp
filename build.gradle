@@ -63,6 +63,11 @@ dependencies {
 	testImplementation("org.assertj:assertj-core")
 }
 
+run {
+	systemProperties([
+			'micronaut.environments': 'local'
+	])
+}
 
 application {
 	mainClass.set("io.gray.ApplicationKt")

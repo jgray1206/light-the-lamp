@@ -30,6 +30,7 @@ datasources:
 r2dbc:
   datasources:
     default:
+      dialect: POSTGRES
       url: r2dbc:postgresql://localhost:5432/lightthelamp
       username: ${DB_USER:}
       password: ${DB_PASS:}
