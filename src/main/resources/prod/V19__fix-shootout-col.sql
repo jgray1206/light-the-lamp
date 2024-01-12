@@ -1,0 +1,1 @@
+ALTER TABLE "game" ALTER COLUMN is_shootout TYPE BOOLEAN NULL;
