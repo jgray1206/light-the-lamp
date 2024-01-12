@@ -36,4 +36,6 @@ class Game {
     @Relation(Relation.Kind.ONE_TO_MANY, mappedBy = "gameId", cascade = [Cascade.PERSIST])
     var players: List<GamePlayer>? = null
 
+    var isShootout: Boolean? = null
+
 }

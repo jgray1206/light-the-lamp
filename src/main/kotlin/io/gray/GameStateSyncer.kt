@@ -134,8 +134,12 @@ open class GameStateSyncer(
                 0
             }
         }
-        val teamPoints = if (goals >= 4) {
-            goals
+        var actualGoals = goals
+        if (game.isShootout == true && goals > goalsAgainst) {
+            actualGoals--
+        }
+        var teamPoints = if (actualGoals >= 4) {
+            actualGoals
         } else {
             0
         }
@@ -195,6 +199,7 @@ open class GameStateSyncer(
         dbGame.gameState = mapNewStateToOldState(game.gameState)
         dbGame.awayTeamGoals = gameScore.awayTeam.score
         dbGame.homeTeamGoals = gameScore.homeTeam.score
+        dbGame.isShootout = game.periodDescriptor?.periodType == "SO"
         return playerFlux.collectList().then(gameRepository.update(dbGame))
     }
 

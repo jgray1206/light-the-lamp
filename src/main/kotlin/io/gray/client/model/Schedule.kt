@@ -15,7 +15,8 @@ data class Game(
         val startTimeUTC: String,
         val awayTeam: Team,
         val homeTeam: Team,
-        val gameState: GameState
+        val gameState: GameState,
+        val periodDescriptor: PeriodDescriptor?
 )
 
 enum class GameState {
@@ -33,4 +34,8 @@ data class Team(
 
 data class Name (
         val default: String
+)
+
+data class PeriodDescriptor (
+        val periodType: String?
 )
