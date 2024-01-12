@@ -1,1 +1,2 @@
-ALTER TABLE "game" ALTER COLUMN is_shootout TYPE BOOLEAN USING is_shootout::boolean;
+ALTER TABLE "game" DROP COLUMN is_shootout;
+ALTER TABLE "game" ADD COLUMN is_shootout BOOLEAN;
