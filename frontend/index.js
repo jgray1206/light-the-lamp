@@ -484,16 +484,22 @@ function createTable(
     row.insertCell(2).innerHTML = "4/4goals<br/>5/5goals<br/>6/6goals etc";
     createPickButton(game.id, "team", team.id, row.insertCell(3));
   } else {
-    var goals =
-      (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
-      0;
+    var goals = (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) || 0;
+    var otherTeamGoals = (teamIsAwayOrHome == "away" ? game.homeTeamGoals : game.awayTeamGoals) || 0;
     var htmlString = "";
-    if (goals >= 4) {
-      htmlString = "<h1>" + goals + "</h1></br>";
+    var realGoals = goals;
+    if (game.isShootout == true && goals > otherTeamGoals) {
+        realGoals--;
+    }
+    if (realGoals >= 4) {
+      htmlString = "<h1>" + realGoals + "</h1></br>";
     } else {
       htmlString = "<h1>0</h1></br>";
     }
-    htmlString += "G: " + goals;
+    htmlString += "G: " + realGoals;
+    if (goals != realGoals) {
+        htmlString += "</br>Shootout Goals: 1"
+    }
     row.insertCell(2).innerHTML = htmlString;
   }
 
