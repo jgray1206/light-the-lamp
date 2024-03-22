@@ -180,10 +180,10 @@ open class GameStateSyncer(
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updateGamePlayersAndGame(dbGame: Game, gameScore: Boxscore, game: io.gray.client.model.Game): Mono<Game> {
         logger.info("updating game ${game.id} with status ${dbGame.gameState} on date ${dbGame.date} between team ${game.homeTeam.dbTeam.teamName} and ${game.awayTeam.dbTeam.teamName}")
-        val allPlayers = gameScore.boxscore.playerByGameStats.awayTeam.defense
-                .plus(gameScore.boxscore.playerByGameStats.awayTeam.forwards)
-                .plus(gameScore.boxscore.playerByGameStats.homeTeam.defense)
-                .plus(gameScore.boxscore.playerByGameStats.homeTeam.forwards).associateBy { it.playerId }
+        val allPlayers = gameScore.playerByGameStats.awayTeam.defense
+                .plus(gameScore.playerByGameStats.awayTeam.forwards)
+                .plus(gameScore.playerByGameStats.homeTeam.defense)
+                .plus(gameScore.playerByGameStats.homeTeam.forwards).associateBy { it.playerId }
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
             allPlayers[dbPlayer.id?.playerId!!]
         }?.mapValues { (player, dbPlayer) ->

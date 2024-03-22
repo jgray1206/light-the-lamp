@@ -3,10 +3,6 @@ package io.gray.client.model
 data class Boxscore(
         val awayTeam: TeamBoxscore,
         val homeTeam: TeamBoxscore,
-        val boxscore: GameBoxscore
-)
-
-data class GameBoxscore(
         val playerByGameStats: BothTeamStats
 )
 
