@@ -220,6 +220,11 @@ function createTable(
   var pick = picks.find(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
+  var prevPicks = sortedGames.slice(sortedGames.indexOf(game)+1,sortedGames.indexOf(game)+3).map((prevGame) => {
+    return picks.find(
+        (pick) => pick.game.id == prevGame.id && pick.team.id == team.id
+    );
+  });
   var pickEnabled = pick == undefined && gameDate > curDate;
   var friendPicks = allFriendPicks.filter(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
@@ -366,7 +371,11 @@ function createTable(
       } else if (nonGoalies[i].position == "Forward") {
         row.insertCell(2).innerHTML = "2/goal<br/>1/assist<br/>*2/shorty";
       }
-      createPickButton(game.id, nonGoalies[i].name, team.id, row.insertCell(3));
+      var disabled = false;
+      if (prevPicks.map((e) => e?.gamePlayer?.name).includes(nonGoalies[i].name)) {
+        disabled = true;
+      }
+      createPickButton(game.id, nonGoalies[i].name, team.id, row.insertCell(3), disabled);
     } else {
       var htmlString = "";
       if (nonGoalies[i].position == "Defenseman") {
@@ -445,7 +454,11 @@ function createTable(
   }
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "5/shutout<br/>3/one-or-two GA";
-    createPickButton(game.id, "goalies", team.id, row.insertCell(3));
+    var disabled = false;
+    if (prevPicks.map((e) => e?.goalies).includes(true)) {
+            disabled = true;
+          }
+    createPickButton(game.id, "goalies", team.id, row.insertCell(3), disabled);
   } else {
     var goals =
       (teamIsAwayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
@@ -482,7 +495,11 @@ function createTable(
   }
   if (pickEnabled) {
     row.insertCell(2).innerHTML = "4/4goals<br/>5/5goals<br/>6/6goals etc";
-    createPickButton(game.id, "team", team.id, row.insertCell(3));
+    var disabled = false;
+    if (prevPicks.map((e) => e?.theTeam).includes(true)) {
+            disabled = true;
+          }
+    createPickButton(game.id, "team", team.id, row.insertCell(3), disabled);
   } else {
     var goals = (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) || 0;
     var otherTeamGoals = (teamIsAwayOrHome == "away" ? game.homeTeamGoals : game.awayTeamGoals) || 0;
@@ -545,18 +562,33 @@ function addFriendsPickToCell(friendsCell, pick) {
   }
 }
 
-function createPickButton(gameId, pick, teamId, cell) {
+function createPickButton(gameId, pick, teamId, cell, disabled) {
   var pickButton = document.createElement("button");
   pickButton.type = "button";
-  pickButton.className = "btn btn-primary";
   pickButton.textContent = "Pick";
-  pickButton.addEventListener(
-    "click",
-    function (e) {
-      doPick(e.target, gameId, pick, teamId);
-    },
-    false
-  );
+  if (!disabled) {
+      pickButton.className = "btn btn-primary";
+      pickButton.addEventListener(
+        "click",
+        function (e) {
+          doPick(e.target, gameId, pick, teamId);
+        },
+        false
+      );
+  } else {
+    pickButton.className = "btn btn-secondary";
+      pickButton.addEventListener(
+        "click",
+        function (e) {
+          Swal.fire({
+              text: "Cannot pick " + pick + " again! On cooldown from being picked in one of the previous two games.",
+              icon: "warning",
+              confirmButtonText: "OK"
+            })
+        },
+        false
+      );
+  }
   cell.appendChild(pickButton);
 }
 

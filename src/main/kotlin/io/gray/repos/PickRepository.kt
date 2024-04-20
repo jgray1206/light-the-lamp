@@ -36,6 +36,9 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
 
     fun findByGameAndUserAndTeam(aGame: Game, aUser: UserDTO, aTeam: Team): Mono<Pick>
 
+    @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
+    fun findTop2ByUserAndTeamOrderByIdDesc(aUser: UserDTO, aTeam: Team): Flux<Pick>
+
     fun findByGameAndAnnouncer(aGame: Game, aAnnouncer: Announcer): Mono<Pick>
 
     @Query("UPDATE pick SET points = :points where game_player_id_game_id = :gameId and game_player_id_player_id = :playerId")

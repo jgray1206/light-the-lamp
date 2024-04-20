@@ -7,6 +7,7 @@ import io.gray.repos.AnnouncerRepository
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
+import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
@@ -24,11 +25,13 @@ class PickController(
         private val pickRepository: PickRepository,
         private val userRepository: UserRepository,
         private val gameRepository: GameRepository,
-        private val announcerRepository: AnnouncerRepository
+        private val announcerRepository: AnnouncerRepository,
+        private val environment: Environment
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
+
     @Get
     fun getAll(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name).flatMapIterable {
@@ -65,11 +68,13 @@ class PickController(
     fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmail(principal.name)
                 .flatMapIterable { it.friends }
-                .flatMap { pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
-                    this.id = it.id
-                    this.displayName = it.displayName
-                    this.redditUsername = it.redditUsername
-                }, "${season}0000".toInt(), "${season}9999".toInt()) }
+                .flatMap {
+                    pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
+                        this.id = it.id
+                        this.displayName = it.displayName
+                        this.redditUsername = it.redditUsername
+                    }, "${season}0000".toInt(), "${season}9999".toInt())
+                }
                 .mergeWith(
                         announcerRepository.findAll().flatMap {
                             pickRepository.findAllByAnnouncerAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
@@ -116,28 +121,50 @@ class PickController(
                 "can't submit pick for a team in a game they aren't playing in, you goofy goober"
             }
 
-            check(game.date?.isAfter(LocalDateTime.now()) == true) {
+            check(game.date?.isAfter(LocalDateTime.now()) == true || environment.activeNames.contains("local")) {
                 "can't submit pick on game that has already started, you little silly billy"
             }
 
-            logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
+            pickRepository.findTop2ByUserAndTeamOrderByIdDesc(user, team)
+                    .collectList()
+                    .doOnNext {
+                        when (pick) {
+                            "goalies" -> {
+                                check(it.none { prevPick -> prevPick.goalies == true }) {
+                                    "can't pick the goalies since you just picked them, you little hacker boy"
+                                }
+                            }
 
-            pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
-                    pickRepository.save(Pick().also { pickEntity ->
-                        pickEntity.game = game
-                        pickEntity.team = team
-                        pickEntity.user = user
-                        if (pick == "goalies") {
-                            pickEntity.goalies = true
-                        } else if (pick == "team") {
-                            pickEntity.theTeam = true
-                        } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                            pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
-                        } else {
-                            error("not a valid pick")
+                            "team" -> {
+                                check(it.none { prevPick -> prevPick.theTeam == true }) {
+                                    "can't pick the team since you just picked it, you little hacker boy"
+                                }
+                            }
+
+                            else -> {
+                                check(it.none { prevPick -> prevPick.gamePlayer?.name == pick }) {
+                                    "can't pick $pick since you just picked them, you little hacker boy"
+                                }
+                            }
                         }
-                    })
-            )
+                    }.then(
+                            pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
+                                    pickRepository.save(Pick().also { pickEntity ->
+                                        logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
+                                        pickEntity.game = game
+                                        pickEntity.team = team
+                                        pickEntity.user = user
+                                        if (pick == "goalies") {
+                                            pickEntity.goalies = true
+                                        } else if (pick == "team") {
+                                            pickEntity.theTeam = true
+                                        } else if (game.players?.firstOrNull { it.name == pick } != null) {
+                                            pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
+                                        } else {
+                                            error("not a valid pick")
+                                        }
+                                    })
+                            ))
         }
     }
 
