@@ -124,8 +124,8 @@ class PickController(
             check(game.date?.isAfter(LocalDateTime.now()) == true || environment.activeNames.contains("local")) {
                 "can't submit pick on game that has already started, you little silly billy"
             }
-
-            pickRepository.findTop2ByUserAndTeamOrderByIdDesc(user, team)
+            val season = game.id.toString().take(6);
+            pickRepository.findTop2ByUserAndTeamAndGameIdBetweenOrderByIdDesc(user, team, "${season}0000".toInt(), "${season}9999".toInt())
                     .collectList()
                     .doOnNext {
                         when (pick) {

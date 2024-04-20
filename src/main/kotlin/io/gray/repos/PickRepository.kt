@@ -37,7 +37,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     fun findByGameAndUserAndTeam(aGame: Game, aUser: UserDTO, aTeam: Team): Mono<Pick>
 
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
-    fun findTop2ByUserAndTeamOrderByIdDesc(aUser: UserDTO, aTeam: Team): Flux<Pick>
+    fun findTop2ByUserAndTeamAndGameIdBetweenOrderByIdDesc(aUser: UserDTO, aTeam: Team, lower: Int, upper: Int): Flux<Pick>
 
     fun findByGameAndAnnouncer(aGame: Game, aAnnouncer: Announcer): Mono<Pick>
 
