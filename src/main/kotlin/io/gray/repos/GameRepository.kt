@@ -23,6 +23,8 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
     @Join("players", type = Join.Type.LEFT_FETCH)
     fun findByHomeTeamOrAwayTeam(homeTeam: Team, awayTeam: Team): Flux<Game>
 
+    fun findTop2ByIdLessThanAndIdGreaterThanEqualsAndHomeTeamOrAwayTeamOrderByIdDesc(lessThan: Long, greatThan: Long, homeTeam: Team, awayTeam: Team): Flux<Game>
+
 
     @Join("homeTeam", alias = "game_home_team_")
     @Join("awayTeam", alias = "game_away_team_")

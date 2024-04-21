@@ -40,7 +40,7 @@ function loadGames() {
           if (this.readyState == 4) {
             if (this.status == 200) {
               const picks = JSON.parse(this.responseText);
-              console.log(picks);
+              var picksMap = new Map(picks.map((pick) => [pick.game.id + "-" + pick.team.id, pick]));
               const xhttp3 = new XMLHttpRequest();
               xhttp3.open("GET", "/api/user");
               xhttp3.setRequestHeader(
@@ -69,7 +69,6 @@ function loadGames() {
                       if (this.readyState == 4) {
                         if (this.status == 200) {
                           const friendPicks = JSON.parse(this.responseText);
-                          console.log(friendPicks);
                           friendPicks.forEach((friendPick) => {
                             if (friendPick.user) {
                               friendPick.user = user.friends?.find((user) => {
@@ -155,7 +154,7 @@ function loadGames() {
                               createTable(
                                 team,
                                 game,
-                                picks,
+                                picksMap,
                                 user,
                                 activeGame,
                                 teamGames,
@@ -200,7 +199,7 @@ function loadGames() {
 function createTable(
   team,
   game,
-  picks,
+  picksMap,
   user,
   activeGame,
   sortedGames,
@@ -213,19 +212,22 @@ function createTable(
       game.date[1] - 1,
       game.date[2],
       game.date[3],
-      game.date[4]
+      game.date[4]+5
     )
   );
   var curDate = new Date();
-  var pick = picks.find(
-    (pick) => pick.game.id == game.id && pick.team.id == team.id
-  );
-  var prevPicks = sortedGames.slice(sortedGames.indexOf(game)+1,sortedGames.indexOf(game)+3).map((prevGame) => {
-    return picks.find(
-        (pick) => pick.game.id == prevGame.id && pick.team.id == team.id
-    );
-  });
+  var pick = picksMap.get(game.id + "-" + team.id);
   var pickEnabled = pick == undefined && gameDate > curDate;
+  var prevPicks = [];
+  if (pickEnabled) {
+      prevPicks = sortedGames.slice(sortedGames.indexOf(game)+1,sortedGames.indexOf(game)+3).map((prevGame) => {
+        return picksMap.get(prevGame.id + "-" + team.id);
+      });
+      //todo probably just force people to pick in order instead of this weirdness
+      if (sortedGames.indexOf(game) == 1 && picksMap.get(sortedGames[0].id + "-" + team.id)) {
+        prevPicks.push(picksMap.get(sortedGames[0].id + "-" + team.id));
+      }
+  }
   var friendPicks = allFriendPicks.filter(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
   );
