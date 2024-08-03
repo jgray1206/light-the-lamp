@@ -4,9 +4,9 @@ import io.gray.repos.UserRepository
 import io.micronaut.core.annotation.Nullable
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.AuthenticationFailureReason
-import io.micronaut.security.authentication.AuthenticationProvider
 import io.micronaut.security.authentication.AuthenticationRequest
 import io.micronaut.security.authentication.AuthenticationResponse
+import io.micronaut.security.authentication.provider.HttpRequestReactiveAuthenticationProvider
 import jakarta.inject.Singleton
 import org.mindrot.jbcrypt.BCrypt
 import org.reactivestreams.Publisher
@@ -14,9 +14,8 @@ import reactor.core.publisher.Mono
 
 
 @Singleton
-class AuthenticationProviderUserPassword(private val userRepository: UserRepository) : AuthenticationProvider<HttpRequest<*>> {
-    override fun authenticate(@Nullable httpRequest: HttpRequest<*>?,
-                              authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse?>? {
+class AuthenticationProviderUserPassword(private val userRepository: UserRepository) : HttpRequestReactiveAuthenticationProvider<Any> {
+    override fun authenticate(@Nullable requestContext: HttpRequest<Any>?, authenticationRequest: AuthenticationRequest<String, String>): Publisher<AuthenticationResponse> {
         return userRepository.findByEmail(authenticationRequest.identity as String).flatMap {
             if (it.locked == true) {
                 Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))

@@ -232,7 +232,7 @@ class LightTheLampApplicationTests {
 		val otherTeamPick = pickClient.createForUser(gameId, "Matty Beniers", 55, token) //make sure same user can pick for both teams
 		assertThat(otherTeamPick.team?.id).isEqualTo(55)
 		assertThat(otherTeamPick.id).isEqualTo(2)
-		gameRepository.update(gameRepository.findById(gameId.toLong()).block().apply { this?.date = LocalDateTime.now().minusSeconds(10) }).block()
+		gameRepository.update(gameRepository.findById(gameId.toLong()).block().apply { this?.date = LocalDateTime.now().minusSeconds(60*6 + 10) }).block()
 		assertThrows<HttpClientResponseException> {
 			pickClient.createForUser(gameId, "Dylan Larkin", 17, token)
 		}
