@@ -1,0 +1,33 @@
+.nav-link.active {
+   border-color: black !important;
+   font-weight: bold !important;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 950px;
+}
+
+.navbar-bg {
+  background-color: #2c3e50;
+}
+
+#season, #displayType, #pickfor {
+  width:auto;
+  display:inline-block;
+}
+
+#teamsTabHeader, .teamtabheader {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#kofi-anchor {
+  float:right;
+}
+
+#kofi-img {
+  border:0px;
+  height:32px;
+}
