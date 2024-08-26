@@ -7,7 +7,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Profile from "./Profile";
 import ErrorPage from "./ErrorPage";
-import axios from 'axios';
+import AxiosInstance from "../provider/axiosProvider";
 import PasswordReset from "./PasswordReset";
 
 const Routes = () => {
@@ -36,6 +36,13 @@ const Routes = () => {
                 {
                     path: "/profile",
                     element: <Profile />,
+                    loader: async () => {
+                        const [user, teams] = await Promise.all([
+                            AxiosInstance.get("/api/user?profilePic=true"),
+                            AxiosInstance.get("/api/teams")
+                        ]);
+                        return { user, teams };
+                    }
                 },
                 {
                     path: "/logout",
@@ -61,7 +68,7 @@ const Routes = () => {
             path: "/register",
             element: <Register />,
             errorElement: <ErrorPage />,
-            loader: async () => { return axios.get("/api/teams") }
+            loader: async () => { return AxiosInstance.get("/api/teams") }
         }
     ];
 

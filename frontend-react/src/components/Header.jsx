@@ -23,6 +23,9 @@ export default function Header() {
       border-radius: .3rem;
       color: white;
     }
+    .navbar-nav .dropdown-menu {
+      position: absolute;
+    }
     `}
             </style>
             <Navbar expand="lg" className="navbar-bg">

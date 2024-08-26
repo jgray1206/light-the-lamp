@@ -1,24 +1,33 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from 'axios';
-import { Link, useSearchParams } from "react-router-dom";
+import AxiosInstance from '../provider/axiosProvider';
+import { useLoaderData } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
 
 export default function Profile() {
-    let [searchParams, setSearchParams] = useSearchParams();
-    const resetUuid = searchParams.get("resetUuid");
-    const navigate = useNavigate();
-    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const response = useLoaderData();
+    const user = response.user.data;
+    const allTeams = response.teams.data.sort((a, b) => a.teamName.localeCompare(b.teamName));
+
+    let profilePicBytesInit = "/shrug.png"
+    if (user.profilePic) {
+        profilePicBytesInit = "data:image/png;base64," + user.profilePic;
+    }
+
     const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [displayName, setDisplayName] = useState(user.displayName);
+    const [redditUsername, setRedditUsername] = useState(user.redditUsername);
+    const [teams, setTeams] = useState(user.teams.map((it) => it.id));
+    const [profilePic, setProfilePic] = useState("");
+    const [profilePicBytes, setProfilePicBytes] = useState(profilePicBytesInit);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (password != passwordConfirm) {
+        if (password && password != passwordConfirm) {
             Swal.fire({
                 text: "Passwords must match!",
                 icon: "error",
@@ -26,84 +35,91 @@ export default function Profile() {
             });
             return;
         }
-        axios.put("/api/passwordreset?password=" + password + "&uuid=" + resetUuid)
+        let formData = new FormData();
+        if (profilePic) {
+            formData.set("profilePic", profilePic);
+        }
+        if (displayName) {
+            formData.set("displayName", displayName);
+        }
+        if (redditUsername) {
+            formData.set("redditUsername", redditUsername);
+        } else {
+            formData.set("redditUsername", "");
+        }
+        if (password) {
+            formData.set("password", password);
+        }
+        formData.set("teams", teams);
+
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        AxiosInstance.put("/api/user", formData, config)
             .then(response => {
                 Swal.fire({
-                    text: "Password reset successfully! Please login now.",
+                    text: "User update successful!",
                     icon: "success",
                     confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate("/login", { replace: true });
-                    }
                 });
             })
             .catch(err => {
-                Swal.fire({
-                    text: err["response"]["data"]["_embedded"]["errors"][0]["message"] || err["message"],
-                    icon: "error",
-                    confirmButtonText: "OK",
-                });
+                console.log(err);
+                if (err.status == 413) {
+                    Swal.fire({
+                        text: "Picture is too large! Please select a picture smaller than 1MB.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                } else {
+                    Swal.fire({
+                        text: err?.response?.data?._embedded?.errors?.[0]?.message || err["message"],
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                }
             });
     };
 
     return (
         <>
-            <style type="text/css">
-                {`
-                body {
-                    background-color: #f5f5f5;
-                }
+            <img width="150" height="150" className="img-thumbnail mb-3" src={profilePicBytes} />
+            <Form onSubmit={handleSubmit}>
 
-                .card {
-                    border-radius: 1rem;
-                    max-width: 25rem;
-                    margin: auto;
-                }
+                <FloatingLabel controlId="floatingDisplayName" label="Display Name" className="mb-2">
+                    <Form.Control required type="text" placeholder="Firstname Lastname" maxLength="18" onChange={(e) => setDisplayName(e.target.value)} value={displayName} />
+                </FloatingLabel>
 
-                #help {
-                    text-decoration: none;
-                    color: black;
-                    display: flex;
-                    justify-content: flex-end;
-                    margin-left: auto;
-                    margin-right: 10px;
-                }
-        `}</style>
-            <img width="150" height="150" class="img-thumbnail mb-3" src="" id="profilePicPreview" />
-            <form name="userUpdate">
-                <div class="mb-3">
-                    <label for="displayName" class="form-label">Display Name</label>
-                    <input required type="text" class="form-control" id="displayName" name="displayName"
-                        placeholder="Firstname Lastname" maxlength="18" />
-                </div>
-                <div class="mb-3">
-                    <label for="profilePic" class="form-label">Profile Pic</label>
-                    <input class="form-control" type="file" id="profilePic" name="profilePic" />
-                </div>
-                <div class="mb-3">
-                    <label for="teams" class="form-label">Teams</label>
-                    <select class="form-select" id="teams" multiple>
+                <FloatingLabel controlId="floatingProfilePic" label="Profile Pic" className="mb-2">
+                    <Form.Control type="file" placeholder="Firstname Lastname" onChange={(e) => {
+                        setProfilePic(e.target.files[0]);
+                        setProfilePicBytes(URL.createObjectURL(e.target.files[0]));
+                    }} />
+                </FloatingLabel>
 
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="redditUsername" class="form-label">Reddit Username</label>
-                    <input type="text" class="form-control" id="redditUsername" name="redditUsername"
-                        placeholder="Reddit Username" maxlength="40" autocomplete="off" />
-                </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="password" placeholder="New Password" name="pass1"
-                        autocomplete="new-password" minlength="8" maxlength="50" />
-                    <label for="password" class="form-label">New Password</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm New Password"
-                        name="pass2" autocomplete="new-password" />
-                    <label for="confirm-password" class="form-label">Confirm New Password</label>
-                </div>
-                <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Update</button>
-            </form>
+                <Form.Label htmlFor="teams">Teams</Form.Label>
+                <Form.Select className="mb-2" aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
+                    {allTeams.map(function (object) {
+                        return <option key={object.id} value={object.id} selected={teams.includes(object.id)}>{object.teamName}</option>;
+                    })}
+                </Form.Select>
+
+                <FloatingLabel controlId="floatingRedditUsername" label="Reddit Username" className="mb-3">
+                    <Form.Control type="text" placeholder="Username" maxLength="40" onChange={(e) => setRedditUsername(e.target.value)} value={redditUsername} />
+                </FloatingLabel>
+
+                <FloatingLabel controlId="floatingPassword" label="New Password" className="mb-1">
+                    <Form.Control type="password" placeholder="Password" minLength="8" maxLength="50" onChange={(e) => setPassword(e.target.value)} />
+                </FloatingLabel>
+
+                <FloatingLabel controlId="floatingPasswordConfirm" label="Confirm New Password" className="mb-2">
+                    <Form.Control type="password" placeholder="Confirm Password" onChange={(e) => setPasswordConfirm(e.target.value)} />
+                </FloatingLabel>
+
+                <Button variant="primary" size="lg" className="w-100 mt-3" type="submit">Update</Button>
+            </Form>
         </>
     );
 }

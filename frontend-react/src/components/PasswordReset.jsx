@@ -40,7 +40,7 @@ export default function PasswordReset() {
             })
             .catch(err => {
                 Swal.fire({
-                    text: err["response"]["data"]["_embedded"]["errors"][0]["message"] || err["message"],
+                    text: err?.response?.data?._embedded?.errors?.[0]?.message || err["message"],
                     icon: "error",
                     confirmButtonText: "OK",
                 });

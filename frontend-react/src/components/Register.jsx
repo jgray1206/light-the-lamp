@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../provider/authProvider";
 import { useState } from "react";
 import axios from 'axios';
 import { useLoaderData } from "react-router-dom";
@@ -12,14 +11,13 @@ import Swal from 'sweetalert2'
 
 export default function Register() {
     const data = useLoaderData();
-    const allTeams = data.data.sort(function (x, y) {
+    const allTeams = data.data.sort((a, b) => a.teamName.localeCompare(b.teamName)).sort(function (x, y) {
         return x.teamName == "Detroit Red Wings"
             ? -1
             : y.teamName == "Detroit Red Wings"
                 ? 1
                 : 0;
     });
-    const { setToken } = useAuth();
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -30,7 +28,14 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        if (password != passwordConfirm) {
+            Swal.fire({
+                text: "Passwords must match!",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+            return;
+        }
         const registerPayload = {
             email: username,
             password: password,
@@ -56,7 +61,7 @@ export default function Register() {
             .catch(err => {
                 console.log(err);
                 Swal.fire({
-                    text: err["response"]["data"]["_embedded"]["errors"][0]["message"] || err["message"],
+                    text: err?.response?.data?._embedded?.errors?.[0]?.message || err["message"],
                     icon: "error",
                     confirmButtonText: "OK",
                 });
@@ -94,11 +99,11 @@ export default function Register() {
                             </FloatingLabel>
 
                             <FloatingLabel controlId="floatingDisplayName" label="Display Name" className="mb-2">
-                                <Form.Control required type="text" placeholder="Firstname Lastname" onChange={(e) => setDisplayName(e.target.value)} />
+                                <Form.Control required type="text" placeholder="Firstname Lastname" maxLength="18" onChange={(e) => setDisplayName(e.target.value)} />
                             </FloatingLabel>
 
                             <FloatingLabel controlId="floatingRedditUsername" label="Reddit Username" className="mb-2">
-                                <Form.Control type="text" placeholder="Username" onChange={(e) => setRedditUsername(e.target.value)} />
+                                <Form.Control type="text" placeholder="Username" maxLength="40" onChange={(e) => setRedditUsername(e.target.value)} />
                             </FloatingLabel>
 
                             <Form.Label htmlFor="teams">Teams</Form.Label>

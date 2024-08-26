@@ -5,6 +5,6 @@ export default function Logout() {
     const { setToken } = useAuth();
     const navigate = useNavigate();
     setToken();
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
 };
 
