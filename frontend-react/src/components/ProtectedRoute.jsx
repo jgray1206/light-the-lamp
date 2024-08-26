@@ -1,5 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
+import Header from './Header'
+import Footer from './Footer'
+import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
 
 export const ProtectedRoute = () => {
     const { token } = useAuth();
@@ -11,5 +15,15 @@ export const ProtectedRoute = () => {
     }
 
     // If authenticated, render the child routes
-    return <Outlet />;
+    return <>
+        <Header />
+        <Container className="p-3">
+            <Card className="shadow">
+                <Card.Body>
+                    <Outlet />
+                </Card.Body>
+            </Card>
+        </Container>
+        <Footer />
+    </>
 };

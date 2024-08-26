@@ -3,8 +3,17 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useAuth } from "../provider/authProvider";
 
 export default function Header() {
+
+    const { token } = useAuth();
+
+    //TODO: hide nav dropdowns based on auth
+    if (!token) {
+        console.log("not authed")
+    }
+
     return (
         <>
             <style type="text/css">
@@ -43,7 +52,7 @@ export default function Header() {
                                 <NavDropdown.Item>About</NavDropdown.Item>
                             </LinkContainer>
 
-                            <LinkContainer to="/logut">
+                            <LinkContainer to="/logout">
                                 <NavDropdown.Item>Logout</NavDropdown.Item>
                             </LinkContainer>
                         </NavDropdown>

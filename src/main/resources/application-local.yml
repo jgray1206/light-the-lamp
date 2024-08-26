@@ -44,5 +44,5 @@ r2dbc:
 #    io.r2dbc: TRACE
 #    io.micronaut.data: TRACE
 ---
-credential.path: ~/credentials.json
-token.path: ~/tokens
+credential.path: /home/jgray1206/credentials.json
+token.path: /home/jgray1206/tokens

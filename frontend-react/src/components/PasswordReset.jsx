@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../provider/authProvider";
 import { useState } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Container from 'react-bootstrap/Container';
@@ -10,44 +9,34 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
 
-export default function Login() {
-    const { setToken } = useAuth();
+export default function PasswordReset() {
+    let [searchParams, setSearchParams] = useSearchParams();
+    const resetUuid = searchParams.get("resetUuid");
     const navigate = useNavigate();
-    const [username, setUsername] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
     const [password, setPassword] = useState("");
-
-    const handlePasswordReset = async () => {
-        axios.post("/api/passwordreset?email=" + username)
-            .then(response => {
-                Swal.fire({
-                    text: "Password reset email sent! Check your email and click the link. If you don't find the email, do check your spam.",
-                    icon: "success",
-                    confirmButtonText: "OK",
-                });
-            })
-            .catch(err => {
-                Swal.fire({
-                    text: err["response"]["data"]["_embedded"]["errors"][0]["message"] || err["message"],
-                    icon: "error",
-                    confirmButtonText: "OK",
-                });
-            });
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const loginPayload = {
-            username: username,
-            password: password
+        if (password != passwordConfirm) {
+            Swal.fire({
+                text: "Passwords must match!",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+            return;
         }
-
-        axios.post("/api/login", loginPayload)
+        axios.put("/api/passwordreset?password=" + password + "&uuid=" + resetUuid)
             .then(response => {
-                console.log(response);
-                const token = response.data.access_token;
-                setToken(token);
-                navigate("/", { replace: true });
+                Swal.fire({
+                    text: "Password reset successfully! Please login now.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate("/login", { replace: true });
+                    }
+                });
             })
             .catch(err => {
                 Swal.fire({
@@ -95,21 +84,15 @@ export default function Login() {
                         </div>
                         <img className="mb-4" src="./logo.png" alt="" height="250" />
                         <Form onSubmit={handleSubmit}>
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="Email address"
-                                className="mb-2"
-                            >
-                                <Form.Control type="email" placeholder="name@example.com" onChange={(e) => setUsername(e.target.value)} />
+
+                            <FloatingLabel controlId="floatingPassword" label="Password" className="mb-2">
+                                <Form.Control required type="password" placeholder="Password" minLength="8" maxLength="50" onChange={(e) => setPassword(e.target.value)} />
                             </FloatingLabel>
-                            <FloatingLabel controlId="floatingPassword" label="Password">
-                                <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+
+                            <FloatingLabel controlId="floatingPasswordConfirm" label="Confirm Password" className="mb-2">
+                                <Form.Control required type="password" placeholder="Confirm Password" onChange={(e) => setPasswordConfirm(e.target.value)} />
                             </FloatingLabel>
-                            <Button variant="secondary" size="lg" className="w-100 mt-3" type="submit">Login</Button>
-                            <Link to="/register">
-                                <Button variant="primary" size="lg" className="w-100 mt-3" id="register">Click Here To Register</Button>
-                            </Link>
-                            <Button variant="none" size="sm" className="w-100 mt-3" id="forgotpassword" onClick={handlePasswordReset}>Forgot Password?</Button>
+                            <Button variant="secondary" size="lg" className="w-100 mt-3" type="submit">Reset Password</Button>
                         </Form>
                     </Card.Body>
                 </Card>
