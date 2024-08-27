@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import About from "./About";
 import Register from "./Register";
 import Login from "./Login";
+import Friends from "./Friends";
 import Logout from "./Logout";
 import Profile from "./Profile";
 import ErrorPage from "./ErrorPage";
@@ -45,6 +46,11 @@ const Routes = () => {
                     }
                 },
                 {
+                    path: "/friends",
+                    element: <Friends />,
+                    loader: async () => { return AxiosInstance.get("/api/user") }
+                },
+                {
                     path: "/logout",
                     element: <Logout />,
                 },
@@ -60,7 +66,7 @@ const Routes = () => {
             element: <Login />,
         },
         {
-            path: "/passwordreset.html",
+            path: "/passwordreset",
             errorElement: <ErrorPage />,
             element: <PasswordReset />,
         },

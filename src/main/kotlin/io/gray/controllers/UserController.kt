@@ -81,7 +81,7 @@ open class UserController(
                             it.redditUsername = userRequest.redditUsername
                             it.confirmationUuid = UUID.randomUUID().toString()
                         }).flatMap { user ->
-                            Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login.html?confirmation=${user.confirmationUuid}") }
+                            Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login?confirmation=${user.confirmationUuid}") }
                                     .thenReturn(user)
                         }
                 ).flatMapMany { user ->

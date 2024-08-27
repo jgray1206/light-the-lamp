@@ -51,7 +51,7 @@ open class PasswordResetController(
                             """
                                 Your password has been reset! The following link will only be active for one hour. Click it to reset the password for this email account.
                                 
-                                https://www.lightthelamp.dev/passwordreset.html?resetUuid=${passwordReset.resetUuid}
+                                https://www.lightthelamp.dev/passwordreset?resetUuid=${passwordReset.resetUuid}
                                 
                                 If you did not request this reset, please respond to this email saying so.
                             """.trimIndent())

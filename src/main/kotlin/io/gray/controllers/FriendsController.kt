@@ -21,8 +21,8 @@ class FriendsController(
     fun deleteFriend(@PathVariable id: Long, principal: Principal): Flux<Long> {
         return userRepository.findByEmail(principal.name).flatMapMany { user ->
             Flux.merge(
-                    friendRepository.findOneByToUserAndFromUser(user.id!!, id),
-                    friendRepository.findOneByToUserAndFromUser(id, user.id!!)
+                    friendRepository.findByToUserAndFromUser(user.id!!, id),
+                    friendRepository.findByToUserAndFromUser(id, user.id!!)
             )
         }.flatMap { friendRepository.delete(it) }
     }

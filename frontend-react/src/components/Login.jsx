@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Container from 'react-bootstrap/Container';
@@ -13,8 +13,30 @@ import Swal from 'sweetalert2'
 export default function Login() {
     const { setToken } = useAuth();
     const navigate = useNavigate();
+    let [searchParams, setSearchParams] = useSearchParams();
+    const confirmationUuid = searchParams.get("confirmation");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        if (confirmationUuid) {
+            axios.get("/api/user/confirm/" + confirmationUuid)
+                .then(response => {
+                    Swal.fire({
+                        text: "Account Confirmed! Please login.",
+                        icon: "success",
+                        confirmButtonText: "OK",
+                    });
+                })
+                .catch(err => {
+                    Swal.fire({
+                        text: err?.response?.data?._embedded?.errors?.[0]?.message || err["message"],
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                });
+        }
+    }, []);
 
     const handlePasswordReset = async () => {
         axios.post("/api/passwordreset?email=" + username)
