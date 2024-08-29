@@ -17,7 +17,7 @@ export const ProtectedRoute = () => {
     // If authenticated, render the child routes
     return <>
         <Header />
-        <Container className="p-3">
+        <Container className="p-2">
             <Card className="shadow">
                 <Card.Body>
                     <Outlet />

@@ -40,7 +40,9 @@ function loadGames() {
           if (this.readyState == 4) {
             if (this.status == 200) {
               const picks = JSON.parse(this.responseText);
-              var picksMap = new Map(picks.map((pick) => [pick.game.id + "-" + pick.team.id, pick]));
+              var picksMap = new Map(
+                picks.map((pick) => [pick.game.id + "-" + pick.team.id, pick])
+              );
               const xhttp3 = new XMLHttpRequest();
               xhttp3.open("GET", "/api/user");
               xhttp3.setRequestHeader(
@@ -212,7 +214,7 @@ function createTable(
       game.date[1] - 1,
       game.date[2],
       game.date[3],
-      game.date[4]+5
+      game.date[4] + 5
     )
   );
   var curDate = new Date();
@@ -220,13 +222,18 @@ function createTable(
   var pickEnabled = pick == undefined && gameDate > curDate;
   var prevPicks = [];
   if (pickEnabled) {
-      prevPicks = sortedGames.slice(sortedGames.indexOf(game)+1,sortedGames.indexOf(game)+3).map((prevGame) => {
+    prevPicks = sortedGames
+      .slice(sortedGames.indexOf(game) + 1, sortedGames.indexOf(game) + 3)
+      .map((prevGame) => {
         return picksMap.get(prevGame.id + "-" + team.id);
       });
-      //todo probably just force people to pick in order instead of this weirdness
-      if (sortedGames.indexOf(game) == 1 && picksMap.get(sortedGames[0].id + "-" + team.id)) {
-        prevPicks.push(picksMap.get(sortedGames[0].id + "-" + team.id));
-      }
+    //todo probably just force people to pick in order instead of this weirdness
+    if (
+      sortedGames.indexOf(game) == 1 &&
+      picksMap.get(sortedGames[0].id + "-" + team.id)
+    ) {
+      prevPicks.push(picksMap.get(sortedGames[0].id + "-" + team.id));
+    }
   }
   var friendPicks = allFriendPicks.filter(
     (pick) => pick.game.id == game.id && pick.team.id == team.id
@@ -374,10 +381,18 @@ function createTable(
         row.insertCell(2).innerHTML = "2/goal<br/>1/assist<br/>*2/shorty";
       }
       var disabled = false;
-      if (prevPicks.map((e) => e?.gamePlayer?.name).includes(nonGoalies[i].name)) {
+      if (
+        prevPicks.map((e) => e?.gamePlayer?.name).includes(nonGoalies[i].name)
+      ) {
         disabled = true;
       }
-      createPickButton(game.id, nonGoalies[i].name, team.id, row.insertCell(3), disabled);
+      createPickButton(
+        game.id,
+        nonGoalies[i].name,
+        team.id,
+        row.insertCell(3),
+        disabled
+      );
     } else {
       var htmlString = "";
       if (nonGoalies[i].position == "Defenseman") {
@@ -458,8 +473,8 @@ function createTable(
     row.insertCell(2).innerHTML = "5/shutout<br/>3/one-or-two GA";
     var disabled = false;
     if (prevPicks.map((e) => e?.goalies).includes(true)) {
-            disabled = true;
-          }
+      disabled = true;
+    }
     createPickButton(game.id, "goalies", team.id, row.insertCell(3), disabled);
   } else {
     var goals =
@@ -499,16 +514,20 @@ function createTable(
     row.insertCell(2).innerHTML = "4/4goals<br/>5/5goals<br/>6/6goals etc";
     var disabled = false;
     if (prevPicks.map((e) => e?.theTeam).includes(true)) {
-            disabled = true;
-          }
+      disabled = true;
+    }
     createPickButton(game.id, "team", team.id, row.insertCell(3), disabled);
   } else {
-    var goals = (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) || 0;
-    var otherTeamGoals = (teamIsAwayOrHome == "away" ? game.homeTeamGoals : game.awayTeamGoals) || 0;
+    var goals =
+      (teamIsAwayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
+      0;
+    var otherTeamGoals =
+      (teamIsAwayOrHome == "away" ? game.homeTeamGoals : game.awayTeamGoals) ||
+      0;
     var htmlString = "";
     var realGoals = goals;
     if (game.isShootout == true && goals > otherTeamGoals) {
-        realGoals--;
+      realGoals--;
     }
     if (realGoals >= 4) {
       htmlString = "<h1>" + realGoals + "</h1></br>";
@@ -517,7 +536,7 @@ function createTable(
     }
     htmlString += "G: " + realGoals;
     if (goals != realGoals) {
-        htmlString += "</br>Shootout Goals: 1"
+      htmlString += "</br>Shootout Goals: 1";
     }
     row.insertCell(2).innerHTML = htmlString;
   }
@@ -569,27 +588,30 @@ function createPickButton(gameId, pick, teamId, cell, disabled) {
   pickButton.type = "button";
   pickButton.textContent = "Pick";
   if (!disabled) {
-      pickButton.className = "btn btn-primary";
-      pickButton.addEventListener(
-        "click",
-        function (e) {
-          doPick(e.target, gameId, pick, teamId);
-        },
-        false
-      );
+    pickButton.className = "btn btn-primary";
+    pickButton.addEventListener(
+      "click",
+      function (e) {
+        doPick(e.target, gameId, pick, teamId);
+      },
+      false
+    );
   } else {
     pickButton.className = "btn btn-secondary";
-      pickButton.addEventListener(
-        "click",
-        function (e) {
-          Swal.fire({
-              text: "Cannot pick " + pick + " again! On cooldown from being picked in one of the previous two games.",
-              icon: "warning",
-              confirmButtonText: "OK"
-            })
-        },
-        false
-      );
+    pickButton.addEventListener(
+      "click",
+      function (e) {
+        Swal.fire({
+          text:
+            "Cannot pick " +
+            pick +
+            " again! On cooldown from being picked in one of the previous two games.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        });
+      },
+      false
+    );
   }
   cell.appendChild(pickButton);
 }

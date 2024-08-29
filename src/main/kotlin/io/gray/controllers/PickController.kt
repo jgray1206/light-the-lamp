@@ -150,7 +150,7 @@ class PickController(
                         }
                     }.then(
                             pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
-                                    pickRepository.save(Pick().also { pickEntity ->
+                                    Mono.defer { pickRepository.save(Pick().also { pickEntity ->
                                         logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
                                         pickEntity.game = game
                                         pickEntity.team = team
@@ -164,7 +164,7 @@ class PickController(
                                         } else {
                                             error("not a valid pick")
                                         }
-                                    })
+                                    }) }
                             ))
         }
     }

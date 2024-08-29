@@ -1,14 +1,17 @@
-export default function Footer() {
+import Container from 'react-bootstrap/Container';
+
+export default function Footer(props) {
     return (
         <>
             <footer className="footer fixed-bottom navbar-dark navbar-bg">
-                <div className="container">
-                    <span className="text-white">Found a bug? <a href="mailto:grayio.lightthelamp@gmail.com">Contact us</a> <a
+                <Container>
+                    <a style={{ color: 'white' }} href="mailto:grayio.lightthelamp@gmail.com">Found a bug?</a>
+                    <a
                         id="kofi-anchor" href='https://ko-fi.com/I2I8OUVUZ' target='_blank'><img height='36' id="kofi-img"
                             src='https://storage.ko-fi.com/cdn/kofi2.png?v=3'
                             border='0'
-                            alt="Increase your NHL team's karma" /></a></span>
-                </div>
+                            alt="Increase your NHL team's karma" /></a>
+                </Container>
             </footer >
         </>
     );

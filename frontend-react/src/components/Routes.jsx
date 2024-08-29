@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import About from "./About";
@@ -10,9 +11,14 @@ import Profile from "./Profile";
 import ErrorPage from "./ErrorPage";
 import AxiosInstance from "../provider/axiosProvider";
 import PasswordReset from "./PasswordReset";
+import Leaderboard from "./Leaderboard";
+import Picks from "./Picks";
 
 const Routes = () => {
     const { token } = useAuth();
+    const [season, setSeason] = useState("202401");
+    const [maxGames, setMaxGames] = useState(5);
+    const [leaderboardTab, setLeaderboardTab] = useState("friends");
 
     // Define public routes accessible to all users
     const routesForPublic = [
@@ -28,7 +34,7 @@ const Routes = () => {
         {
             path: "/",
             errorElement: <ErrorPage />,
-            element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+            element: <ProtectedRoute />,
             children: [
                 {
                     path: "/",
@@ -53,6 +59,35 @@ const Routes = () => {
                 {
                     path: "/logout",
                     element: <Logout />,
+                },
+                {
+                    path: "/leaderboard",
+                    element: <Leaderboard setSeason={setSeason}
+                        getSeason={season}
+                        leaderboardTab={leaderboardTab}
+                        setLeaderboardTab={setLeaderboardTab} />,
+                    loader: async () => {
+                        if (leaderboardTab == "friends") {
+                            return AxiosInstance.get("/api/pick/friends-and-self?season=" + season);
+                        } else if (leaderboardTab == "reddit") {
+                            return AxiosInstance.get("/api/pick/reddit?season=" + season);
+                        } else {
+                            return AxiosInstance.get("/api/pick?season=" + season);
+                        }
+                    }
+                },
+                {
+                    path: "/picks",
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
+                    loader: async () => {
+                        const [user, games, myPicks, friendsPicks] = await Promise.all([
+                            AxiosInstance.get("/api/user"),
+                            AxiosInstance.get("/api/game/user?season=" + season + "&maxGames=" + maxGames),
+                            AxiosInstance.get("/api/pick/user?season=" + season),
+                            AxiosInstance.get("/api/pick/friends?season=" + season),
+                        ]);
+                        return { user, games, myPicks, friendsPicks };
+                    }
                 },
             ],
         },

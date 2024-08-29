@@ -20,7 +20,8 @@ const AuthProvider = ({ children }) => {
   };
 
   AxiosInstance.interceptors.response.use((response) => response, (error) => {
-    if (error.response.status === 401) {
+    console.log(error);
+    if (error.response?.status === 401) {
       setToken("");
       localStorage.removeItem('token');
       delete AxiosInstance.defaults.headers.common["Authorization"];
@@ -38,11 +39,40 @@ const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const getIdFromJwt = () => {
+    if (token === undefined || !token) {
+      return -1;
+    }
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload)['id'];
+  };
+
+  const isAdmin = () => {
+    if (token === undefined || !token) {
+      return false;
+    }
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload)['roles'].includes("admin");
+  };
+
+
   // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({
       token,
       setToken,
+      getIdFromJwt,
+      isAdmin
     }),
     [token]
   );

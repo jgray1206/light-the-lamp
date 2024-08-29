@@ -5,20 +5,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useAuth } from "../provider/authProvider";
 
-export default function Header() {
-
-    const { token } = useAuth();
-
-    //TODO: hide nav dropdowns based on auth
-    if (!token) {
-        console.log("not authed")
-    }
+export default function Header(props) {
+    const { isAdmin } = useAuth();
 
     return (
         <>
             <style type="text/css">
                 {`
-    #basic-nav-dropdown {
+    #basic-nav-dropdown, #collapsible-nav-dropdown {
       font-size: 1.25rem;
       border-radius: .3rem;
       color: white;
@@ -30,8 +24,8 @@ export default function Header() {
             </style>
             <Navbar expand="lg" className="navbar-bg">
                 <Container>
-                    <LinkContainer to='/'>
-                        <Navbar.Brand><img src="./logo.png" width="100" height="100" alt="" /></Navbar.Brand>
+                    <LinkContainer to='/picks'>
+                        <Navbar.Brand><img src="./logo.png" width="85" height="85" alt="" /></Navbar.Brand>
                     </LinkContainer>
                     <Nav>
                         <NavDropdown align="end" title="Menu" id="basic-nav-dropdown">
@@ -42,6 +36,10 @@ export default function Header() {
                             <LinkContainer to="/leaderboard">
                                 <NavDropdown.Item>Leaderboard</NavDropdown.Item>
                             </LinkContainer>
+
+                            {isAdmin() && <LinkContainer to="/announcers">
+                                <NavDropdown.Item>Announcers</NavDropdown.Item>
+                            </LinkContainer>}
 
                             <LinkContainer to="/friends">
                                 <NavDropdown.Item>Friends</NavDropdown.Item>
