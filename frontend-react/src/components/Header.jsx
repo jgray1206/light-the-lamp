@@ -24,12 +24,12 @@ export default function Header(props) {
             </style>
             <Navbar expand="lg" className="navbar-bg">
                 <Container>
-                    <LinkContainer to='/picks'>
+                    <LinkContainer to='/'>
                         <Navbar.Brand><img src="./logo.png" width="85" height="85" alt="" /></Navbar.Brand>
                     </LinkContainer>
                     <Nav>
                         <NavDropdown align="end" title="Menu" id="basic-nav-dropdown">
-                            <LinkContainer to="/picks">
+                            <LinkContainer to="/">
                                 <NavDropdown.Item>Picks</NavDropdown.Item>
                             </LinkContainer>
 

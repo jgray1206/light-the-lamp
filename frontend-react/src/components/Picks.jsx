@@ -428,7 +428,7 @@ function doPick(gameId, teamId, row, navigate) {
         if (result["isConfirmed"]) {
             AxiosInstance.post("/api/pick/user?gameId=" + gameId + "&pick=" + row.name + "&teamId=" + teamId)
                 .then(response => {
-                    navigate('/picks', { replace: true });
+                    navigate('/', { replace: true });
                 })
                 .catch(err => {
                     console.log(err)

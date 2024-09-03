@@ -38,7 +38,16 @@ const Routes = () => {
             children: [
                 {
                     path: "/",
-                    element: <div>User Home Page</div>,
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
+                    loader: async () => {
+                        const [user, games, myPicks, friendsPicks] = await Promise.all([
+                            AxiosInstance.get("/api/user"),
+                            AxiosInstance.get("/api/game/user?season=" + season + "&maxGames=" + maxGames),
+                            AxiosInstance.get("/api/pick/user?season=" + season),
+                            AxiosInstance.get("/api/pick/friends?season=" + season),
+                        ]);
+                        return { user, games, myPicks, friendsPicks };
+                    }
                 },
                 {
                     path: "/profile",
@@ -75,20 +84,7 @@ const Routes = () => {
                             return AxiosInstance.get("/api/pick?season=" + season);
                         }
                     }
-                },
-                {
-                    path: "/picks",
-                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
-                    loader: async () => {
-                        const [user, games, myPicks, friendsPicks] = await Promise.all([
-                            AxiosInstance.get("/api/user"),
-                            AxiosInstance.get("/api/game/user?season=" + season + "&maxGames=" + maxGames),
-                            AxiosInstance.get("/api/pick/user?season=" + season),
-                            AxiosInstance.get("/api/pick/friends?season=" + season),
-                        ]);
-                        return { user, games, myPicks, friendsPicks };
-                    }
-                },
+                }
             ],
         },
     ];
