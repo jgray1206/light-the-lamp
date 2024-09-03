@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AxiosInstance = axios.create({
-    baseURL: "https://lightthelamp.dev",
+    baseURL: process.env.REACT_APP_SERVER_URL,
     timeout: 10000
 });
 export default AxiosInstance;
