@@ -360,7 +360,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                                     <figure>
                                         {
                                             row.imgSrcs && row.imgSrcs.split(",")?.map(function (imgSrc) {
-                                                return <img width="90" height="90" class="rounded-circle img-thumbnail" src={imgSrc} onError={({ currentTarget }) => currentTarget.src = "./shrug.png"} />
+                                                return <img width="90" height="90" className="rounded-circle img-thumbnail" src={imgSrc} onError={({ currentTarget }) => currentTarget.src = "./shrug.png"} />
                                             })
                                         }
                                         <figcaption>{row.displayName}</figcaption></figure>
@@ -371,7 +371,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                                             row.friendPicks?.map(function (friend) {
                                                 if (friend.id) {
                                                     return <>
-                                                        <img width="30" height="30" class="rounded-circle" style={{ marginBottom: "1px", marginRight: "3px" }} src={pics.get(friend.id)} /><span style={{ fontSize: "14px" }}>{friend.name}</span><br />
+                                                        <img width="30" height="30" className="rounded-circle" style={{ marginBottom: "1px", marginRight: "3px" }} src={pics.get(friend.id)} /><span style={{ fontSize: "14px" }}>{friend.name}</span><br />
                                                     </>
                                                 } else {
                                                     return <>

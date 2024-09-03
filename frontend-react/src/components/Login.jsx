@@ -9,9 +9,10 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
+import AxiosInstance from "../provider/axiosProvider";
 
 export default function Login() {
-    const { setToken } = useAuth();
+    const { token, setToken } = useAuth();
     const navigate = useNavigate();
     let [searchParams, setSearchParams] = useSearchParams();
     const confirmationUuid = searchParams.get("confirmation");
@@ -37,6 +38,12 @@ export default function Login() {
                 });
         }
     }, []);
+
+    useEffect(() => {
+        if (token) {
+            navigate("/", { replace: true });
+        }
+    }, [token]);
 
     const handlePasswordReset = async () => {
         axios.post("/api/passwordreset?email=" + username)
@@ -68,8 +75,9 @@ export default function Login() {
             .then(response => {
                 console.log(response);
                 const token = response.data.access_token;
+                AxiosInstance.defaults.headers.common["Authorization"] = "Bearer " + token;
+                localStorage.setItem('token', token);
                 setToken(token);
-                navigate("/", { replace: true });
             })
             .catch(err => {
                 Swal.fire({

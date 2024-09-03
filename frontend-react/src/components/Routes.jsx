@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import About from "./About";
@@ -22,6 +22,11 @@ const Routes = () => {
 
     // Define public routes accessible to all users
     const routesForPublic = [
+        {
+            path: "/login",
+            errorElement: <ErrorPage />,
+            element: <Login />,
+        },
         {
             path: "/about",
             errorElement: <ErrorPage />,
@@ -91,11 +96,6 @@ const Routes = () => {
 
     // Define routes accessible only to non-authenticated users
     const routesForNotAuthenticatedOnly = [
-        {
-            path: "/login",
-            errorElement: <ErrorPage />,
-            element: <Login />,
-        },
         {
             path: "/passwordreset",
             errorElement: <ErrorPage />,
