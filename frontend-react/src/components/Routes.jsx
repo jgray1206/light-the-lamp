@@ -13,6 +13,7 @@ import AxiosInstance from "../provider/axiosProvider";
 import PasswordReset from "./PasswordReset";
 import Leaderboard from "./Leaderboard";
 import Picks from "./Picks";
+import Announcers from "./Announcers";
 
 const Routes = () => {
     const { token } = useAuth();
@@ -43,7 +44,7 @@ const Routes = () => {
             children: [
                 {
                     path: "/",
-                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} announcers={false} />,
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
                     loader: async () => {
                         const [user, games, myPicks, friendsPicks] = await Promise.all([
                             AxiosInstance.get("/api/user"),
@@ -56,14 +57,14 @@ const Routes = () => {
                 },
                 {
                     path: "/announcers",
-                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} announcers={true} />,
+                    element: <Announcers setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
                     loader: async () => {
-                        const [games, myPicks, announcers] = await Promise.all([
+                        const [games, picks, announcers] = await Promise.all([
                             AxiosInstance.get("/api/game/announcers?season=" + season + "&maxGames=" + maxGames),
                             AxiosInstance.get("/api/pick/announcer?season=" + season),
                             AxiosInstance.get("/api/announcers"),
                         ]);
-                        return { games, myPicks, announcers };
+                        return { games, picks, announcers };
                     }
                 },
                 {

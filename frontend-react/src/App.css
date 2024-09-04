@@ -10,7 +10,7 @@
 }
 
 button.nav-link  {
-  color: #6c757d !important;
+  color: #6c757d;
   white-space: pre;
 }
 
@@ -28,8 +28,7 @@ button.nav-link  {
 }
 
 #kofi-img {
-  border:0px;
-  height:32px;
+  padding: .15rem !important;
 }
 
 figure {

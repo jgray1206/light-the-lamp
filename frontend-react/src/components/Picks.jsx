@@ -98,7 +98,7 @@ export default function Picks(props) {
                                     })
                                 }
                                 {
-                                    gamesByTeamMap[team.id]?.length == props.maxGames && <Tab className="text-secondary" eventKey={team.id + "moregames"} title={"Load More\nGames"} key={team.id + "moregames"} />
+                                    gamesByTeamMap[team.id]?.length == props.maxGames && <Tab tabClassName="text-secondary" eventKey={team.id + "moregames"} title={"Load More\nGames"} key={team.id + "moregames"} />
                                 }
                             </Tabs>
                         </Tab>;
@@ -147,7 +147,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
     const pickEnabled = pick == undefined && gameDate > curDate;
     var rows = [];
     var gamePlayers = game.players.filter((player) => player.team.id == team.id);
-    pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick);
+    pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap);
     pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game);
     pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlayerMap, game);
     rows.sort((a, b) =>
@@ -175,7 +175,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
     } else {
         classString = "text-secondary";
     }
-    return <Tab className={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
+    return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
         <Table responsive hover>
             <thead><tr><th>Player</th>{(!pickEnabled || (pickEnabled && !hideFriendsPick)) && <th>Friends</th>}<th>Points</th>{pickEnabled && <th>Pick</th>}</tr></thead>
             <tbody>
@@ -313,7 +313,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
             'lastGameToi': '',
             'picked': pick && pick.goalies != undefined,
             'disabled': prevPicks.map((e) => e?.goalies).includes(true),
-            'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["thegoaliesTeam"]?.map((friend) => {
+            'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["goalies"]?.map((friend) => {
                 if (friend.user) {
                     return { 'name': friend.user.displayName, 'id': friend.user.id };
                 } else {
