@@ -43,7 +43,7 @@ const Routes = () => {
             children: [
                 {
                     path: "/",
-                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} announcers={false} />,
                     loader: async () => {
                         const [user, games, myPicks, friendsPicks] = await Promise.all([
                             AxiosInstance.get("/api/user"),
@@ -52,6 +52,18 @@ const Routes = () => {
                             AxiosInstance.get("/api/pick/friends?season=" + season),
                         ]);
                         return { user, games, myPicks, friendsPicks };
+                    }
+                },
+                {
+                    path: "/announcers",
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} announcers={true} />,
+                    loader: async () => {
+                        const [games, myPicks, announcers] = await Promise.all([
+                            AxiosInstance.get("/api/game/announcers?season=" + season + "&maxGames=" + maxGames),
+                            AxiosInstance.get("/api/pick/announcer?season=" + season),
+                            AxiosInstance.get("/api/announcers"),
+                        ]);
+                        return { games, myPicks, announcers };
                     }
                 },
                 {

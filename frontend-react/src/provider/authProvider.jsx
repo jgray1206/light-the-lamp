@@ -16,6 +16,13 @@ const AuthProvider = ({ children }) => {
 
   // Function to set the authentication token
   const setToken = (newToken) => {
+    if (newToken) {
+      AxiosInstance.defaults.headers.common["Authorization"] = "Bearer " + newToken;
+      localStorage.setItem('token', newToken);
+    } else {
+      delete AxiosInstance.defaults.headers.common["Authorization"];
+      localStorage.removeItem('token')
+    }
     setToken_(newToken);
   };
 
@@ -23,21 +30,9 @@ const AuthProvider = ({ children }) => {
     console.log(error);
     if (error.response?.status === 401) {
       setToken("");
-      localStorage.removeItem('token');
-      delete AxiosInstance.defaults.headers.common["Authorization"];
       window.location = '/login';
     }
   });
-
-  useEffect(() => {
-    if (token) {
-      AxiosInstance.defaults.headers.common["Authorization"] = "Bearer " + token;
-      localStorage.setItem('token', token);
-    } else {
-      delete AxiosInstance.defaults.headers.common["Authorization"];
-      localStorage.removeItem('token')
-    }
-  }, [token]);
 
   const getIdFromJwt = () => {
     if (token === undefined || !token) {

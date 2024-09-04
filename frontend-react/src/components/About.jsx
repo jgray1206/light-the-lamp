@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 export default function About() {
   return <>
     <Header />
-    <Container className="p-3">
+    <Container className="p-2">
       <Card className="shadow">
         <Card.Body>
           <h1>Light the Lamp</h1>

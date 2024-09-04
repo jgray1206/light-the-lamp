@@ -109,7 +109,7 @@ export default function Picks(props) {
     </>;
 }
 
-function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, navigate, prevPicks) {
+function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, navigate, prevPicks, friendPicksByPlayerMap) {
     var pick = picksMap.get(game.id + "-" + team.id);
     var friendsPicksForGame = friendsPicksMap[game.id + "-" + team.id];
     var friendPicksByPlayerMap = friendsPicksForGame?.reduce(
@@ -145,6 +145,16 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
         )
     );
     const pickEnabled = pick == undefined && gameDate > curDate;
+    var rows = [];
+    var gamePlayers = game.players.filter((player) => player.team.id == team.id);
+    pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick);
+    pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game);
+    pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlayerMap, game);
+    rows.sort((a, b) =>
+        a.picked ? -1
+            : 1
+    );
+
     var gameStringShort =
         gameDate.getMonth() +
         1 +
@@ -152,8 +162,172 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
         gameDate.getDate() +
         "/" +
         gameDate.getFullYear();
-    var rows = [];
-    var gamePlayers = game.players.filter((player) => player.team.id == team.id);
+    if (game.awayOrHome == "away") {
+        gameStringShort += "\n@ " + game.homeTeam.shortName;
+    } else {
+        gameStringShort += "\nv " + game.awayTeam.shortName;
+    }
+    let classString = "";
+    if (pick && game.gameState != "Final") {
+        classString = "text-danger";
+    } else if (pickEnabled && game.gameState != "Final") {
+        classString = "text-success";
+    } else {
+        classString = "text-secondary";
+    }
+    return <Tab className={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
+        <Table responsive hover>
+            <thead><tr><th>Player</th>{(!pickEnabled || (pickEnabled && !hideFriendsPick)) && <th>Friends</th>}<th>Points</th>{pickEnabled && <th>Pick</th>}</tr></thead>
+            <tbody>
+                {
+                    rows.map(function (row) {
+                        return <>
+                            <tr key={game.id + "-" + row.name} className={row.picked ? "table-danger" : (pickEnabled && (row.lastGameToi == undefined || row.lastGameToi == "0:00")) ? "table-warning" : undefined}>
+                                <td>
+                                    <figure>
+                                        {
+                                            row.imgSrcs && row.imgSrcs.split(",")?.map(function (imgSrc) {
+                                                return <img key={game.id + imgSrc} width="90" height="90" className="rounded-circle img-thumbnail" src={imgSrc} onError={({ currentTarget }) => currentTarget.src = "./shrug.png"} />
+                                            })
+                                        }
+                                        <figcaption>{row.displayName}</figcaption></figure>
+                                </td>
+                                {(!pickEnabled || (pickEnabled && !hideFriendsPick)) &&
+                                    <td>
+                                        {
+                                            row.friendPicks?.map(function (friend) {
+                                                if (friend.id) {
+                                                    return <>
+                                                        <div key={game.id + "-" + friend.id}>
+                                                            <img width="30" height="30" className="rounded-circle" style={{ marginBottom: "1px", marginRight: "3px" }} src={pics.get(friend.id)} /><span style={{ fontSize: "14px" }}>{friend.name}</span><br />
+                                                        </div>
+                                                    </>
+                                                } else {
+                                                    return <>
+                                                        <div key={game.id + "-" + friend.name} >
+                                                            <span style={{ fontSize: "13px" }}>{friend.name}</span><br />
+                                                        </div>
+                                                    </>
+                                                }
+                                            })
+                                        }
+                                    </td>
+                                }
+                                <td>{!pickEnabled && <><h1>{row.points}</h1><br /></>}<span style={{ whiteSpace: "pre" }}>{row.pointsCellText}</span><br /></td>
+                                {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'} onClick={() => doPick(game.id, team.id, row, navigate)}>Pick</Button></td>}
+                            </tr>
+                        </>
+                    }
+                    )
+                }
+            </tbody>
+        </Table>
+    </Tab>;
+}
+
+function pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlayerMap, game) {
+    let teamPoints = 0
+    let teamPointsCellText = ""
+    if (pickEnabled) {
+        teamPointsCellText = "4/4goals\n5/5goals\n6/6goals etc";
+    } else {
+        var goals =
+            (game.awayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
+            0;
+        var otherTeamGoals =
+            (game.awayOrHome == "away" ? game.homeTeamGoals : game.awayTeamGoals) ||
+            0;
+        var realGoals = goals;
+        if (game.isShootout == true && goals > otherTeamGoals) {
+            realGoals--;
+        }
+        if (realGoals >= 4) {
+            teamPoints = realGoals;
+        } else {
+            teamPoints = 0;
+        }
+        teamPointsCellText += "G: " + realGoals;
+        if (goals != realGoals) {
+            teamPointsCellText += "\nSO Goals: 1";
+        }
+    }
+    rows.push(
+        {
+            'name': "team",
+            'displayName': "The " + team.teamName + "!",
+            'points': teamPoints,
+            'lastGameToi': '',
+            'pointsCellText': teamPointsCellText,
+            'picked': pick && pick.theTeam != undefined,
+            'disabled': prevPicks.map((e) => e?.theTeam).includes(true),
+            'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["theTeam"]?.map((friend) => {
+                if (friend.user) {
+                    return { 'name': friend.user.displayName, 'id': friend.user.id };
+                } else {
+                    return { 'name': friend.announcer?.nickname };
+                }
+            }).sort((a, b) =>
+                a.id == undefined ? -1
+                    : 1
+            )
+        }
+    )
+}
+
+function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game) {
+    var goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
+        .reduce(
+            (accumulator, player) => accumulator + "https://assets.nhle.com/mugs/nhl/" +
+                seasonImgText +
+                "/" +
+                team.abbreviation +
+                "/" +
+                player.id.playerId +
+                ".png,",
+            "",
+        ).replace(/,$/, "");
+    let points = 0
+    let pointsCellText = ""
+    if (pickEnabled) {
+        pointsCellText = "5/shutout\n3/one-or-two GA";
+    } else {
+        const goals =
+            (game.awayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
+            0;
+        if (goals > 2) {
+            points = 0;
+        } else if (goals > 0) {
+            points = 3;
+        } else {
+            points = 5;
+        }
+        pointsCellText += "GA: " + goals;
+    }
+    rows.push(
+        {
+            'name': "goalies",
+            'displayName': "The Goalies",
+            'points': points,
+            'pointsCellText': pointsCellText,
+            'imgSrcs': goaliesPics,
+            'lastGameToi': '',
+            'picked': pick && pick.goalies != undefined,
+            'disabled': prevPicks.map((e) => e?.goalies).includes(true),
+            'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["thegoaliesTeam"]?.map((friend) => {
+                if (friend.user) {
+                    return { 'name': friend.user.displayName, 'id': friend.user.id };
+                } else {
+                    return { 'name': friend.announcer?.nickname };
+                }
+            }).sort((a, b) =>
+                a.id == undefined ? -1
+                    : 1
+            )
+        }
+    )
+}
+
+function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap) {
     gamePlayers.filter((player) => player.position != "Goalie")
         .sort((a, b) =>
             a.name.split(" ").reverse().join(",") >
@@ -234,164 +408,6 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                 }
             )
         });
-    var goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
-        .reduce(
-            (accumulator, player) => accumulator + "https://assets.nhle.com/mugs/nhl/" +
-                seasonImgText +
-                "/" +
-                team.abbreviation +
-                "/" +
-                player.id.playerId +
-                ".png,",
-            "",
-        ).replace(/,$/, "");
-    let points = 0
-    let pointsCellText = ""
-    if (pickEnabled) {
-        pointsCellText = "5/shutout\n3/one-or-two GA";
-    } else {
-        const goals =
-            (game.awayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
-            0;
-        if (goals > 2) {
-            points = 0;
-        } else if (goals > 0) {
-            points = 3;
-        } else {
-            points = 5;
-        }
-        pointsCellText += "GA: " + goals;
-    }
-    rows.push(
-        {
-            'name': "goalies",
-            'displayName': "The Goalies",
-            'points': points,
-            'pointsCellText': pointsCellText,
-            'imgSrcs': goaliesPics,
-            'lastGameToi': '',
-            'picked': pick && pick.goalies != undefined,
-            'disabled': prevPicks.map((e) => e?.goalies).includes(true),
-            'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["thegoaliesTeam"]?.map((friend) => {
-                if (friend.user) {
-                    return { 'name': friend.user.displayName, 'id': friend.user.id };
-                } else {
-                    return { 'name': friend.announcer?.nickname };
-                }
-            }).sort((a, b) =>
-                a.id == undefined ? -1
-                    : 1
-            )
-        }
-    )
-
-    let teamPoints = 0
-    let teamPointsCellText = ""
-    if (pickEnabled) {
-        teamPointsCellText = "4/4goals\n5/5goals\n6/6goals etc";
-    } else {
-        var goals =
-            (game.awayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
-            0;
-        var otherTeamGoals =
-            (game.awayOrHome == "away" ? game.homeTeamGoals : game.awayTeamGoals) ||
-            0;
-        var realGoals = goals;
-        if (game.isShootout == true && goals > otherTeamGoals) {
-            realGoals--;
-        }
-        if (realGoals >= 4) {
-            teamPoints = realGoals;
-        } else {
-            teamPoints = 0;
-        }
-        teamPointsCellText += "G: " + realGoals;
-        if (goals != realGoals) {
-            teamPointsCellText += "\nSO Goals: 1";
-        }
-    }
-    rows.push(
-        {
-            'name': "team",
-            'displayName': "The " + team.teamName + "!",
-            'points': teamPoints,
-            'lastGameToi': '',
-            'pointsCellText': teamPointsCellText,
-            'picked': pick && pick.theTeam != undefined,
-            'disabled': prevPicks.map((e) => e?.theTeam).includes(true),
-            'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["theTeam"]?.map((friend) => {
-                if (friend.user) {
-                    return { 'name': friend.user.displayName, 'id': friend.user.id };
-                } else {
-                    return { 'name': friend.announcer?.nickname };
-                }
-            }).sort((a, b) =>
-                a.id == undefined ? -1
-                    : 1
-            )
-        }
-    )
-    rows.sort((a, b) =>
-        a.picked ? -1
-            : 1
-    );
-    if (game.awayOrHome == "away") {
-        gameStringShort += "\n@ " + game.homeTeam.shortName;
-    } else {
-        gameStringShort += "\nv " + game.awayTeam.shortName;
-    }
-    let classString = "";
-    if (pick && game.gameState != "Final") {
-        classString = "text-danger";
-    } else if (pickEnabled && game.gameState != "Final") {
-        classString = "text-success";
-    } else {
-        classString = "text-secondary";
-    }
-    return <Tab className={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
-        <Table responsive hover>
-            <thead><tr><th>Player</th>{(!pickEnabled || (pickEnabled && !hideFriendsPick)) && <th>Friends</th>}<th>Points</th>{pickEnabled && <th>Pick</th>}</tr></thead>
-            <tbody>
-                {
-                    rows.map(function (row) {
-                        return <>
-                            <tr className={row.picked ? "table-danger" : (pickEnabled && (row.lastGameToi == undefined || row.lastGameToi == "0:00")) ? "table-warning" : undefined}>
-                                <td>
-                                    <figure>
-                                        {
-                                            row.imgSrcs && row.imgSrcs.split(",")?.map(function (imgSrc) {
-                                                return <img width="90" height="90" className="rounded-circle img-thumbnail" src={imgSrc} onError={({ currentTarget }) => currentTarget.src = "./shrug.png"} />
-                                            })
-                                        }
-                                        <figcaption>{row.displayName}</figcaption></figure>
-                                </td>
-                                {(!pickEnabled || (pickEnabled && !hideFriendsPick)) &&
-                                    <td>
-                                        {
-                                            row.friendPicks?.map(function (friend) {
-                                                if (friend.id) {
-                                                    return <>
-                                                        <img width="30" height="30" className="rounded-circle" style={{ marginBottom: "1px", marginRight: "3px" }} src={pics.get(friend.id)} /><span style={{ fontSize: "14px" }}>{friend.name}</span><br />
-                                                    </>
-                                                } else {
-                                                    return <>
-                                                        <span style={{ fontSize: "13px" }}>{friend.name}</span><br />
-                                                    </>
-                                                }
-                                            })
-                                        }
-                                    </td>
-                                }
-                                <td>{!pickEnabled && <><h1>{row.points}</h1><br /></>}<span style={{ whiteSpace: "pre" }}>{row.pointsCellText}</span><br /></td>
-                                {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'} onClick={() => doPick(game.id, team.id, row, navigate)}>Pick</Button></td>}
-                            </tr>
-                        </>
-                    }
-                    )
-                }
-            </tbody>
-        </Table>
-    </Tab>;
 }
 
 function doPick(gameId, teamId, row, navigate) {

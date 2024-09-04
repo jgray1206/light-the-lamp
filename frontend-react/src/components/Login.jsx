@@ -75,8 +75,6 @@ export default function Login() {
             .then(response => {
                 console.log(response);
                 const token = response.data.access_token;
-                AxiosInstance.defaults.headers.common["Authorization"] = "Bearer " + token;
-                localStorage.setItem('token', token);
                 setToken(token);
             })
             .catch(err => {
