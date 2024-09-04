@@ -1,4 +1,2 @@
-1. aggregate/parallelize networks calls
-2. save activeGame for main pick html
-3. reschedule logic
-4. resend confirmation email
+1. reschedule logic
+2. resend confirmation email

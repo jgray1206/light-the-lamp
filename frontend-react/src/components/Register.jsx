@@ -107,7 +107,7 @@ export default function Register() {
                             </FloatingLabel>
 
                             <Form.Label htmlFor="teams">Teams</Form.Label>
-                            <Form.Select aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
+                            <Form.Select required aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
                                 {allTeams.map(function (object) {
                                     return <option key={object.id} value={object.id}>{object.teamName}</option>;
                                 })}
