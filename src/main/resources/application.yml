@@ -8,7 +8,7 @@ micronaut:
     token:
       generator:
         access-token:
-          expiration: 604800
+          expiration: 2678000
       jwt:
         signatures:
           secret:
