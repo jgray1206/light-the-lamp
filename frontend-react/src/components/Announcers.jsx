@@ -1,5 +1,5 @@
 import AxiosInstance from '../provider/axiosProvider';
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -12,6 +12,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 export default function Announcers(props) {
     const response = useLoaderData();
+    const navigate = useNavigate();
     const games = response.games.data.sort((a, b) => b.id - a.id);
     const announcers = response.announcers.data;
     const picks = response.picks.data;
@@ -72,7 +73,7 @@ export default function Announcers(props) {
 
                                 {
                                     gamesByTeamMap[team.id]?.map((game) => {
-                                        return picksTable(game, team, picksMap, teamGroupedAnnouncers[team.id]);
+                                        return picksTable(game, team, picksMap, teamGroupedAnnouncers[team.id], navigate);
                                     })
                                 }
                                 {
@@ -87,9 +88,8 @@ export default function Announcers(props) {
     </>;
 }
 
-function picksTable(game, team, picksMap, announcers) {
+function picksTable(game, team, picksMap, announcers, navigate) {
     var picks = picksMap[game.id + "-" + team.id];
-    const [numPicks, setNumPicks] = useState(picks?.length ? picks.length : 0);
     game.awayOrHome = game.awayTeam.id == team.id ? "away" : "home";
     var gameDate = new Date(
         Date.UTC(
@@ -122,7 +122,7 @@ function picksTable(game, team, picksMap, announcers) {
         gameStringShort += "\nv " + game.awayTeam.shortName;
     }
     let classString = "text-success";
-    if (numPicks == announcers.length) {
+    if (picks?.length == announcers.length) {
         classString = "text-secondary";
     }
     return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
@@ -150,13 +150,10 @@ function picksTable(game, team, picksMap, announcers) {
                                     <Typeahead
                                         id={game.id + "-" + announcer.id}
                                         onChange={(selected) => {
-                                            console.log(selected);
                                             if (selected.length > 0) {
-                                                setNumPicks(numPicks + 1);
-                                                doPick(game.id, announcer, selected[0]);
+                                                doPick(game.id, announcer, selected[0], navigate);
                                             } else {
-                                                setNumPicks(numPicks - 1);
-                                                deletePick(game.id, announcer);
+                                                deletePick(game.id, announcer, navigate);
                                             }
                                         }}
                                         options={opts}
@@ -173,8 +170,9 @@ function picksTable(game, team, picksMap, announcers) {
     </Tab>;
 }
 
-function doPick(gameId, announcer, pick) {
+function doPick(gameId, announcer, pick, navigate) {
     AxiosInstance.post("/api/pick/announcer?gameId=" + gameId + "&pick=" + pick + "&announcerId=" + announcer.id)
+        .then(() => navigate("/announcers", { replace: true }))
         .catch(err => {
             console.log(err)
             Swal.fire({
@@ -185,8 +183,9 @@ function doPick(gameId, announcer, pick) {
         });
 }
 
-function deletePick(gameId, announcer) {
+function deletePick(gameId, announcer, navigate) {
     AxiosInstance.delete("/api/pick/announcer?gameId=" + gameId + "&announcerId=" + announcer.id)
+        .then(() => navigate("/announcers", { replace: true }))
         .catch(err => {
             console.log(err)
             Swal.fire({
