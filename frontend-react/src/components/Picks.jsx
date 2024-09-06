@@ -33,6 +33,9 @@ export default function Picks(props) {
     );
     const friendsPicks = response.friendsPicks.data;
     const [pics, setPics] = useState(new Map());
+    const activeTeam = getActiveTeam(teams, games);
+    const [team, setTeam] = useState(activeTeam);
+    const [game, setGame] = useState(getActiveGame(gamesByTeamMap[activeTeam]) + "-" + activeTeam);
     const friendsPicksMap = friendsPicks?.reduce(
         (acc, obj) => (
             (acc[obj.game.id + "-" + obj.team.id] =
@@ -41,6 +44,12 @@ export default function Picks(props) {
         ),
         {}
     );
+
+    useEffect(() => {
+        const activeTeam = getActiveTeam(teams, games);
+        setTeam(activeTeam);
+        setGame(getActiveGame(gamesByTeamMap[activeTeam]) + "-" + activeTeam);
+    }, [teams, games]);
 
     useEffect(() => {
         async function fetchPics() {
@@ -74,7 +83,10 @@ export default function Picks(props) {
             <h2>No games yet! Either there are no games for this season yet, or you have not joined any teams. Please check your profile settings.</h2> :
             <Tabs
                 id="team-tabs"
-                className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
+                className="mb-3 flex-nowrap text-nowrap"
+                style={{ overflowX: 'auto', overflowY: 'hidden' }}
+                activeKey={team}
+                onSelect={(k) => { setTeam(k); setGame(getActiveGame(gamesByTeamMap[k]) + "-" + k); }}
             >
                 {teams.map(function (team) {
                     if (gamesByTeamMap[team.id]?.length > 0) {
@@ -82,8 +94,8 @@ export default function Picks(props) {
                             <Tabs
                                 id="game-tabs"
                                 className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
-                                onSelect={(e) => { if (e.includes("moregames")) { props.setMaxGames(props.maxGames + 20); } }}>
-
+                                onSelect={(e) => { if (e.includes("moregames")) { props.setMaxGames(props.maxGames + 20); setGame(game); } else { setGame(e); } }}
+                                activeKey={game}>
                                 {
                                     gamesByTeamMap[team.id]?.map((game, index) => {
                                         const prevGame = index != (gamesByTeamMap[team.id].size - 1) ? gamesByTeamMap[team.id][index + 1] : undefined;
@@ -107,6 +119,23 @@ export default function Picks(props) {
             </Tabs>
         }
     </>;
+}
+
+function getActiveTeam(teams, games) {
+    const output = teams?.find((team) => {
+        return (
+            team.id == games?.[0]?.awayTeam?.id ||
+            team.id == games?.[0]?.homeTeam?.id
+        );
+    })?.id;
+    return output;
+}
+
+function getActiveGame(games) {
+    const output = games?.findLast((game) => {
+        return game.gameState == "Live" || game.gameState == "Preview";
+    })?.id || games?.[0]?.id;
+    return output;
 }
 
 function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, navigate, prevPicks, friendPicksByPlayerMap) {

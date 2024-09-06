@@ -1,2 +1,2 @@
 1. axios not firing catches on 500s?
-2. save activeGame/activeTeam to state
+2. refresh points button on picks
