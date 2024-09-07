@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -54,6 +54,10 @@ const Routes = () => {
                         ]);
                         return { user, games, myPicks, friendsPicks };
                     }
+                },
+                {
+                    path: "/index",
+                    element: <Navigate to="/" replace />
                 },
                 {
                     path: "/announcers",
