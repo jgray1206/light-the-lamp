@@ -211,7 +211,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                 {
                     rows.map(function (row) {
                         return <>
-                            <tr key={game.id + "-" + row.name} className={row.picked ? "table-danger" : (pickEnabled && (row.lastGameToi == undefined || row.lastGameToi == "0:00")) ? "table-warning" : undefined}>
+                            <tr key={game.id + "-" + row.name} className={row.picked ? "table-danger" : (pickEnabled && row.noToi) ? "table-warning" : undefined}>
                                 <td>
                                     <figure>
                                         {
@@ -285,7 +285,7 @@ function pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlay
             'name': "team",
             'displayName': "The " + team.teamName + "!",
             'points': teamPoints,
-            'lastGameToi': '',
+            'noToi': false,
             'pointsCellText': teamPointsCellText,
             'picked': pick && pick.theTeam != undefined,
             'disabled': prevPicks.map((e) => e?.theTeam).includes(true),
@@ -339,7 +339,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
             'points': points,
             'pointsCellText': pointsCellText,
             'imgSrcs': goaliesPics,
-            'lastGameToi': '',
+            'noToi': false,
             'picked': pick && pick.goalies != undefined,
             'disabled': prevPicks.map((e) => e?.goalies).includes(true),
             'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["goalies"]?.map((friend) => {
@@ -357,6 +357,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
 }
 
 function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap) {
+    let anyToisLastGame = prevGamePlayersMap?.values()?.some((player) => player?.timeOnIce && player.timeOnIce != "0:00");
     gamePlayers.filter((player) => player.position != "Goalie")
         .sort((a, b) =>
             a.name.split(" ").reverse().join(",") >
@@ -365,10 +366,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
                 : -1
         )
         .forEach((player) => {
-            let lastGameToi = "";
-            if (prevGamePlayersMap) {
-                lastGameToi = prevGamePlayersMap.get(player.id.playerId)?.timeOnIce;
-            }
+            let lastGameToi = prevGamePlayersMap?.get(player.id.playerId)?.timeOnIce;
             let positionText = "(F)";
             if (player.position == "Defenseman") {
                 positionText = "(D)";
@@ -412,7 +410,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
                     'name': player.name,
                     'displayName': player.name + " " + positionText,
                     'id': player.id.playerId,
-                    'lastGameToi': lastGameToi,
+                    'noToi': anyToisLastGame && (lastGameToi == undefined || lastGameToi == "0:00"),
                     'points': points,
                     'pointsCellText': pointsCellText,
                     'imgSrcs': "https://assets.nhle.com/mugs/nhl/" +
@@ -440,20 +438,19 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
 }
 
 function doPick(gameId, teamId, row, navigate) {
-    console.log(row);
     if (row.disabled) {
         Swal.fire({
             text:
                 "Cannot pick " +
                 row.name +
                 " again! On cooldown from being picked in one of the previous two games.",
-            icon: "warning",
+            icon: "error",
             confirmButtonText: "OK"
         });
         return;
     }
     var message = "";
-    if (row.lastGameToi == undefined && row.lastGameToi == "0:00") {
+    if (row.noToi) {
         message =
             row.name +
             " had no time-on-ice the previous game! Are you sure you want to pick them? You can't change a pick once locked in!";
