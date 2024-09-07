@@ -357,7 +357,15 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
 }
 
 function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap) {
-    let anyToisLastGame = prevGamePlayersMap?.values()?.some((player) => player?.timeOnIce && player.timeOnIce != "0:00");
+    let anyToisLastGame = false;
+    if (prevGamePlayersMap) {
+        for (const player of prevGamePlayersMap.values()) {
+            if (player?.timeOnIce && player.timeOnIce != "0:00") {
+                anyToisLastGame = true;
+                break;
+            }
+        }
+    }
     gamePlayers.filter((player) => player.position != "Goalie")
         .sort((a, b) =>
             a.name.split(" ").reverse().join(",") >
