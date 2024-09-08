@@ -120,7 +120,7 @@ export default function Leaderboard(props) {
             />
         }
         {picks.length == 0 ?
-            <h2>No picks yet! Either there are no picks for this season yet, or you have not joined any teams. Please check your profile settings.</h2> :
+            <h2>No picks yet!</h2> :
             <Tabs
                 id="controlled-tab-example"
                 className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}

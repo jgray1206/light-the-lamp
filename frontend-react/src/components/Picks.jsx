@@ -79,44 +79,44 @@ export default function Picks(props) {
             label="Hide Friend Picks When Picking"
             defaultChecked={hideFriendsPick}
             onChange={() => { setHideFriendsPick(!hideFriendsPick) }} />
-        {games.length == 0 ?
-            <h2>No games yet! Either there are no games for this season yet, or you have not joined any teams. Please check your profile settings.</h2> :
-            <Tabs
-                id="team-tabs"
-                className="mb-3 flex-nowrap text-nowrap"
-                style={{ overflowX: 'auto', overflowY: 'hidden' }}
-                activeKey={team}
-                onSelect={(k) => { setTeam(k); setGame(getActiveGame(gamesByTeamMap[k]) + "-" + k); }}
-            >
-                {teams.map(function (team) {
-                    if (gamesByTeamMap[team.id]?.length > 0) {
-                        return <Tab eventKey={team.id} title={team.teamName} key={team.id}>
-                            <Tabs
-                                id="game-tabs"
-                                className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
-                                onSelect={(e) => { if (e.includes("moregames")) { props.setMaxGames(props.maxGames + 20); setGame(game); } else { setGame(e); } }}
-                                activeKey={game}>
-                                {
-                                    gamesByTeamMap[team.id]?.map((game, index) => {
-                                        const prevGame = index != (gamesByTeamMap[team.id].size - 1) ? gamesByTeamMap[team.id][index + 1] : undefined;
-                                        const prevPrevGame = index != (gamesByTeamMap[team.id].size - 2) ? gamesByTeamMap[team.id][index + 2] : undefined;
-                                        const prevPicks = [prevGame, prevPrevGame]
-                                            .filter((prevGame) => prevGame != undefined)
-                                            .map((prevGame) => {
-                                                return myPicksMap.get(prevGame.id + "-" + team.id);
-                                            })
-                                            .filter((prevGame) => prevGame != undefined);
-                                        return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, navigate, prevPicks);
-                                    })
-                                }
-                                {
-                                    gamesByTeamMap[team.id]?.length == props.maxGames && <Tab tabClassName="text-secondary" eventKey={team.id + "moregames"} title={"Load More\nGames"} key={team.id + "moregames"} />
-                                }
-                            </Tabs>
-                        </Tab>;
-                    }
-                })}
-            </Tabs>
+        {!teams || teams.length == 0 ? <h2>You have not joined any teams! Please check your profile settings.</h2> :
+            games.length == 0 ? <h2>No games yet!</h2> :
+                <Tabs
+                    id="team-tabs"
+                    className="mb-3 flex-nowrap text-nowrap"
+                    style={{ overflowX: 'auto', overflowY: 'hidden' }}
+                    activeKey={team}
+                    onSelect={(k) => { setTeam(k); setGame(getActiveGame(gamesByTeamMap[k]) + "-" + k); }}
+                >
+                    {teams.map(function (team) {
+                        if (gamesByTeamMap[team.id]?.length > 0) {
+                            return <Tab eventKey={team.id} title={team.teamName} key={team.id}>
+                                <Tabs
+                                    id="game-tabs"
+                                    className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
+                                    onSelect={(e) => { if (e.includes("moregames")) { props.setMaxGames(props.maxGames + 20); setGame(game); } else { setGame(e); } }}
+                                    activeKey={game}>
+                                    {
+                                        gamesByTeamMap[team.id]?.map((game, index) => {
+                                            const prevGame = index != (gamesByTeamMap[team.id].size - 1) ? gamesByTeamMap[team.id][index + 1] : undefined;
+                                            const prevPrevGame = index != (gamesByTeamMap[team.id].size - 2) ? gamesByTeamMap[team.id][index + 2] : undefined;
+                                            const prevPicks = [prevGame, prevPrevGame]
+                                                .filter((prevGame) => prevGame != undefined)
+                                                .map((prevGame) => {
+                                                    return myPicksMap.get(prevGame.id + "-" + team.id);
+                                                })
+                                                .filter((prevGame) => prevGame != undefined);
+                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, navigate, prevPicks);
+                                        })
+                                    }
+                                    {
+                                        gamesByTeamMap[team.id]?.length == props.maxGames && <Tab tabClassName="text-secondary" eventKey={team.id + "moregames"} title={"Load More\nGames"} key={team.id + "moregames"} />
+                                    }
+                                </Tabs>
+                            </Tab>;
+                        }
+                    })}
+                </Tabs>
         }
     </>;
 }

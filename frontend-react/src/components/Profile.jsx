@@ -20,7 +20,7 @@ export default function Profile() {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [displayName, setDisplayName] = useState(user.displayName);
     const [redditUsername, setRedditUsername] = useState(user.redditUsername);
-    const [teams, setTeams] = useState(user.teams.map((it) => it.id));
+    const [teams, setTeams] = useState(user.teams?.map((it) => it.id));
     const [profilePic, setProfilePic] = useState("");
     const [profilePicBytes, setProfilePicBytes] = useState(profilePicBytesInit);
 
@@ -100,9 +100,9 @@ export default function Profile() {
                 </FloatingLabel>
 
                 <Form.Label htmlFor="teams">Teams</Form.Label>
-                <Form.Select className="mb-2" aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
+                <Form.Select className="mb-2" aria-label="Teams" id="teams" required multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
                     {allTeams.map(function (object) {
-                        return <option key={object.id} value={object.id} selected={teams.includes(object.id)}>{object.teamName}</option>;
+                        return <option key={object.id} value={object.id} selected={teams?.includes(object.id)}>{object.teamName}</option>;
                     })}
                 </Form.Select>
 
