@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 
 @Client("\${nhl-franchise-api-base-path}")
 interface FranchiseClient {
-    @Get("/franchise")
+    @Get("/franchise?sort=fullName&include=lastSeason.id&include=firstSeason.id&include=teams")
     @Consumes("application/json")
     fun getFranchises(): Mono<Franchises>
 }

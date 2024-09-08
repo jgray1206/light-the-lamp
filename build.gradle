@@ -10,7 +10,7 @@ plugins {
 	id("maven-publish")
 }
 
-version = "0.5"
+version = "0.7"
 group = "io.gray"
 
 repositories {

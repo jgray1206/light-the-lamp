@@ -8,5 +8,10 @@ data class Franchise (
         val id: Long,
         val fullName: String,
         val teamCommonName: String,
-        val teamPlaceName: String
+        val teamPlaceName: String,
+        val lastSeason: LastSeason?
+)
+
+data class LastSeason (
+        val id: Long
 )

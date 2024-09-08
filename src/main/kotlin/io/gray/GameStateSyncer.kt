@@ -49,15 +49,15 @@ open class GameStateSyncer(
                 .filter {  LocalDate.parse(it.date).isBefore(LocalDateTime.now().plusHours(3).toLocalDate().plusDays(1)) }
                 .flatMapIterable { it.games }
                 .flatMap { game ->
-                    teamRepository.findById(game.awayTeam.id).switchIfEmpty(createTeam(game.awayTeam)).map { game.apply { this.awayTeam.dbTeam = it } }
+                    teamRepository.findById(game.awayTeam.id).switchIfEmpty(Mono.defer { createTeam(game.awayTeam) }).map { game.apply { this.awayTeam.dbTeam = it } }
                 }
                 .flatMap { game ->
-                    teamRepository.findById(game.homeTeam.id).switchIfEmpty(createTeam(game.homeTeam)).map { game.apply { this.homeTeam.dbTeam = it } }
+                    teamRepository.findById(game.homeTeam.id).switchIfEmpty(Mono.defer { createTeam(game.homeTeam) }).map { game.apply { this.homeTeam.dbTeam = it } }
                 }
                 .flatMap { game ->
                     logger.info("processing game ${game.id} with state ${game.gameState} on date ${game.startTimeUTC} between team ${game.homeTeam.placeName.default} and ${game.awayTeam.placeName.default}")
                     gameRepository.findById(game.id).switchIfEmpty(
-                            createGame(game)
+                            Mono.defer { createGame(game) }
                     ).flatMap {
                         if (minuteOfHour % 5 == 0 && it.gameState.equals("preview", ignoreCase = true)) {
                             logger.info("checking for missing players for game ${game.id}")
@@ -166,8 +166,10 @@ open class GameStateSyncer(
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createTeam(team: io.gray.client.model.Team): Mono<Team> {
-        logger.info("creating team ${team.placeName}")
-        return franchiseClient.getFranchises().flatMapIterable { it.data }.filter { it.teamPlaceName == team.placeName.default }.next().flatMap { franchise ->
+        logger.info("creating team ${team.placeName} ${team.abbrev}")
+        return franchiseClient.getFranchises().flatMapIterable { it.data }.filter {
+            it.teamPlaceName == team.placeName.default && it.lastSeason == null
+        }.next().flatMap { franchise ->
             teamRepository.save(Team().also {
                 it.id = team.id
                 it.teamName = franchise.fullName
