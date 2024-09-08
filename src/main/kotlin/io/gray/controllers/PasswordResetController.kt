@@ -33,7 +33,7 @@ open class PasswordResetController(
         return userRepository.findByEmail(email)
                 .flatMap { user ->
                     passwordResetRepository.findByUserId(user.id!!).any {
-                        it.createTime?.isBefore(Instant.now().plus(1, ChronoUnit.HOURS)) == true
+                        it.createTime?.plus(1, ChronoUnit.HOURS)?.isAfter(Instant.now()) == true
                     }.map {
                         if (it) {
                             error("please wait an hour before submitting another password reset request")
@@ -63,7 +63,7 @@ open class PasswordResetController(
     @RateLimiter(name = "passwordreset")
     open fun resetPassword(@QueryValue uuid: String, @QueryValue @NotBlank @Size(min = 8, max = 50) password: String): Mono<Void> {
         return passwordResetRepository.findByResetUuid(uuid).switchIfEmpty(Mono.error { error("password reset request not found, please submit another one.") }).flatMap { passwordReset ->
-            if (passwordReset.createTime?.isBefore(Instant.now().plus(1, ChronoUnit.HOURS)) == true) {
+            if (passwordReset.createTime?.plus(1, ChronoUnit.HOURS)?.isAfter(Instant.now()) == true) {
                 val user = passwordReset.user!!
                 user.password = BCrypt.hashpw(password, BCrypt.gensalt(12))
                 userRepository.update(user)

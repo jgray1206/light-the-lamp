@@ -128,10 +128,10 @@ export default function Login() {
                                 label="Email address"
                                 className="mb-2"
                             >
-                                <Form.Control type="email" placeholder="name@example.com" onChange={(e) => setUsername(e.target.value)} />
+                                <Form.Control type="email" placeholder="name@example.com" required onChange={(e) => setUsername(e.target.value)} />
                             </FloatingLabel>
                             <FloatingLabel controlId="floatingPassword" label="Password">
-                                <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                                <Form.Control type="password" placeholder="Password" required onChange={(e) => setPassword(e.target.value)} />
                             </FloatingLabel>
                             <Button variant="secondary" size="lg" className="w-100 mt-3" type="submit">Login</Button>
                             <Link to="/register">
