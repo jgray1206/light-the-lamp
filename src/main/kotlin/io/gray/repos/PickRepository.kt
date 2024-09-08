@@ -24,6 +24,17 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("team", type = Join.Type.FETCH)
     fun findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(teams: List<Team>, lower: Int, upper: Int): Flux<Pick>
 
+    @Query("SELECT MIN(display_name) as display_name, MIN(email) as email, COUNT(*) AS games, SUM(points) as points, team_id as team_id FROM pick JOIN \"user\" ON pick.user_id = \"user\".id WHERE game_id > :gameIdLower AND game_id < :gameIdUpper AND team_id IN(:teams) AND user_id IS NOT NULL GROUP BY user_id, team_id")
+    fun getLeaderboardForUsersByGameIdAndTeam(gameIdLower: Int, gameIdUpper: Int, teams: List<Long>): Flux<Leaderboard>
+
+    @Query("SELECT MIN(reddit_username) as display_name, MIN(email) as email, COUNT(*) AS games, SUM(points) as points, team_id as team_id FROM pick JOIN \"user\" ON pick.user_id = \"user\".id WHERE game_id > :gameIdLower AND game_id < :gameIdUpper AND team_id IN(:teams) AND reddit_username IS NOT NULL GROUP BY reddit_username, team_id")
+    fun getRedditLeaderboardForUsersByGameIdAndTeam(gameIdLower: Int, gameIdUpper: Int, teams: List<Long>): Flux<Leaderboard>
+
+    @Query("SELECT MIN(display_name) as display_name, MIN(email) as email, COUNT(*) AS games, SUM(points) as points, team_id as team_id FROM pick JOIN \"user\" ON pick.user_id = \"user\".id WHERE game_id > :gameIdLower AND game_id < :gameIdUpper AND team_id IN(:teams) AND user_id IN(:users) GROUP BY user_id, team_id")
+    fun getLeaderboardForUsersByGameIdAndTeamAndUserIdIn(gameIdLower: Int, gameIdUpper: Int, teams: List<Long>, users: List<Long>): Flux<Leaderboard>
+    @Query("SELECT MIN(display_name) as display_name, '' as email, COUNT(*) AS games, SUM(points) as points, pick.team_id as team_id FROM pick JOIN announcer ON pick.announcer_id = announcer.id WHERE game_id > :gameIdLower AND game_id < :gameIdUpper AND pick.team_id IN(:teams) AND announcer_id IS NOT NULL GROUP BY announcer_id, pick.team_id")
+    fun getLeaderboardForAnnouncersByGameIdAndTeam(gameIdLower: Int, gameIdUpper: Int, teams: List<Long>): Flux<Leaderboard>
+
     fun deleteByGame(aGame: Game): Mono<Long>
 
     @Join("user", type = Join.Type.LEFT_FETCH)
