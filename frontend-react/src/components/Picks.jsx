@@ -216,7 +216,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                         return <>
                             <tr key={game.id + "-" + row.name} className={row.picked ? "table-danger" : (pickEnabled && row.noToi) ? "table-warning" : undefined}>
                                 <td>
-                                    <figure>
+                                    <figure className="mb-1">
                                         {
                                             row.imgSrcs && row.imgSrcs.split(",")?.map(function (imgSrc) {
                                                 return <img key={game.id + imgSrc} width="90" height="90" className="rounded-circle img-thumbnail" src={imgSrc} onError={({ currentTarget }) => currentTarget.src = "./shrug.png"} />
