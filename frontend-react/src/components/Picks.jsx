@@ -1,5 +1,5 @@
 import AxiosInstance from '../provider/axiosProvider';
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useRevalidator } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
@@ -16,7 +16,6 @@ const getPic = async (id) => {
 
 export default function Picks(props) {
     const [hideFriendsPick, setHideFriendsPick] = useState(true);
-    const navigate = useNavigate()
     const response = useLoaderData();
     const games = response.games.data.sort((a, b) => b.id - a.id);
     const myPicksMap = new Map(response.myPicks.data.map((pick) => [pick.game.id + "-" + pick.team.id, pick]));
@@ -62,10 +61,11 @@ export default function Picks(props) {
             setPics(pics);
         }
         fetchPics();
-    }, [user]);
+    }, []);
 
+    const revalidator = useRevalidator();
     return <>
-        <Form.Select className="seasonSelector" style={{ color: 'black', width: 'auto' }} onChange={(e) => props.setSeason(e.target.value)} defaultValue={props.getSeason} title="Season">
+        <Form.Select className="seasonSelector" onChange={(e) => props.setSeason(e.target.value)} defaultValue={props.getSeason} title="Season">
             <option value="202401">2024-2025 Pre</option>
             <option value="202303">2023-2024 Post</option>
             <option value="202302">2023-2024</option>
@@ -73,6 +73,9 @@ export default function Picks(props) {
             <option value="202203">2022-2023 Post</option>
             <option value="202202">2022-2023</option>
         </Form.Select>
+        <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => revalidator.revalidate()}>
+            {revalidator.state === "idle" ? "Refresh Points" : "Refreshing..."}
+        </Button>
         <Form.Check
             type="switch"
             id="hideFriendsPick"
@@ -106,7 +109,7 @@ export default function Picks(props) {
                                                     return myPicksMap.get(prevGame.id + "-" + team.id);
                                                 })
                                                 .filter((prevGame) => prevGame != undefined);
-                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, navigate, prevPicks);
+                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, revalidator, prevPicks);
                                         })
                                     }
                                     {
@@ -445,7 +448,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
         });
 }
 
-function doPick(gameId, teamId, row, navigate) {
+function doPick(gameId, teamId, row, revalidator) {
     if (row.disabled) {
         Swal.fire({
             text:
@@ -478,7 +481,7 @@ function doPick(gameId, teamId, row, navigate) {
         if (result["isConfirmed"]) {
             AxiosInstance.post("/api/pick/user?gameId=" + gameId + "&pick=" + row.name + "&teamId=" + teamId)
                 .then(response => {
-                    navigate('/', { replace: true });
+                    revalidator.revalidate();
                 })
                 .catch(err => {
                     console.log(err)

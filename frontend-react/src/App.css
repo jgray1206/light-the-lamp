@@ -20,6 +20,7 @@ button.nav-link  {
 
 .seasonSelector, .leaderboardSelector {
   width:auto;
+  color:'black';
   display:inline-block;
 }
 

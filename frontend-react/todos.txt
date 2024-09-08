@@ -1,2 +1,1 @@
-1. axios not firing catches on 500s?
-2. refresh points button on picks
+1. none for now??
