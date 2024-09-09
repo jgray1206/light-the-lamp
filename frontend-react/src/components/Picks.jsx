@@ -32,9 +32,9 @@ export default function Picks(props) {
     );
     const friendsPicks = response.friendsPicks.data;
     const [pics, setPics] = useState(new Map());
-    const activeTeam = getActiveTeam(teams, games);
-    const [team, setTeam] = useState(activeTeam);
-    const [game, setGame] = useState(getActiveGame(gamesByTeamMap[activeTeam]) + "-" + activeTeam);
+    const [resetTeamGameEnabled, setResetTeamGameEnabled] = useState(true);
+    const [team, setTeam] = useState();
+    const [game, setGame] = useState();
     const friendsPicksMap = friendsPicks?.reduce(
         (acc, obj) => (
             (acc[obj.game.id + "-" + obj.team.id] =
@@ -44,11 +44,19 @@ export default function Picks(props) {
         {}
     );
 
+    const revalidator = useRevalidator();
+
     useEffect(() => {
-        const activeTeam = getActiveTeam(teams, games);
-        setTeam(activeTeam);
-        setGame(getActiveGame(gamesByTeamMap[activeTeam]) + "-" + activeTeam);
+        if (resetTeamGameEnabled) {
+            const activeTeam = getActiveTeam(teams, games);
+            setTeam(activeTeam);
+            setGame(getActiveGame(gamesByTeamMap[activeTeam]) + "-" + activeTeam);
+        }
     }, [teams, games]);
+
+    useEffect(() => {
+        setResetTeamGameEnabled(true);
+    }, [props.getSeason]);
 
     useEffect(() => {
         async function fetchPics() {
@@ -63,7 +71,6 @@ export default function Picks(props) {
         fetchPics();
     }, []);
 
-    const revalidator = useRevalidator();
     return <>
         <Form.Select className="seasonSelector" onChange={(e) => props.setSeason(e.target.value)} defaultValue={props.getSeason} title="Season">
             <option value="202401">2024-2025 Pre</option>
@@ -73,7 +80,7 @@ export default function Picks(props) {
             <option value="202203">2022-2023 Post</option>
             <option value="202202">2022-2023</option>
         </Form.Select>
-        <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => revalidator.revalidate()}>
+        <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => { setResetTeamGameEnabled(false); revalidator.revalidate(); }}>
             {revalidator.state === "idle" ? "Refresh Points" : "Refreshing..."}
         </Button>
         <Form.Check
