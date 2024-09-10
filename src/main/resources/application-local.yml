@@ -47,3 +47,5 @@ r2dbc:
 ---
 credential.path: /home/jgray1206/credentials.json
 token.path: /home/jgray1206/tokens
+---
+turnstile.secret.key: '1x0000000000000000000000000000000AA'

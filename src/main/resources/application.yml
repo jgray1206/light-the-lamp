@@ -70,3 +70,4 @@ resilience4j:
 ---
 credential.path: ${HOME}/credentials.json
 token.path: ${HOME}/tokens
+turnstile.secret.key: ${TURNSTILE_SECRET_KEY}

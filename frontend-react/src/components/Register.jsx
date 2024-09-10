@@ -8,8 +8,11 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
+import Turnstile, { useTurnstile } from "react-turnstile";
+
 
 export default function Register() {
+    const turnstile = useTurnstile();
     const data = useLoaderData();
     const allTeams = data.data.sort((a, b) => a.teamName.localeCompare(b.teamName)).sort(function (x, y) {
         return x.teamName == "Detroit Red Wings"
@@ -25,6 +28,7 @@ export default function Register() {
     const [displayName, setDisplayName] = useState("");
     const [redditUsername, setRedditUsername] = useState("");
     const [teams, setTeams] = useState([]);
+    const [turnstileToken, setTurnstileToken] = useState();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,7 +44,8 @@ export default function Register() {
             email: username,
             password: password,
             teams: teams,
-            displayName: displayName
+            displayName: displayName,
+            turnstileToken: turnstileToken
         }
         if (redditUsername) {
             registerPayload.redditUsername = redditUsername
@@ -107,12 +112,17 @@ export default function Register() {
                             </FloatingLabel>
 
                             <Form.Label htmlFor="teams">Teams</Form.Label>
-                            <Form.Select required aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
+                            <Form.Select required className="mb-3" aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
                                 {allTeams.map(function (object) {
                                     return <option key={object.id} value={object.id}>{object.teamName}</option>;
                                 })}
                             </Form.Select>
-                            <Button variant="primary" size="lg" className="w-100 mt-3" type="submit">Register</Button>
+                            <Turnstile
+                                className="mb-3"
+                                sitekey={import.meta.env.VITE_TURNSTILE_TOKEN}
+                                onVerify={(token) => setTurnstileToken(token)}
+                            />
+                            <Button variant="primary" size="lg" disabled={!turnstileToken} className="w-100" type="submit">Register</Button>
                         </Form>
                     </Card.Body>
                 </Card>

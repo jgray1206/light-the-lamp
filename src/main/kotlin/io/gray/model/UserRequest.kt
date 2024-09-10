@@ -29,4 +29,7 @@ open class UserRequest {
     @Nullable
     @Size(max = 40)
     var redditUsername: String? = null
+
+    @NotBlank
+    var turnstileToken: String? = null
 }

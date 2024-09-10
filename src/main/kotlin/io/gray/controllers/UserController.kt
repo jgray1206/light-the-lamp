@@ -1,12 +1,15 @@
 package io.gray.controllers
 
 import io.github.resilience4j.micronaut.annotation.RateLimiter
+import io.gray.client.TurnstileClient
+import io.gray.client.model.TurnstileRequest
 import io.gray.email.MailService
 import io.gray.model.User
 import io.gray.model.UserRequest
 import io.gray.model.UserTeam
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
+import io.micronaut.context.annotation.Value
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
@@ -27,9 +30,10 @@ import java.util.*
 @Controller("/user")
 open class UserController(
         private val userRepository: UserRepository,
-        private val httpClientAddressResolver: DefaultHttpClientAddressResolver,
         private val userTeamRepository: UserTeamRepository,
-        private val mailService: MailService
+        private val turnstileClient: TurnstileClient,
+        @Value("\${turnstile.secret.key}")
+        private val turnstileSecret: String
 ) {
 
     @Get
@@ -68,22 +72,26 @@ open class UserController(
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "usercreate")
     open fun create(@Valid @Body userRequest: UserRequest, @Header("X-Forwarded-For") xForwardFor: String): Mono<User> {
-        return userRepository.findByEmail(userRequest.email!!)
+        return turnstileClient.checkTurnstileToken(TurnstileRequest(turnstileSecret, userRequest.turnstileToken!!))
+                .flatMap {
+                    if (it.success) {
+                        userRepository.findByEmail(userRequest.email!!)
+                    } else {
+                        Mono.error { IllegalStateException("Turnstile CAPTCHA failure: ${it.errorCodes.joinToString(",")}") }
+                    }
+                }
                 .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
                 .switchIfEmpty(
                         userRepository.save(User().also {
                             it.email = userRequest.email
                             it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
                             it.ipAddress = xForwardFor
-                            it.confirmed = false
+                            it.confirmed = true
                             it.admin = false
                             it.displayName = userRequest.displayName
                             it.redditUsername = userRequest.redditUsername
                             it.confirmationUuid = UUID.randomUUID().toString()
-                        }).flatMap { user ->
-                            Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login?confirmation=${user.confirmationUuid}") }
-                                    .thenReturn(user)
-                        }
+                        })
                 ).flatMapMany { user ->
                     Flux.fromIterable(userRequest.teams ?: listOf()).flatMap { team ->
                         userTeamRepository.save(
@@ -127,22 +135,4 @@ open class UserController(
                     }
                 }
     }
-
-    @Get("/confirm/{uuid}", processes = [MediaType.APPLICATION_JSON])
-    @Secured(SecurityRule.IS_ANONYMOUS)
-    @RateLimiter(name = "usercreate")
-    open fun confirm(@PathVariable uuid: String): Mono<User> {
-        return userRepository.findOneByConfirmationUuidAndConfirmed(uuid, false).flatMap {
-            userRepository.update(it.also { it.confirmed = true })
-        }.map {
-            it.apply {
-                it.password = null
-                it.ipAddress = null
-                it.email = null
-                it.confirmationUuid = null
-                it.friends = null
-            }
-        }
-    }
-
 }
