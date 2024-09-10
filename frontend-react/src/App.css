@@ -45,3 +45,7 @@ figcaption {
    display: table-caption;
    caption-side: bottom;
 }
+
+.card-body {
+  padding: .8rem !important;
+}
