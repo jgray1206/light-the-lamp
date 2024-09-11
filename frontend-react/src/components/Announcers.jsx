@@ -5,7 +5,6 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 import Swal from 'sweetalert2';
-import { useState } from "react";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button } from 'react-bootstrap';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -16,6 +15,7 @@ export default function Announcers(props) {
     const games = response.games.data.sort((a, b) => b.id - a.id);
     const announcers = response.announcers.data;
     const picks = response.picks.data;
+    const userCount = response.userCount.data;
     const picksMap = picks?.reduce(
         (acc, obj) => (
             (acc[obj.game.id + "-" + obj.team.id] =
@@ -85,6 +85,7 @@ export default function Announcers(props) {
                 })}
             </Tabs>
         }
+        <span>active users: {userCount}</span>
     </>;
 }
 

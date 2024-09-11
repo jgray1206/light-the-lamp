@@ -63,12 +63,13 @@ const Routes = () => {
                     path: "/announcers",
                     element: <Announcers setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
                     loader: async () => {
-                        const [games, picks, announcers] = await Promise.all([
+                        const [games, picks, announcers, userCount] = await Promise.all([
                             AxiosInstance.get("/api/game/announcers?season=" + season + "&maxGames=" + maxGames),
                             AxiosInstance.get("/api/pick/announcer?season=" + season),
                             AxiosInstance.get("/api/announcers"),
+                            AxiosInstance.get("/api/user/all-count")
                         ]);
-                        return { games, picks, announcers };
+                        return { games, picks, announcers, userCount };
                     }
                 },
                 {

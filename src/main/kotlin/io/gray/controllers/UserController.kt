@@ -10,11 +10,10 @@ import io.gray.repos.UserTeamRepository
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
-import io.micronaut.http.server.util.DefaultHttpClientAddressResolver
 import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import jakarta.validation.Valid
-import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.mindrot.jbcrypt.BCrypt
 import reactor.core.publisher.Flux
@@ -27,10 +26,18 @@ import java.util.*
 @Controller("/user")
 open class UserController(
         private val userRepository: UserRepository,
-        private val httpClientAddressResolver: DefaultHttpClientAddressResolver,
         private val userTeamRepository: UserTeamRepository,
         private val mailService: MailService
 ) {
+
+    @Get("/all-count")
+    fun getAll(authentication: Authentication): Mono<Int> {
+        if (!authentication.roles.contains("admin")) {
+            error("can't get user counts if you aren't an admin you lil' hacker!")
+        }
+
+        return userRepository.getAllCount();
+    }
 
     @Get
     fun get(principal: Principal, @QueryValue profilePic: Boolean?): Mono<User> {
