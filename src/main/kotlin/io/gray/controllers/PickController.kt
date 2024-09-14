@@ -34,7 +34,7 @@ class PickController(
 
     @Get
     fun getAll(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmail(principal.name).flatMapIterable {
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable {
             it.teams
         }.flatMap {
             pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
@@ -48,7 +48,7 @@ class PickController(
 
     @Get("/user")
     fun getPickByUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmail(principal.name).flatMapMany {
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMapMany {
             pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
                 this.id = it.id
                 this.displayName = it.displayName
@@ -66,7 +66,7 @@ class PickController(
 
     @Get("/friends")
     fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmail(principal.name)
+        return userRepository.findByEmailIgnoreCase(principal.name)
                 .flatMapIterable { it.friends }
                 .flatMap {
                     pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
@@ -84,7 +84,7 @@ class PickController(
 
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmail(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
+        return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
             pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it).map {
                 UserDTO().apply {
                     this.id = it.id
@@ -97,14 +97,14 @@ class PickController(
 
     @Get("/reddit")
     fun getPicksByReddit(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmail(principal.name).filter { it.teams != null }.flatMapMany {
+        return userRepository.findByEmailIgnoreCase(principal.name).filter { it.teams != null }.flatMapMany {
             pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt())
         }
     }
 
     @Post("/user")
     fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, principal: Principal): Mono<Pick> {
-        return userRepository.findByEmail(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
+        return userRepository.findByEmailIgnoreCase(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
             val user = UserDTO().apply {
                 this.id = tuple.t1.id
                 this.displayName = tuple.t1.displayName

@@ -141,7 +141,7 @@ class LightTheLampApplicationTests {
 		assertThat(BCrypt.checkpw("testtest2", dbUser.password)).isFalse
 
 		//check fields
-		userClient.confirm(userRepository.findByEmail("test@email.com").block()?.confirmationUuid!!)
+		userClient.confirm(userRepository.findByEmailIgnoreCase("test@email.com").block()?.confirmationUuid!!)
 		assertThrows<HttpClientResponseException> {
 			authClient.login(LoginRequest("test@email.com", "testtest2"))
 		}

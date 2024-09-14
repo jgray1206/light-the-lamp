@@ -41,7 +41,7 @@ open class UserController(
 
     @Get
     fun get(principal: Principal, @QueryValue profilePic: Boolean?): Mono<User> {
-        return userRepository.findByEmail(principal.name).map {
+        return userRepository.findByEmailIgnoreCase(principal.name).map {
             it.apply {
                 it.password = null
                 it.email = null
@@ -75,7 +75,7 @@ open class UserController(
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "usercreate")
     open fun create(@Valid @Body userRequest: UserRequest, @Header("X-Forwarded-For") xForwardFor: String): Mono<User> {
-        return userRepository.findByEmail(userRequest.email!!)
+        return userRepository.findByEmailIgnoreCase(userRequest.email!!)
                 .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
                 .switchIfEmpty(
                         userRepository.save(User().also {
@@ -98,12 +98,12 @@ open class UserController(
                                     it.userId = user.id; it.teamId = team
                                 })
                     }
-                }.then(userRepository.findByEmail(userRequest.email!!)).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+                }.then(userRepository.findByEmailIgnoreCase(userRequest.email!!)).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
     open fun update(profilePic: ByteArray?, @Size(min = 1, max = 50) displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?, principal: Principal): Mono<User> {
-        return userRepository.findByEmail(principal.name)
+        return userRepository.findByEmailIgnoreCase(principal.name)
                 .flatMap { user ->
                     teams?.let { teams ->
                         user.teams?.let { userTeams ->

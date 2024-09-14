@@ -30,7 +30,7 @@ open class PasswordResetController(
     @Secured(SecurityRule.IS_ANONYMOUS)
     @RateLimiter(name = "passwordreset")
     open fun create(@NotEmpty @QueryValue email: String): Mono<Void> {
-        return userRepository.findByEmail(email)
+        return userRepository.findByEmailIgnoreCase(email)
                 .flatMap { user ->
                     passwordResetRepository.findByUserId(user.id!!).any {
                         it.createTime?.plus(1, ChronoUnit.HOURS)?.isAfter(Instant.now()) == true

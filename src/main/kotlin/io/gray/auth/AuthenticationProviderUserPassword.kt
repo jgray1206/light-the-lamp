@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono
 @Singleton
 class AuthenticationProviderUserPassword(private val userRepository: UserRepository) : HttpRequestReactiveAuthenticationProvider<Any> {
     override fun authenticate(@Nullable requestContext: HttpRequest<Any>?, authenticationRequest: AuthenticationRequest<String, String>): Publisher<AuthenticationResponse> {
-        return userRepository.findByEmail(authenticationRequest.identity as String).flatMap {
+        return userRepository.findByEmailIgnoreCase(authenticationRequest.identity as String).flatMap {
             if (it.locked == true) {
                 Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))
             } else if (it.confirmed != true) {

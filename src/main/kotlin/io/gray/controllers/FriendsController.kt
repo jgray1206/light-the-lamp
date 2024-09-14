@@ -19,7 +19,7 @@ class FriendsController(
 
     @Delete("/{id}")
     fun deleteFriend(@PathVariable id: Long, principal: Principal): Flux<Long> {
-        return userRepository.findByEmail(principal.name).flatMapMany { user ->
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMapMany { user ->
             Flux.merge(
                     friendRepository.findByToUserAndFromUser(user.id!!, id),
                     friendRepository.findByToUserAndFromUser(id, user.id!!)
@@ -29,7 +29,7 @@ class FriendsController(
 
     @Post("/{confirmationUuid}")
     fun addFriend(@PathVariable confirmationUuid: String, principal: Principal): Mono<UserUser> {
-        return userRepository.findByEmail(principal.name).zipWith(userRepository.findOneByConfirmationUuidAndConfirmed(confirmationUuid, true)).flatMap { userTuple ->
+        return userRepository.findByEmailIgnoreCase(principal.name).zipWith(userRepository.findOneByConfirmationUuidAndConfirmed(confirmationUuid, true)).flatMap { userTuple ->
             if (userTuple.t1.confirmationUuid == userTuple.t2.confirmationUuid) {
                 Mono.error { IllegalStateException("You can't add yourself as a friend you big ol' silly head!") }
             } else {

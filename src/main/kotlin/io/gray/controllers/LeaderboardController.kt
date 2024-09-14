@@ -26,7 +26,7 @@ class LeaderboardController(
 
     @Get
     fun getAll(principal: Principal, @QueryValue season: String): Flux<LeaderboardDTO> {
-        return userRepository.findByEmail(principal.name).flatMapMany { user ->
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMapMany { user ->
             if (user.teams == null || user.teams!!.isEmpty()) {
                 return@flatMapMany Flux.empty()
             }
@@ -47,7 +47,7 @@ class LeaderboardController(
 
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<LeaderboardDTO> {
-        return userRepository.findByEmail(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany { user ->
+        return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany { user ->
             pickRepository.getLeaderboardForUsersByGameIdAndTeamAndUserIdIn("${season}0000".toInt(), "${season}9999".toInt(), user.teams!!.map { it.id!! }, user.friends!!.plus(user).map { it.id!! }).map {
                 LeaderboardDTO().apply {
                     this.team = user.teams?.first { team -> it.teamId == team.id }
@@ -64,7 +64,7 @@ class LeaderboardController(
 
     @Get("/reddit")
     fun getPicksByReddit(principal: Principal, @QueryValue season: String): Flux<LeaderboardDTO> {
-        return userRepository.findByEmail(principal.name).flatMapMany { user ->
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMapMany { user ->
             if (user.teams == null || user.teams!!.isEmpty()) {
                 return@flatMapMany Flux.empty()
             }
