@@ -24,6 +24,10 @@ export default function Profile() {
     const [profilePic, setProfilePic] = useState("");
     const [profilePicBytes, setProfilePicBytes] = useState(profilePicBytesInit);
 
+    const handleChange = (event) => {
+        const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
+        setTeams(selectedValues);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -100,9 +104,9 @@ export default function Profile() {
                 </FloatingLabel>
 
                 <Form.Label htmlFor="teams">Teams</Form.Label>
-                <Form.Select className="mb-2" aria-label="Teams" id="teams" required multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
+                <Form.Select className="mb-2" aria-label="Teams" id="teams" required multiple onChange={handleChange} value={teams}>
                     {allTeams.map(function (object) {
-                        return <option key={object.id} value={object.id} selected={teams?.includes(object.id)}>{object.teamName}</option>;
+                        return <option key={object.id} value={object.id}>{object.teamName}</option>;
                     })}
                 </Form.Select>
 

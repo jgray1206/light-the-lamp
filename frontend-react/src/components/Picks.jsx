@@ -17,7 +17,18 @@ const getPic = async (id) => {
 export default function Picks(props) {
     const [hideFriendsPick, setHideFriendsPick] = useState(true);
     const response = useLoaderData();
-    const games = response.games.data.sort((a, b) => b.id - a.id);
+    const games = response.games.data.sort(function (a, b) {
+        return (
+            new Date(
+                b.date[0],
+                b.date[1] - 1,
+                b.date[2],
+                b.date[3],
+                b.date[4]
+            ) -
+            new Date(a.date[0], a.date[1] - 1, a.date[2], a.date[3], a.date[4])
+        );
+    });
     const myPicksMap = new Map(response.myPicks.data.map((pick) => [pick.game.id + "-" + pick.team.id, pick]));
     const user = response.user.data;
     const teams = user.teams;
