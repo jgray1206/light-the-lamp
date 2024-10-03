@@ -1,6 +1,5 @@
 import AxiosInstance from '../provider/axiosProvider';
 import { useLoaderData, useNavigate } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
@@ -8,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button } from 'react-bootstrap';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import SeasonSelector from "./SeasonSelector";
 
 export default function Announcers(props) {
     const response = useLoaderData();
@@ -49,19 +49,12 @@ export default function Announcers(props) {
     );
 
     return <>
-        <Form.Select className="seasonSelector" style={{ color: 'black', width: 'auto' }} onChange={(e) => props.setSeason(e.target.value)} defaultValue={props.getSeason} title="Season">
-            <option value="202401">2024-2025 Pre</option>
-            <option value="202303">2023-2024 Post</option>
-            <option value="202302">2023-2024</option>
-            <option value="202301">2023-2024 Pre</option>
-            <option value="202203">2022-2023 Post</option>
-            <option value="202202">2022-2023</option>
-        </Form.Select>
+        <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason} />
         {games.length == 0 ?
             <h2>No games yet!</h2> :
             <Tabs
                 id="team-tabs"
-                className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
+                className="mb-3 mt-1 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
             >
                 {teams.map(function (team) {
                     if (gamesByTeamMap[team.id]?.length > 0) {

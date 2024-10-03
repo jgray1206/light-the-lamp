@@ -5,6 +5,7 @@ import { useAuth } from "../provider/authProvider";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Button } from 'react-bootstrap';
+import SeasonSelector from "./SeasonSelector";
 
 const groupByTeamName = function (xs) {
     return xs.reduce(function (rv, x) {
@@ -90,18 +91,11 @@ export default function Leaderboard(props) {
         .filter((team) => groupedByTeamPicks[team].length > 0)
         .sort((a, b) => a.localeCompare(b));
     return <>
-        <Form.Select className="seasonSelector me-1" onChange={(e) => props.setSeason(e.target.value)} defaultValue={props.getSeason} title="Season">
-            <option value="202401">2024-2025 Pre</option>
-            <option value="202303">2023-2024 Post</option>
-            <option value="202302">2023-2024</option>
-            <option value="202301">2023-2024 Pre</option>
-            <option value="202203">2022-2023 Post</option>
-            <option value="202202">2022-2023</option>
-        </Form.Select>
+        <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason} />
         <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => revalidator.revalidate()}>
-            {revalidator.state === "idle" ? "Refresh Points" : "Refreshing..."}
+            {revalidator.state === "idle" ? "Refresh Points" : "Refreshing......"}
         </Button>
-        <Form.Select className="leaderboardSelector mt-1" onChange={(e) => props.setLeaderboardTab(e.target.value)} defaultValue={props.leaderboardTab}>
+        <Form.Select className="leaderboardSelector mt-1 me-1" onChange={(e) => props.setLeaderboardTab(e.target.value)} defaultValue={props.leaderboardTab}>
             <option value="friends">Friends</option>
             <option value="global">Global</option>
             <option value="reddit">Reddit</option>

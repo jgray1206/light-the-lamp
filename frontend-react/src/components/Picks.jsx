@@ -7,6 +7,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import SeasonSelector from "./SeasonSelector";
 
 const getPic = async (id) => {
     return await AxiosInstance.get("/api/user/" + id + "/pic")
@@ -17,7 +18,7 @@ const getPic = async (id) => {
 export default function Picks(props) {
     const [hideFriendsPick, setHideFriendsPick] = useState(true);
     const response = useLoaderData();
-    const games = response.games.data.sort(function (a, b) {
+    const games = response.games.data.sort((a, b) => b.id - a.id).sort(function (a, b) {
         return (
             new Date(
                 b.date[0],
@@ -31,7 +32,9 @@ export default function Picks(props) {
     });
     const myPicksMap = new Map(response.myPicks.data.map((pick) => [pick.game.id + "-" + pick.team.id, pick]));
     const user = response.user.data;
-    const teams = user.teams;
+    const teams = user.teams?.sort(function (a, b) {
+        return a.teamName.localeCompare(b.teamName)
+    });
     const gamesByTeamMap = games?.reduce(
         (acc, obj) => (
             (acc[obj.awayTeam.id] =
@@ -59,9 +62,10 @@ export default function Picks(props) {
 
     useEffect(() => {
         if (resetTeamGameEnabled) {
-            const activeTeam = getActiveTeam(teams, games);
+            const activeGame = getActiveGame(games);
+            const activeTeam = getActiveTeam(teams, activeGame);
             setTeam(activeTeam);
-            setGame(getActiveGame(gamesByTeamMap[activeTeam]) + "-" + activeTeam);
+            setGame(activeGame?.id + "-" + activeTeam);
         }
     }, [teams, games]);
 
@@ -83,14 +87,7 @@ export default function Picks(props) {
     }, []);
 
     return <>
-        <Form.Select className="seasonSelector" onChange={(e) => props.setSeason(e.target.value)} defaultValue={props.getSeason} title="Season">
-            <option value="202401">2024-2025 Pre</option>
-            <option value="202303">2023-2024 Post</option>
-            <option value="202302">2023-2024</option>
-            <option value="202301">2023-2024 Pre</option>
-            <option value="202203">2022-2023 Post</option>
-            <option value="202202">2022-2023</option>
-        </Form.Select>
+        <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason} />
         <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => { setResetTeamGameEnabled(false); revalidator.revalidate(); }}>
             {revalidator.state === "idle" ? "Refresh Points" : "Refreshing..."}
         </Button>
@@ -107,7 +104,7 @@ export default function Picks(props) {
                     className="mb-3 flex-nowrap text-nowrap"
                     style={{ overflowX: 'auto', overflowY: 'hidden' }}
                     activeKey={team}
-                    onSelect={(k) => { setTeam(k); setGame(getActiveGame(gamesByTeamMap[k]) + "-" + k); }}
+                    onSelect={(k) => { setTeam(k); setGame(getActiveGame(gamesByTeamMap[k])?.id + "-" + k); }}
                 >
                     {teams.map(function (team) {
                         if (gamesByTeamMap[team.id]?.length > 0) {
@@ -127,7 +124,7 @@ export default function Picks(props) {
                                                     return myPicksMap.get(prevGame.id + "-" + team.id);
                                                 })
                                                 .filter((prevGame) => prevGame != undefined);
-                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, revalidator, prevPicks);
+                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, revalidator, prevPicks, setResetTeamGameEnabled);
                                         })
                                     }
                                     {
@@ -142,11 +139,11 @@ export default function Picks(props) {
     </>;
 }
 
-function getActiveTeam(teams, games) {
+function getActiveTeam(teams, game) {
     const output = teams?.find((team) => {
         return (
-            team.id == games?.[0]?.awayTeam?.id ||
-            team.id == games?.[0]?.homeTeam?.id
+            team.id == game?.awayTeam?.id ||
+            team.id == game?.homeTeam?.id
         );
     })?.id;
     return output;
@@ -155,11 +152,11 @@ function getActiveTeam(teams, games) {
 function getActiveGame(games) {
     const output = games?.findLast((game) => {
         return game.gameState == "Live" || game.gameState == "Preview";
-    })?.id || games?.[0]?.id;
+    }) || games?.[0];
     return output;
 }
 
-function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, navigate, prevPicks, friendPicksByPlayerMap) {
+function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, revalidator, prevPicks, setResetTeamGameEnabled) {
     var pick = picksMap.get(game.id + "-" + team.id);
     var friendsPicksForGame = friendsPicksMap[game.id + "-" + team.id];
     var friendPicksByPlayerMap = friendsPicksForGame?.reduce(
@@ -264,7 +261,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                                     </td>
                                 }
                                 <td>{!pickEnabled && <><h1>{row.points}</h1><br /></>}<span style={{ whiteSpace: "pre" }}>{row.pointsCellText}</span><br /></td>
-                                {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'} onClick={() => doPick(game.id, team.id, row, navigate)}>Pick</Button></td>}
+                                {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'} onClick={() => doPick(game.id, team.id, row, revalidator, setResetTeamGameEnabled)}>Pick</Button></td>}
                             </tr>
                         </>
                     }
@@ -466,7 +463,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
         });
 }
 
-function doPick(gameId, teamId, row, revalidator) {
+function doPick(gameId, teamId, row, revalidator, setResetTeamGameEnabled) {
     if (row.disabled) {
         Swal.fire({
             text:
@@ -499,6 +496,7 @@ function doPick(gameId, teamId, row, revalidator) {
         if (result["isConfirmed"]) {
             AxiosInstance.post("/api/pick/user?gameId=" + gameId + "&pick=" + row.name + "&teamId=" + teamId)
                 .then(response => {
+                    setResetTeamGameEnabled(false);
                     revalidator.revalidate();
                 })
                 .catch(err => {
