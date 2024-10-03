@@ -276,7 +276,7 @@ function pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlay
     let teamPoints = 0
     let teamPointsCellText = ""
     if (pickEnabled) {
-        teamPointsCellText = "4/4goals\n5/5goals\n6/6goals etc";
+        teamPointsCellText = "4/4goals\n5/5goals\n6/6goals\netc..";
     } else {
         var goals =
             (game.awayOrHome == "home" ? game.homeTeamGoals : game.awayTeamGoals) ||
@@ -336,7 +336,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
     let points = 0
     let pointsCellText = ""
     if (pickEnabled) {
-        pointsCellText = "5/shutout\n3/one-or-two GA";
+        pointsCellText = "5/shutout\n3/1-or-2 GA";
     } else {
         const goals =
             (game.awayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
