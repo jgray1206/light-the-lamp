@@ -17,7 +17,7 @@ import Announcers from "./Announcers";
 
 const Routes = () => {
     const { token } = useAuth();
-    const [season, setSeason] = useState("202401");
+    const [season, setSeason] = useState("202402");
     const [maxGames, setMaxGames] = useState(5);
     const [leaderboardTab, setLeaderboardTab] = useState("friends");
 
