@@ -513,6 +513,7 @@ function doPick(gameId, teamId, row, revalidator, setResetTeamGameEnabled) {
                 .then(response => {
                     setResetTeamGameEnabled(false);
                     revalidator.revalidate();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 })
                 .catch(err => {
                     console.log(err)
