@@ -38,4 +38,6 @@ class Game {
 
     var isShootout: Boolean? = null
 
+    var awayTeamGoalieAssists: Short? = null
+    var homeTeamGoalieAssists: Short? = null
 }

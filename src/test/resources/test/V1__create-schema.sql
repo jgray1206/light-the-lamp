@@ -25,3 +25,8 @@ INSERT INTO "announcer" (team_id, display_name, nickname) VALUES (17, 'John Keat
 ALTER TABLE "pick" ADD COLUMN announcer_id BIGINT;
 ALTER TABLE "pick" ALTER COLUMN user_id DROP NOT NULL;
 CREATE TABLE "password_reset" (id BIGINT generated always as identity, user_id BIGINT NOT NULL, reset_uuid VARCHAR(36) NOT NULL, create_time TIMESTAMP NOT NULL);
+ALTER TABLE "game" ADD COLUMN away_team_goalie_assists SMALLINT;
+ALTER TABLE "game" ADD COLUMN home_team_goalie_assists SMALLINT;
+ALTER TABLE "game_player" ADD COLUMN ot_goals SMALLINT;
+ALTER TABLE "game_player" ADD COLUMN ot_short_goals SMALLINT;
+ALTER TABLE "game_player" DROP COLUMN goals_against;

@@ -26,7 +26,8 @@ class GamePlayer {
     var assists: Short? = null
     var shortGoals: Short? = null
     var shortAssists: Short? = null
-    var goalsAgainst: Short? = null
+    var otGoals: Short? = null
+    var otShortGoals: Short? = null
     var timeOnIce: String? = null
 }
 

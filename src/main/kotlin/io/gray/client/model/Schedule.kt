@@ -1,15 +1,21 @@
 package io.gray.client.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 data class Schedule(
         val gameWeek: List<GameDay>
 )
 
 data class GameDay(
         val date: String,
+        @field:JsonIgnore
+        var score: Score?,
         val games: List<Game>
 )
 
 data class Game(
+        @field:JsonIgnore
+        var goals: List<Goal>?,
         val id: Long,
         val season: Long,
         val startTimeUTC: String,

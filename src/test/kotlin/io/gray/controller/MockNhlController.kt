@@ -53,4 +53,12 @@ class MockNhlController {
     ): String {
         return String(this::class.java.getResourceAsStream("/responses/boxscore.json")!!.readBytes())
     }
+
+    @Get("/score/{date}")
+    @Consumes("application/json")
+    fun getScore(
+            @PathVariable(value = "date") date: String
+    ): String {
+        return String(this::class.java.getResourceAsStream("/responses/score.json")!!.readBytes())
+    }
 }

@@ -184,7 +184,11 @@ class PickController(
     }
 
     @Post("/announcer")
-    fun createForAnnouncer(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("announcerId") announcerId: Long, authentication: Authentication): Mono<Pick> {
+    fun createForAnnouncer(@QueryValue("gameId") gameId: String,
+                           @QueryValue("pick") pick: String,
+                           @QueryValue("announcerId") announcerId: Long,
+                           @QueryValue("points") points: Short?,
+                           authentication: Authentication): Mono<Pick> {
         if (!authentication.roles.contains("admin")) {
             error("can't submit picks for announcers if you aren't an admin you lil' hacker!")
         }
@@ -206,6 +210,9 @@ class PickController(
                             } else if (game.players?.firstOrNull { it.name == pick } != null) {
                                 it.gamePlayer = game.players?.firstOrNull { it.name == pick }
                             }
+                            if (points != null) {
+                                it.points = points
+                            }
                         })
                     }
                     .switchIfEmpty(
@@ -226,5 +233,4 @@ class PickController(
                     )
         }
     }
-
 }

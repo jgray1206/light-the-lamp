@@ -1,0 +1,1 @@
+ALTER TABLE "game_player" DROP COLUMN goals_against;

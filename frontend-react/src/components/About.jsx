@@ -38,20 +38,16 @@ export default function About() {
           <h3>Scoring</h3>
           <ul>
             <li>
-              <strong>Goalies</strong>: 5 points for a shutout, 3 points for a 1 or
-              2 goal game, 0 points for 3+ goals against.
+              <strong>Goalies</strong>: 5 points for a shutout, 3 points for a 1 or 2 goal game, 0 points for 3+ goals against. 5 points per assist.
             </li>
             <li>
-              <strong>The Team</strong>: 1 point per goal past 3. So 4 points for 4
-              goals, 5 for 5, etc.
+              <strong>The Team</strong>: 1 point per goal past 3. So 4 points for 4 goals, 5 for 5, etc.
             </li>
             <li>
-              <strong>Forwards</strong>: 2 points per goal, 4 per shorty, 1 point
-              per assist, 2 points per shorty assist.
+              <strong>Forwards</strong>: 2 points per regulation goal, 5 points per OT goal, 1 point per assist, points doubled if shorthanded.
             </li>
             <li>
-              <strong>Defensemen</strong>: 3 points per goal, 6 per shorty, 1 points
-              per assist, 2 points per shorty assist.
+              <strong>Defensemen</strong>: 3 points per regulation goal, 5 points per OT goal, 1 points per assist, points doubled if shorthanded.
             </li>
           </ul>
         </Card.Body>

@@ -336,11 +336,12 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
     let points = 0
     let pointsCellText = ""
     if (pickEnabled) {
-        pointsCellText = "5/shutout\n3/1-or-2 GA";
+        pointsCellText = "5/shutout\n3/1-or-2 GA\n5/assist";
     } else {
         const goals =
             (game.awayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
             0;
+        const assists = (game.awayOrHome == "home" ? game.homeTeamGoalieAssists : game.awayTeamGoalieAssists) || 0;
         if (goals > 2) {
             points = 0;
         } else if (goals > 0) {
@@ -349,6 +350,10 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
             points = 5;
         }
         pointsCellText += "GA: " + goals;
+        if (assists > 0) {
+            points += assists * 5;
+            pointsCellText += "\nA: " + assists;
+        }
     }
     rows.push(
         {
@@ -401,25 +406,35 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
             let pointsCellText = ""
             if (pickEnabled) {
                 if (player.position == "Defenseman") {
-                    pointsCellText = "3/goal\n1/assist\n*2/shorty";
+                    pointsCellText = "3/goal\n5/OT goal\n1/assist\n*2/shorty";
                 } else if (player.position == "Forward") {
-                    pointsCellText = "2/goal\n1/assist\n*2/shorty";
+                    pointsCellText = "2/goal\n5/OT goal\n1/assist\n*2/shorty";
                 }
             } else {
                 if (player.position == "Defenseman") {
                     points =
                         ((player.goals || 0) * 3 +
+                            (player.otGoals || 0) * 5 +
+                            (player.otShortGoals || 0) * 10 +
                             (player.assists || 0) +
                             (player.shortGoals || 0) * 6 +
                             (player.shortAssists || 0) * 2);
                 } else if (player.position == "Forward") {
                     points = ((player.goals || 0) * 2 +
+                        (player.otGoals || 0) * 5 +
+                        (player.otShortGoals || 0) * 10 +
                         (player.assists || 0) +
                         (player.shortGoals || 0) * 4 +
                         (player.shortAssists || 0) * 2);
                 }
                 if (player.goals) {
                     pointsCellText += "G: " + player.goals + "\n";
+                }
+                if (player.otGoals) {
+                    pointsCellText += "OT G: 1\n";
+                }
+                if (player.otShortGoals) {
+                    pointsCellText += "OT SHG: 1\n";
                 }
                 if (player.assists) {
                     pointsCellText += "A: " + player.assists + "\n";

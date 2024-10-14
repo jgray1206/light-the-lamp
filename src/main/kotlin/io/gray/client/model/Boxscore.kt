@@ -13,7 +13,12 @@ data class BothTeamStats(
 
 data class TeamStats(
         val forwards: List<BoxscorePlayer>,
-        val defense: List<BoxscorePlayer>
+        val defense: List<BoxscorePlayer>,
+        val goalies: List<BoxscoreGoalie>
+)
+
+data class BoxscoreGoalie(
+        val playerId: Long
 )
 
 data class BoxscorePlayer(
