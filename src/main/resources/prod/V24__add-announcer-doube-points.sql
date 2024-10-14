@@ -1,0 +1,1 @@
+ALTER TABLE "pick" ADD COLUMN double_points BOOLEAN;

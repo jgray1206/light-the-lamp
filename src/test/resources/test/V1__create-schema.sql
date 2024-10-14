@@ -30,3 +30,4 @@ ALTER TABLE "game" ADD COLUMN home_team_goalie_assists SMALLINT;
 ALTER TABLE "game_player" ADD COLUMN ot_goals SMALLINT;
 ALTER TABLE "game_player" ADD COLUMN ot_short_goals SMALLINT;
 ALTER TABLE "game_player" DROP COLUMN goals_against;
+ALTER TABLE "pick" ADD COLUMN double_points BOOLEAN;

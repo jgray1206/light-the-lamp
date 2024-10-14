@@ -32,4 +32,6 @@ class Pick {
 
     var points: Short? = null
 
+    var doublePoints: Boolean? = null
+
 }

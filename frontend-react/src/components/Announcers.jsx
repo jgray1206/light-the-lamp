@@ -5,9 +5,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 import Swal from 'sweetalert2';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { Button } from 'react-bootstrap';
+import { Button, FormCheck } from 'react-bootstrap';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import SeasonSelector from "./SeasonSelector";
+import Form from 'react-bootstrap/Form';
 
 export default function Announcers(props) {
     const response = useLoaderData();
@@ -122,11 +123,12 @@ function picksTable(game, team, picksMap, announcers, navigate) {
     return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
         <Button variant="primary" className="mt-1" onClick={() => { refreshGame(game.id) }}>Refresh Points</Button>
         <Table responsive hover>
-            <thead><tr><th>Announcer</th><th>Pick</th></tr></thead>
+            <thead><tr><th>Announcer</th><th>Pick</th><th>x2 Points</th></tr></thead>
             <tbody>
                 {
                     announcers.map(function (announcer) {
                         const announcerPick = picks?.find((pick) => pick.announcer.id == announcer.id);
+                        const otherAnnouncerDoublePoints = picks?.find((pick) => pick.game.id == game.id && pick.doublePoints == true && pick.announcer.id != announcer.id);
                         let selectedOpt = undefined;
                         if (announcerPick?.theTeam) {
                             selectedOpt = "team";
@@ -154,6 +156,17 @@ function picksTable(game, team, picksMap, announcers, navigate) {
                                         defaultSelected={selectedOpt ? [selectedOpt] : undefined}
                                     />
                                 </td>
+                                <td>
+                                    <Form.Check
+                                        type="checkbox"
+                                        disabled={!announcerPick || otherAnnouncerDoublePoints != undefined}
+                                        checked={announcerPick?.doublePoints}
+                                        onChange={(event) => {
+                                            markDoublePoints(game.id, announcer, event.target.checked, navigate);
+                                        }}
+                                        id={game.id + "-" + announcer.id + "-checkbox"}
+                                    />
+                                </td>
                             </tr>
                         </>
                     }
@@ -163,6 +176,20 @@ function picksTable(game, team, picksMap, announcers, navigate) {
         </Table>
     </Tab>;
 }
+
+function markDoublePoints(gameId, announcer, doublePoints, navigate) {
+    AxiosInstance.post("/api/pick/announcer?gameId=" + gameId + "&doublePoints=" + doublePoints + "&announcerId=" + announcer.id)
+        .then(() => navigate("/announcers", { replace: true }))
+        .catch(err => {
+            console.log(err)
+            Swal.fire({
+                text: err?.response?.data?._embedded?.errors?.[0]?.message || err["message"],
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        });
+}
+
 
 function doPick(gameId, announcer, pick, navigate) {
     AxiosInstance.post("/api/pick/announcer?gameId=" + gameId + "&pick=" + pick + "&announcerId=" + announcer.id)

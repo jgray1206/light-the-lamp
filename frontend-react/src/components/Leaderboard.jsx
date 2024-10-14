@@ -46,7 +46,11 @@ function groupPicksIntoLeaderboardUsers(groupedByTeamPicks, announcerPicksOnly, 
             for (let [pickIndex] of Object.entries(userPicks)) {
                 const pick = groupedByTeamPicks[team][userIndex][pickIndex];
                 if ((!myPicksOnly && !announcerPicksOnly) || filterGames.has(pick.game.id)) {
-                    points += pick.points || 0;
+                    if (pick.doublePoints == true) {
+                        points += (pick.points || 0) * 2;
+                    } else {
+                        points += pick.points || 0;
+                    }
                     games++;
                 }
             }

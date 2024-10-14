@@ -185,9 +185,9 @@ class PickController(
 
     @Post("/announcer")
     fun createForAnnouncer(@QueryValue("gameId") gameId: String,
-                           @QueryValue("pick") pick: String,
+                           @QueryValue("pick") pick: String?,
                            @QueryValue("announcerId") announcerId: Long,
-                           @QueryValue("points") points: Short?,
+                           @QueryValue("doublePoints") doublePoints: Boolean?,
                            authentication: Authentication): Mono<Pick> {
         if (!authentication.roles.contains("admin")) {
             error("can't submit picks for announcers if you aren't an admin you lil' hacker!")
@@ -200,37 +200,39 @@ class PickController(
             pickRepository.findByGameAndAnnouncer(game, announcer)
                     .flatMap {
                         pickRepository.update(it.also {
-                            it.goalies = null
-                            it.theTeam = null
-                            it.gamePlayer = null
-                            if (pick == "goalies") {
-                                it.goalies = true
-                            } else if (pick == "team") {
-                                it.theTeam = true
-                            } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                                it.gamePlayer = game.players?.firstOrNull { it.name == pick }
+                            if (pick != null) {
+                                it.goalies = null
+                                it.theTeam = null
+                                it.gamePlayer = null
+                                if (pick == "goalies") {
+                                    it.goalies = true
+                                } else if (pick == "team") {
+                                    it.theTeam = true
+                                } else if (game.players?.firstOrNull { it.name == pick } != null) {
+                                    it.gamePlayer = game.players?.firstOrNull { it.name == pick }
+                                }
                             }
-                            if (points != null) {
-                                it.points = points
+                            if (doublePoints != null) {
+                                it.doublePoints = doublePoints
                             }
                         })
                     }
-                    .switchIfEmpty(
-                            pickRepository.save(Pick().also { pickEntity ->
-                                pickEntity.game = game
-                                pickEntity.announcer = announcer
-                                pickEntity.team = team
-                                if (pick == "goalies") {
-                                    pickEntity.goalies = true
-                                } else if (pick == "team") {
-                                    pickEntity.theTeam = true
-                                } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                                    pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
-                                } else {
-                                    error("not a valid pick")
-                                }
-                            })
-                    )
+                    .switchIfEmpty(Mono.defer {
+                        pickRepository.save(Pick().also { pickEntity ->
+                            pickEntity.game = game
+                            pickEntity.announcer = announcer
+                            pickEntity.team = team
+                            if (pick == "goalies") {
+                                pickEntity.goalies = true
+                            } else if (pick == "team") {
+                                pickEntity.theTeam = true
+                            } else if (game.players?.firstOrNull { it.name == pick } != null) {
+                                pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
+                            } else {
+                                error("not a valid pick")
+                            }
+                        })
+                    })
         }
     }
 }
