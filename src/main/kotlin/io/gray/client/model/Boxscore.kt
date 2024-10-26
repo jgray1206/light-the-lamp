@@ -23,10 +23,6 @@ data class BoxscoreGoalie(
 
 data class BoxscorePlayer(
         val playerId: Long,
-        val goals: Short,
-        val assists: Short,
-        val shorthandedGoals: Short,
-        val shPoints: Short,
         val toi: String?
 )
 

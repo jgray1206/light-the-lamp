@@ -204,26 +204,25 @@ open class GameStateSyncer(
                 .plus(gameScore.playerByGameStats.awayTeam.forwards)
                 .plus(gameScore.playerByGameStats.homeTeam.defense)
                 .plus(gameScore.playerByGameStats.homeTeam.forwards).associateBy { it.playerId }
+        val goalsByPlayer = game.goals?.groupBy { it.playerId }
+        val assistsByPlayer = game.goals?.flatMap { goal -> goal.assists.map { i -> goal to i.playerId } }
+                                    ?.groupBy({ (_, player) -> player }, valueTransform = { (goal, _) -> goal })
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
             allPlayers[dbPlayer.id?.playerId!!]
         }?.mapValues { (player, dbPlayer) ->
-            val otShortGoals = if ((game.goals?.any { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength == "sh" && goal.playerId == dbPlayer.id?.playerId }) == true) {
-                1
-            } else {
-                0
-            }
-            val otGoals = if ((game.goals?.any { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength != "sh" && goal.playerId == dbPlayer.id?.playerId }) == true) {
-                1
-            } else {
-                0
-            }
-            val shortGoals = (player?.shorthandedGoals ?: 0).minus(otShortGoals).toShort()
-            val shortAssists = ((player?.shPoints ?: 0) - (player?.shorthandedGoals ?: 0)).toShort()
+            val playerGoals = goalsByPlayer?.get(player?.playerId)
+            val playerAssists = assistsByPlayer?.get(player?.playerId)
+            val otShortGoals = playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength == "sh" } ?: 0
+            val otGoals = playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength != "sh" } ?: 0
+            val shortGoals = playerGoals?.count { goal -> goal.periodDescriptor.periodType != "OT" && goal.strength == "sh" } ?: 0
+            val shortAssists = playerAssists?.count { goal -> goal.strength == "sh" } ?: 0
+            val goals = playerGoals?.count { goal -> goal.periodDescriptor.periodType != "OT" && goal.strength != "sh" } ?: 0
+            val assists = playerAssists?.count { goal -> goal.strength != "sh" } ?: 0
             dbPlayer.timeOnIce = player?.toi ?: "0:00"
-            dbPlayer.goals = ((player?.goals ?: 0) - shortGoals - otGoals - otShortGoals).toShort()
-            dbPlayer.assists = ((player?.assists ?: 0) - shortAssists).toShort()
-            dbPlayer.shortGoals = shortGoals
-            dbPlayer.shortAssists = shortAssists
+            dbPlayer.goals = goals.toShort()
+            dbPlayer.assists = assists.toShort()
+            dbPlayer.shortGoals = shortGoals.toShort()
+            dbPlayer.shortAssists = shortAssists.toShort()
             dbPlayer.otGoals = otGoals.toShort()
             dbPlayer.otShortGoals = otShortGoals.toShort()
             dbPlayer
