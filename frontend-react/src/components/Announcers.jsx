@@ -123,7 +123,7 @@ function picksTable(game, team, picksMap, announcers, navigate) {
     return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
         <Button variant="primary" className="mt-1" onClick={() => { refreshGame(game.id) }}>Refresh Points</Button>
         <Table responsive hover>
-            <thead><tr><th>Announcer</th><th>Pick</th><th>x2 Points</th></tr></thead>
+            <thead><tr><th>Announcer</th><th>Pick</th><th>Points</th><th>x2</th></tr></thead>
             <tbody>
                 {
                     announcers.map(function (announcer) {
@@ -155,6 +155,9 @@ function picksTable(game, team, picksMap, announcers, navigate) {
                                         options={opts}
                                         defaultSelected={selectedOpt ? [selectedOpt] : undefined}
                                     />
+                                </td>
+                                <td>
+                                    {announcerPick?.points ? announcerPick.points : 0}
                                 </td>
                                 <td>
                                     <Form.Check
