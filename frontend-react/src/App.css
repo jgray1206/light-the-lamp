@@ -5,12 +5,32 @@
 }
 
 .nav-link.active {
-  border-color: black !important;
-  font-weight: bold !important;
+    font-weight: bold !important;
+}
+
+html[data-bs-theme="light"] {
+    .nav-link.active {
+        border-color: black !important;
+    }
+}
+
+html[data-bs-theme="dark"] {
+    .table-danger {
+        --bs-table-color: #ffffff;
+        --bs-table-hover-color: #ffffff;
+        --bs-table-bg: #9e5b64;
+        --bs-table-hover-bg: #af656f;
+    }
+    .table-warning {
+        --bs-table-color: #ffffff;
+        --bs-table-hover-color: #ffffff;
+        --bs-table-bg: #8c7f53;
+        --bs-table-hover-bg: #9c8d5d;
+    }
 }
 
 button.nav-link  {
-  color: #6c757d;
+  color: #83929f;
   white-space: pre;
 }
 
@@ -20,12 +40,7 @@ button.nav-link  {
 
 .seasonSelector, .leaderboardSelector {
   width:auto;
-  color:'black';
   display:inline-block;
-}
-
-#kofi-anchor {
-  float:right;
 }
 
 #kofi-img {

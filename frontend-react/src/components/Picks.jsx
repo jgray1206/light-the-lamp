@@ -219,8 +219,6 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
         classString = "text-danger";
     } else if (pickEnabled && game.gameState != "Final") {
         classString = "text-success";
-    } else {
-        classString = "text-secondary";
     }
     return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
         <Table responsive hover>
