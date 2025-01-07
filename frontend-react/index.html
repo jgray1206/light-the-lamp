@@ -2,16 +2,6 @@
 <html lang="en">
 
 <head>
-  <script>
-      const storedTheme = localStorage.getItem('theme');
-      let theme;
-      if (storedTheme) {
-        theme = storedTheme;
-      } else {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      document.documentElement.setAttribute('data-bs-theme', theme);
-  </script>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/logo.png" />
   <link rel="apple-touch-icon" href="/logo.png" />

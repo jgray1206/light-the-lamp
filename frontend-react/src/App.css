@@ -1,7 +1,7 @@
 .container {
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 950px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 950px;
 }
 
 .nav-link.active {
@@ -21,6 +21,7 @@ html[data-bs-theme="dark"] {
         --bs-table-bg: #9e5b64;
         --bs-table-hover-bg: #af656f;
     }
+
     .table-warning {
         --bs-table-color: #ffffff;
         --bs-table-hover-color: #ffffff;
@@ -29,38 +30,38 @@ html[data-bs-theme="dark"] {
     }
 }
 
-button.nav-link  {
-  color: #83929f;
-  white-space: pre;
+button.nav-link {
+    color: #83929f;
+    white-space: pre;
 }
 
 .navbar-bg {
-  background-color: #2c3e50;
+    background-color: #2c3e50;
 }
 
 .seasonSelector, .leaderboardSelector {
-  width:auto;
-  display:inline-block;
+    width: auto;
+    display: inline-block;
 }
 
 #kofi-img {
-  padding: .15rem !important;
+    padding: .15rem !important;
 }
 
 figure {
-   display: table;
-   font-size: .875em;
+    display: table;
+    font-size: .875em;
 }
 
 figure img {
-   display: block;
+    display: block;
 }
 
 figcaption {
-   display: table-caption;
-   caption-side: bottom;
+    display: table-caption;
+    caption-side: bottom;
 }
 
 .card-body {
-  padding: .8rem !important;
+    padding: .8rem !important;
 }
