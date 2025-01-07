@@ -370,7 +370,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
                 } else {
                     return { 'name': friend.announcer?.nickname };
                 }
-            }).sort((a, b) =>
+            }).sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) =>
                 a.id == undefined ? -1
                     : 1
             )
@@ -468,7 +468,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
                         } else {
                             return { 'name': friend.announcer?.nickname };
                         }
-                    }).sort((a, b) =>
+                    }).sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) =>
                         a.id == undefined ? -1
                             : 1
                     )
