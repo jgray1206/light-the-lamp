@@ -311,7 +311,8 @@ function pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlay
                 } else {
                     return { 'name': friend.announcer?.nickname };
                 }
-            }).sort((a, b) =>
+            }).sort((a, b) => a.name.localeCompare(b.name))
+            .sort((a, b) =>
                 a.id == undefined ? -1
                     : 1
             )
