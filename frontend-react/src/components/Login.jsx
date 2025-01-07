@@ -90,8 +90,16 @@ export default function Login() {
         <>
             <style type="text/css">
                 {`
-                body {
-                    background-color: #f5f5f5;
+                html[data-bs-theme="light"] {
+                    body {
+                        background-color: #f5f5f5;
+                    }
+                }
+                
+                html[data-bs-theme="dark"] {
+                    body {
+                        background-color: #212529;
+                    }
                 }
 
                 .card {
