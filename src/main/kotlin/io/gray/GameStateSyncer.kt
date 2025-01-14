@@ -38,7 +38,7 @@ open class GameStateSyncer(
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    //@Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
+    @Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
     @ExecuteOn(TaskExecutors.IO)
     fun syncInProgressGameState() {
         syncAllGames(LocalDateTime.now().minute)
@@ -190,6 +190,7 @@ open class GameStateSyncer(
                 it.teamName = franchise.fullName
                 it.abbreviation = team.abbrev
                 it.shortName = franchise.teamCommonName
+                it.league = League.NHL
             }).onErrorResume { _ -> teamRepository.findById(team.id).switchIfEmpty(Mono.error { error("had all sorts of problems making a team") }) }
         }
     }
@@ -249,6 +250,7 @@ open class GameStateSyncer(
                 it.date = LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME)
                 it.players = players.t1.plus(players.t2)
                 it.league = League.NHL
+                it.season = game.id.toString().take(6)
             })
         }
     }

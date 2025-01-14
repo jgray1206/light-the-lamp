@@ -13,6 +13,8 @@ class Game {
     @Id
     var id: Long? = null
 
+    var season: String? = null
+
     var league: League? = null
 
     @NotNull

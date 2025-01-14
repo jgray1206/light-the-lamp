@@ -3,6 +3,7 @@ package io.gray.controllers
 import io.gray.GameStateSyncer
 import io.gray.model.*
 import io.gray.repos.*
+import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
@@ -34,12 +35,13 @@ class GameController(
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable { user ->
             user.teams
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team,
+            gameRepository.findByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team,
                     team,
-                    "${season}0000".toInt(),
-                    "${season}9999".toInt(),
-                    maxGames
-            )
+                    season,
+                    Pageable.from(0, maxGames)
+            ).flatMapMany {
+                gameRepository.findByIdIn(it.map { it.id!! }.content)
+            }
         }.distinct { it.id }
     }
 
@@ -48,12 +50,13 @@ class GameController(
         return announcerRepository.findAll().map { announcer ->
             announcer.team
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeamAndIdBetween(team!!,
-                    team,
-                    "${season}0000".toInt(),
-                    "${season}9999".toInt(),
-                    maxGames
-            )
+            gameRepository.findByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team!!,
+                team,
+                season,
+                Pageable.from(0, maxGames)
+            ).flatMapMany {
+                gameRepository.findByIdIn(it.map { it.id!! }.content)
+            }
         }.distinct { it.id }
     }
 

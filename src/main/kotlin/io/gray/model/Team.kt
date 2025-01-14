@@ -21,4 +21,6 @@ class Team {
     @NotBlank
     @Size(max = 32)
     var shortName: String? = null
+
+    var league: League? = null
 }

@@ -31,3 +31,7 @@ ALTER TABLE "game_player" ADD COLUMN ot_goals SMALLINT;
 ALTER TABLE "game_player" ADD COLUMN ot_short_goals SMALLINT;
 ALTER TABLE "game_player" DROP COLUMN goals_against;
 ALTER TABLE "pick" ADD COLUMN double_points BOOLEAN;
+ALTER TABLE "team" ADD COLUMN league VARCHAR(8);
+ALTER TABLE "game" ADD COLUMN season VARCHAR(8);
+ALTER TABLE "pick" ADD COLUMN season VARCHAR(8);
+ALTER TABLE "game" ADD COLUMN league VARCHAR(8);

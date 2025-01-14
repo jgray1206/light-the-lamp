@@ -35,6 +35,10 @@ open class PWHLGameStateSyncer(
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
+        fun mapSeasonToNHLSeason(season: String) = when (season) {
+            "5" -> "202402"
+            else -> error("unknown pwhl season passed $season")
+        }
     }
 
     @Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
@@ -222,6 +226,7 @@ open class PWHLGameStateSyncer(
             it.teamName = teamName
             it.abbreviation = abbreviation
             it.shortName = shortName
+            it.league = League.PWHL
         }).onErrorResume { _ ->
             teamRepository.findById(id).switchIfEmpty(Mono.error { error("had all sorts of problems making a team") })
         }
@@ -284,6 +289,7 @@ open class PWHLGameStateSyncer(
                     it.date = LocalDateTime.parse(game.GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME)
                     it.players = players.t1.plus(players.t2)
                     it.league = League.PWHL
+                    it.season = mapSeasonToNHLSeason(game.SeasonID)
                 })
             }
     }
@@ -317,5 +323,4 @@ open class PWHLGameStateSyncer(
         "1" -> "Preview"
         else -> "Live"
     }
-
 }

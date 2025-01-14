@@ -1,5 +1,6 @@
 package io.gray.controllers
 
+import io.gray.PWHLGameStateSyncer
 import io.gray.model.Pick
 import io.gray.model.Team
 import io.gray.model.UserDTO
@@ -37,7 +38,7 @@ class PickController(
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable {
             it.teams
         }.flatMap {
-            pickRepository.findAllByTeamAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
+            pickRepository.findAllByTeamAndSeason(it, season)
         }
     }
 
@@ -49,18 +50,18 @@ class PickController(
     @Get("/user")
     fun getPickByUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapMany {
-            pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
+            pickRepository.findAllByUserAndSeason(UserDTO().apply {
                 this.id = it.id
                 this.displayName = it.displayName
                 this.redditUsername = it.redditUsername
-            }, "${season}0000".toInt(), "${season}9999".toInt())
+            }, season)
         }
     }
 
     @Get("/announcer")
     fun getPickByAnnouncer(@QueryValue season: String): Flux<Pick> {
         return announcerRepository.findAll().flatMap {
-            pickRepository.findAllByAnnouncerAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
+            pickRepository.findAllByAnnouncerAndSeason(it, season)
         }
     }
 
@@ -69,15 +70,15 @@ class PickController(
         return userRepository.findByEmailIgnoreCase(principal.name)
                 .flatMapIterable { it.friends }
                 .flatMap {
-                    pickRepository.findAllByUserAndGameIdBetween(UserDTO().apply {
+                    pickRepository.findAllByUserAndSeason(UserDTO().apply {
                         this.id = it.id
                         this.displayName = it.displayName
                         this.redditUsername = it.redditUsername
-                    }, "${season}0000".toInt(), "${season}9999".toInt())
+                    }, season)
                 }
                 .mergeWith(
                         announcerRepository.findAll().flatMap {
-                            pickRepository.findAllByAnnouncerAndGameIdBetween(it, "${season}0000".toInt(), "${season}9999".toInt())
+                            pickRepository.findAllByAnnouncerAndSeason(it, season)
                         }
                 )
     }
@@ -85,20 +86,20 @@ class PickController(
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndUserInAndGameIdBetween(it.teams!!, it.friends!!.plus(it).map {
+            pickRepository.findAllByTeamInAndUserInAndSeason(it.teams!!, it.friends!!.plus(it).map {
                 UserDTO().apply {
                     this.id = it.id
                     this.displayName = it.displayName
                     this.redditUsername = it.redditUsername
                 }
-            }, "${season}0000".toInt(), "${season}9999".toInt())
+            }, season)
         }
     }
 
     @Get("/reddit")
     fun getPicksByReddit(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmailIgnoreCase(principal.name).filter { it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndGameIdBetweenAndUserRedditUsernameIsNotEmpty(it.teams!!, "${season}0000".toInt(), "${season}9999".toInt())
+            pickRepository.findAllByTeamInAndSeasonAndUserRedditUsernameIsNotEmpty(it.teams!!, season)
         }
     }
 
@@ -124,8 +125,7 @@ class PickController(
             check(game.date?.plusMinutes(6)?.isAfter(LocalDateTime.now()) == true || environment.activeNames.contains("local")) {
                 "can't submit pick on game that has already started, you little silly billy"
             }
-            val season = game.id.toString().take(6) + "0000";
-            gameRepository.findTop2ByIdLessThanAndIdGreaterThanEqualsAndHomeTeamOrAwayTeamOrderByIdDesc(gameId.toLong(), season.toLong(), team, team)
+            gameRepository.findTop2ByIdLessThanAndSeasonAndHomeTeamOrAwayTeamOrderByIdDesc(gameId.toLong(), game.season!!, team, team)
                     .flatMap { pickRepository.findByGameAndUserAndTeam(it, user, team) }
                     .collectList()
                     .doOnNext {
@@ -153,6 +153,7 @@ class PickController(
                                     Mono.defer { pickRepository.save(Pick().also { pickEntity ->
                                         logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
                                         pickEntity.game = game
+                                        pickEntity.season = game.season
                                         pickEntity.team = team
                                         pickEntity.user = user
                                         if (pick == "goalies") {
@@ -220,6 +221,7 @@ class PickController(
                     .switchIfEmpty(Mono.defer {
                         pickRepository.save(Pick().also { pickEntity ->
                             pickEntity.game = game
+                            pickEntity.season = game.season
                             pickEntity.announcer = announcer
                             pickEntity.team = team
                             if (pick == "goalies") {

@@ -11,6 +11,8 @@ class Pick {
     @GeneratedValue(GeneratedValue.Type.AUTO)
     var id: Long? = null
 
+    var season: String? = null
+
     @Relation(Relation.Kind.MANY_TO_ONE)
     var user: UserDTO? = null
 

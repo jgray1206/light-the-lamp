@@ -71,17 +71,6 @@ data class ScheduledGame(
     var awayTeam: Team?
 ) {
     fun getGameId(): Long {
-        return "${mapSeasonId(SeasonID)}${mapId(ID)}".toLong()
-    }
-
-    fun mapSeasonId(seasonId: String): String {
-        return when(seasonId) {
-            "5" -> "202402"
-            else -> seasonId
-        }
-    }
-
-    fun mapId(id: String): String {
-        return id.padStart(4, '9')
+        return "$SeasonID$ID".toLong()
     }
 }

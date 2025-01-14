@@ -30,8 +30,8 @@ class LeaderboardController(
             if (user.teams == null || user.teams!!.isEmpty()) {
                 return@flatMapMany Flux.empty()
             }
-            Flux.concat(pickRepository.getLeaderboardForUsersByGameIdAndTeam("${season}0000".toInt(), "${season}9999".toInt(), user.teams!!.map { it.id!! }),
-                    pickRepository.getLeaderboardForAnnouncersByGameIdAndTeam("${season}0000".toInt(), "${season}9999".toInt(), user.teams!!.map { it.id!! }))
+            Flux.concat(pickRepository.getLeaderboardForUsersByGameIdAndTeam(season, user.teams!!.map { it.id!! }),
+                    pickRepository.getLeaderboardForAnnouncersByGameIdAndTeam(season, user.teams!!.map { it.id!! }))
                     .map {
                         LeaderboardDTO().apply {
                             this.team =  user.teams?.first { team -> it.teamId == team.id }
@@ -48,7 +48,7 @@ class LeaderboardController(
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<LeaderboardDTO> {
         return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany { user ->
-            pickRepository.getLeaderboardForUsersByGameIdAndTeamAndUserIdIn("${season}0000".toInt(), "${season}9999".toInt(), user.teams!!.map { it.id!! }, user.friends!!.plus(user).map { it.id!! }).map {
+            pickRepository.getLeaderboardForUsersByGameIdAndTeamAndUserIdIn(season, user.teams!!.map { it.id!! }, user.friends!!.plus(user).map { it.id!! }).map {
                 LeaderboardDTO().apply {
                     this.team = user.teams?.first { team -> it.teamId == team.id }
                     this.isAnnouncer = false
@@ -68,7 +68,7 @@ class LeaderboardController(
             if (user.teams == null || user.teams!!.isEmpty()) {
                 return@flatMapMany Flux.empty()
             }
-            pickRepository.getRedditLeaderboardForUsersByGameIdAndTeam("${season}0000".toInt(), "${season}9999".toInt(), user.teams!!.map { it.id!! })
+            pickRepository.getRedditLeaderboardForUsersByGameIdAndTeam(season, user.teams!!.map { it.id!! })
                     .map {
                         LeaderboardDTO().apply {
                             this.team =  user.teams?.first { team -> it.teamId == team.id }
