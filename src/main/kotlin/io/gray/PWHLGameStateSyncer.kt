@@ -48,13 +48,12 @@ open class PWHLGameStateSyncer(
     }
 
     fun syncAllGames(minuteOfHour: Int) {
-        pwhlClient.getGamesByDate("5", "20")
+        pwhlClient.getGamesByDate("3", "2")
             .flatMapIterable { it.siteKit.scheduledGames }
             .filter {
                 LocalDateTime.now().plusDays(1).plusHours(2)
                     .isAfter(LocalDateTime.parse(it.GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME))
             }
-
             .flatMap { game ->
                 pwhlClient.getGameSummary(game.ID)
                     .map { it.removeSurrounding("(", ")") }
