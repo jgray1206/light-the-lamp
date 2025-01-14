@@ -48,7 +48,7 @@ open class PWHLGameStateSyncer(
     }
 
     fun syncAllGames(minuteOfHour: Int) {
-        pwhlClient.getGamesByDate("5", "2")
+        pwhlClient.getGamesByDate("5", "20")
             .flatMapIterable { it.siteKit.scheduledGames }
             .filter {
                 LocalDateTime.now().plusDays(1).plusHours(2)
@@ -247,14 +247,14 @@ open class PWHLGameStateSyncer(
             val playerGoals = goalsByPlayer?.get(player?.info?.id)
             val playerAssists = assistsByPlayer?.get(player?.info?.id)
             val otShortGoals =
-                playerGoals?.count { goal -> goal.period.shortName.startsWith("OT") && goal.properties.isShortHanded == "1" } ?: 0
+                playerGoals?.count { goal -> (goal.period.longName.contains("OT") || goal.period.shortName.contains("OT")) && goal.properties.isShortHanded == "1" } ?: 0
             val otGoals =
-                playerGoals?.count { goal -> goal.period.shortName.startsWith("OT") && goal.properties.isShortHanded == "0" } ?: 0
+                playerGoals?.count { goal -> (goal.period.longName.contains("OT") || goal.period.shortName.contains("OT")) && goal.properties.isShortHanded == "0" } ?: 0
             val shortGoals =
-                playerGoals?.count { goal -> !goal.period.shortName.startsWith("OT") &&  goal.properties.isShortHanded == "1" } ?: 0
+                playerGoals?.count { goal -> !goal.period.longName.contains("OT") && !goal.period.shortName.contains("OT") && goal.properties.isShortHanded == "1" } ?: 0
             val shortAssists = playerAssists?.count { goal -> goal.properties.isShortHanded == "1" } ?: 0
             val goals =
-                playerGoals?.count { goal -> !goal.period.shortName.startsWith("OT") && goal.properties.isShortHanded == "0" } ?: 0
+                playerGoals?.count { goal -> !goal.period.longName.contains("OT") && !goal.period.shortName.contains("OT") && goal.properties.isShortHanded == "0" } ?: 0
             val assists = playerAssists?.count { goal -> goal.properties.isShortHanded == "0" } ?: 0
             dbPlayer.timeOnIce = player?.stats?.toi ?: "0:00"
             dbPlayer.goals = goals.toShort()
