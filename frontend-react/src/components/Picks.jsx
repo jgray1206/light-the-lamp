@@ -213,7 +213,6 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
     const pickEnabled = pick == undefined && gameDate > curDate;
     var rows = [];
     var gamePlayers = game.players.filter((player) => player.team.id == team.id);
-    console.log(game);
     pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game);
     pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game);
     pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlayerMap, game);
