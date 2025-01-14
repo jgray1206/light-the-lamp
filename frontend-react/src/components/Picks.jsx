@@ -1,11 +1,11 @@
 import AxiosInstance from '../provider/axiosProvider';
-import { useLoaderData, useRevalidator } from "react-router-dom";
-import { useState, useEffect } from "react";
+import {useLoaderData, useRevalidator} from "react-router-dom";
+import {useState, useEffect} from "react";
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
-import { Button } from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import SeasonSelector from "./SeasonSelector";
 
@@ -39,8 +39,8 @@ export default function Picks(props) {
         (acc, obj) => (
             (acc[obj.awayTeam.id] =
                 acc[obj.awayTeam.id] || []).push(obj) && (acc[obj.homeTeam.id] =
-                    acc[obj.homeTeam.id] || []).push(obj),
-            acc
+                acc[obj.homeTeam.id] || []).push(obj),
+                acc
         ),
         {}
     );
@@ -53,7 +53,7 @@ export default function Picks(props) {
         (acc, obj) => (
             (acc[obj.game.id + "-" + obj.team.id] =
                 acc[obj.game.id + "-" + obj.team.id] || []).push(obj),
-            acc
+                acc
         ),
         {}
     );
@@ -83,12 +83,16 @@ export default function Picks(props) {
             }
             setPics(pics);
         }
+
         fetchPics();
     }, []);
 
     return <>
-        <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason} />
-        <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => { setResetTeamGameEnabled(false); revalidator.revalidate(); }}>
+        <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason}/>
+        <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => {
+            setResetTeamGameEnabled(false);
+            revalidator.revalidate();
+        }}>
             {revalidator.state === "idle" ? "Refresh Points" : "Refreshing..."}
         </Button>
         <Form.Check
@@ -96,23 +100,36 @@ export default function Picks(props) {
             id="hideFriendsPick"
             label="Hide Friend Picks When Picking"
             defaultChecked={hideFriendsPick}
-            onChange={() => { setHideFriendsPick(!hideFriendsPick) }} />
+            onChange={() => {
+                setHideFriendsPick(!hideFriendsPick)
+            }}/>
         {!teams || teams.length == 0 ? <h2>You have not joined any teams! Please check your profile settings.</h2> :
             games.length == 0 ? <h2>No games yet!</h2> :
                 <Tabs
                     id="team-tabs"
                     className="mb-3 flex-nowrap text-nowrap"
-                    style={{ overflowX: 'auto', overflowY: 'hidden' }}
+                    style={{overflowX: 'auto', overflowY: 'hidden'}}
                     activeKey={team}
-                    onSelect={(k) => { setTeam(k); setGame(getActiveGame(gamesByTeamMap[k])?.id + "-" + k); }}
+                    onSelect={(k) => {
+                        setTeam(k);
+                        setGame(getActiveGame(gamesByTeamMap[k])?.id + "-" + k);
+                    }}
                 >
                     {teams.map(function (team) {
                         if (gamesByTeamMap[team.id]?.length > 0) {
                             return <Tab eventKey={team.id} title={team.teamName} key={team.id}>
                                 <Tabs
                                     id="game-tabs"
-                                    className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
-                                    onSelect={(e) => { if (e.includes("moregames")) { props.setMaxGames(props.maxGames + 20); setGame(game); } else { setGame(e); } }}
+                                    className="mb-3 flex-nowrap text-nowrap"
+                                    style={{overflowX: 'auto', overflowY: 'hidden'}}
+                                    onSelect={(e) => {
+                                        if (e.includes("moregames")) {
+                                            props.setMaxGames(props.maxGames + 20);
+                                            setGame(game);
+                                        } else {
+                                            setGame(e);
+                                        }
+                                    }}
                                     activeKey={game}>
                                     {
                                         gamesByTeamMap[team.id]?.map((game, index) => {
@@ -128,7 +145,9 @@ export default function Picks(props) {
                                         })
                                     }
                                     {
-                                        gamesByTeamMap[team.id]?.length == props.maxGames && <Tab tabClassName="text-secondary" eventKey={team.id + "moregames"} title={"Load More\nGames"} key={team.id + "moregames"} />
+                                        gamesByTeamMap[team.id]?.length == props.maxGames &&
+                                        <Tab tabClassName="text-secondary" eventKey={team.id + "moregames"}
+                                             title={"Load More\nGames"} key={team.id + "moregames"}/>
                                     }
                                 </Tabs>
                             </Tab>;
@@ -162,16 +181,16 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
     var friendPicksByPlayerMap = friendsPicksForGame?.reduce(
         (acc, obj) => (
             (acc[
-                obj.gamePlayer?.id?.playerId ||
-                (obj.theTeam && "theTeam") ||
-                (obj.goalies && "goalies")
-            ] =
+            obj.gamePlayer?.id?.playerId ||
+            (obj.theTeam && "theTeam") ||
+            (obj.goalies && "goalies")
+                ] =
                 acc[
                 obj.gamePlayer?.id?.playerId ||
                 (obj.theTeam && "theTeam") ||
                 (obj.goalies && "goalies")
-                ] || []).push(obj),
-            acc
+                    ] || []).push(obj),
+                acc
         ),
         {}
     );
@@ -194,7 +213,8 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
     const pickEnabled = pick == undefined && gameDate > curDate;
     var rows = [];
     var gamePlayers = game.players.filter((player) => player.team.id == team.id);
-    pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap);
+    console.log(game);
+    pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game);
     pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game);
     pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlayerMap, game);
     rows.sort((a, b) =>
@@ -220,22 +240,33 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
     } else if (pickEnabled && game.gameState != "Final") {
         classString = "text-success";
     }
-    return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort} key={game.id + "-" + team.id}>
+    return <Tab tabClassName={classString} eventKey={game.id + "-" + team.id} title={gameStringShort}
+                key={game.id + "-" + team.id}>
         <Table responsive hover>
-            <thead><tr><th>Player</th>{(!pickEnabled || (pickEnabled && !hideFriendsPick)) && <th>Friends</th>}<th>Points</th>{pickEnabled && <th>Pick</th>}</tr></thead>
+            <thead>
+            <tr>
+                <th>Player</th>
+                {(!pickEnabled || (pickEnabled && !hideFriendsPick)) && <th>Friends</th>}
+                <th>Points</th>
+                {pickEnabled && <th>Pick</th>}</tr>
+            </thead>
             <tbody>
-                {
-                    rows.map(function (row) {
+            {
+                rows.map(function (row) {
                         return <>
-                            <tr key={game.id + "-" + row.name} className={row.picked ? "table-danger" : (pickEnabled && row.noToi) ? "table-warning" : undefined}>
+                            <tr key={game.id + "-" + row.name}
+                                className={row.picked ? "table-danger" : (pickEnabled && row.noToi) ? "table-warning" : undefined}>
                                 <td>
                                     <figure className="mb-1">
                                         {
                                             row.imgSrcs && row.imgSrcs.split(",")?.map(function (imgSrc) {
-                                                return <img key={game.id + imgSrc} width="90" height="90" className="rounded-circle img-thumbnail" src={imgSrc} onError={({ currentTarget }) => currentTarget.src = "./shrug.png"} />
+                                                return <img key={game.id + imgSrc} width="90" height="90"
+                                                            className="rounded-circle img-thumbnail" src={imgSrc}
+                                                            onError={({currentTarget}) => currentTarget.src = "./shrug.png"}/>
                                             })
                                         }
-                                        <figcaption>{row.displayName}</figcaption></figure>
+                                        <figcaption>{row.displayName}</figcaption>
+                                    </figure>
                                 </td>
                                 {(!pickEnabled || (pickEnabled && !hideFriendsPick)) &&
                                     <td>
@@ -244,13 +275,16 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                                                 if (friend.id) {
                                                     return <>
                                                         <div key={game.id + "-" + friend.id}>
-                                                            <img width="30" height="30" className="rounded-circle" style={{ marginBottom: "1px", marginRight: "3px" }} src={pics.get(friend.id)} /><span style={{ fontSize: "14px" }}>{friend.name}</span><br />
+                                                            <img width="30" height="30" className="rounded-circle"
+                                                                 style={{marginBottom: "1px", marginRight: "3px"}}
+                                                                 src={pics.get(friend.id)}/><span
+                                                            style={{fontSize: "14px"}}>{friend.name}</span><br/>
                                                         </div>
                                                     </>
                                                 } else {
                                                     return <>
-                                                        <div key={game.id + "-" + friend.name} >
-                                                            <span style={{ fontSize: "13px" }}>{friend.name}</span><br />
+                                                        <div key={game.id + "-" + friend.name}>
+                                                            <span style={{fontSize: "13px"}}>{friend.name}</span><br/>
                                                         </div>
                                                     </>
                                                 }
@@ -258,13 +292,16 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                                         }
                                     </td>
                                 }
-                                <td>{!pickEnabled && <><h1>{row.points}</h1><br /></>}<span style={{ whiteSpace: "pre" }}>{row.pointsCellText}</span><br /></td>
-                                {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'} onClick={() => doPick(game.id, team.id, row, revalidator, setResetTeamGameEnabled)}>Pick</Button></td>}
+                                <td>{!pickEnabled && <><h1>{row.points}</h1><br/></>}<span
+                                    style={{whiteSpace: "pre"}}>{row.pointsCellText}</span><br/></td>
+                                {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'}
+                                                            onClick={() => doPick(game.id, team.id, row, revalidator, setResetTeamGameEnabled)}>Pick</Button>
+                                </td>}
                             </tr>
                         </>
                     }
-                    )
-                }
+                )
+            }
             </tbody>
         </Table>
     </Tab>;
@@ -307,31 +344,40 @@ function pushTeamRow(rows, pickEnabled, team, prevPicks, pick, friendPicksByPlay
             'disabled': prevPicks.map((e) => e?.theTeam).includes(true),
             'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["theTeam"]?.map((friend) => {
                 if (friend.user) {
-                    return { 'name': friend.user.displayName, 'id': friend.user.id };
+                    return {'name': friend.user.displayName, 'id': friend.user.id};
                 } else {
-                    return { 'name': friend.announcer?.nickname };
+                    return {'name': friend.announcer?.nickname};
                 }
             }).sort((a, b) => a.name.localeCompare(b.name))
-            .sort((a, b) =>
-                a.id == undefined ? -1
-                    : 1
-            )
+                .sort((a, b) =>
+                    a.id == undefined ? -1
+                        : 1
+                )
         }
     )
 }
 
 function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game) {
-    var goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
-        .reduce(
-            (accumulator, player) => accumulator + "https://assets.nhle.com/mugs/nhl/" +
-                seasonImgText +
-                "/" +
-                team.abbreviation +
-                "/" +
-                player.id.playerId +
-                ".png,",
-            "",
-        ).replace(/,$/, "");
+    let goaliesPics
+    if (game.league === "PWHL") {
+        goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
+            .reduce(
+                (accumulator, player) => accumulator + "https://assets.leaguestat.com/pwhl/240x240/" +
+                    + player.id.playerId + ".jpg,"
+            ).replace(/,$/, "");
+    } else {
+        goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
+            .reduce(
+                (accumulator, player) => accumulator + "https://assets.nhle.com/mugs/nhl/" +
+                    seasonImgText +
+                    "/" +
+                    team.abbreviation +
+                    "/" +
+                    player.id.playerId +
+                    ".png,",
+                "",
+            ).replace(/,$/, "");
+    }
     let points = 0
     let pointsCellText = ""
     if (pickEnabled) {
@@ -366,9 +412,9 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
             'disabled': prevPicks.map((e) => e?.goalies).includes(true),
             'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap["goalies"]?.map((friend) => {
                 if (friend.user) {
-                    return { 'name': friend.user.displayName, 'id': friend.user.id };
+                    return {'name': friend.user.displayName, 'id': friend.user.id};
                 } else {
-                    return { 'name': friend.announcer?.nickname };
+                    return {'name': friend.announcer?.nickname};
                 }
             }).sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) =>
                 a.id == undefined ? -1
@@ -378,7 +424,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
     )
 }
 
-function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap) {
+function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team, seasonImgText, prevPicks, pick, friendPicksByPlayerMap, game) {
     let anyToisLastGame = false;
     if (prevGamePlayersMap) {
         for (const player of prevGamePlayersMap.values()) {
@@ -391,7 +437,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
     gamePlayers.filter((player) => player.position != "Goalie")
         .sort((a, b) =>
             a.name.split(" ").reverse().join(",") >
-                b.name.split(" ").reverse().join(",")
+            b.name.split(" ").reverse().join(",")
                 ? 1
                 : -1
         )
@@ -445,6 +491,18 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
                     pointsCellText += "SHA: " + player.shortAssists;
                 }
             }
+            let imgSrc = "";
+            if (game.league === "PWHL") {
+                imgSrc = "https://assets.leaguestat.com/pwhl/240x240/" + player.id.playerId + ".jpg"
+            } else {
+                imgSrc = "https://assets.nhle.com/mugs/nhl/" +
+                    seasonImgText +
+                    "/" +
+                    team.abbreviation +
+                    "/" +
+                    player.id.playerId +
+                    ".png"
+            }
             rows.push(
                 {
                     'name': player.name,
@@ -453,20 +511,14 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
                     'noToi': anyToisLastGame && (lastGameToi == undefined || lastGameToi == "0:00"),
                     'points': points,
                     'pointsCellText': pointsCellText,
-                    'imgSrcs': "https://assets.nhle.com/mugs/nhl/" +
-                        seasonImgText +
-                        "/" +
-                        team.abbreviation +
-                        "/" +
-                        player.id.playerId +
-                        ".png",
+                    'imgSrcs': imgSrc,
                     'disabled': prevPicks.map((e) => e?.gamePlayer?.name).includes(player.name),
                     'picked': pick && pick.gamePlayer && pick.gamePlayer.id.playerId == player.id.playerId,
                     'friendPicks': friendPicksByPlayerMap && friendPicksByPlayerMap[player.id.playerId]?.map((friend) => {
                         if (friend.user) {
-                            return { 'name': friend.user.displayName, 'id': friend.user.id };
+                            return {'name': friend.user.displayName, 'id': friend.user.id};
                         } else {
-                            return { 'name': friend.announcer?.nickname };
+                            return {'name': friend.announcer?.nickname};
                         }
                     }).sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) =>
                         a.id == undefined ? -1
@@ -512,7 +564,7 @@ function doPick(gameId, teamId, row, revalidator, setResetTeamGameEnabled) {
                 .then(response => {
                     setResetTeamGameEnabled(false);
                     revalidator.revalidate();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                 })
                 .catch(err => {
                     console.log(err)

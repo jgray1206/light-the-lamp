@@ -3,10 +3,7 @@ package io.gray
 import io.gray.client.*
 import io.gray.client.model.Boxscore
 import io.gray.client.model.GameState
-import io.gray.model.Game
-import io.gray.model.GamePlayer
-import io.gray.model.GamePlayerId
-import io.gray.model.Team
+import io.gray.model.*
 import io.gray.repos.GamePlayerRepository
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
@@ -41,7 +38,7 @@ open class GameStateSyncer(
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    @Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
+    //@Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
     @ExecuteOn(TaskExecutors.IO)
     fun syncInProgressGameState() {
         syncAllGames(LocalDateTime.now().minute)
@@ -251,6 +248,7 @@ open class GameStateSyncer(
                 it.homeTeam = game.homeTeam.dbTeam
                 it.date = LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME)
                 it.players = players.t1.plus(players.t2)
+                it.league = League.NHL
             })
         }
     }

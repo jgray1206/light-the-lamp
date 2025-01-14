@@ -30,6 +30,7 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
     @Join("awayTeam", alias = "game_away_team_")
     @Join("players", alias = "game_players_")
     @Query("SELECT game_.\"id\"," +
+            "game_.\"league\","+
             "game_.\"date\"," +
             "game_.\"game_state\"," +
             "game_.\"is_shootout\"," +

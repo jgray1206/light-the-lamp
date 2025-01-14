@@ -13,6 +13,8 @@ class Game {
     @Id
     var id: Long? = null
 
+    var league: League? = null
+
     @NotNull
     var date: LocalDateTime? = null
 
@@ -41,3 +43,4 @@ class Game {
     var awayTeamGoalieAssists: Short? = null
     var homeTeamGoalieAssists: Short? = null
 }
+enum class League { PWHL, NHL }

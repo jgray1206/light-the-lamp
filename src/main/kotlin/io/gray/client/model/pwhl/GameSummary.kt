@@ -1,42 +1,6 @@
-package io.gray.client.model
+package io.gray.client.model.pwhl
 
-// ScheduledGame data class
-data class ScheduledGame(
-        val ID: String,
-        val SeasonID: String,
-        val Date: String,
-        val GameDateISO8601: String,
-        val ScheduledTime: String,
-        val ScheduledFormattedTime: String,
-        val Timezone: String,
-        val HomeID: String,
-        val HomeCode: String,
-        val HomeCity: String,
-        val HomeNickname: String,
-        val HomeLongName: String,
-        val HomeDivision: String,
-        val HomeGoals: String,
-        val HomeLogo: String,
-        val HomeWins: String,
-        val HomeRegulationLosses: String,
-        val HomeOTLosses: String,
-        val VisitorID: String,
-        val VisitorCode: String,
-        val VisitorCity: String,
-        val VisitorNickname: String,
-        val VisitorLongName: String,
-        val VisitorDivision: String,
-        val VisitorGoals: String,
-        val VisitorLogo: String,
-        val VisitorWins: String,
-        val VisitorRegulationLosses: String,
-        val VisitorOTLosses: String,
-        val GameStatusString: String,
-        val GameStatusStringLong: String,
-        val GameClock: String,
-        val Period: String,
-        val Intermission: String
-)
+import com.fasterxml.jackson.annotation.JsonProperty
 
 // GameSummaryDetails data class
 data class GameSummaryDetails(
@@ -126,9 +90,52 @@ data class GameSummaryPeriod(
 data class GameSummaryTeam(
         val info: TeamInfo,
         val stats: TeamStats,
-        val seasonStats: TeamSeasonStats
+        val seasonStats: TeamSeasonStats,
+        val skaters: List<Skater>,
+        val goalies: List<Goalie>
 ) {
-    data class TeamInfo(
+        data class Skater(
+                val info: PlayerInfo,
+                val stats: PlayerStats,
+                val starting: Int,
+                val status: String
+        )
+
+        data class PlayerInfo(
+                val id: Int,
+                val firstName: String,
+                val lastName: String,
+                val position: String,
+                val playerImageUrl: String?
+        )
+
+        data class PlayerStats(
+                val goals: Int,
+                val assists: Int,
+                val points: Int,
+                val shots: Int,
+                val hits: Int,
+                val toi: String
+        )
+
+        data class Goalie(
+                val info: PlayerInfo,
+                val stats: GoalieStats,
+                val starting: Int,
+                val status: String
+        )
+
+        data class GoalieStats(
+                val goals: Int,
+                val assists: Int,
+                val points: Int,
+                val timeOnIce: String?,
+                val shotsAgainst: Int,
+                val goalsAgainst: Int,
+                val saves: Int
+        )
+
+        data class TeamInfo(
             val id: Int,
             val name: String,
             val city: String,
