@@ -33,6 +33,7 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
     @Join("players", type = Join.Type.LEFT_FETCH)
     fun findByIdIn(ids: List<Long>): Flux<Game>
 
-    fun findByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(homeTeam: Team, awayTeam: Team, season: String, pageable: Pageable): Mono<Page<Game>>
+    @Query("select id from game where (home_team_id = :homeTeamId OR away_team_id = :awayTeamId) and season = :season order by id desc limit :top")
+    fun findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(homeTeamId: Long, awayTeamId: Long, season: String, top: Int): Flux<Long>
 
 }

@@ -41,9 +41,10 @@ r2dbc:
         maxSize: 80
 #---
 #logger:
-#  levels:
-#    io.r2dbc: TRACE
-#    io.micronaut.data: TRACE
+#   levels:
+#     io.r2dbc: TRACE
+#     io.micronaut.data: TRACE
 ---
 credential.path: /Users/johngray/ltl-files/credentials.json
 token.path: /Users/johngray/ltl-files/tokens
+

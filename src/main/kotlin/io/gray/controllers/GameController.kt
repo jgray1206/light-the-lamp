@@ -35,12 +35,12 @@ class GameController(
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable { user ->
             user.teams
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team,
-                    team,
+            gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team.id!!,
+                    team.id!!,
                     season,
-                    Pageable.from(0, maxGames)
-            ).flatMapMany {
-                gameRepository.findByIdIn(it.map { it.id!! }.content)
+                    maxGames
+            ).collectList().flatMapMany {
+                gameRepository.findByIdIn(it)
             }
         }.distinct { it.id }
     }
@@ -50,12 +50,12 @@ class GameController(
         return announcerRepository.findAll().map { announcer ->
             announcer.team
         }.flatMap { team ->
-            gameRepository.findByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team!!,
-                team,
+            gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team?.id!!,
+                team.id!!,
                 season,
-                Pageable.from(0, maxGames)
-            ).flatMapMany {
-                gameRepository.findByIdIn(it.map { it.id!! }.content)
+                maxGames
+            ).collectList().flatMapMany {
+                gameRepository.findByIdIn(it)
             }
         }.distinct { it.id }
     }
