@@ -6,8 +6,8 @@ const manifestForPlugIn = {
   registerType:'autoUpdate',
   includeAssests:['favicon.ico', "apple-touch-icon-180x180.png"],
   manifest:{
-    name:"light-the-lamp",
-    short_name:"light-the-lamp",
+    name:"Light the Lamp",
+    short_name:"Light the Lamp",
     description:"A simple per-game hockey player drafting game.",
     icons:[
       {
