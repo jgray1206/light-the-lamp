@@ -38,7 +38,7 @@ class NotificationService {
 
     fun sendNotification(token: String, title: String, body: String) {
         val message: Message = Message.builder()
-            .setNotification(Notification.builder().setBody(body).setTitle(title).build())
+            .setNotification(Notification.builder().setBody(body).setTitle(title).setImage("/logo.png").build())
             .setToken(token)
             .build()
         val response = FirebaseMessaging.getInstance(firebaseApp).send(message)
