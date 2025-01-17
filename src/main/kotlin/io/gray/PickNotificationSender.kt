@@ -24,9 +24,10 @@ open class PickNotificationSender(
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    @Scheduled(cron = "1 * * * * *")
+    @Scheduled(cron = "0 1 * * * *")
     @ExecuteOn(TaskExecutors.IO)
     fun notifyMissingPicks() {
+        logger.info("running missing pick notify..")
         val lowerBound = LocalDateTime.now().plusHours(1).truncatedTo(ChronoUnit.HOURS)
         val upperBound = lowerBound.plusHours(1)
         gameRepository.findByDateGreaterThanAndDateLessThanEquals(lowerBound, upperBound)
