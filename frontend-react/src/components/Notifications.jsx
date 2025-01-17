@@ -55,7 +55,7 @@ function notification(setAreEnabled) {
     }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
         alert(
-            "Something went wrong enabling notifications, please try again."
+            "Something went wrong enabling notifications, please try again. " + err.toString()
         );
     });
 }
