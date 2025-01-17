@@ -57,4 +57,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Query("UPDATE pick SET points = :points where game_id = :gameId and team_id = :teamId and goalies = True")
     fun updatePointsForGoalies(points: Short, gameId: Long, teamId: Long): Mono<Int>
 
+    @Query(value = "SELECT u.notification_token FROM \"user\" u WHERE NOT EXISTS ( SELECT 1 FROM pick p WHERE p.game_id = :gameId AND p.user_id = u.id ) AND u.id IN (:userIds) AND u.notification_token IS NOT NULL", nativeQuery = true)
+    fun findNotificationTokensByGameIdEqualsAndNotInUserIdList(gameId: Long, userIds: List<Long>): Flux<String>
+
 }

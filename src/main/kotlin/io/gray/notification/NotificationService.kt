@@ -12,6 +12,8 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
 
 
 @Singleton
@@ -36,12 +38,11 @@ class NotificationService {
     }
 
 
-    fun sendNotification(token: String, title: String, body: String) {
+    fun sendNotification(token: String, title: String, body: String): Mono<String> {
         val message: Message = Message.builder()
             .setNotification(Notification.builder().setBody(body).setTitle(title).setImage("/logo.png").build())
             .setToken(token)
             .build()
-        val response = FirebaseMessaging.getInstance(firebaseApp).send(message)
-        logger.info(response)
+        return Mono.fromRunnable<String> { FirebaseMessaging.getInstance(firebaseApp).send(message) }.subscribeOn(Schedulers.boundedElastic())
     }
 }

@@ -7,12 +7,27 @@ import {useState} from "react";
 export default function Notifications(props) {
     const [areEnabled, setAreEnabled] = useState(localStorage.getItem('notifications-enabled') === "true")
     return <>
-        {areEnabled && <p>Notifications enabled!</p>}
+        <h3>This very experimental feature will alert you if you haven't picked 1 hour before the start of a game.</h3>
+        <p>Since lightthelamp.dev is just a website and not a native app from the app store, I have no idea how reliable
+            these notifications will be. If you ever notice they stopped working, do try disabling and re-enabling
+            them.</p>
+        {areEnabled && <h1>Notifications are enabled!</h1>}
         {window.matchMedia('(display-mode: standalone)').matches &&
             (("serviceWorker" in navigator && "PushManager" in window) &&
-                <Button size="lg" color={areEnabled && "secondary" || "primary"} id="enable-notify" onClick={()=>displayOrDeleteNotification(setAreEnabled, areEnabled)}>{areEnabled && "Disable Notifications" || "Enable Notifications"}</Button>
-                || <p>Notifications not supported:(</p>) ||
-            <p>First: open this app in Safari/Chrome and tap the Share button, then select 'Add to Home Screen'. Open this app from your home screen and come back to this page.</p>}
+                <Button size="lg" variant={areEnabled && "secondary" || "primary"} id="enable-notify"
+                        onClick={() => displayOrDeleteNotification(setAreEnabled, areEnabled)}>{areEnabled && "Disable Notifications" || "Enable Notifications"}</Button>
+                || <p>Notifications not supported:( Try upgrading your phone's operating system.</p>) ||
+            <div><h1>Instructions:</h1>
+                <ol>
+                    <li>If you've already installed this app on your phone's home screen, please remove it and come back to
+                        this page in your phone's browser.
+                    </li>
+                    <li>Now tap the Share (iPhone) or Settings (Android) button on this page, and select 'Add to Home
+                        Screen'.
+                    </li>
+                    <li>Now open this app from your home screen and come back to this page!</li>
+                </ol>
+            </div>}
     </>;
 }
 

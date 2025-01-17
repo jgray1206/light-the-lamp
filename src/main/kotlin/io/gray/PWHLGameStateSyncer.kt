@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Singleton
 open class PWHLGameStateSyncer(
@@ -52,7 +51,7 @@ open class PWHLGameStateSyncer(
             .flatMapIterable { it.siteKit.scheduledGames }
             .filter {
                 LocalDateTime.now().plusDays(1).plusHours(2)
-                    .isAfter(LocalDateTime.parse(it.GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME))
+                    .isAfter(it.getUTCLocalDateTime())
             }
             .flatMap { game ->
                 pwhlClient.getGameSummary(game.ID)
@@ -85,10 +84,10 @@ open class PWHLGameStateSyncer(
                 gameRepository.findById(game.getGameId()).switchIfEmpty(
                     Mono.defer { createGame(game) }
                 ).flatMap {
-                    if (LocalDateTime.parse(game.GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME) != it.date) {
+                    if (game.getUTCLocalDateTime() != it.date) {
                         logger.info("rescheduling game ${game.getGameId()} from date ${it.date} to ${game.GameDateISO8601}")
                         gameRepository.update(it.apply {
-                            it.date = LocalDateTime.parse(game.GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME)
+                            it.date = game.getUTCLocalDateTime()
                         }).thenReturn(it)
                     } else {
                         Mono.just(it)
@@ -285,7 +284,7 @@ open class PWHLGameStateSyncer(
                     it.gameState = mapNewStateToOldState(game.GameStatus)
                     it.awayTeam = game.awayTeam
                     it.homeTeam = game.homeTeam
-                    it.date = LocalDateTime.parse(game.GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME)
+                    it.date = game.getUTCLocalDateTime()
                     it.players = players.t1.plus(players.t2)
                     it.league = League.PWHL
                     it.season = mapSeasonToNHLSeason(game.SeasonID)

@@ -2,6 +2,10 @@ package io.gray.client.model.pwhl
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.gray.model.Team
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 data class ScorebarSiteKitWrapper(
     @JsonProperty("SiteKit")
@@ -72,5 +76,11 @@ data class ScheduledGame(
 ) {
     fun getGameId(): Long {
         return "$SeasonID$ID".toLong()
+    }
+
+    fun getUTCLocalDateTime(): LocalDateTime {
+        return ZonedDateTime.parse(GameDateISO8601, DateTimeFormatter.ISO_DATE_TIME)
+            .withZoneSameInstant(ZoneId.of("UTC"))
+            .toLocalDateTime()
     }
 }

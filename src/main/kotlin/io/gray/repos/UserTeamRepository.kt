@@ -11,4 +11,5 @@ import reactor.core.publisher.Mono
 interface UserTeamRepository : ReactorCrudRepository<UserTeam, Long> {
     fun findByUserId(userId: Long): Flux<UserTeam>
     fun findByUserIdAndTeamId(userId: Long, teamId: Long): Mono<UserTeam>
+    fun findAllUserIdByTeamIdIn(teamIds: List<Long>): Flux<Long>
 }

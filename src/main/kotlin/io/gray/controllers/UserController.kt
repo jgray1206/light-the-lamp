@@ -180,7 +180,7 @@ open class UserController(
         return userRepository.findByEmailIgnoreCase("johngray1206@gmail.com").flatMap { user ->
             user.notificationToken?.let { token ->
                 notificationService.sendNotification(token, "ping! title", "ping! body");
-            }
+            } ?:
             Mono.just("all done")
         }
     }

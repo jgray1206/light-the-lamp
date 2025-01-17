@@ -36,4 +36,8 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
     @Query("select id from game where (home_team_id = :homeTeamId OR away_team_id = :awayTeamId) and season = :season order by id desc limit :top")
     fun findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(homeTeamId: Long, awayTeamId: Long, season: String, top: Int): Flux<Long>
 
+    @Join("homeTeam", type = Join.Type.FETCH)
+    @Join("awayTeam", type = Join.Type.FETCH)
+    fun findByDateGreaterThanAndDateLessThanEquals(greaterThan: LocalDateTime, lessThanEquals: LocalDateTime): Flux<Game>
+
 }
