@@ -49,6 +49,10 @@ export default function Header(props) {
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
                             </LinkContainer>
 
+                            {isAdmin() && <LinkContainer to="/notifications">
+                                <NavDropdown.Item>Notifications</NavDropdown.Item>
+                            </LinkContainer>}
+
                             <LinkContainer to="/about">
                                 <NavDropdown.Item>About</NavDropdown.Item>
                             </LinkContainer>

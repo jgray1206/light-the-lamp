@@ -49,6 +49,9 @@ class User {
     @Size(max = 40)
     var redditUsername: String? = null
 
+    @Size(max = 255)
+    var notificationToken: String? = null
+
     @Relation(Relation.Kind.MANY_TO_MANY)
     @JoinTable(name = "user_user",
             joinColumns = [JoinColumn(name = "to_user")],

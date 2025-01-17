@@ -3,8 +3,10 @@ package io.gray.controllers
 import io.github.resilience4j.micronaut.annotation.RateLimiter
 import io.gray.email.MailService
 import io.gray.model.User
+import io.gray.model.UserDTO
 import io.gray.model.UserRequest
 import io.gray.model.UserTeam
+import io.gray.notification.NotificationService
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
 import io.micronaut.http.HttpResponse
@@ -27,7 +29,8 @@ import java.util.*
 open class UserController(
         private val userRepository: UserRepository,
         private val userTeamRepository: UserTeamRepository,
-        private val mailService: MailService
+        private val mailService: MailService,
+        private val notificationService: NotificationService
 ) {
 
     @Get("/all-count")
@@ -152,4 +155,33 @@ open class UserController(
         }
     }
 
+    @Post("/notification/{token}")
+    open fun addNotificationToken(@PathVariable token: String, principal: Principal): Mono<UserDTO> {
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMap {
+            userRepository.update(it.also { it.notificationToken = token })
+        }.map { user ->
+            UserDTO().apply { id = user.id  }
+        }
+    }
+
+
+    @Delete("/notification")
+    open fun addNotificationToken(principal: Principal): Mono<UserDTO> {
+        return userRepository.findByEmailIgnoreCase(principal.name).flatMap {
+            userRepository.update(it.also { it.notificationToken = null })
+        }.map { user ->
+            UserDTO().apply { id = user.id  }
+        }
+    }
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Get("/ping")
+    open fun pingJohn() : Mono<String> {
+        return userRepository.findByEmailIgnoreCase("johngray1206@gmail.com").flatMap { user ->
+            user.notificationToken?.let { token ->
+                notificationService.sendNotification(token, "ping! title", "ping! body");
+            }
+            Mono.just("all done")
+        }
+    }
 }

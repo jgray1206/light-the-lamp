@@ -10,7 +10,7 @@ plugins {
 	id("maven-publish")
 }
 
-version = "1.7"
+version = "1.8"
 group = "io.gray"
 
 repositories {
@@ -61,6 +61,7 @@ dependencies {
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 	runtimeOnly("org.yaml:snakeyaml")
+	implementation 'com.google.firebase:firebase-admin:9.4.3'
 
 	//db drivers
 	runtimeOnly("org.postgresql:r2dbc-postgresql")

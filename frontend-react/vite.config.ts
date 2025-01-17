@@ -4,6 +4,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const manifestForPlugIn = {
   registerType:'autoUpdate',
+  strategies: 'injectManifest',
   includeAssests:['favicon.ico', "apple-touch-icon-180x180.png"],
   manifest:{
     name:"Light the Lamp",

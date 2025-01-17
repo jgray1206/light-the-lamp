@@ -14,6 +14,7 @@ import PasswordReset from "./PasswordReset";
 import Leaderboard from "./Leaderboard";
 import Picks from "./Picks";
 import Announcers from "./Announcers";
+import Notifications from "./Notifications";
 
 const Routes = () => {
     const { token } = useAuth();
@@ -87,6 +88,10 @@ const Routes = () => {
                     path: "/friends",
                     element: <Friends />,
                     loader: async () => { return AxiosInstance.get("/api/user") }
+                },
+                {
+                    path: "/notifications",
+                    element: <Notifications />
                 },
                 {
                     path: "/logout",
