@@ -40,7 +40,7 @@ class NotificationService {
     }
 
 
-    fun sendNotiqfication(token: String, title: String, body: String): Mono<String> {
+    fun sendNotification(token: String, title: String, body: String): Mono<String> {
         val message: Message = Message.builder()
             .setToken(token)
             .setWebpushConfig(
