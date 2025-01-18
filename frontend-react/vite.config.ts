@@ -44,9 +44,6 @@ const manifestForPlugIn: VitePWAOptions = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    build: {
-        assetsDir: ''
-    },
     plugins: [react(), VitePWA(manifestForPlugIn), process.env.NODE_ENV === 'development' && basicSsl()],
     server: {
         port: 5173,
