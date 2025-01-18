@@ -3,6 +3,8 @@ import {getToken} from "firebase/messaging";
 import Messaging from "../provider/firebaseProvider"
 import AxiosInstance from '../provider/axiosProvider';
 import {useState} from "react";
+import { IoShareOutline } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function Notifications(props) {
     const [areEnabled, setAreEnabled] = useState(localStorage.getItem('notifications-enabled') === "true")
@@ -22,7 +24,7 @@ export default function Notifications(props) {
                     <li>If you've already installed this app on your phone's home screen, please remove it and come back to
                         this page in your phone's browser.
                     </li>
-                    <li>Now tap the Share (iPhone) or Settings (Android) button on this page, and select 'Add to Home
+                    <li>Now tap the Share (iPhone {<IoShareOutline size={24} style={{verticalAlign: 'bottom'}}/>}) or Settings (Android {<BsThreeDotsVertical size={24} style={{verticalAlign: 'bottom'}}/>}) button on this page, and select 'Add to Home
                         Screen'.
                     </li>
                     <li>Now open this app from your home screen and come back to this page!</li>

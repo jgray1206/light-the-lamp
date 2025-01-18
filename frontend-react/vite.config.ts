@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from "vite-plugin-pwa";
+import {VitePWA, VitePWAOptions} from "vite-plugin-pwa";
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
-const manifestForPlugIn = {
+const manifestForPlugIn : VitePWAOptions = {
   registerType:'autoUpdate',
-  includeAssests:['favicon.ico', "apple-touch-icon-180x180.png"],
+  includeAssets:['favicon.ico', "apple-touch-icon-180x180.png"],
   manifest:{
     name:"Light the Lamp",
     short_name:"Light the Lamp",
@@ -43,7 +44,7 @@ const manifestForPlugIn = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), VitePWA(manifestForPlugIn)],
+  plugins: [react(), VitePWA(manifestForPlugIn), process.env.NODE_ENV === 'development' && basicSsl()],
   server: {
     port: 5173,
     proxy: {

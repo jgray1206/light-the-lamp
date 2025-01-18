@@ -73,7 +73,6 @@ export default function Login() {
 
         axios.post("/api/login", loginPayload)
             .then(response => {
-                console.log(response);
                 const token = response.data.access_token;
                 setToken(token);
             })
