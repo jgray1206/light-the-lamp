@@ -32,7 +32,7 @@ open class PickNotificationSender(
         logger.info("running missing pick notify..")
         val lowerBound = LocalDateTime.now().plusHours(1).truncatedTo(ChronoUnit.HOURS)
         val upperBound = lowerBound.plusHours(1)
-        gameRepository.findByDateGreaterThanAndDateLessThanEquals(lowerBound, upperBound)
+        gameRepository.findByDateGreaterThanEqualsAndDateLessThan(lowerBound, upperBound)
             .flatMap { game ->
                 userTeamRepository.findAllUserIdByTeamIdIn(listOf(game.homeTeam?.id!!, game.awayTeam?.id!!))
                     .collectList()
@@ -48,7 +48,7 @@ open class PickNotificationSender(
                 notificationService.sendNotification(
                     gameStringToNotificationTokenMap.second,
                     "Don't forget to pick!",
-                    "Lock your pick in for tonight's ${gameStringToNotificationTokenMap.first} game before it's too late!!!"
+                    "Lock your pick in for tonight's ${gameStringToNotificationTokenMap.first} game before it's too late!!"
                 )
             }
             .subscribeOn(Schedulers.boundedElastic())

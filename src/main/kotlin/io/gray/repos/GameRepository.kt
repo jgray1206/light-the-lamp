@@ -46,7 +46,7 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
 
     @Join("homeTeam", type = Join.Type.FETCH)
     @Join("awayTeam", type = Join.Type.FETCH)
-    fun findByDateGreaterThanAndDateLessThanEquals(
+    fun findByDateGreaterThanEqualsAndDateLessThan(
         greaterThan: LocalDateTime,
         lessThanEquals: LocalDateTime
     ): Flux<Game>

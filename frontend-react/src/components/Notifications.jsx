@@ -3,34 +3,61 @@ import {getToken} from "firebase/messaging";
 import Messaging from "../provider/firebaseProvider"
 import AxiosInstance from '../provider/axiosProvider';
 import {useState} from "react";
-import { IoShareOutline } from "react-icons/io5";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import {IoShareOutline} from "react-icons/io5";
+import {BsThreeDotsVertical} from "react-icons/bs";
 
 export default function Notifications(props) {
     const [areEnabled, setAreEnabled] = useState(localStorage.getItem('notifications-enabled') === "true")
-    return <>
-        <h3>This very experimental feature will alert you if you haven't picked 1 hour before the start of a game.</h3>
-        <p>Since lightthelamp.dev is just a website and not a native app from the app store, I have no idea how reliable
-            these notifications will be. If you ever notice they stopped working, do try disabling and re-enabling
-            them.</p>
-        {areEnabled && <h1>Notifications are enabled!</h1>}
-        {window.matchMedia('(display-mode: standalone)').matches &&
-            (("serviceWorker" in navigator && "PushManager" in window) &&
-                <Button size="lg" variant={areEnabled && "secondary" || "primary"} id="enable-notify"
-                        onClick={() => displayOrDeleteNotification(setAreEnabled, areEnabled)}>{areEnabled && "Disable Notifications" || "Enable Notifications"}</Button>
-                || <p>Notifications not supported:( Try upgrading your phone's operating system.</p>) ||
-            <div><h1>Instructions:</h1>
-                <ol>
-                    <li>If you've already installed this app on your phone's home screen, please remove it and come back to
-                        this page in your phone's browser.
-                    </li>
-                    <li>Now tap the Share (iPhone {<IoShareOutline size={24} style={{verticalAlign: 'bottom'}}/>}) or Settings (Android {<BsThreeDotsVertical size={24} style={{verticalAlign: 'bottom'}}/>}) button on this page, and select 'Add to Home
-                        Screen'.
-                    </li>
-                    <li>Now open this app from your home screen and come back to this page!</li>
-                </ol>
-            </div>}
-    </>;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const supportsPushNotifications = 'serviceWorker' in navigator && 'PushManager' in window;
+    const handleNotificationToggle = () => {
+        // Call the function to toggle notifications here
+        displayOrDeleteNotification(setAreEnabled, areEnabled);
+    };
+
+    return (
+        <>
+            <h3>This experimental feature will alert you if you haven't picked 1 hour before the start of a
+                game.</h3>
+            <p>
+                Since lightthelamp.dev is just a website and not a native app from the app store, I have no idea how
+                reliable
+                these notifications will be. If you ever notice they stopped working, try disabling and re-enabling
+                them.
+            </p>
+
+            {areEnabled && <h1>Notifications are enabled!</h1>}
+
+            {isStandalone ? (
+                supportsPushNotifications ? (
+                    <Button
+                        size="lg"
+                        variant={areEnabled ? 'secondary' : 'primary'}
+                        id="enable-notify"
+                        onClick={handleNotificationToggle}
+                    >
+                        {areEnabled ? "Disable Notifications" : "Enable Notifications"}
+                    </Button>
+                ) : (
+                    <p>Notifications not supported :( Try upgrading your phone's operating system.</p>
+                )) : (
+
+                <div>
+                    <h1>Instructions:</h1>
+                    <ol>
+                        <li>If you've already installed this app on your phone's home screen, please remove it and come
+                            back to this page in your phone's browser.
+                        </li>
+                        <li>
+                            Now tap the Share (iPhone <IoShareOutline size={24} style={{verticalAlign: 'bottom'}}/>) or
+                            Settings (Android <BsThreeDotsVertical size={24} style={{verticalAlign: 'bottom'}}/>) button
+                            on this page, and select 'Add to Home Screen'.
+                        </li>
+                        <li>Now open this app from your home screen and come back to this page!</li>
+                    </ol>
+                </div>)}
+        </>
+    );
 }
 
 function displayOrDeleteNotification(setAreEnabled, areEnabled) {
