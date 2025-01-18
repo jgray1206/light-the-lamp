@@ -10,8 +10,8 @@ interface PWHLClient {
     // Request for games by date (like getGamesByDate in JS)
     @Get("index.php?feed=modulekit&view=scorebar&fmt=json&numberofdaysahead={daysAhead}&numberofdaysback={daysBack}&client_code=pwhl&key=694cfeed58c932ee")
     fun getGamesByDate(
-            daysAhead: String,
-            daysBack: String
+        daysAhead: String,
+        daysBack: String
     ): Mono<ScorebarSiteKitWrapper>
 
     @Get("index.php?feed=statviewfeed&view=roster&team_id={teamId}&season_id={seasonId}&client_code=pwhl&key=694cfeed58c932ee&fmt=json")

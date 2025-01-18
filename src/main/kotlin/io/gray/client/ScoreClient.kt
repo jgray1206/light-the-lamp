@@ -12,6 +12,6 @@ interface ScoreClient {
     @Get("/score/{date}")
     @Consumes("application/json")
     fun getScore(
-            @PathVariable(value = "date") date: String
+        @PathVariable(value = "date") date: String
     ): Mono<Score>
 }

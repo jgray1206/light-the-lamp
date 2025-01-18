@@ -20,17 +20,20 @@ import jakarta.mail.Session
 import jakarta.mail.internet.InternetAddress
 import jakarta.mail.internet.MimeMessage
 import org.apache.commons.codec.binary.Base64
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
 import java.util.*
 
 @Singleton
 class MailService(
-        @Value("\${credential.path}")
-        private val credPath: String,
-        @Value("\${token.path}")
-        private val tokenPath: String,
-        @Value("\${mail.service.enabled:true}")
-        private val enabled: String
+    @Value("\${credential.path}")
+    private val credPath: String,
+    @Value("\${token.path}")
+    private val tokenPath: String,
+    @Value("\${mail.service.enabled:true}")
+    private val enabled: String
 ) {
     /**
      * Global instance of the JSON factory.
@@ -51,10 +54,11 @@ class MailService(
 
         // Build flow and trigger user authorization request.
         val flow: GoogleAuthorizationCodeFlow = GoogleAuthorizationCodeFlow.Builder(
-                httpTransport, JSON_FACTORY, clientSecrets, listOf(GmailScopes.GMAIL_SEND))
-                .setDataStoreFactory(FileDataStoreFactory(File(tokenPath)))
-                .setAccessType("offline")
-                .build()
+            httpTransport, JSON_FACTORY, clientSecrets, listOf(GmailScopes.GMAIL_SEND)
+        )
+            .setDataStoreFactory(FileDataStoreFactory(File(tokenPath)))
+            .setAccessType("offline")
+            .build()
         val receiver: LocalServerReceiver = LocalServerReceiver.Builder().setPort(8888).build()
         //returns an authorized Credential object.
         return AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
@@ -65,16 +69,18 @@ class MailService(
             // Build a new authorized API client service.
             val httpTransport: NetHttpTransport = GoogleNetHttpTransport.newTrustedTransport()
             val service: Gmail = Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
-                    .setApplicationName("Light The Lamp")
-                    .build()
+                .setApplicationName("Light The Lamp")
+                .build()
 
             // Encode as MIME message
             val props = Properties()
             val session = Session.getDefaultInstance(props, null)
             val email = MimeMessage(session)
             email.setFrom(InternetAddress("grayio.lightthelamp@gmail.com"))
-            email.addRecipient(jakarta.mail.Message.RecipientType.TO,
-                    InternetAddress(toEmailAddress))
+            email.addRecipient(
+                jakarta.mail.Message.RecipientType.TO,
+                InternetAddress(toEmailAddress)
+            )
             email.subject = messageSubject
             email.setText(bodyText)
 

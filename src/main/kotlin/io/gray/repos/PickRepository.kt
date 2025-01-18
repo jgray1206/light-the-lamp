@@ -31,7 +31,12 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     fun getRedditLeaderboardForUsersByGameIdAndTeam(season: String, teams: List<Long>): Flux<Leaderboard>
 
     @Query("SELECT MIN(display_name) as display_name, MIN(email) as email, COUNT(*) AS games, SUM(points) as points, team_id as team_id FROM pick JOIN \"user\" ON pick.user_id = \"user\".id WHERE season = :season AND team_id IN(:teams) AND user_id IN(:users) GROUP BY user_id, team_id")
-    fun getLeaderboardForUsersByGameIdAndTeamAndUserIdIn(season: String, teams: List<Long>, users: List<Long>): Flux<Leaderboard>
+    fun getLeaderboardForUsersByGameIdAndTeamAndUserIdIn(
+        season: String,
+        teams: List<Long>,
+        users: List<Long>
+    ): Flux<Leaderboard>
+
     @Query("SELECT MIN(display_name) as display_name, '' as email, COUNT(*) AS games, SUM(points) as points, pick.team_id as team_id FROM pick JOIN announcer ON pick.announcer_id = announcer.id WHERE season = :season AND pick.team_id IN(:teams) AND announcer_id IS NOT NULL GROUP BY announcer_id, pick.team_id")
     fun getLeaderboardForAnnouncersByGameIdAndTeam(season: String, teams: List<Long>): Flux<Leaderboard>
 
@@ -57,7 +62,10 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Query("UPDATE pick SET points = :points where game_id = :gameId and team_id = :teamId and goalies = True")
     fun updatePointsForGoalies(points: Short, gameId: Long, teamId: Long): Mono<Int>
 
-    @Query(value = "SELECT u.notification_token FROM \"user\" u WHERE NOT EXISTS ( SELECT 1 FROM pick p WHERE p.game_id = :gameId AND p.user_id = u.id ) AND u.id IN (:userIds) AND u.notification_token IS NOT NULL", nativeQuery = true)
+    @Query(
+        value = "SELECT u.notification_token FROM \"user\" u WHERE NOT EXISTS ( SELECT 1 FROM pick p WHERE p.game_id = :gameId AND p.user_id = u.id ) AND u.id IN (:userIds) AND u.notification_token IS NOT NULL",
+        nativeQuery = true
+    )
     fun findNotificationTokensByGameIdEqualsAndNotInUserIdList(gameId: Long, userIds: List<Long>): Flux<String>
 
 }

@@ -1,6 +1,5 @@
 package io.gray.controllers
 
-import io.gray.PWHLGameStateSyncer
 import io.gray.model.Pick
 import io.gray.model.Team
 import io.gray.model.UserDTO
@@ -23,11 +22,11 @@ import java.time.LocalDateTime
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/pick")
 class PickController(
-        private val pickRepository: PickRepository,
-        private val userRepository: UserRepository,
-        private val gameRepository: GameRepository,
-        private val announcerRepository: AnnouncerRepository,
-        private val environment: Environment
+    private val pickRepository: PickRepository,
+    private val userRepository: UserRepository,
+    private val gameRepository: GameRepository,
+    private val announcerRepository: AnnouncerRepository,
+    private val environment: Environment
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -68,32 +67,33 @@ class PickController(
     @Get("/friends")
     fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmailIgnoreCase(principal.name)
-                .flatMapIterable { it.friends }
-                .flatMap {
-                    pickRepository.findAllByUserAndSeason(UserDTO().apply {
-                        this.id = it.id
-                        this.displayName = it.displayName
-                        this.redditUsername = it.redditUsername
-                    }, season)
+            .flatMapIterable { it.friends }
+            .flatMap {
+                pickRepository.findAllByUserAndSeason(UserDTO().apply {
+                    this.id = it.id
+                    this.displayName = it.displayName
+                    this.redditUsername = it.redditUsername
+                }, season)
+            }
+            .mergeWith(
+                announcerRepository.findAll().flatMap {
+                    pickRepository.findAllByAnnouncerAndSeason(it, season)
                 }
-                .mergeWith(
-                        announcerRepository.findAll().flatMap {
-                            pickRepository.findAllByAnnouncerAndSeason(it, season)
-                        }
-                )
+            )
     }
 
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }.flatMapMany {
-            pickRepository.findAllByTeamInAndUserInAndSeason(it.teams!!, it.friends!!.plus(it).map {
-                UserDTO().apply {
-                    this.id = it.id
-                    this.displayName = it.displayName
-                    this.redditUsername = it.redditUsername
-                }
-            }, season)
-        }
+        return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }
+            .flatMapMany {
+                pickRepository.findAllByTeamInAndUserInAndSeason(it.teams!!, it.friends!!.plus(it).map {
+                    UserDTO().apply {
+                        this.id = it.id
+                        this.displayName = it.displayName
+                        this.redditUsername = it.redditUsername
+                    }
+                }, season)
+            }
     }
 
     @Get("/reddit")
@@ -104,28 +104,43 @@ class PickController(
     }
 
     @Post("/user")
-    fun createForUser(@QueryValue("gameId") gameId: String, @QueryValue("pick") pick: String, @QueryValue("teamId") teamId: Long, principal: Principal): Mono<Pick> {
-        return userRepository.findByEmailIgnoreCase(principal.name).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
-            val user = UserDTO().apply {
-                this.id = tuple.t1.id
-                this.displayName = tuple.t1.displayName
-                this.redditUsername = tuple.t1.redditUsername
-            }
-            val game = tuple.t2
-            val team = Team().apply { this.id = teamId }
+    fun createForUser(
+        @QueryValue("gameId") gameId: String,
+        @QueryValue("pick") pick: String,
+        @QueryValue("teamId") teamId: Long,
+        principal: Principal
+    ): Mono<Pick> {
+        return userRepository.findByEmailIgnoreCase(principal.name).zipWith(gameRepository.findById(gameId.toLong()))
+            .flatMap { tuple ->
+                val user = UserDTO().apply {
+                    this.id = tuple.t1.id
+                    this.displayName = tuple.t1.displayName
+                    this.redditUsername = tuple.t1.redditUsername
+                }
+                val game = tuple.t2
+                val team = Team().apply { this.id = teamId }
 
-            check(tuple.t1.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
-                "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
-            }
+                check(tuple.t1.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
+                    "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
+                }
 
-            check(game.awayTeam?.id == teamId || game.homeTeam?.id == teamId) {
-                "can't submit pick for a team in a game they aren't playing in, you goofy goober"
-            }
+                check(game.awayTeam?.id == teamId || game.homeTeam?.id == teamId) {
+                    "can't submit pick for a team in a game they aren't playing in, you goofy goober"
+                }
 
-            check(game.date?.plusMinutes(6)?.isAfter(LocalDateTime.now()) == true || environment.activeNames.contains("local")) {
-                "can't submit pick on game that has already started, you little silly billy"
-            }
-            gameRepository.findTop2ByDateLessThanAndSeasonAndHomeTeamOrAwayTeamOrderByIdDesc(game.date!!, game.season!!, team, team)
+                check(
+                    game.date?.plusMinutes(6)?.isAfter(LocalDateTime.now()) == true || environment.activeNames.contains(
+                        "local"
+                    )
+                ) {
+                    "can't submit pick on game that has already started, you little silly billy"
+                }
+                gameRepository.findTop2ByDateLessThanAndSeasonAndHomeTeamOrAwayTeamOrderByIdDesc(
+                    game.date!!,
+                    game.season!!,
+                    team,
+                    team
+                )
                     .flatMap { pickRepository.findByGameAndUserAndTeam(it, user, team) }
                     .collectList()
                     .doOnNext {
@@ -149,29 +164,35 @@ class PickController(
                             }
                         }
                     }.then(
-                            pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
-                                    Mono.defer { pickRepository.save(Pick().also { pickEntity ->
-                                        logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
-                                        pickEntity.game = game
-                                        pickEntity.season = game.season
-                                        pickEntity.team = team
-                                        pickEntity.user = user
-                                        if (pick == "goalies") {
-                                            pickEntity.goalies = true
-                                        } else if (pick == "team") {
-                                            pickEntity.theTeam = true
-                                        } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                                            pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
-                                        } else {
-                                            error("not a valid pick")
-                                        }
-                                    }) }
-                            ))
-        }
+                        pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
+                            Mono.defer {
+                                pickRepository.save(Pick().also { pickEntity ->
+                                    logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
+                                    pickEntity.game = game
+                                    pickEntity.season = game.season
+                                    pickEntity.team = team
+                                    pickEntity.user = user
+                                    if (pick == "goalies") {
+                                        pickEntity.goalies = true
+                                    } else if (pick == "team") {
+                                        pickEntity.theTeam = true
+                                    } else if (game.players?.firstOrNull { it.name == pick } != null) {
+                                        pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
+                                    } else {
+                                        error("not a valid pick")
+                                    }
+                                })
+                            }
+                        ))
+            }
     }
 
     @Delete("/announcer")
-    fun deleteForAnnouncer(@QueryValue("gameId") gameId: Long, @QueryValue("announcerId") announcerId: Long, authentication: Authentication): Mono<Long> {
+    fun deleteForAnnouncer(
+        @QueryValue("gameId") gameId: Long,
+        @QueryValue("announcerId") announcerId: Long,
+        authentication: Authentication
+    ): Mono<Long> {
         if (!authentication.roles.contains("admin")) {
             error("can't delete picks for announcers if you aren't an admin you lil' hacker!")
         }
@@ -185,20 +206,23 @@ class PickController(
     }
 
     @Post("/announcer")
-    fun createForAnnouncer(@QueryValue("gameId") gameId: String,
-                           @QueryValue("pick") pick: String?,
-                           @QueryValue("announcerId") announcerId: Long,
-                           @QueryValue("doublePoints") doublePoints: Boolean?,
-                           authentication: Authentication): Mono<Pick> {
+    fun createForAnnouncer(
+        @QueryValue("gameId") gameId: String,
+        @QueryValue("pick") pick: String?,
+        @QueryValue("announcerId") announcerId: Long,
+        @QueryValue("doublePoints") doublePoints: Boolean?,
+        authentication: Authentication
+    ): Mono<Pick> {
         if (!authentication.roles.contains("admin")) {
             error("can't submit picks for announcers if you aren't an admin you lil' hacker!")
         }
-        return announcerRepository.findById(announcerId).zipWith(gameRepository.findById(gameId.toLong())).flatMap { tuple ->
-            val announcer = tuple.t1
-            val game = tuple.t2
-            val team = tuple.t1.team!!
+        return announcerRepository.findById(announcerId).zipWith(gameRepository.findById(gameId.toLong()))
+            .flatMap { tuple ->
+                val announcer = tuple.t1
+                val game = tuple.t2
+                val team = tuple.t1.team!!
 
-            pickRepository.findByGameAndAnnouncer(game, announcer)
+                pickRepository.findByGameAndAnnouncer(game, announcer)
                     .flatMap {
                         pickRepository.update(it.also {
                             if (pick != null) {
@@ -235,6 +259,6 @@ class PickController(
                             }
                         })
                     })
-        }
+            }
     }
 }

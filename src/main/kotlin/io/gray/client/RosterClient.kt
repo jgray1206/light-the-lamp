@@ -12,7 +12,7 @@ interface RosterClient {
     @Get("/roster/{team}/{season}")
     @Consumes("application/json")
     fun getRoster(
-            @PathVariable(value = "team") teamAbbrev: String,
-            @PathVariable(value = "season") season: String
+        @PathVariable(value = "team") teamAbbrev: String,
+        @PathVariable(value = "season") season: String
     ): Mono<Roster>
 }

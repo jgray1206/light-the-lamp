@@ -1,7 +1,7 @@
 package io.gray
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.gray.client.*
+import io.gray.client.PWHLClient
 import io.gray.client.model.pwhl.GameSummaryResponse
 import io.gray.client.model.pwhl.GameSummaryTeam
 import io.gray.client.model.pwhl.RosterResponse
@@ -233,7 +233,7 @@ open class PWHLGameStateSyncer(
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updateGamePlayersAndGame(dbGame: Game, game: ScheduledGame): Mono<Game> {
         logger.info("updating game ${game.getGameId()} with status ${dbGame.gameState} on date ${dbGame.date} between team ${game.homeTeam!!.teamName} and ${game.awayTeam!!.teamName}")
-        val allPlayers : Map<Long, GameSummaryTeam.Skater> = game.gameSummaryResponse!!.visitingTeam.skaters
+        val allPlayers: Map<Long, GameSummaryTeam.Skater> = game.gameSummaryResponse!!.visitingTeam.skaters
             .plus(game.gameSummaryResponse!!.homeTeam.skaters).associateBy { it.info.id.toLong() }
         val goalsByPlayer = game.gameSummaryResponse?.periods?.flatMap { it.goals }?.groupBy { it.scoredBy.id }
         val assistsByPlayer = game.gameSummaryResponse?.periods?.flatMap { it.goals }
@@ -245,14 +245,18 @@ open class PWHLGameStateSyncer(
             val playerGoals = goalsByPlayer?.get(player?.info?.id)
             val playerAssists = assistsByPlayer?.get(player?.info?.id)
             val otShortGoals =
-                playerGoals?.count { goal -> (goal.period.longName.contains("OT") || goal.period.shortName.contains("OT")) && goal.properties.isShortHanded == "1" } ?: 0
+                playerGoals?.count { goal -> (goal.period.longName.contains("OT") || goal.period.shortName.contains("OT")) && goal.properties.isShortHanded == "1" }
+                    ?: 0
             val otGoals =
-                playerGoals?.count { goal -> (goal.period.longName.contains("OT") || goal.period.shortName.contains("OT")) && goal.properties.isShortHanded == "0" } ?: 0
+                playerGoals?.count { goal -> (goal.period.longName.contains("OT") || goal.period.shortName.contains("OT")) && goal.properties.isShortHanded == "0" }
+                    ?: 0
             val shortGoals =
-                playerGoals?.count { goal -> !goal.period.longName.contains("OT") && !goal.period.shortName.contains("OT") && goal.properties.isShortHanded == "1" } ?: 0
+                playerGoals?.count { goal -> !goal.period.longName.contains("OT") && !goal.period.shortName.contains("OT") && goal.properties.isShortHanded == "1" }
+                    ?: 0
             val shortAssists = playerAssists?.count { goal -> goal.properties.isShortHanded == "1" } ?: 0
             val goals =
-                playerGoals?.count { goal -> !goal.period.longName.contains("OT") && !goal.period.shortName.contains("OT") && goal.properties.isShortHanded == "0" } ?: 0
+                playerGoals?.count { goal -> !goal.period.longName.contains("OT") && !goal.period.shortName.contains("OT") && goal.properties.isShortHanded == "0" }
+                    ?: 0
             val assists = playerAssists?.count { goal -> goal.properties.isShortHanded == "0" } ?: 0
             dbPlayer.timeOnIce = player?.stats?.toi ?: "0:00"
             dbPlayer.goals = goals.toShort()

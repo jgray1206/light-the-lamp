@@ -12,6 +12,6 @@ interface ScheduleClient {
     @Get("/schedule/{date}")
     @Consumes("application/json")
     fun getSchedule(
-            @PathVariable(value = "date") date: String,
+        @PathVariable(value = "date") date: String,
     ): Mono<Schedule>
 }

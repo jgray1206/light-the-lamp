@@ -45,4 +45,5 @@ class Game {
     var awayTeamGoalieAssists: Short? = null
     var homeTeamGoalieAssists: Short? = null
 }
+
 enum class League { PWHL, NHL }

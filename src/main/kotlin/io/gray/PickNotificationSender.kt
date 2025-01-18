@@ -1,11 +1,13 @@
-package io.gray;
+package io.gray
 
 import io.gray.notification.NotificationService
-import io.gray.repos.*
+import io.gray.repos.GameRepository
+import io.gray.repos.PickRepository
+import io.gray.repos.UserTeamRepository
 import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
 import io.micronaut.scheduling.annotation.Scheduled
-import jakarta.inject.Singleton;
+import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.scheduler.Schedulers
@@ -43,7 +45,11 @@ open class PickNotificationSender(
             }.flatMap { gameStringToNotificationTokenMap ->
                 logger.info(gameStringToNotificationTokenMap.first)
                 logger.info(gameStringToNotificationTokenMap.second)
-                notificationService.sendNotification(gameStringToNotificationTokenMap.second, "Don't forget to pick!", "Lock your pick in for tonight's ${gameStringToNotificationTokenMap.first} game before it's too late!!!")
+                notificationService.sendNotification(
+                    gameStringToNotificationTokenMap.second,
+                    "Don't forget to pick!",
+                    "Lock your pick in for tonight's ${gameStringToNotificationTokenMap.first} game before it's too late!!!"
+                )
             }
             .subscribeOn(Schedulers.boundedElastic())
             .subscribe()

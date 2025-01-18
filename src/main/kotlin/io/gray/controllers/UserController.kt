@@ -27,10 +27,10 @@ import java.util.*
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/user")
 open class UserController(
-        private val userRepository: UserRepository,
-        private val userTeamRepository: UserTeamRepository,
-        private val mailService: MailService,
-        private val notificationService: NotificationService
+    private val userRepository: UserRepository,
+    private val userTeamRepository: UserTeamRepository,
+    private val mailService: MailService,
+    private val notificationService: NotificationService
 ) {
 
     @Get("/all-count")
@@ -39,7 +39,7 @@ open class UserController(
             error("can't get user counts if you aren't an admin you lil' hacker!")
         }
 
-        return userRepository.getAllCount();
+        return userRepository.getAllCount()
     }
 
     @Get
@@ -79,63 +79,78 @@ open class UserController(
     @RateLimiter(name = "usercreate")
     open fun create(@Valid @Body userRequest: UserRequest, @Header("X-Forwarded-For") xForwardFor: String): Mono<User> {
         return userRepository.findByEmailIgnoreCase(userRequest.email!!)
-                .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
-                .switchIfEmpty(
-                        userRepository.save(User().also {
-                            it.email = userRequest.email
-                            it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
-                            it.ipAddress = xForwardFor
-                            it.confirmed = false
-                            it.admin = false
-                            it.displayName = userRequest.displayName
-                            it.redditUsername = userRequest.redditUsername
-                            it.confirmationUuid = UUID.randomUUID().toString()
-                        }).flatMap { user ->
-                            Mono.fromCallable { mailService.sendEmail(user.email!!, "Confirm Light The Lamp Account", "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login?confirmation=${user.confirmationUuid}") }
-                                    .thenReturn(user)
-                        }
-                ).flatMapMany { user ->
-                    Flux.fromIterable(userRequest.teams ?: listOf()).flatMap { team ->
-                        userTeamRepository.save(
-                                UserTeam().also {
-                                    it.userId = user.id; it.teamId = team
-                                })
+            .flatMap { Mono.error<User> { IllegalStateException("User already exists with email ${userRequest.email}") } }
+            .switchIfEmpty(
+                userRepository.save(User().also {
+                    it.email = userRequest.email
+                    it.password = BCrypt.hashpw(userRequest.password, BCrypt.gensalt(12))
+                    it.ipAddress = xForwardFor
+                    it.confirmed = false
+                    it.admin = false
+                    it.displayName = userRequest.displayName
+                    it.redditUsername = userRequest.redditUsername
+                    it.confirmationUuid = UUID.randomUUID().toString()
+                }).flatMap { user ->
+                    Mono.fromCallable {
+                        mailService.sendEmail(
+                            user.email!!,
+                            "Confirm Light The Lamp Account",
+                            "Welcome to Light The Lamp! Click here to confirm your account: https://www.lightthelamp.dev/login?confirmation=${user.confirmationUuid}"
+                        )
                     }
-                }.then(userRepository.findByEmailIgnoreCase(userRequest.email!!)).map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+                        .thenReturn(user)
+                }
+            ).flatMapMany { user ->
+                Flux.fromIterable(userRequest.teams ?: listOf()).flatMap { team ->
+                    userTeamRepository.save(
+                        UserTeam().also {
+                            it.userId = user.id; it.teamId = team
+                        })
+                }
+            }.then(userRepository.findByEmailIgnoreCase(userRequest.email!!))
+            .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
-    open fun update(profilePic: ByteArray?, @Size(min = 1, max = 50) displayName: String?, redditUsername: String?, teams: List<Long>?, @Size(min = 8, max = 50) password: String?, principal: Principal): Mono<User> {
+    open fun update(
+        profilePic: ByteArray?,
+        @Size(min = 1, max = 50) displayName: String?,
+        redditUsername: String?,
+        teams: List<Long>?,
+        @Size(min = 8, max = 50) password: String?,
+        principal: Principal
+    ): Mono<User> {
         return userRepository.findByEmailIgnoreCase(principal.name)
-                .flatMap { user ->
-                    teams?.let { teams ->
-                        user.teams?.let { userTeams ->
-                            Flux.fromIterable(userTeams).filter { it.id !in teams }
-                                    .flatMap { userTeamRepository.findByUserIdAndTeamId(user.id!!, it.id!!) }
-                                    .flatMap { userTeamRepository.delete(it) }.thenMany(
-                                            Flux.fromIterable(teams).filter { it !in userTeams.mapNotNull { userTeam -> userTeam.id } }
-                                                    .map { UserTeam().apply { this.userId = user.id; this.teamId = it; } }
-                                                    .flatMap { userTeamRepository.save(it) }
-                                    ).then(Mono.just(user))
-                        } ?: Mono.just(user)
+            .flatMap { user ->
+                teams?.let { teams ->
+                    user.teams?.let { userTeams ->
+                        Flux.fromIterable(userTeams).filter { it.id !in teams }
+                            .flatMap { userTeamRepository.findByUserIdAndTeamId(user.id!!, it.id!!) }
+                            .flatMap { userTeamRepository.delete(it) }.thenMany(
+                                Flux.fromIterable(teams)
+                                    .filter { it !in userTeams.mapNotNull { userTeam -> userTeam.id } }
+                                    .map { UserTeam().apply { this.userId = user.id; this.teamId = it; } }
+                                    .flatMap { userTeamRepository.save(it) }
+                            ).then(Mono.just(user))
                     } ?: Mono.just(user)
-                }.flatMap { user ->
-                    userRepository.update(user.apply {
-                        profilePic?.let { this.profilePic = it }
-                        displayName?.let { this.displayName = it }
-                        redditUsername?.let { this.redditUsername = it }
-                        password?.let { this.password = BCrypt.hashpw(it, BCrypt.gensalt(12)) }
-                    })
+                } ?: Mono.just(user)
+            }.flatMap { user ->
+                userRepository.update(user.apply {
+                    profilePic?.let { this.profilePic = it }
+                    displayName?.let { this.displayName = it }
+                    redditUsername?.let { this.redditUsername = it }
+                    password?.let { this.password = BCrypt.hashpw(it, BCrypt.gensalt(12)) }
+                })
+            }
+            .map {
+                it.apply {
+                    it.password = null
+                    it.ipAddress = null
+                    it.email = null
+                    it.friends = null
+                    it.confirmationUuid = null
                 }
-                .map {
-                    it.apply {
-                        it.password = null
-                        it.ipAddress = null
-                        it.email = null
-                        it.friends = null
-                        it.confirmationUuid = null
-                    }
-                }
+            }
     }
 
     @Get("/confirm/{uuid}", processes = [MediaType.APPLICATION_JSON])
@@ -160,7 +175,7 @@ open class UserController(
         return userRepository.findByEmailIgnoreCase(principal.name).flatMap {
             userRepository.update(it.also { it.notificationToken = token })
         }.map { user ->
-            UserDTO().apply { id = user.id  }
+            UserDTO().apply { id = user.id }
         }
     }
 
@@ -170,18 +185,17 @@ open class UserController(
         return userRepository.findByEmailIgnoreCase(principal.name).flatMap {
             userRepository.update(it.also { it.notificationToken = null })
         }.map { user ->
-            UserDTO().apply { id = user.id  }
+            UserDTO().apply { id = user.id }
         }
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/ping")
-    open fun pingJohn() : Mono<String> {
+    open fun pingJohn(): Mono<String> {
         return userRepository.findByEmailIgnoreCase("johngray1206@gmail.com").flatMap { user ->
             user.notificationToken?.let { token ->
-                notificationService.sendNotification(token, "ping! title", "ping! body");
-            } ?:
-            Mono.just("all done")
+                notificationService.sendNotification(token, "ping! title", "ping! body")
+            } ?: Mono.just("all done")
         }
     }
 }

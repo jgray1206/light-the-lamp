@@ -14,8 +14,12 @@ import reactor.core.publisher.Mono
 
 
 @Singleton
-class AuthenticationProviderUserPassword(private val userRepository: UserRepository) : HttpRequestReactiveAuthenticationProvider<Any> {
-    override fun authenticate(@Nullable requestContext: HttpRequest<Any>?, authenticationRequest: AuthenticationRequest<String, String>): Publisher<AuthenticationResponse> {
+class AuthenticationProviderUserPassword(private val userRepository: UserRepository) :
+    HttpRequestReactiveAuthenticationProvider<Any> {
+    override fun authenticate(
+        @Nullable requestContext: HttpRequest<Any>?,
+        authenticationRequest: AuthenticationRequest<String, String>
+    ): Publisher<AuthenticationResponse> {
         return userRepository.findByEmailIgnoreCase(authenticationRequest.identity as String).flatMap {
             if (it.locked == true) {
                 Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))
@@ -28,7 +32,11 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
             } else if (it.password != null && BCrypt.checkpw(authenticationRequest.secret as String, it.password)) {
                 userRepository.update(it.also { it.attempts = 0 }).map { user ->
                     if (user.admin == true) {
-                        AuthenticationResponse.success(authenticationRequest.identity as String, listOf("admin"), mapOf("id" to user.id))
+                        AuthenticationResponse.success(
+                            authenticationRequest.identity as String,
+                            listOf("admin"),
+                            mapOf("id" to user.id)
+                        )
                     } else {
                         AuthenticationResponse.success(authenticationRequest.identity as String, mapOf("id" to user.id))
                     }
@@ -38,6 +46,7 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
                     Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH))
                 }
             }
-        }.switchIfEmpty(Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH)))
+        }
+            .switchIfEmpty(Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.CREDENTIALS_DO_NOT_MATCH)))
     }
 }

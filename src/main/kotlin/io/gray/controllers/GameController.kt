@@ -1,10 +1,15 @@
 package io.gray.controllers
 
 import io.gray.GameStateSyncer
-import io.gray.model.*
-import io.gray.repos.*
-import io.micronaut.data.model.Pageable
-import io.micronaut.http.annotation.*
+import io.gray.model.Game
+import io.gray.model.Team
+import io.gray.repos.AnnouncerRepository
+import io.gray.repos.GameRepository
+import io.gray.repos.UserRepository
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
@@ -15,10 +20,10 @@ import java.security.Principal
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/game")
 class GameController(
-        private val gameRepository: GameRepository,
-        private val userRepository: UserRepository,
-        private val announcerRepository: AnnouncerRepository,
-        private val gameStateSyncer: GameStateSyncer
+    private val gameRepository: GameRepository,
+    private val userRepository: UserRepository,
+    private val announcerRepository: AnnouncerRepository,
+    private val gameStateSyncer: GameStateSyncer
 ) {
     @Get("/{id}")
     fun all(id: Long): Mono<Game> {
@@ -35,10 +40,11 @@ class GameController(
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable { user ->
             user.teams
         }.flatMap { team ->
-            gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team.id!!,
-                    team.id!!,
-                    season,
-                    maxGames
+            gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(
+                team.id!!,
+                team.id!!,
+                season,
+                maxGames
             ).collectList().flatMapMany {
                 gameRepository.findByIdIn(it)
             }
@@ -50,7 +56,8 @@ class GameController(
         return announcerRepository.findAll().map { announcer ->
             announcer.team
         }.flatMap { team ->
-            gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(team?.id!!,
+            gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(
+                team?.id!!,
                 team.id!!,
                 season,
                 maxGames

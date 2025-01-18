@@ -5,7 +5,8 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.Message
-import com.google.firebase.messaging.Notification
+import com.google.firebase.messaging.WebpushConfig
+import com.google.firebase.messaging.WebpushNotification
 import io.micronaut.context.env.Environment
 import jakarta.annotation.PostConstruct
 import jakarta.inject.Inject
@@ -21,6 +22,7 @@ class NotificationService {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
+
     @Inject
     lateinit var environment: Environment
     lateinit var firebaseApp: FirebaseApp
@@ -38,11 +40,16 @@ class NotificationService {
     }
 
 
-    fun sendNotification(token: String, title: String, body: String): Mono<String> {
+    fun sendNotiqfication(token: String, title: String, body: String): Mono<String> {
         val message: Message = Message.builder()
-            .setNotification(Notification.builder().setBody(body).setTitle(title).setImage("/logo.png").build())
             .setToken(token)
+            .setWebpushConfig(
+                WebpushConfig.builder().setNotification(
+                    WebpushNotification.builder().setBody(body).setTitle(title).setIcon("/pwa-512x512.png").build()
+                ).build()
+            )
             .build()
-        return Mono.fromRunnable<String> { FirebaseMessaging.getInstance(firebaseApp).send(message) }.subscribeOn(Schedulers.boundedElastic())
+        return Mono.fromRunnable<String> { FirebaseMessaging.getInstance(firebaseApp).send(message) }
+            .subscribeOn(Schedulers.boundedElastic())
     }
 }

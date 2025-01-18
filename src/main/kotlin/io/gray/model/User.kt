@@ -53,9 +53,11 @@ class User {
     var notificationToken: String? = null
 
     @Relation(Relation.Kind.MANY_TO_MANY)
-    @JoinTable(name = "user_user",
-            joinColumns = [JoinColumn(name = "to_user")],
-            inverseJoinColumns = [JoinColumn(name = "from_user")])
+    @JoinTable(
+        name = "user_user",
+        joinColumns = [JoinColumn(name = "to_user")],
+        inverseJoinColumns = [JoinColumn(name = "from_user")]
+    )
     var friends: List<User>? = null
 
 }

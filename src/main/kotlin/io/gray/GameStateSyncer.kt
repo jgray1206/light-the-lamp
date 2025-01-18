@@ -24,15 +24,15 @@ import java.time.format.DateTimeFormatter
 
 @Singleton
 open class GameStateSyncer(
-        private val teamRepository: TeamRepository,
-        private val gameRepository: GameRepository,
-        private val gamePlayerRepository: GamePlayerRepository,
-        private val pickRepository: PickRepository,
-        private val scheduleClient: ScheduleClient,
-        private val franchiseClient: FranchiseClient,
-        private val rosterClient: RosterClient,
-        private val boxScoreClient: BoxScoreClient,
-        private val scoreClient: ScoreClient,
+    private val teamRepository: TeamRepository,
+    private val gameRepository: GameRepository,
+    private val gamePlayerRepository: GamePlayerRepository,
+    private val pickRepository: PickRepository,
+    private val scheduleClient: ScheduleClient,
+    private val franchiseClient: FranchiseClient,
+    private val rosterClient: RosterClient,
+    private val boxScoreClient: BoxScoreClient,
+    private val scoreClient: ScoreClient,
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -46,51 +46,62 @@ open class GameStateSyncer(
 
     fun syncAllGames(minuteOfHour: Int) {
         scheduleClient.getSchedule(LocalDate.now().minusDays(2).toString())
-                .flatMapIterable { it.gameWeek }
-                .flatMap { gameDay ->
-                    scoreClient.getScore(gameDay.date).map { score -> gameDay.apply { this.score = score } }
-                }
-                .flatMapIterable { it.games.forEach { game -> game.goals = it.score?.games?.firstOrNull { scoreGame -> scoreGame.id == game.id }?.goals }; it.games; }
-                .filter { LocalDateTime.now().plusDays(1).plusHours(2).isAfter(LocalDateTime.parse(it.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME)) }
-                .flatMap { game ->
-                    teamRepository.findById(game.awayTeam.id).switchIfEmpty(Mono.defer { createTeam(game.awayTeam) }).map { game.apply { this.awayTeam.dbTeam = it } }
-                }
-                .flatMap { game ->
-                    teamRepository.findById(game.homeTeam.id).switchIfEmpty(Mono.defer { createTeam(game.homeTeam) }).map { game.apply { this.homeTeam.dbTeam = it } }
-                }
-                .flatMap { game ->
-                    logger.info("processing game ${game.id} with state ${game.gameState} on date ${game.startTimeUTC} between team ${game.homeTeam.placeName.default} and ${game.awayTeam.placeName.default}")
-                    gameRepository.findById(game.id).switchIfEmpty(
-                            Mono.defer { createGame(game) }
-                    ).flatMap {
-                        if (LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME) != it.date) {
-                            logger.info("rescheduling game ${game.id} from date ${it.date} to ${game.startTimeUTC}")
-                            gameRepository.update(it.apply { it.date = LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME) }).thenReturn(it)
-                        } else {
-                            Mono.just(it)
-                        }
-                    }.flatMap {
-                        if (minuteOfHour % 5 == 0 && it.gameState.equals("preview", ignoreCase = true)) {
-                            logger.info("checking for missing players for game ${game.id}")
-                            addMissingPlayers(it, game).then(gameRepository.findById(game.id))
-                        } else {
-                            Mono.just(it)
-                        }
-                    }.map { Pair(it, game) }
-                }
-                .filter {
-                    mapNewStateToOldState(it.second.gameState) == "Live" ||
-                            (minuteOfHour % 5 == 0 && mapNewStateToOldState(it.second.gameState) == "Final")
-                }
-                .flatMap { pair ->
-                    boxScoreClient.getBoxscore(pair.second.id.toString()).map { Triple(pair.first, pair.second, it) }
-                }
-                .flatMap { (dbGame, game, gameScore) ->
-                    updateGamePlayersAndGame(dbGame, gameScore, game)
-                }.flatMap { pDbGame ->
-                    updatePoints(pDbGame)
-                }
-                .collectList().block()
+            .flatMapIterable { it.gameWeek }
+            .flatMap { gameDay ->
+                scoreClient.getScore(gameDay.date).map { score -> gameDay.apply { this.score = score } }
+            }
+            .flatMapIterable {
+                it.games.forEach { game ->
+                    game.goals = it.score?.games?.firstOrNull { scoreGame -> scoreGame.id == game.id }?.goals
+                }; it.games
+            }
+            .filter {
+                LocalDateTime.now().plusDays(1).plusHours(2)
+                    .isAfter(LocalDateTime.parse(it.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME))
+            }
+            .flatMap { game ->
+                teamRepository.findById(game.awayTeam.id).switchIfEmpty(Mono.defer { createTeam(game.awayTeam) })
+                    .map { game.apply { this.awayTeam.dbTeam = it } }
+            }
+            .flatMap { game ->
+                teamRepository.findById(game.homeTeam.id).switchIfEmpty(Mono.defer { createTeam(game.homeTeam) })
+                    .map { game.apply { this.homeTeam.dbTeam = it } }
+            }
+            .flatMap { game ->
+                logger.info("processing game ${game.id} with state ${game.gameState} on date ${game.startTimeUTC} between team ${game.homeTeam.placeName.default} and ${game.awayTeam.placeName.default}")
+                gameRepository.findById(game.id).switchIfEmpty(
+                    Mono.defer { createGame(game) }
+                ).flatMap {
+                    if (LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME) != it.date) {
+                        logger.info("rescheduling game ${game.id} from date ${it.date} to ${game.startTimeUTC}")
+                        gameRepository.update(it.apply {
+                            it.date = LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME)
+                        }).thenReturn(it)
+                    } else {
+                        Mono.just(it)
+                    }
+                }.flatMap {
+                    if (minuteOfHour % 5 == 0 && it.gameState.equals("preview", ignoreCase = true)) {
+                        logger.info("checking for missing players for game ${game.id}")
+                        addMissingPlayers(it, game).then(gameRepository.findById(game.id))
+                    } else {
+                        Mono.just(it)
+                    }
+                }.map { Pair(it, game) }
+            }
+            .filter {
+                mapNewStateToOldState(it.second.gameState) == "Live" ||
+                        (minuteOfHour % 5 == 0 && mapNewStateToOldState(it.second.gameState) == "Final")
+            }
+            .flatMap { pair ->
+                boxScoreClient.getBoxscore(pair.second.id.toString()).map { Triple(pair.first, pair.second, it) }
+            }
+            .flatMap { (dbGame, game, gameScore) ->
+                updateGamePlayersAndGame(dbGame, gameScore, game)
+            }.flatMap { pDbGame ->
+                updatePoints(pDbGame)
+            }
+            .collectList().block()
     }
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
@@ -135,7 +146,13 @@ open class GameStateSyncer(
     }
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
-    open fun updatePointsForTeam(team: Team, goals: Short, goalsAgainst: Short, game: Game, goalieAssists: Short): Flux<Int> {
+    open fun updatePointsForTeam(
+        team: Team,
+        goals: Short,
+        goalsAgainst: Short,
+        game: Game,
+        goalieAssists: Short
+    ): Flux<Int> {
         val goaliePoints: Short = when (goalsAgainst.toInt()) {
             0 -> {
                 5
@@ -158,7 +175,10 @@ open class GameStateSyncer(
         } else {
             0
         }
-        return Flux.concat(pickRepository.updatePointsForGoalies(goaliePoints, game.id!!, team.id!!), pickRepository.updatePointsForTheTeam(teamPoints, game.id!!, team.id!!))
+        return Flux.concat(
+            pickRepository.updatePointsForGoalies(goaliePoints, game.id!!, team.id!!),
+            pickRepository.updatePointsForTheTeam(teamPoints, game.id!!, team.id!!)
+        )
     }
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
@@ -169,12 +189,20 @@ open class GameStateSyncer(
             flux = Flux.concat(flux, updatePointsForGamePlayer(it))
         }
         dbGame.homeTeam?.let {
-            flux = Flux.concat(flux, updatePointsForTeam(it, dbGame.homeTeamGoals ?: 0, dbGame.awayTeamGoals
-                    ?: 0, dbGame, dbGame.homeTeamGoalieAssists ?: 0))
+            flux = Flux.concat(
+                flux, updatePointsForTeam(
+                    it, dbGame.homeTeamGoals ?: 0, dbGame.awayTeamGoals
+                        ?: 0, dbGame, dbGame.homeTeamGoalieAssists ?: 0
+                )
+            )
         }
         dbGame.awayTeam?.let {
-            flux = Flux.concat(flux, updatePointsForTeam(it, dbGame.awayTeamGoals ?: 0, dbGame.homeTeamGoals
-                    ?: 0, dbGame, dbGame.awayTeamGoalieAssists ?: 0))
+            flux = Flux.concat(
+                flux, updatePointsForTeam(
+                    it, dbGame.awayTeamGoals ?: 0, dbGame.homeTeamGoals
+                        ?: 0, dbGame, dbGame.awayTeamGoalieAssists ?: 0
+                )
+            )
         }
         return flux
     }
@@ -191,7 +219,10 @@ open class GameStateSyncer(
                 it.abbreviation = team.abbrev
                 it.shortName = franchise.teamCommonName
                 it.league = League.NHL
-            }).onErrorResume { _ -> teamRepository.findById(team.id).switchIfEmpty(Mono.error { error("had all sorts of problems making a team") }) }
+            }).onErrorResume { _ ->
+                teamRepository.findById(team.id)
+                    .switchIfEmpty(Mono.error { error("had all sorts of problems making a team") })
+            }
         }
     }
 
@@ -199,22 +230,26 @@ open class GameStateSyncer(
     open fun updateGamePlayersAndGame(dbGame: Game, gameScore: Boxscore, game: io.gray.client.model.Game): Mono<Game> {
         logger.info("updating game ${game.id} with status ${dbGame.gameState} on date ${dbGame.date} between team ${game.homeTeam.dbTeam.teamName} and ${game.awayTeam.dbTeam.teamName}")
         val allPlayers = gameScore.playerByGameStats.awayTeam.defense
-                .plus(gameScore.playerByGameStats.awayTeam.forwards)
-                .plus(gameScore.playerByGameStats.homeTeam.defense)
-                .plus(gameScore.playerByGameStats.homeTeam.forwards).associateBy { it.playerId }
+            .plus(gameScore.playerByGameStats.awayTeam.forwards)
+            .plus(gameScore.playerByGameStats.homeTeam.defense)
+            .plus(gameScore.playerByGameStats.homeTeam.forwards).associateBy { it.playerId }
         val goalsByPlayer = game.goals?.groupBy { it.playerId }
         val assistsByPlayer = game.goals?.flatMap { goal -> goal.assists.map { i -> goal to i.playerId } }
-                                    ?.groupBy({ (_, player) -> player }, valueTransform = { (goal, _) -> goal })
+            ?.groupBy({ (_, player) -> player }, valueTransform = { (goal, _) -> goal })
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
             allPlayers[dbPlayer.id?.playerId!!]
         }?.mapValues { (player, dbPlayer) ->
             val playerGoals = goalsByPlayer?.get(player?.playerId)
             val playerAssists = assistsByPlayer?.get(player?.playerId)
-            val otShortGoals = playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength == "sh" } ?: 0
-            val otGoals = playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength != "sh" } ?: 0
-            val shortGoals = playerGoals?.count { goal -> goal.periodDescriptor.periodType != "OT" && goal.strength == "sh" } ?: 0
+            val otShortGoals =
+                playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength == "sh" } ?: 0
+            val otGoals =
+                playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength != "sh" } ?: 0
+            val shortGoals =
+                playerGoals?.count { goal -> goal.periodDescriptor.periodType != "OT" && goal.strength == "sh" } ?: 0
             val shortAssists = playerAssists?.count { goal -> goal.strength == "sh" } ?: 0
-            val goals = playerGoals?.count { goal -> goal.periodDescriptor.periodType != "OT" && goal.strength != "sh" } ?: 0
+            val goals =
+                playerGoals?.count { goal -> goal.periodDescriptor.periodType != "OT" && goal.strength != "sh" } ?: 0
             val assists = playerAssists?.count { goal -> goal.strength != "sh" } ?: 0
             dbPlayer.timeOnIce = player?.toi ?: "0:00"
             dbPlayer.goals = goals.toShort()
@@ -230,10 +265,12 @@ open class GameStateSyncer(
         dbGame.homeTeamGoals = gameScore.homeTeam.score
         dbGame.isShootout = game.periodDescriptor?.periodType == "SO"
         val awayTeamGoalIds = gameScore.playerByGameStats.awayTeam.goalies.map { it.playerId }
-        dbGame.awayTeamGoalieAssists = game.goals?.count { goal -> goal.assists.any { assist -> assist.playerId in awayTeamGoalIds } }?.toShort()
+        dbGame.awayTeamGoalieAssists =
+            game.goals?.count { goal -> goal.assists.any { assist -> assist.playerId in awayTeamGoalIds } }?.toShort()
                 ?: dbGame.awayTeamGoalieAssists
         val homeTeamGoalIds = gameScore.playerByGameStats.homeTeam.goalies.map { it.playerId }
-        dbGame.homeTeamGoalieAssists = game.goals?.count { goal -> goal.assists.any { assist -> assist.playerId in homeTeamGoalIds } }?.toShort()
+        dbGame.homeTeamGoalieAssists =
+            game.goals?.count { goal -> goal.assists.any { assist -> assist.playerId in homeTeamGoalIds } }?.toShort()
                 ?: dbGame.homeTeamGoalieAssists
         return playerFlux.collectList().then(gameRepository.update(dbGame))
     }
@@ -241,18 +278,19 @@ open class GameStateSyncer(
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createGame(game: io.gray.client.model.Game): Mono<Game> {
         logger.info("creating game ${game.id} on date ${game.startTimeUTC} between team ${game.homeTeam.dbTeam.teamName} and ${game.awayTeam.dbTeam.teamName}")
-        return getPlayers(game, game.awayTeam).collectList().zipWith(getPlayers(game, game.homeTeam).collectList()).flatMap { players ->
-            gameRepository.save(Game().also {
-                it.id = game.id
-                it.gameState = mapNewStateToOldState(game.gameState)
-                it.awayTeam = game.awayTeam.dbTeam
-                it.homeTeam = game.homeTeam.dbTeam
-                it.date = LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME)
-                it.players = players.t1.plus(players.t2)
-                it.league = League.NHL
-                it.season = game.id.toString().take(6)
-            })
-        }
+        return getPlayers(game, game.awayTeam).collectList().zipWith(getPlayers(game, game.homeTeam).collectList())
+            .flatMap { players ->
+                gameRepository.save(Game().also {
+                    it.id = game.id
+                    it.gameState = mapNewStateToOldState(game.gameState)
+                    it.awayTeam = game.awayTeam.dbTeam
+                    it.homeTeam = game.homeTeam.dbTeam
+                    it.date = LocalDateTime.parse(game.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME)
+                    it.players = players.t1.plus(players.t2)
+                    it.league = League.NHL
+                    it.season = game.id.toString().take(6)
+                })
+            }
     }
 
 
@@ -260,19 +298,19 @@ open class GameStateSyncer(
         return rosterClient.getRoster(team.abbrev, game.season.toString()).flatMapIterable {
             it.goalies.plus(it.defensemen).plus(it.forwards)
         }
-                .map { rosterEntry ->
-                    GamePlayer().also {
-                        it.id = GamePlayerId(game.id, rosterEntry.id)
-                        it.name = rosterEntry.firstName.default + " " + rosterEntry.lastName.default
-                        it.position = when (rosterEntry.positionCode) {
-                            'R', 'L', 'C' -> "Forward"
-                            'G' -> "Goalie"
-                            'D' -> "Defenseman"
-                            else -> error("unknown position code ${rosterEntry.positionCode}")
-                        }
-                        it.team = team.dbTeam
+            .map { rosterEntry ->
+                GamePlayer().also {
+                    it.id = GamePlayerId(game.id, rosterEntry.id)
+                    it.name = rosterEntry.firstName.default + " " + rosterEntry.lastName.default
+                    it.position = when (rosterEntry.positionCode) {
+                        'R', 'L', 'C' -> "Forward"
+                        'G' -> "Goalie"
+                        'D' -> "Defenseman"
+                        else -> error("unknown position code ${rosterEntry.positionCode}")
                     }
+                    it.team = team.dbTeam
                 }
+            }
     }
 
     private fun mapNewStateToOldState(gameState: GameState) = when (gameState) {
