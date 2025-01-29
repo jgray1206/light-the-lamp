@@ -16,3 +16,13 @@ firebase.initializeApp({
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();
+
+// Handle notification click event
+self.addEventListener('notificationclick', (event) => {
+    const notification = event.notification;
+    const url = notification.data.url || '/';
+    notification.close();
+    event.waitUntil(
+        clients.openWindow(url)
+    );
+});
