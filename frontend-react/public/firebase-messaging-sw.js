@@ -23,6 +23,6 @@ self.addEventListener('notificationclick', (event) => {
     const url = notification.data.url || '/';
     notification.close();
     event.waitUntil(
-        clients.openWindow(url)
+        self.clients.openWindow(url)
     );
 });
