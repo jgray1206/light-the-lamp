@@ -13,16 +13,16 @@ firebase.initializeApp({
     appId: "1:248585092155:web:4b4abef854e23a22aff01e"
 });
 
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-const messaging = firebase.messaging();
-
 // Handle notification click event
 self.addEventListener('notificationclick', (event) => {
     const notification = event.notification;
-    const url = notification.data.url || '/';
+    const url = notification.data?.url || '/';
     notification.close();
     event.waitUntil(
         self.clients.openWindow(url)
     );
 });
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
