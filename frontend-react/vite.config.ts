@@ -4,9 +4,6 @@ import {VitePWA, VitePWAOptions} from "vite-plugin-pwa";
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
 const manifestForPlugIn: VitePWAOptions = {
-    devOptions: {
-        enabled: true
-    },
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', "apple-touch-icon-180x180.png"],
     manifest: {
