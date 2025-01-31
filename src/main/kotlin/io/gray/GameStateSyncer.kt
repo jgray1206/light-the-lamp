@@ -239,8 +239,8 @@ open class GameStateSyncer(
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
             allPlayers[dbPlayer.id?.playerId!!]
         }?.mapValues { (player, dbPlayer) ->
-            val playerGoals = goalsByPlayer?.get(player?.playerId)
-            val playerAssists = assistsByPlayer?.get(player?.playerId)
+            val playerGoals = goalsByPlayer?.get(player?.playerId)?.filter { goal -> goal.periodDescriptor.periodType != "SO" }
+            val playerAssists = assistsByPlayer?.get(player?.playerId)?.filter { goal -> goal.periodDescriptor.periodType != "SO" }
             val otShortGoals =
                 playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength == "sh" } ?: 0
             val otGoals =
