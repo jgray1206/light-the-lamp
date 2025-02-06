@@ -6,6 +6,24 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 const manifestForPlugIn: VitePWAOptions = {
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', "apple-touch-icon-180x180.png"],
+    workbox: {
+        runtimeCaching: [
+            {
+                urlPattern: /\/api\/user\/\d+\/pic/i,
+                handler: 'CacheFirst',
+                options: {
+                    cacheName: 'image-cache',
+                    expiration: {
+                        maxEntries: 50,
+                        maxAgeSeconds: 86400, // Cache for 1 day
+                    },
+                    cacheableResponse: {
+                        statuses: [0, 200],
+                    },
+                },
+            },
+        ]
+    },
     manifest: {
         name: "Light the Lamp",
         short_name: "Light the Lamp",
