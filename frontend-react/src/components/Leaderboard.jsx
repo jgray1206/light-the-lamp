@@ -48,8 +48,6 @@ function groupPicksIntoLeaderboardUsers(groupedByTeamPicks, announcerPicksOnly, 
                 if ((!myPicksOnly && !announcerPicksOnly) || filterGames.has(pick.game.id)) {
                     if (pick.doublePoints == true) {
                         points += (pick.points || 0) * 2;
-                    } else if (pick.user?.displayName?.includes("Scottie B") == true) {
-                        points -= pick.points || 0;
                     } else {
                         points += pick.points || 0;
                     }
