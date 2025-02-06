@@ -70,10 +70,6 @@ export default function Picks(props) {
     }, [teams, games]);
 
     useEffect(() => {
-        props.setLastSelectedTeam(team);
-    }, [team])
-
-    useEffect(() => {
         setResetTeamGameEnabled(true);
     }, [props.getSeason]);
 
@@ -116,6 +112,7 @@ export default function Picks(props) {
                     activeKey={team}
                     onSelect={(k) => {
                         setTeam(k);
+                        props.setLastSelectedTeam(k);
                         setGame(getActiveGame(gamesByTeamMap[k])?.id + "-" + k);
                     }}
                 >
