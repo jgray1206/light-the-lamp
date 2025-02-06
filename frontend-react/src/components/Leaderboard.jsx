@@ -9,7 +9,7 @@ import SeasonSelector from "./SeasonSelector";
 
 const groupByTeamName = function (xs) {
     return xs.reduce(function (rv, x) {
-        (rv[x.team.teamName] = rv[x.team.teamName] || []).push(x);
+        (rv[x.team.teamName+"-"+x.team.id] = rv[x.team.teamName+"-"+x.team.id] || []).push(x);
         return rv;
     }, {});
 };
@@ -125,13 +125,14 @@ export default function Leaderboard(props) {
         {picks.length == 0 ?
             <h2>No picks yet!</h2> :
             <Tabs
+                defaultActiveKey={props.lastSelectedTeam}
                 id="controlled-tab-example"
                 className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
             >
                 {teams.map(function (team) {
                     const users = groupedByTeamPicks[team];
                     const userKeys = Object.keys(users);
-                    return <Tab eventKey={team} title={team} key={team}>
+                    return <Tab eventKey={team.split("-")[1]} title={team.split("-")[0]} key={team.split("-")[1]}>
                         <table className="table table-hover">
                             <thead>
                                 <tr>

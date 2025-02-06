@@ -112,6 +112,7 @@ export default function Picks(props) {
                     activeKey={team}
                     onSelect={(k) => {
                         setTeam(k);
+                        props.setLastSelectedTeam(k);
                         setGame(getActiveGame(gamesByTeamMap[k])?.id + "-" + k);
                     }}
                 >
@@ -362,7 +363,7 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
         goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
             .reduce(
                 (accumulator, player) => accumulator + "https://assets.leaguestat.com/pwhl/240x240/" +
-                    + player.id.playerId + ".jpg,", "",
+                    +player.id.playerId + ".jpg,", "",
             ).replace(/,$/, "");
     } else {
         goaliesPics = gamePlayers.filter((player) => player.position == "Goalie")
