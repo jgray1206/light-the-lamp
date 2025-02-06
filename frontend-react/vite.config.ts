@@ -5,7 +5,7 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 
 const manifestForPlugIn: VitePWAOptions = {
     registerType: 'autoUpdate',
-    includeAssets: ['favicon.ico', "apple-touch-icon-180x180.png"],
+    includeAssets: ['favicon.ico', "apple-touch-icon-180x180.png", "logo.png"],
     workbox: {
         runtimeCaching: [
             {
