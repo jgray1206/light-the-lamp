@@ -1,7 +1,7 @@
-import {RouterProvider, createBrowserRouter, Navigate} from "react-router-dom";
-import {useState} from "react";
-import {useAuth} from "../provider/authProvider";
-import {ProtectedRoute} from "./ProtectedRoute";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../provider/authProvider";
+import { ProtectedRoute } from "./ProtectedRoute";
 import About from "./About";
 import Register from "./Register";
 import Login from "./Login";
@@ -17,23 +17,22 @@ import Announcers from "./Announcers";
 import Notifications from "./Notifications";
 
 const Routes = () => {
-    const {token} = useAuth();
+    const { token } = useAuth();
     const [season, setSeason] = useState("202402");
     const [maxGames, setMaxGames] = useState(5);
     const [leaderboardTab, setLeaderboardTab] = useState("friends");
-    const [lastSelectedTeam, setLastSelectedTeam] = useState("");
 
     // Define public routes accessible to all users
     const routesForPublic = [
         {
             path: "/login",
-            errorElement: <ErrorPage/>,
-            element: <Login/>,
+            errorElement: <ErrorPage />,
+            element: <Login />,
         },
         {
             path: "/about",
-            errorElement: <ErrorPage/>,
-            element: <About/>
+            errorElement: <ErrorPage />,
+            element: <About />
         }
     ];
 
@@ -41,13 +40,12 @@ const Routes = () => {
     const routesForAuthenticatedOnly = [
         {
             path: "/",
-            errorElement: <ErrorPage/>,
-            element: <ProtectedRoute/>,
+            errorElement: <ErrorPage />,
+            element: <ProtectedRoute />,
             children: [
                 {
                     path: "/",
-                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames}
-                                    setMaxGames={setMaxGames} setLastSelectedTeam={setLastSelectedTeam}/>,
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
                     loader: async () => {
                         const [user, games, myPicks, friendsPicks] = await Promise.all([
                             AxiosInstance.get("/api/user"),
@@ -55,17 +53,16 @@ const Routes = () => {
                             AxiosInstance.get("/api/pick/user?season=" + season),
                             AxiosInstance.get("/api/pick/friends?season=" + season),
                         ]);
-                        return {user, games, myPicks, friendsPicks};
+                        return { user, games, myPicks, friendsPicks };
                     }
                 },
                 {
                     path: "/index",
-                    element: <Navigate to="/" replace/>
+                    element: <Navigate to="/" replace />
                 },
                 {
                     path: "/announcers",
-                    element: <Announcers setSeason={setSeason} getSeason={season} maxGames={maxGames}
-                                         setMaxGames={setMaxGames}/>,
+                    element: <Announcers setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
                     loader: async () => {
                         const [games, picks, announcers, userCount] = await Promise.all([
                             AxiosInstance.get("/api/game/announcers?season=" + season + "&maxGames=" + maxGames),
@@ -73,42 +70,39 @@ const Routes = () => {
                             AxiosInstance.get("/api/announcers"),
                             AxiosInstance.get("/api/user/all-count")
                         ]);
-                        return {games, picks, announcers, userCount};
+                        return { games, picks, announcers, userCount };
                     }
                 },
                 {
                     path: "/profile",
-                    element: <Profile/>,
+                    element: <Profile />,
                     loader: async () => {
                         const [user, teams] = await Promise.all([
                             AxiosInstance.get("/api/user?profilePic=true"),
                             AxiosInstance.get("/api/teams")
                         ]);
-                        return {user, teams};
+                        return { user, teams };
                     }
                 },
                 {
                     path: "/friends",
-                    element: <Friends/>,
-                    loader: async () => {
-                        return AxiosInstance.get("/api/user")
-                    }
+                    element: <Friends />,
+                    loader: async () => { return AxiosInstance.get("/api/user") }
                 },
                 {
                     path: "/notifications",
-                    element: <Notifications/>
+                    element: <Notifications />
                 },
                 {
                     path: "/logout",
-                    element: <Logout/>,
+                    element: <Logout />,
                 },
                 {
                     path: "/leaderboard",
                     element: <Leaderboard setSeason={setSeason}
-                                          getSeason={season}
-                                          leaderboardTab={leaderboardTab}
-                                          setLeaderboardTab={setLeaderboardTab}
-                                          lastSelectedTeam={lastSelectedTeam}/>,
+                        getSeason={season}
+                        leaderboardTab={leaderboardTab}
+                        setLeaderboardTab={setLeaderboardTab} />,
                     loader: async () => {
                         if (leaderboardTab == "friends") {
                             return AxiosInstance.get("/api/pick/friends-and-self?season=" + season);
@@ -127,16 +121,14 @@ const Routes = () => {
     const routesForNotAuthenticatedOnly = [
         {
             path: "/passwordreset",
-            errorElement: <ErrorPage/>,
-            element: <PasswordReset/>,
+            errorElement: <ErrorPage />,
+            element: <PasswordReset />,
         },
         {
             path: "/register",
-            element: <Register/>,
-            errorElement: <ErrorPage/>,
-            loader: async () => {
-                return AxiosInstance.get("/api/teams")
-            }
+            element: <Register />,
+            errorElement: <ErrorPage />,
+            loader: async () => { return AxiosInstance.get("/api/teams") }
         }
     ];
 
@@ -148,7 +140,7 @@ const Routes = () => {
     ]);
 
     // Provide the router configuration using RouterProvider
-    return <RouterProvider router={router}/>;
+    return <RouterProvider router={router} />;
 };
 
 export default Routes;
