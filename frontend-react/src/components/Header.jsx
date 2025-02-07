@@ -25,7 +25,7 @@ export default function Header(props) {
             <Navbar expand="lg" className="navbar-bg">
                 <Container>
                     <LinkContainer to='/'>
-                        <Navbar.Brand><img src="./logo.png" width="85" height="85" alt="" loading="lazy"/></Navbar.Brand>
+                        <Navbar.Brand><img src="./logo.png" width="85" height="85" alt=""/></Navbar.Brand>
                     </LinkContainer>
                     <Nav>
                         <NavDropdown align="end" title="Menu" id="basic-nav-dropdown">
