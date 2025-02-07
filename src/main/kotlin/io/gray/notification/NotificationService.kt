@@ -29,7 +29,7 @@ class NotificationService {
 
     @PostConstruct
     fun init() {
-        if (!environment.activeNames.contains("test")) {
+        if (!environment.activeNames.contains("test") && !environment.activeNames.contains("local")) {
             val options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.getApplicationDefault())
                 .setDatabaseUrl("https://light-the-lamp-3bb33.firebaseio.com/")
