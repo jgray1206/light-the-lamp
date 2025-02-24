@@ -44,10 +44,10 @@ export default function About() {
               <strong>The Team</strong>: 1 point per goal past 3. So 4 points for 4 goals, 5 for 5, etc.
             </li>
             <li>
-              <strong>Forwards</strong>: 2 points per regulation goal, 5 points per OT goal, 1 point per assist, points doubled if shorthanded.
+              <strong>Forwards</strong>: 2 points per regulation goal, +5 points if OT goal (so 7 total!), 1 point per assist, points doubled if shorthanded.
             </li>
             <li>
-              <strong>Defensemen</strong>: 3 points per regulation goal, 5 points per OT goal, 1 points per assist, points doubled if shorthanded.
+              <strong>Defensemen</strong>: 3 points per regulation goal, +5 points if OT goal (so 8 total!), 1 points per assist, points doubled if shorthanded.
             </li>
           </ul>
         </Card.Body>

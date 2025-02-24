@@ -122,8 +122,8 @@ open class GameStateSyncer(
         val points = when (gamePlayer.position) {
             "Forward" -> {
                 (((gamePlayer.goals ?: 0) * 2) +
-                        ((gamePlayer.otGoals ?: 0) * 5) +
-                        ((gamePlayer.otShortGoals ?: 0) * 10) +
+                        ((gamePlayer.otGoals ?: 0) * 7) +
+                        ((gamePlayer.otShortGoals ?: 0) * 14) +
                         ((gamePlayer.shortGoals ?: 0) * 4) +
                         (gamePlayer.assists ?: 0) +
                         ((gamePlayer.shortAssists ?: 0) * 2)).toShort()
@@ -131,8 +131,8 @@ open class GameStateSyncer(
 
             "Defenseman" -> {
                 (((gamePlayer.goals ?: 0) * 3) +
-                        ((gamePlayer.otGoals ?: 0) * 5) +
-                        ((gamePlayer.otShortGoals ?: 0) * 10) +
+                        ((gamePlayer.otGoals ?: 0) * 8) +
+                        ((gamePlayer.otShortGoals ?: 0) * 16) +
                         ((gamePlayer.shortGoals ?: 0) * 6) +
                         (gamePlayer.assists ?: 0) +
                         ((gamePlayer.shortAssists ?: 0) * 2)).toShort()
