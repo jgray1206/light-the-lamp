@@ -21,6 +21,7 @@ import reactor.core.publisher.Mono
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.max
 
 @Singleton
 open class GameStateSyncer(
@@ -150,10 +151,11 @@ open class GameStateSyncer(
         team: Team,
         goals: Short,
         goalsAgainst: Short,
+        goaliesGoalsAgainst: Short,
         game: Game,
         goalieAssists: Short
     ): Flux<Int> {
-        val goaliePoints: Short = when (goalsAgainst.toInt()) {
+        val goaliePoints: Short = when (goaliesGoalsAgainst.toInt()) {
             0 -> {
                 5
             }
@@ -191,16 +193,24 @@ open class GameStateSyncer(
         dbGame.homeTeam?.let {
             flux = Flux.concat(
                 flux, updatePointsForTeam(
-                    it, dbGame.homeTeamGoals ?: 0, dbGame.awayTeamGoals
-                        ?: 0, dbGame, dbGame.homeTeamGoalieAssists ?: 0
+                    it,
+                    dbGame.homeTeamGoals ?: 0,
+                    dbGame.awayTeamGoals ?: 0,
+                    dbGame.homeTeamGoaliesGoalsAgainst ?: 0,
+                    dbGame,
+                    dbGame.homeTeamGoalieAssists ?: 0
                 )
             )
         }
         dbGame.awayTeam?.let {
             flux = Flux.concat(
                 flux, updatePointsForTeam(
-                    it, dbGame.awayTeamGoals ?: 0, dbGame.homeTeamGoals
-                        ?: 0, dbGame, dbGame.awayTeamGoalieAssists ?: 0
+                    it,
+                    dbGame.awayTeamGoals ?: 0,
+                    dbGame.homeTeamGoals ?: 0,
+                    dbGame.awayTeamGoaliesGoalsAgainst ?: 0,
+                    dbGame,
+                    dbGame.awayTeamGoalieAssists ?: 0
                 )
             )
         }
@@ -239,8 +249,10 @@ open class GameStateSyncer(
         val playerFlux = Flux.fromIterable(dbGame.players?.associateBy { dbPlayer ->
             allPlayers[dbPlayer.id?.playerId!!]
         }?.mapValues { (player, dbPlayer) ->
-            val playerGoals = goalsByPlayer?.get(player?.playerId)?.filter { goal -> goal.periodDescriptor.periodType != "SO" }
-            val playerAssists = assistsByPlayer?.get(player?.playerId)?.filter { goal -> goal.periodDescriptor.periodType != "SO" }
+            val playerGoals =
+                goalsByPlayer?.get(player?.playerId)?.filter { goal -> goal.periodDescriptor.periodType != "SO" }
+            val playerAssists =
+                assistsByPlayer?.get(player?.playerId)?.filter { goal -> goal.periodDescriptor.periodType != "SO" }
             val otShortGoals =
                 playerGoals?.count { goal -> goal.periodDescriptor.periodType == "OT" && goal.strength == "sh" } ?: 0
             val otGoals =
@@ -272,6 +284,8 @@ open class GameStateSyncer(
         dbGame.homeTeamGoalieAssists =
             game.goals?.count { goal -> goal.assists.any { assist -> assist.playerId in homeTeamGoalIds } }?.toShort()
                 ?: dbGame.homeTeamGoalieAssists
+        dbGame.awayTeamGoaliesGoalsAgainst = gameScore.playerByGameStats.awayTeam.goalies.sumOf { it.goalsAgainst.toInt() }.toShort()
+        dbGame.homeTeamGoaliesGoalsAgainst = gameScore.playerByGameStats.homeTeam.goalies.sumOf { it.goalsAgainst.toInt() }.toShort()
         return playerFlux.collectList().then(gameRepository.update(dbGame))
     }
 

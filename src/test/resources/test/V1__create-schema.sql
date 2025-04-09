@@ -36,3 +36,5 @@ ALTER TABLE "game" ADD COLUMN season VARCHAR(8);
 ALTER TABLE "pick" ADD COLUMN season VARCHAR(8);
 ALTER TABLE "game" ADD COLUMN league VARCHAR(8);
 ALTER TABLE "user" ADD COLUMN notification_token VARCHAR(255) NULL;
+ALTER TABLE "game" ADD COLUMN home_team_goalies_goals_against SMALLINT;
+ALTER TABLE "game" ADD COLUMN away_team_goalies_goals_against SMALLINT;

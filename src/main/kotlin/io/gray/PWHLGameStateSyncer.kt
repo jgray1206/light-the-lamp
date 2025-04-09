@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
+import kotlin.math.max
 
 @Singleton
 open class PWHLGameStateSyncer(
@@ -159,10 +160,11 @@ open class PWHLGameStateSyncer(
         team: Team,
         goals: Short,
         goalsAgainst: Short,
+        goaliesGoalsAgainst: Short,
         game: Game,
         goalieAssists: Short
     ): Flux<Int> {
-        val goaliePoints: Short = when (goalsAgainst.toInt()) {
+        val goaliePoints: Short = when (goaliesGoalsAgainst.toInt()) {
             0 -> {
                 5
             }
@@ -200,16 +202,24 @@ open class PWHLGameStateSyncer(
         dbGame.homeTeam?.let {
             flux = Flux.concat(
                 flux, updatePointsForTeam(
-                    it, dbGame.homeTeamGoals ?: 0, dbGame.awayTeamGoals
-                        ?: 0, dbGame, dbGame.homeTeamGoalieAssists ?: 0
+                    it,
+                    dbGame.homeTeamGoals ?: 0,
+                    dbGame.awayTeamGoals ?: 0,
+                    dbGame.homeTeamGoaliesGoalsAgainst ?: 0,
+                    dbGame,
+                    dbGame.homeTeamGoalieAssists ?: 0
                 )
             )
         }
         dbGame.awayTeam?.let {
             flux = Flux.concat(
                 flux, updatePointsForTeam(
-                    it, dbGame.awayTeamGoals ?: 0, dbGame.homeTeamGoals
-                        ?: 0, dbGame, dbGame.awayTeamGoalieAssists ?: 0
+                    it,
+                    dbGame.awayTeamGoals ?: 0,
+                    dbGame.homeTeamGoals ?: 0,
+                    dbGame.awayTeamGoaliesGoalsAgainst ?: 0,
+                    dbGame,
+                    dbGame.awayTeamGoalieAssists ?: 0
                 )
             )
         }
@@ -275,6 +285,8 @@ open class PWHLGameStateSyncer(
             game.gameSummaryResponse!!.visitingTeam.goalies.map { it.stats.assists }.sum().toShort()
         dbGame.homeTeamGoalieAssists =
             game.gameSummaryResponse!!.homeTeam.goalies.map { it.stats.assists }.sum().toShort()
+        dbGame.awayTeamGoaliesGoalsAgainst =  game.gameSummaryResponse!!.visitingTeam.goalies.sumOf { it.stats.goalsAgainst }.toShort()
+        dbGame.homeTeamGoaliesGoalsAgainst =  game.gameSummaryResponse!!.homeTeam.goalies.sumOf { it.stats.goalsAgainst }.toShort()
         return playerFlux.collectList().then(gameRepository.update(dbGame))
     }
 

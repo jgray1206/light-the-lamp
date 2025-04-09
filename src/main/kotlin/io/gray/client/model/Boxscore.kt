@@ -18,7 +18,8 @@ data class TeamStats(
 )
 
 data class BoxscoreGoalie(
-    val playerId: Long
+    val playerId: Long,
+    val goalsAgainst: Short
 )
 
 data class BoxscorePlayer(

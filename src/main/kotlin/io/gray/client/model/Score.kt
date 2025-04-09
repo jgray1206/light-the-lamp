@@ -14,7 +14,9 @@ data class Goal(
     val playerId: Long,
     val periodDescriptor: Period,
     val assists: List<Assist>,
-    val strength: String // sh, ev, pp
+    val goalModifier: String, //empty-net, none
+    val strength: String, // sh, ev, pp
+    val teamAbbrev: String
 )
 
 data class Assist(

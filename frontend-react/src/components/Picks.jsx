@@ -382,18 +382,22 @@ function pushGoalieRow(gamePlayers, rows, pickEnabled, team, seasonImgText, prev
     if (pickEnabled) {
         pointsCellText = "5/shutout\n3/1-or-2 GA\n5/assist";
     } else {
-        const goals =
-            (game.awayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) ||
+        const goalsAgainst =
+            (game.awayOrHome == "home" ? game.homeTeamGoaliesGoalsAgainst : game.awayTeamGoaliesGoalsAgainst) ||
             0;
+        const totalGoalsAgainst = (game.awayOrHome == "home" ? game.awayTeamGoals : game.homeTeamGoals) || 0;
         const assists = (game.awayOrHome == "home" ? game.homeTeamGoalieAssists : game.awayTeamGoalieAssists) || 0;
-        if (goals > 2) {
+        if (goalsAgainst > 2) {
             points = 0;
-        } else if (goals > 0) {
+        } else if (goalsAgainst > 0) {
             points = 3;
         } else {
             points = 5;
         }
-        pointsCellText += "GA: " + goals;
+        pointsCellText += "GA: " + goalsAgainst;
+        if (goalsAgainst != totalGoalsAgainst) {
+            pointsCellText += "\nEN/SO: " + (totalGoalsAgainst-goalsAgainst);
+        }
         if (assists > 0) {
             points += assists * 5;
             pointsCellText += "\nA: " + assists;

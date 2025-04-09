@@ -38,7 +38,7 @@ export default function About() {
           <h3>Scoring</h3>
           <ul>
             <li>
-              <strong>Goalies</strong>: 5 points for a shutout, 3 points for a 1 or 2 goal game, 0 points for 3+ goals against. 5 points per assist.
+              <strong>Goalies</strong>: 5 points for a shutout, 3 points for a 1 or 2 goal game, 0 points for 3+ goals against. 5 points per assist. Note: empty netters and shootouts do not count against the goalies.
             </li>
             <li>
               <strong>The Team</strong>: 1 point per goal past 3. So 4 points for 4 goals, 5 for 5, etc.
