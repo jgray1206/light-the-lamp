@@ -1,5 +1,7 @@
 --num picks
 select count(*) from public.pick p where team_id = 17 and game_id > '2024020000';
+--num users
+select count(*) from public.pick p where team_id = 17 and game_id > '2024020000' group by user_id;
 
 --most points, top 3
 select points, user_id, reddit_username, display_name
@@ -86,3 +88,8 @@ having count(*) = 82
 ) as p
 where reddit_username IS NOT NULL
 on u.id = p.user_id;
+
+--num picks by team
+select count(*), MAX(team_name) from public.pick p
+JOIN public.team ON team_id = id
+where game_id > '2024020000' group by team_id;
