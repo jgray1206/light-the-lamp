@@ -11,7 +11,7 @@ select sum(points) as points, user_id from public.pick p where team_id = 17 and 
 order by sum(points) desc
 ) as p
 on u.id = p.user_id
-where reddit_username IS NOT NULL
+where reddit_username IS NOT NULL AND reddit_username != ''
 order by points desc limit 6;
 
 -- best player picker (most points from the players)
@@ -22,7 +22,7 @@ select sum(points) as points, user_id from public.pick p where team_id = 17 and 
 and the_team is null group by user_id order by sum(points) desc
 ) as p
 on u.id = p.user_id
-where reddit_username IS NOT NULL
+where reddit_username IS NOT NULL AND reddit_username != ''
 order by points desc limit 6;
 
 --most consistent player picker
@@ -36,7 +36,7 @@ where p.team_id = 17 and game_id > '2024020000' and the_team is null and goalies
 group by user_id, name
 ) as p
 on u.id = p.user_id
-where reddit_username IS NOT NULL
+where reddit_username IS NOT NULL AND reddit_username != ''
 order by p.count desc limit 6;
 
 --most consistent team picker
@@ -49,7 +49,7 @@ where p.team_id = 17 and game_id > '2024020000' and the_team = True
 group by user_id
 ) as p
 on u.id = p.user_id
-where reddit_username IS NOT NULL
+where reddit_username IS NOT NULL AND reddit_username != ''
 order by p.count desc limit 6;
 
 --most consistent goalies picker
@@ -62,7 +62,7 @@ where p.team_id = 17 and game_id > '2024020000' and goalies = True
 group by user_id
 ) as p
 on u.id = p.user_id
-where reddit_username IS NOT NULL
+where reddit_username IS NOT NULL AND reddit_username != ''
 order by p.count desc limit 3;
 
 --least picked red wing
@@ -87,7 +87,7 @@ select user_id, count(*) from public.pick p where team_id = 17 and game_id > '20
 having count(*) = 82
 ) as p
 on u.id = p.user_id
-where reddit_username IS NOT NULL;
+where reddit_username IS NOT NULL AND reddit_username != '';
 
 --num picks by team
 select count(*), MAX(team_name) from public.pick p
