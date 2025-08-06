@@ -37,6 +37,7 @@ open class PWHLGameStateSyncer(
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
         fun mapSeasonToNHLSeason(season: String) = when (season) {
             "5" -> "202402"
+            "6" -> "202403"
             else -> error("unknown pwhl season passed $season")
         }
     }

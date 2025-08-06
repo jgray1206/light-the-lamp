@@ -21,20 +21,20 @@
     "react-icons": "^5.4.0",
     "react-router-bootstrap": "^0.26.3",
     "react-router-dom": "^6.26.1",
-    "sweetalert2": "^11.12.4"
+    "sweetalert2": "^11.22.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vite-pwa/assets-generator": "^0.2.6",
-    "@vitejs/plugin-basic-ssl": "^1.2.0",
+    "@vite-pwa/assets-generator": "^1.0.0",
+    "@vitejs/plugin-basic-ssl": "^2.1.0",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
-    "vite": "^5.4.1",
-    "vite-plugin-pwa": "^0.21.1"
+    "vite": "^7.0.6",
+    "vite-plugin-pwa": "^1.0.2"
   }
 }

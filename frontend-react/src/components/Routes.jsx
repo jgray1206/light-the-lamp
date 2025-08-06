@@ -18,7 +18,7 @@ import Notifications from "./Notifications";
 
 const Routes = () => {
     const { token } = useAuth();
-    const [season, setSeason] = useState("202403");
+    const [season, setSeason] = useState("202501");
     const [maxGames, setMaxGames] = useState(5);
     const [leaderboardTab, setLeaderboardTab] = useState("friends");
 
