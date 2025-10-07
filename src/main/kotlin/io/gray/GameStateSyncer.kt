@@ -8,6 +8,7 @@ import io.gray.repos.GamePlayerRepository
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.TeamRepository
+import io.micronaut.context.annotation.Value
 import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
 import io.micronaut.scheduling.annotation.Scheduled
@@ -34,6 +35,8 @@ open class GameStateSyncer(
     private val rosterClient: RosterClient,
     private val boxScoreClient: BoxScoreClient,
     private val scoreClient: ScoreClient,
+    @Value("\${game.sync.plus.days.filter:1}")
+    private val gameSyncPlusDaysFilter: Long
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -57,7 +60,7 @@ open class GameStateSyncer(
                 }; it.games
             }
             .filter {
-                LocalDateTime.now().plusDays(1).plusHours(2)
+                LocalDateTime.now().plusDays(gameSyncPlusDaysFilter).plusHours(3)
                     .isAfter(LocalDateTime.parse(it.startTimeUTC, DateTimeFormatter.ISO_DATE_TIME))
             }
             .flatMap { game ->
