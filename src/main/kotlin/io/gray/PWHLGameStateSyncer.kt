@@ -38,6 +38,9 @@ open class PWHLGameStateSyncer(
         fun mapSeasonToNHLSeason(season: String) = when (season) {
             "5" -> "202402"
             "6" -> "202403"
+            "8" -> "202502"
+            "9" -> "202503"
+            "11" -> "202602"
             else -> error("unknown pwhl season passed $season")
         }
     }
