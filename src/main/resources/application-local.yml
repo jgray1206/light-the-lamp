@@ -45,6 +45,14 @@ r2dbc:
 #     io.r2dbc: TRACE
 #     io.micronaut.data: TRACE
 ---
+logger:
+  levels:
+    io.micronaut.security: TRACE
+    io.micronaut.security.filters: TRACE
+    io.micronaut.security.authentication: TRACE
+    io.micronaut.security.authorization: TRACE
+    io.micronaut.http.server: TRACE
+---
 credential.path: /Users/johngray/ltl-files/credentials.json
 token.path: /Users/johngray/ltl-files/tokens
 

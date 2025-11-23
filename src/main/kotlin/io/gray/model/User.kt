@@ -1,6 +1,7 @@
 package io.gray.model
 
 import io.micronaut.data.annotation.*
+import io.micronaut.data.annotation.Relation.Cascade
 import io.micronaut.data.annotation.sql.JoinColumn
 import io.micronaut.data.annotation.sql.JoinTable
 import io.micronaut.data.model.DataType
@@ -31,6 +32,9 @@ class User {
 
     @Relation(Relation.Kind.MANY_TO_MANY)
     var teams: List<Team>? = null
+
+    @Relation(Relation.Kind.ONE_TO_MANY, mappedBy = "parent", cascade = [Cascade.ALL])
+    var kids: List<Kid>? = null
 
     var confirmed: Boolean? = null
 

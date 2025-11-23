@@ -2,11 +2,13 @@ package io.gray.controllers
 
 import io.github.resilience4j.micronaut.annotation.RateLimiter
 import io.gray.email.MailService
+import io.gray.model.Kid
 import io.gray.model.User
 import io.gray.model.UserDTO
 import io.gray.model.UserRequest
 import io.gray.model.UserTeam
 import io.gray.notification.NotificationService
+import io.gray.repos.KidRepository
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
 import io.micronaut.http.HttpResponse
@@ -28,6 +30,7 @@ import java.util.*
 @Controller("/user")
 open class UserController(
     private val userRepository: UserRepository,
+    private val kidRepository: KidRepository,
     private val userTeamRepository: UserTeamRepository,
     private val mailService: MailService,
     private val notificationService: NotificationService
@@ -109,6 +112,47 @@ open class UserController(
                 }
             }.then(userRepository.findByEmailIgnoreCase(userRequest.email!!))
             .map { it.apply { it.password = null; it.ipAddress = null; confirmationUuid = null; } }
+    }
+
+    @Post("/kid")
+    fun createKid(@Body kid: Kid, principal: Principal): Mono<Kid> {
+        return userRepository.findByEmailIgnoreCase(principal.name)
+            .flatMap { parent ->
+                kid.parent = parent
+                kidRepository.save(kid)
+            }
+    }
+
+    @Put("/kid")
+    fun updateKid(@Body kid: Kid, principal: Principal): Mono<Kid> {
+        return userRepository.findByEmailIgnoreCase(principal.name)
+            .flatMap { parent ->
+                // Must load existing kid
+                kidRepository.findById(kid.id!!)
+                    .switchIfEmpty(Mono.error(IllegalArgumentException("Kid not found")))
+                    .flatMap { existing ->
+                        if (existing.parent?.id != parent.id) {
+                            return@flatMap Mono.error(IllegalAccessException("Not your kid"))
+                        }
+                        existing.displayName = kid.displayName
+                        existing.profilePic = kid.profilePic
+                        kidRepository.update(existing)
+                    }
+            }
+    }
+
+    @Delete("/kid/{kidid}")
+    open fun deleteKid(kidid: Long, principal: Principal): Mono<Void> {
+        return userRepository.findByEmailIgnoreCase(principal.name)
+            .flatMap { parent ->
+                kidRepository.findById(kidid)
+                    .flatMap { kid ->
+                        if (kid.parent?.id != parent.id)
+                            Mono.error(IllegalAccessException("Not your kid"))
+                        else
+                            kidRepository.delete(kid)
+                    }.then()
+            }
     }
 
     @Put(consumes = [MediaType.MULTIPART_FORM_DATA])
