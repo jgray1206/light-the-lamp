@@ -2,13 +2,12 @@ package io.gray.controllers
 
 import io.github.resilience4j.micronaut.annotation.RateLimiter
 import io.gray.email.MailService
-import io.gray.model.Kid
 import io.gray.model.User
 import io.gray.model.UserDTO
 import io.gray.model.UserRequest
 import io.gray.model.UserTeam
 import io.gray.notification.NotificationService
-import io.gray.repos.KidRepository
+import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
 import io.micronaut.http.HttpResponse
@@ -30,7 +29,7 @@ import java.util.*
 @Controller("/user")
 open class UserController(
     private val userRepository: UserRepository,
-    private val kidRepository: KidRepository,
+    private val pickRepository: PickRepository,
     private val userTeamRepository: UserTeamRepository,
     private val mailService: MailService,
     private val notificationService: NotificationService
@@ -46,35 +45,78 @@ open class UserController(
     }
 
     @Get
-    fun get(principal: Principal, @QueryValue profilePic: Boolean?): Mono<User> {
-        return userRepository.findByEmailIgnoreCase(principal.name).map {
-            it.apply {
-                it.password = null
-                it.email = null
-                it.ipAddress = null
-                it.friends = it.friends?.map { friend ->
-                    friend.apply {
-                        this.password = null
-                        this.email = null
-                        this.ipAddress = null
-                        this.confirmationUuid = null
-                        this.profilePic = byteArrayOf()
+    fun get(principal: Principal, @QueryValue profilePic: Boolean?, @QueryValue pickingAs: Long?): Mono<User> {
+        return userRepository.findByEmailIgnoreCase(principal.name)
+            .mapNotNull { user ->
+                if (pickingAs != null) {
+                    val kid = user.kids?.firstOrNull { it.id == pickingAs }
+                    kid?.apply kidApply@{
+                        this.teams = user.teams
+                        // add a single "self" kid (copies id and displayName)
+                        this.kids = listOf(User().apply {
+                            id = this@kidApply.id
+                            displayName = this@kidApply.displayName
+                        })
+                        // add parent as kid's friend
+                        this.friends = user.friends.orEmpty().plus(user.apply {
+                            kids = null
+                            friends = null
+                            teams = null
+                        })
                     }
-                }
-                it.profilePic = if (profilePic == true) {
-                    it.profilePic
                 } else {
-                    byteArrayOf()
+                    user
                 }
             }
-        }
+            .map {
+                it.apply {
+                    it!!.password = null
+                    it.email = null
+                    it.ipAddress = null
+                    it.friends = it.friends?.map { friend ->
+                        friend.apply {
+                            this.password = null
+                            this.email = null
+                            this.ipAddress = null
+                            this.confirmationUuid = null
+                            this.profilePic = byteArrayOf()
+                        }
+                    }
+                    it.profilePic = if (profilePic == true) {
+                        it.profilePic
+                    } else {
+                        byteArrayOf()
+                    }
+                }
+            }
     }
 
     @Get("/{id}/pic")
-    fun getPic(id: Long): Mono<HttpResponse<String>> {
-        return userRepository.findById(id).map {
-            HttpResponse.ok(String(Base64.getEncoder().encode(it.profilePic))).header("Cache-Control", "max-age=86400")
-        }
+    fun getPic(id: Long, principal: Principal): Mono<HttpResponse<String>> {
+        return userRepository.findByEmailIgnoreCase(principal.name)
+            .flatMap {
+                var targetUser = it.friends?.firstOrNull { friend -> friend.id == id }
+                if (targetUser == null) {
+                    targetUser = it.kids?.firstOrNull { kid -> kid.id == id }
+                }
+                if (targetUser == null && it.parent?.id == id) {
+                    targetUser = it.parent
+                }
+                if (targetUser == null && it.friends != null) {
+                    targetUser = it.friends?.flatMap { friend -> friend.kids.orEmpty() }?.firstOrNull { kid -> kid.id == id }
+                }
+                if (targetUser == null && it.id == id) {
+                    targetUser = it
+                }
+                return@flatMap if (targetUser != null) {
+                    userRepository.findById(targetUser.id).map {
+                        HttpResponse.ok(String(Base64.getEncoder().encode(it.profilePic)))
+                            .header("Cache-Control", "max-age=86400")
+                    }
+                } else {
+                    Mono.just(HttpResponse.ok(String(Base64.getEncoder().encode(byteArrayOf()))))
+                }
+            }
     }
 
     @Post
@@ -115,20 +157,23 @@ open class UserController(
     }
 
     @Post("/kid")
-    fun createKid(@Body kid: Kid, principal: Principal): Mono<Kid> {
+    fun createKid(@Body kid: User, principal: Principal): Mono<User> {
         return userRepository.findByEmailIgnoreCase(principal.name)
             .flatMap { parent ->
                 kid.parent = parent
-                kidRepository.save(kid)
+                kid.email = "kid"
+                kid.password = "kid"
+                kid.confirmationUuid = UUID.randomUUID().toString();
+                kid.ipAddress = "0.0.0.0"
+                userRepository.save(kid)
             }
     }
 
     @Put("/kid")
-    fun updateKid(@Body kid: Kid, principal: Principal): Mono<Kid> {
+    fun updateKid(@Body kid: User, principal: Principal): Mono<User> {
         return userRepository.findByEmailIgnoreCase(principal.name)
             .flatMap { parent ->
-                // Must load existing kid
-                kidRepository.findById(kid.id!!)
+                userRepository.findById(kid.id!!)
                     .switchIfEmpty(Mono.error(IllegalArgumentException("Kid not found")))
                     .flatMap { existing ->
                         if (existing.parent?.id != parent.id) {
@@ -136,21 +181,22 @@ open class UserController(
                         }
                         existing.displayName = kid.displayName
                         existing.profilePic = kid.profilePic
-                        kidRepository.update(existing)
+                        userRepository.update(existing)
                     }
             }
     }
 
     @Delete("/kid/{kidid}")
-    open fun deleteKid(kidid: Long, principal: Principal): Mono<Void> {
+    fun deleteKid(kidid: Long, principal: Principal): Mono<Void> {
         return userRepository.findByEmailIgnoreCase(principal.name)
             .flatMap { parent ->
-                kidRepository.findById(kidid)
+                userRepository.findById(kidid)
                     .flatMap { kid ->
-                        if (kid.parent?.id != parent.id)
+                        if (kid.parent?.id != parent.id) {
                             Mono.error(IllegalAccessException("Not your kid"))
-                        else
-                            kidRepository.delete(kid)
+                        } else {
+                            pickRepository.deleteByUser(kid.toUserDTO()).and(userRepository.delete(kid))
+                        }
                     }.then()
             }
     }

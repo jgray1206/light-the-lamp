@@ -17,9 +17,6 @@ class Pick {
     var user: UserDTO? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)
-    var kid: Kid? = null
-
-    @Relation(Relation.Kind.MANY_TO_ONE)
     var announcer: Announcer? = null
 
     @Relation(Relation.Kind.MANY_TO_ONE)

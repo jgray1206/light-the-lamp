@@ -19,6 +19,7 @@ import Notifications from "./Notifications";
 const Routes = () => {
     const { token } = useAuth();
     const [season, setSeason] = useState("202502");
+    const [pickingAs, setPickingAs] = useState("self");
     const [maxGames, setMaxGames] = useState(5);
     const [leaderboardTab, setLeaderboardTab] = useState("friends");
 
@@ -45,13 +46,13 @@ const Routes = () => {
             children: [
                 {
                     path: "/",
-                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} />,
+                    element: <Picks setSeason={setSeason} getSeason={season} maxGames={maxGames} setMaxGames={setMaxGames} pickingAs={pickingAs} setPickingAs={setPickingAs} />,
                     loader: async () => {
                         const [user, games, myPicks, friendsPicks] = await Promise.all([
-                            AxiosInstance.get("/api/user"),
+                            AxiosInstance.get("/api/user" + (pickingAs === "self" ? "" : "?pickingAs=" + pickingAs)),
                             AxiosInstance.get("/api/game/user?season=" + season + "&maxGames=" + maxGames),
-                            AxiosInstance.get("/api/pick/user?season=" + season),
-                            AxiosInstance.get("/api/pick/friends?season=" + season),
+                            AxiosInstance.get("/api/pick/user?season=" + season + (pickingAs === "self" ? "" : "&pickingAs=" + pickingAs) ),
+                            AxiosInstance.get("/api/pick/friends?season=" + season + (pickingAs === "self" ? "" : "&pickingAs=" + pickingAs)),
                         ]);
                         return { user, games, myPicks, friendsPicks };
                     }

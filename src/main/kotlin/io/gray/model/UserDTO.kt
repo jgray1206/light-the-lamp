@@ -11,4 +11,5 @@ class UserDTO {
     var id: Long? = null
     var displayName: String? = null
     var redditUsername: String? = null
+    var parent: User? = null
 }

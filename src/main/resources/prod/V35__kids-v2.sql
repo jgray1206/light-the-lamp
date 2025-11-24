@@ -1,0 +1,3 @@
+DROP TABLE "kid";
+ALTER TABLE "pick" DROP COLUMN kid_id;
+ALTER TABLE "user" ADD COLUMN parent_id BIGINT;

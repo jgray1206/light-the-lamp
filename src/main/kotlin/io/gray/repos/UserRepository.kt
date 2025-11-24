@@ -13,6 +13,7 @@ interface UserRepository : ReactorCrudRepository<User, Long> {
 
     @Join("teams", type = Join.Type.LEFT_FETCH)
     @Join("friends", type = Join.Type.LEFT_FETCH)
+    @Join("friends.kids", type = Join.Type.LEFT_FETCH)
     @Join("kids", type = Join.Type.LEFT_FETCH)
     fun findByEmailIgnoreCase(email: String): Mono<User>
 

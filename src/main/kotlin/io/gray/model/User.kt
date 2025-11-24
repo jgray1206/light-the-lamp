@@ -1,5 +1,6 @@
 package io.gray.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.micronaut.data.annotation.*
 import io.micronaut.data.annotation.Relation.Cascade
 import io.micronaut.data.annotation.sql.JoinColumn
@@ -33,8 +34,13 @@ class User {
     @Relation(Relation.Kind.MANY_TO_MANY)
     var teams: List<Team>? = null
 
-    @Relation(Relation.Kind.ONE_TO_MANY, mappedBy = "parent", cascade = [Cascade.ALL])
-    var kids: List<Kid>? = null
+    @Relation(Relation.Kind.ONE_TO_MANY, mappedBy = "parent")
+    var kids: List<User>? = null
+
+    @JsonIgnore
+    @Relation(Relation.Kind.MANY_TO_ONE)
+    @JoinColumn(name = "parent_id")
+    var parent: User? = null
 
     var confirmed: Boolean? = null
 
@@ -64,4 +70,11 @@ class User {
     )
     var friends: List<User>? = null
 
+    fun toUserDTO() : UserDTO {
+        var userDto = UserDTO()
+        userDto.id = this.id
+        userDto.displayName = this.displayName
+        userDto.redditUsername = this.redditUsername
+        return userDto
+    }
 }

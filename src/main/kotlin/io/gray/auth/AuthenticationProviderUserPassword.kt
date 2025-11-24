@@ -23,6 +23,8 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
         return userRepository.findByEmailIgnoreCase(authenticationRequest.identity as String).flatMap {
             if (it.locked == true) {
                 Mono.error(AuthenticationResponse.exception(AuthenticationFailureReason.ACCOUNT_LOCKED))
+            } else if (it.parent != null) {
+                Mono.error(AuthenticationResponse.exception("Can't sign in to kids accounts"))
             } else if (it.confirmed != true) {
                 Mono.error(AuthenticationResponse.exception("Account not confirmed. Please check your email and click the confirmation link before signing in."))
             } else if ((it.attempts ?: 0) > 20) {
@@ -38,7 +40,10 @@ class AuthenticationProviderUserPassword(private val userRepository: UserReposit
                             mapOf("id" to user.id)
                         )
                     } else {
-                        AuthenticationResponse.success(authenticationRequest.identity as String, mapOf("id" to user.id))
+                        AuthenticationResponse.success(
+                            authenticationRequest.identity as String,
+                            mapOf("id" to user.id)
+                        )
                     }
                 }
             } else {

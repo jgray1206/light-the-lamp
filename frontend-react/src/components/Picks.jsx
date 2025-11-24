@@ -59,6 +59,7 @@ export default function Picks(props) {
     );
 
     const revalidator = useRevalidator();
+    const kids = user.kids || [];
 
     useEffect(() => {
         if (resetTeamGameEnabled) {
@@ -79,14 +80,23 @@ export default function Picks(props) {
             if (user.friends?.length > 0) {
                 for (const friend of user.friends) {
                     pics.set(friend.id, await getPic(friend.id));
+                    if (friend.kids?.length > 0) {
+                        for (const kid of friend.kids) {
+                            pics.set(kid.id, await getPic(kid.id));
+                        }
+                    }
+                }
+            }
+            if (user.kids?.length > 0) {
+                for (const kid of user.kids) {
+                    pics.set(kid.id, await getPic(kid.id));
                 }
             }
             setPics(pics);
         }
 
         fetchPics();
-    }, []);
-
+    }, [user]);
     return <>
         <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason}/>
         <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => {
@@ -103,6 +113,18 @@ export default function Picks(props) {
             onChange={() => {
                 setHideFriendsPick(!hideFriendsPick)
             }}/>
+        {kids.length > 0 && (
+            <Form.Group className="mb-3 mt-2">
+                <Form.Label>Picking for:</Form.Label>
+                <Form.Select value={props.pickingAs} onChange={(e) => props.setPickingAs(e.target.value)}>
+                    <option value="self">Yourself</option>
+                    {kids.map(kid => (
+                        <option key={kid.id} value={kid.id}>{kid.displayName}</option>
+                    ))}
+                </Form.Select>
+                {props.pickingAs !== "self" && <div className="mt-1 text-info">You are picking for {kids.find(k => k.id === parseInt(props.pickingAs,10))?.displayName}!</div>}
+            </Form.Group>
+        )}
         {!teams || teams.length == 0 ? <h2>You have not joined any teams! Please check your profile settings.</h2> :
             games.length == 0 ? <h2>No games yet!</h2> :
                 <Tabs
@@ -141,7 +163,7 @@ export default function Picks(props) {
                                                     return myPicksMap.get(prevGame.id + "-" + team.id);
                                                 })
                                                 .filter((prevGame) => prevGame != undefined);
-                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, revalidator, prevPicks, setResetTeamGameEnabled);
+                                            return picksTable(game, prevGame, team, myPicksMap, friendsPicksMap, pics, props.getSeason, hideFriendsPick, revalidator, prevPicks, setResetTeamGameEnabled, props.pickingAs);
                                         })
                                     }
                                     {
@@ -175,7 +197,7 @@ function getActiveGame(games) {
     return output;
 }
 
-function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, revalidator, prevPicks, setResetTeamGameEnabled) {
+function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, season, hideFriendsPick, revalidator, prevPicks, setResetTeamGameEnabled, pickingAs) {
     var pick = picksMap.get(game.id + "-" + team.id);
     var friendsPicksForGame = friendsPicksMap[game.id + "-" + team.id];
     var friendPicksByPlayerMap = friendsPicksForGame?.reduce(
@@ -294,7 +316,7 @@ function picksTable(game, prevGame, team, picksMap, friendsPicksMap, pics, seaso
                                 <td>{!pickEnabled && <><h1>{row.points}</h1><br/></>}<span
                                     style={{whiteSpace: "pre"}}>{row.pointsCellText}</span><br/></td>
                                 {pickEnabled && <td><Button variant={row.disabled ? 'secondary' : 'primary'}
-                                                            onClick={() => doPick(game.id, team.id, row, revalidator, setResetTeamGameEnabled)}>Pick</Button>
+                                                            onClick={() => doPick(game.id, team.id, row, revalidator, setResetTeamGameEnabled, pickingAs)}>Pick</Button>
                                 </td>}
                             </tr>
                         </>
@@ -532,7 +554,7 @@ function pushPlayerRows(gamePlayers, rows, prevGamePlayersMap, pickEnabled, team
         });
 }
 
-function doPick(gameId, teamId, row, revalidator, setResetTeamGameEnabled) {
+function doPick(gameId, teamId, row, revalidator, setResetTeamGameEnabled, pickingAs) {
     if (row.disabled) {
         Swal.fire({
             text:
@@ -563,7 +585,7 @@ function doPick(gameId, teamId, row, revalidator, setResetTeamGameEnabled) {
         cancelButtonText: "NOPE!",
     }).then((result) => {
         if (result["isConfirmed"]) {
-            AxiosInstance.post("/api/pick/user?gameId=" + gameId + "&pick=" + row.name + "&teamId=" + teamId)
+            AxiosInstance.post("/api/pick/user?gameId=" + gameId + "&pick=" + row.name + "&teamId=" + teamId + (pickingAs !== "self" ? ("&pickingAs="+pickingAs) : ""))
                 .then(response => {
                     setResetTeamGameEnabled(false);
                     revalidator.revalidate();

@@ -22,10 +22,6 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
 
     @Join("user", type = Join.Type.FETCH)
     @Join("team", type = Join.Type.FETCH)
-    fun findAllByTeamInAndKidInAndSeason(teams: List<Team>, users: List<Kid>, season: String): Flux<Pick>
-
-    @Join("user", type = Join.Type.FETCH)
-    @Join("team", type = Join.Type.FETCH)
     fun findAllByTeamInAndSeasonAndUserRedditUsernameIsNotEmpty(teams: List<Team>, season: String): Flux<Pick>
 
     @Query("SELECT MIN(display_name) as display_name, MIN(email) as email, COUNT(*) AS games, SUM(points) as points, team_id as team_id FROM pick JOIN \"user\" ON pick.user_id = \"user\".id WHERE season = :season AND team_id IN(:teams) AND user_id IS NOT NULL GROUP BY user_id, team_id")
@@ -55,8 +51,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     fun findByGameAndUserAndTeam(aGame: Game, aUser: UserDTO, aTeam: Team): Mono<Pick>
 
-    @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
-    fun findByGameAndKidAndTeam(aGame: Game, aKid: Kid, aTeam: Team): Mono<Pick>
+    fun deleteByUser(aUser: UserDTO): Mono<Pick>
 
     fun findByGameAndAnnouncer(aGame: Game, aAnnouncer: Announcer): Mono<Pick>
 

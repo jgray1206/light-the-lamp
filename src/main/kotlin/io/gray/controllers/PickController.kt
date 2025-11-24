@@ -38,6 +38,7 @@ class PickController(
             it.teams
         }.flatMap {
             pickRepository.findAllByTeamAndSeason(it, season)
+                .filter { it.user?.parent == null }
         }
     }
 
@@ -47,14 +48,21 @@ class PickController(
     }
 
     @Get("/user")
-    fun getPickByUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmailIgnoreCase(principal.name).flatMapMany {
-            pickRepository.findAllByUserAndSeason(UserDTO().apply {
-                this.id = it.id
-                this.displayName = it.displayName
-                this.redditUsername = it.redditUsername
-            }, season)
-        }
+    fun getPickByUser(principal: Principal, @QueryValue season: String, @QueryValue pickingAs: Long?): Flux<Pick> {
+        return userRepository.findByEmailIgnoreCase(principal.name)
+            .mapNotNull { user ->
+                return@mapNotNull if (pickingAs != null) {
+                    user.kids?.firstOrNull { kid -> kid.id == pickingAs }
+                } else {
+                    user
+                }
+            }
+            .flatMapMany {
+                pickRepository.findAllByUserAndSeason(UserDTO().apply {
+                    this.id = it!!.id
+                    this.displayName = it.displayName
+                }, season)
+            }
     }
 
     @Get("/announcer")
@@ -65,17 +73,32 @@ class PickController(
     }
 
     @Get("/friends")
-    fun getPicksByUserFriends(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        val userStream = userRepository.findByEmailIgnoreCase(principal.name)
-            .flatMapIterable { it.friends }
-        val kidStream = userStream.flatMapIterable { it.kids }
-        return userStream.flatMap {
-                pickRepository.findAllByUserAndSeason(UserDTO().apply {
-                    this.id = it.id
-                    this.displayName = it.displayName
-                    this.redditUsername = it.redditUsername
-                }, season)
+    fun getPicksByUserFriends(
+        principal: Principal,
+        @QueryValue season: String,
+        @QueryValue pickingAs: Long?
+    ): Flux<Pick> {
+        val userStream = userRepository.findByEmailIgnoreCase(principal.name).mapNotNull { user ->
+            return@mapNotNull if (pickingAs != null) {
+                user.kids?.firstOrNull { kid -> kid.id == pickingAs }
+                    ?.apply {
+                        this.teams = user.teams
+                        //add parent as kid's friend
+                        this.friends = user.friends.orEmpty().plus(user.apply {
+                            kids = null
+                            friends = null
+                            teams = null
+                        })
+                    }
+            } else {
+                user
             }
+        }.flatMapIterable { it!!.friends.orEmpty().plus(it.kids.orEmpty()).plus(it.friends?.flatMap { fre -> fre.kids.orEmpty() }.orEmpty()) }
+        return userStream.flatMap {
+            pickRepository.findAllByUserAndSeason(UserDTO().apply {
+                this.id = it.id
+            }, season)
+        }
             .mergeWith(
                 announcerRepository.findAll().flatMap {
                     pickRepository.findAllByAnnouncerAndSeason(it, season)
@@ -85,13 +108,12 @@ class PickController(
 
     @Get("/friends-and-self")
     fun getPicksByUserFriendsAndUser(principal: Principal, @QueryValue season: String): Flux<Pick> {
-        return userRepository.findByEmailIgnoreCase(principal.name).filter { it.friends != null && it.teams != null }
+        return userRepository.findByEmailIgnoreCase(principal.name).filter { (it.friends != null || it.kids != null) && it.teams != null }
             .flatMapMany {
-                pickRepository.findAllByTeamInAndUserInAndSeason(it.teams!!, it.friends!!.plus(it).map {
+                pickRepository.findAllByTeamInAndUserInAndSeason(it.teams!!, it.friends.orEmpty().plus(it).plus(it.kids.orEmpty()).plus(it.friends?.flatMap { fre -> fre.kids.orEmpty() }.orEmpty()).map {
                     UserDTO().apply {
                         this.id = it.id
                         this.displayName = it.displayName
-                        this.redditUsername = it.redditUsername
                     }
                 }, season)
             }
@@ -109,18 +131,24 @@ class PickController(
         @QueryValue("gameId") gameId: String,
         @QueryValue("pick") pick: String,
         @QueryValue("teamId") teamId: Long,
-        @QueryValue("kidId") kidId: Long?,
+        @QueryValue("pickingAs") pickingAs: Long?,
         principal: Principal
     ): Mono<Pick> {
-        if (kidId != null) {
-            return userRepository.findByEmailIgnoreCase(principal.name).zipWith(gameRepository.findById(gameId.toLong()))
+        if (pickingAs != null) {
+            return userRepository.findByEmailIgnoreCase(principal.name)
+                .zipWith(gameRepository.findById(gameId.toLong()))
                 .flatMap { tuple ->
                     val game = tuple.t2
                     val team = Team().apply { this.id = teamId }
-                    val kid = tuple.t1.kids?.firstOrNull { it.id == kidId }
+                    val kid = tuple.t1.kids?.firstOrNull { it.id == pickingAs }
 
                     check(kid != null) {
                         "can't submit a pick for a kid that ain't yours ya silly goof"
+                    }
+
+                    val kidDTO = UserDTO().apply {
+                        this.id = kid.id
+                        this.displayName = kid.displayName
                     }
 
                     check(tuple.t1.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
@@ -130,19 +158,14 @@ class PickController(
                     check(game.awayTeam?.id == teamId || game.homeTeam?.id == teamId) {
                         "can't submit pick for a team in a game they aren't playing in, you goofy goober"
                     }
-                    pickRepository.findByGameAndKidAndTeam(game, kid, team).switchIfEmpty(
+                    pickRepository.findByGameAndUserAndTeam(game, kidDTO, team).switchIfEmpty(
                         Mono.defer {
                             pickRepository.save(Pick().also { pickEntity ->
                                 logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}'s kid ${kid.id}")
                                 pickEntity.game = game
                                 pickEntity.season = game.season
                                 pickEntity.team = team
-                                pickEntity.kid = kid
-                                pickEntity.user = UserDTO().apply {
-                                    this.id = tuple.t1.id
-                                    this.displayName = tuple.t1.displayName
-                                    this.redditUsername = tuple.t1.redditUsername
-                                }
+                                pickEntity.user = kidDTO
                                 if (pick == "goalies") {
                                     pickEntity.goalies = true
                                 } else if (pick == "team") {
