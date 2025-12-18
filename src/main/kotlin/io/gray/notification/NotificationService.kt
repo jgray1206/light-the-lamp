@@ -53,14 +53,15 @@ class NotificationService {
             )
             .setApnsConfig(
                 ApnsConfig.builder()
-                    .setAps(Aps.builder().setContentAvailable(true).build())
-                    .putHeader("apns-priority", "10")
+                    .putHeader("apns-priority", "5")
                     .build()
             )
             .setWebpushConfig(
                 WebpushConfig.builder().setNotification(
                     WebpushNotification.builder().setBody(body).setTitle(title).setIcon("/pwa-512x512.png").build()
-                ).build()
+                )
+                    .putHeader("Urgency", "high")
+                    .build()
             )
             .build()
         return Mono.fromRunnable<String> { FirebaseMessaging.getInstance(firebaseApp).send(message) }
