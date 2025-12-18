@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react'
 import {VitePWA, VitePWAOptions} from "vite-plugin-pwa";
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
-const manifestForPlugIn: VitePWAOptions = {
+const manifestForPlugIn: Partial<VitePWAOptions> = {
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', "apple-touch-icon-180x180.png", "logo.png"],
     workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
             {
                 urlPattern: /\/api\/user\/\d+\/pic/i,
