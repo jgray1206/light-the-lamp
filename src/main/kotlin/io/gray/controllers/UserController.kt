@@ -19,6 +19,8 @@ import io.micronaut.security.rules.SecurityRule
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Size
 import org.mindrot.jbcrypt.BCrypt
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.security.Principal
@@ -34,6 +36,10 @@ open class UserController(
     private val mailService: MailService,
     private val notificationService: NotificationService
 ) {
+
+    companion object {
+        val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    }
 
     @Get("/all-count")
     fun getAll(authentication: Authentication): Mono<Int> {
@@ -282,10 +288,14 @@ open class UserController(
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/ping")
     open fun pingJohn(): Mono<String> {
+        logger.info("received ping")
         return userRepository.findByEmailIgnoreCase("johngray1206@gmail.com").flatMap { user ->
+            logger.info("pinging user {}", user.id)
             user.notificationToken?.let { token ->
+                logger.info("sending notification...")
                 notificationService.sendNotification(token, "ping! title", "ping! body")
-            } ?: Mono.just("all done")
+                    .thenReturn("sent notification")
+            } ?: Mono.just("no token found")
         }
     }
 }
