@@ -2,6 +2,8 @@ micronaut:
   application:
     name: light-the-lamp
   security:
+    basic-auth:
+      enabled: false
     redirect:
       enabled: false
     authentication: bearer
