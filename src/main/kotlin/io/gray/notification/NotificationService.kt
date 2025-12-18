@@ -51,11 +51,6 @@ class NotificationService {
                     .setPriority(AndroidConfig.Priority.HIGH)
                     .build()
             )
-            .setApnsConfig(
-                ApnsConfig.builder()
-                    .putHeader("apns-priority", "5")
-                    .build()
-            )
             .setWebpushConfig(
                 WebpushConfig.builder().setNotification(
                     WebpushNotification.builder().setBody(body).setTitle(title).setIcon("/pwa-512x512.png").build()
