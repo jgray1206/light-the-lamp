@@ -69,9 +69,9 @@ function groupPicksIntoLeaderboardUsers(groupedByTeamPicks, announcerPicksOnly, 
         var rank = 0;
         var lastPoints = -1;
         var lastNumPicks = -1;
-        userObjects.forEach((userObject) => {
+        userObjects.forEach((userObject, index) => {
             if (userObject.points != lastPoints || userObject.games != lastNumPicks) {
-                rank += 1;
+                rank = index + 1;
                 lastPoints = userObject.points;
                 lastNumPicks = userObject.games;
             }

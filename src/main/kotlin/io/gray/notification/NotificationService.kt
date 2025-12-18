@@ -3,6 +3,9 @@ package io.gray.notification
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
+import com.google.firebase.messaging.AndroidConfig
+import com.google.firebase.messaging.ApnsConfig
+import com.google.firebase.messaging.Aps
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.WebpushConfig
@@ -43,6 +46,17 @@ class NotificationService {
     fun sendNotification(token: String, title: String, body: String): Mono<String> {
         val message: Message = Message.builder()
             .setToken(token)
+            .setAndroidConfig(
+                AndroidConfig.builder()
+                    .setPriority(AndroidConfig.Priority.HIGH)
+                    .build()
+            )
+            .setApnsConfig(
+                ApnsConfig.builder()
+                    .setAps(Aps.builder().setContentAvailable(true).build())
+                    .putHeader("apns-priority", "10")
+                    .build()
+            )
             .setWebpushConfig(
                 WebpushConfig.builder().setNotification(
                     WebpushNotification.builder().setBody(body).setTitle(title).setIcon("/pwa-512x512.png").build()
