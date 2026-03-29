@@ -20,7 +20,7 @@ export default function Profile() {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [displayName, setDisplayName] = useState(user.displayName);
     const [redditUsername, setRedditUsername] = useState(user.redditUsername);
-    const [teams, setTeams] = useState(user.teams?.map(it => it.id));
+    const [teams, setTeams] = useState(user.teams?.map(it => String(it.id)) ?? []);
     const [profilePic, setProfilePic] = useState("");
     const [profilePicBytes, setProfilePicBytes] = useState(profilePicBytesInit);
 
@@ -33,14 +33,6 @@ export default function Profile() {
     const [newKidPicPreview, setNewKidPicPreview] = useState("/shrug.png");
     const newKidPicInputRef = useRef(null);
     const [showAddKidForm, setShowAddKidForm] = useState(false);
-
-    // ---------------------------
-    // TEAM SELECTION HANDLER
-    // ---------------------------
-    const handleChange = (event) => {
-        const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
-        setTeams(selectedValues);
-    };
 
     // ---------------------------
     // USER UPDATE
@@ -57,7 +49,7 @@ export default function Profile() {
         formData.set("displayName", displayName);
         formData.set("redditUsername", redditUsername || "");
         if (password) formData.set("password", password);
-        formData.set("teams", teams);
+        formData.set("teams", teams.map(Number));
 
         const config = {headers: {'content-type': 'multipart/form-data'}};
 
@@ -169,10 +161,36 @@ export default function Profile() {
                     }}/>
                 </FloatingLabel>
 
-                <Form.Label htmlFor="teams">Teams</Form.Label>
-                <Form.Select multiple required value={teams} onChange={handleChange} className="mb-2">
-                    {allTeams.map(t => <option key={t.id} value={t.id}>{t.teamName}</option>)}
-                </Form.Select>
+                <Form.Label>Teams</Form.Label>
+                <div
+                    className="mb-2"
+                    style={{
+                        maxHeight: '180px',
+                        overflowY: 'auto',
+                        border: '1px solid #dee2e6',
+                        borderRadius: '0.375rem',
+                        padding: '0.5rem 0.75rem',
+                    }}
+                >
+                    {allTeams.map(t => (
+                        <Form.Check
+                            key={t.id}
+                            type="checkbox"
+                            id={`team-${t.id}`}
+                            label={t.teamName}
+                            value={String(t.id)}
+                            checked={teams.includes(String(t.id))}
+                            onChange={(e) => {
+                                const id = e.target.value;
+                                setTeams(prev =>
+                                    e.target.checked
+                                        ? [...prev, id]
+                                        : prev.filter(tid => tid !== id)
+                                );
+                            }}
+                        />
+                    ))}
+                </div>
 
                 <FloatingLabel label="Reddit Username" className="mb-3">
                     <Form.Control type="text" maxLength="40"
