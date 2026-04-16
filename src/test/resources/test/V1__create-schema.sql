@@ -39,3 +39,4 @@ ALTER TABLE "user" ADD COLUMN notification_token VARCHAR(255) NULL;
 ALTER TABLE "game" ADD COLUMN home_team_goalies_goals_against SMALLINT;
 ALTER TABLE "game" ADD COLUMN away_team_goalies_goals_against SMALLINT;
 ALTER TABLE "user" ADD COLUMN parent_id BIGINT;
+ALTER TABLE "pick" ADD CONSTRAINT uq_pick_game_user_team UNIQUE (game_id, user_id, team_id);

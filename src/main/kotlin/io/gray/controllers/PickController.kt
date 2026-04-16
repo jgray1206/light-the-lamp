@@ -1,5 +1,6 @@
 package io.gray.controllers
 
+import io.gray.model.Game
 import io.gray.model.Pick
 import io.gray.model.Team
 import io.gray.model.UserDTO
@@ -8,6 +9,7 @@ import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
 import io.micronaut.context.env.Environment
+import io.micronaut.data.exceptions.DataAccessException
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
@@ -128,133 +130,101 @@ class PickController(
 
     @Post("/user")
     fun createForUser(
-        @QueryValue("gameId") gameId: String,
-        @QueryValue("pick") pick: String,
-        @QueryValue("teamId") teamId: Long,
-        @QueryValue("pickingAs") pickingAs: Long?,
-        principal: Principal
+            @QueryValue("gameId") gameId: String,
+            @QueryValue("pick") pick: String,
+            @QueryValue("teamId") teamId: Long,
+            @QueryValue("pickingAs") pickingAs: Long?,
+            principal: Principal
     ): Mono<Pick> {
-        if (pickingAs != null) {
-            return userRepository.findByEmailIgnoreCase(principal.name)
+        return userRepository.findByEmailIgnoreCase(principal.name)
                 .zipWith(gameRepository.findById(gameId.toLong()))
                 .flatMap { tuple ->
+                    val currentUser = tuple.t1
                     val game = tuple.t2
                     val team = Team().apply { this.id = teamId }
-                    val kid = tuple.t1.kids?.firstOrNull { it.id == pickingAs }
 
-                    check(kid != null) {
-                        "can't submit a pick for a kid that ain't yours ya silly goof"
+                    val userDTO = if (pickingAs != null) {
+                        val kid = currentUser.kids?.firstOrNull { it.id == pickingAs }
+                        check(kid != null) { "can't submit a pick for a kid that ain't yours ya silly goof" }
+                        UserDTO().apply {
+                            this.id = kid.id
+                            this.displayName = kid.displayName
+                        }
+                    } else {
+                        check(
+                                game.date?.plusMinutes(6)?.isAfter(LocalDateTime.now()) == true
+                                        || environment.activeNames.contains("local")
+                        ) { "can't submit pick on game that has already started, you little silly billy" }
+                        UserDTO().apply {
+                            this.id = currentUser.id
+                            this.displayName = currentUser.displayName
+                            this.redditUsername = currentUser.redditUsername
+                        }
                     }
 
-                    val kidDTO = UserDTO().apply {
-                        this.id = kid.id
-                        this.displayName = kid.displayName
-                    }
-
-                    check(tuple.t1.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
+                    check(currentUser.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
                         "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
                     }
-
                     check(game.awayTeam?.id == teamId || game.homeTeam?.id == teamId) {
                         "can't submit pick for a team in a game they aren't playing in, you goofy goober"
                     }
-                    pickRepository.findByGameAndUserAndTeam(game, kidDTO, team).switchIfEmpty(
-                        Mono.defer {
-                            pickRepository.save(Pick().also { pickEntity ->
-                                logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}'s kid ${kid.id}")
-                                pickEntity.game = game
-                                pickEntity.season = game.season
-                                pickEntity.team = team
-                                pickEntity.user = kidDTO
-                                if (pick == "goalies") {
-                                    pickEntity.goalies = true
-                                } else if (pick == "team") {
-                                    pickEntity.theTeam = true
-                                } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                                    pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
-                                } else {
-                                    error("not a valid pick")
-                                }
-                            })
-                        }
-                    )
-                }
-        }
-        return userRepository.findByEmailIgnoreCase(principal.name).zipWith(gameRepository.findById(gameId.toLong()))
-            .flatMap { tuple ->
-                val user = UserDTO().apply {
-                    this.id = tuple.t1.id
-                    this.displayName = tuple.t1.displayName
-                    this.redditUsername = tuple.t1.redditUsername
-                }
-                val game = tuple.t2
-                val team = Team().apply { this.id = teamId }
 
-                check(tuple.t1.teams?.any { it.id == game.awayTeam?.id || it.id == game.homeTeam?.id } == true) {
-                    "can't submit a pick for a game where none of your preferred teams are playing, you big silly head"
-                }
-
-                check(game.awayTeam?.id == teamId || game.homeTeam?.id == teamId) {
-                    "can't submit pick for a team in a game they aren't playing in, you goofy goober"
-                }
-
-                check(
-                    game.date?.plusMinutes(6)?.isAfter(LocalDateTime.now()) == true || environment.activeNames.contains(
-                        "local"
-                    )
-                ) {
-                    "can't submit pick on game that has already started, you little silly billy"
-                }
-                gameRepository.findTop2ByDateLessThanAndSeasonAndHomeTeamOrAwayTeamOrderByIdDesc(
-                    game.date!!,
-                    game.season!!,
-                    team,
-                    team
-                )
-                    .flatMap { pickRepository.findByGameAndUserAndTeam(it, user, team) }
-                    .collectList()
-                    .doOnNext {
-                        when (pick) {
-                            "goalies" -> {
-                                check(it.none { prevPick -> prevPick.goalies == true }) {
-                                    "can't pick the goalies since you just picked them, you little hacker boy"
-                                }
-                            }
-
-                            "team" -> {
-                                check(it.none { prevPick -> prevPick.theTeam == true }) {
-                                    "can't pick the team since you just picked it, you little hacker boy"
-                                }
-                            }
-
-                            else -> {
-                                check(it.none { prevPick -> prevPick.gamePlayer?.name == pick }) {
-                                    "can't pick $pick since you just picked them, you little hacker boy"
-                                }
-                            }
-                        }
-                    }.then(
-                        pickRepository.findByGameAndUserAndTeam(game, user, team).switchIfEmpty(
-                            Mono.defer {
-                                pickRepository.save(Pick().also { pickEntity ->
-                                    logger.info("creating pick $pick for gameId $gameId and teamId $teamId for user id ${tuple.t1.id}")
-                                    pickEntity.game = game
-                                    pickEntity.season = game.season
-                                    pickEntity.team = team
-                                    pickEntity.user = user
-                                    if (pick == "goalies") {
-                                        pickEntity.goalies = true
-                                    } else if (pick == "team") {
-                                        pickEntity.theTeam = true
-                                    } else if (game.players?.firstOrNull { it.name == pick } != null) {
-                                        pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
-                                    } else {
-                                        error("not a valid pick")
+                    val recentPicksCheck = if (pickingAs == null) {
+                        gameRepository.findTop2ByDateLessThanAndSeasonAndHomeTeamOrAwayTeamOrderByIdDesc(
+                                game.date!!, game.season!!, team, team
+                        )
+                                .flatMap { pickRepository.findByGameAndUserAndTeam(it, userDTO, team) }
+                                .collectList()
+                                .doOnNext { recentPicks ->
+                                    when (pick) {
+                                        "goalies" -> check(recentPicks.none { it.goalies == true }) {
+                                            "can't pick the goalies since you just picked them, you little hacker boy"
+                                        }
+                                        "team" -> check(recentPicks.none { it.theTeam == true }) {
+                                            "can't pick the team since you just picked it, you little hacker boy"
+                                        }
+                                        else -> check(recentPicks.none { it.gamePlayer?.name == pick }) {
+                                            "can't pick $pick since you just picked them, you little hacker boy"
+                                        }
                                     }
-                                })
-                            }
-                        ))
+                                }.then()
+                    } else {
+                        Mono.empty()
+                    }
+
+                    recentPicksCheck.then(
+                            upsertPick(game, team, userDTO, pick)
+                    )
+                }
+    }
+
+    private fun upsertPick(game: Game, team: Team, userDTO: UserDTO, pick: String): Mono<Pick> {
+        val newPick = Pick().also { pickEntity ->
+            pickEntity.game = game
+            pickEntity.season = game.season
+            pickEntity.team = team
+            pickEntity.user = userDTO
+            when {
+                pick == "goalies" -> pickEntity.goalies = true
+                pick == "team" -> pickEntity.theTeam = true
+                game.players?.firstOrNull { it.name == pick } != null ->
+                    pickEntity.gamePlayer = game.players?.firstOrNull { it.name == pick }
+                else -> error("not a valid pick")
             }
+        }
+
+        logger.info("saving pick $pick for gameId ${game.id} and teamId ${team.id} for user ${userDTO.id}")
+
+        return pickRepository.save(newPick)
+                .onErrorResume(DataAccessException::class.java) { ex ->
+                    // Only swallow unique constraint violations (Postgres error code 23505)
+                    if (ex.cause?.message?.contains("23505") == true) {
+                        logger.info("duplicate pick detected for gameId ${game.id}, teamId ${team.id}, userId ${userDTO.id} — returning existing")
+                        pickRepository.findByGameAndUserAndTeam(game, userDTO, team)
+                    } else {
+                        Mono.error(ex) // re-throw anything else
+                    }
+                }
     }
 
     @Delete("/announcer")

@@ -20,7 +20,7 @@ class MockNhlController {
     fun getSchedule(
             @PathVariable(value = "date") date: String,
     ): String {
-        return if (LightTheLampApplicationTests.RETURN_FINAL) {
+        return if (LightTheLampApplicationTests.mockReturnUpdatedRoster) {
             String(this::class.java.getResourceAsStream("/responses/schedule_final.json")!!.readBytes())
         } else {
             String(this::class.java.getResourceAsStream("/responses/schedule.json")!!.readBytes())
@@ -34,7 +34,7 @@ class MockNhlController {
             @PathVariable(value = "season") season: String
     ): String {
         return if (teamAbbrev == "DET") {
-            if (LightTheLampApplicationTests.RETURN_UPDATED_ROSTER) {
+            if (LightTheLampApplicationTests.mockReturnUpdatedRoster) {
                 String(this::class.java.getResourceAsStream("/responses/redwingsroster_2.json")!!.readBytes())
             } else {
                 String(this::class.java.getResourceAsStream("/responses/redwingsroster_1.json")!!.readBytes())

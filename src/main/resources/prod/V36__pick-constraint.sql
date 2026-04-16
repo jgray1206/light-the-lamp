@@ -1,0 +1,1 @@
+ALTER TABLE "pick" ADD CONSTRAINT uq_pick_game_user_team UNIQUE (game_id, user_id, team_id);
