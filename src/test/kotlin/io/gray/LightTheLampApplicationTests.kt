@@ -320,7 +320,7 @@ class LightTheLampApplicationTests {
 		// Same user can pick for the opposing team
 		val krakenPick = pickClient.createForUser(gameId, "Matty Beniers", KRAKEN_ID, token)
 		assertThat(krakenPick.team?.id).isEqualTo(KRAKEN_ID)
-		assertThat(krakenPick.id).isEqualTo(2)
+		assertThat(krakenPick.id).isEqualTo(3)
 
 		// Picks locked after game start
 		setGameStartedMinutesAgo(6)

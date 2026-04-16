@@ -9,11 +9,11 @@ import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
 import io.micronaut.context.env.Environment
-import io.micronaut.data.exceptions.DataAccessException
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
+import io.r2dbc.spi.R2dbcNonTransientException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
@@ -216,7 +216,7 @@ class PickController(
         logger.info("saving pick $pick for gameId ${game.id} and teamId ${team.id} for user ${userDTO.id}")
 
         return pickRepository.save(newPick)
-                .onErrorResume(DataAccessException::class.java) { ex ->
+                .onErrorResume(R2dbcNonTransientException::class.java) { ex ->
                     // Only swallow unique constraint violations (Postgres error code 23505)
                     if (ex.cause?.message?.contains("23505") == true) {
                         logger.info("duplicate pick detected for gameId ${game.id}, teamId ${team.id}, userId ${userDTO.id} — returning existing")

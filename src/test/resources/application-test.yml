@@ -41,4 +41,4 @@ r2dbc:
 ---
 logger:
   levels:
-    io.r2dbc.h2: DEBUG
+    #io.r2dbc.h2: DEBUG
