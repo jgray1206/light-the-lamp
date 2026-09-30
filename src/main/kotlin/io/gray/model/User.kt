@@ -24,8 +24,11 @@ class User {
     @Size(max = 18)
     var displayName: String? = null
 
-    @TypeDef(type = DataType.BYTE_ARRAY)
-    var profilePic: ByteArray = byteArrayOf()
+    // Not loaded with the user: every request looks the user up (with friends and kids joined), and
+    // loading everyone's photos each time was by far the heaviest query. Pics are read and written
+    // through UserPicRepository and only filled in here by the endpoints that return them.
+    @Transient
+    var profilePic: ByteArray? = null
 
     @NotBlank
     @Size(max = 60, min = 60)

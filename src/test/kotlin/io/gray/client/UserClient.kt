@@ -18,6 +18,15 @@ interface UserClient {
     @Get
     fun get(@QueryValue profilePic: Boolean?): User
 
+    @Get
+    fun getWithAuth(@QueryValue profilePic: Boolean?, @Header authorization: String): User
+
+    @Post("/kid")
+    fun createKid(@Body kid: User, @Header authorization: String): User
+
+    @Put("/kid")
+    fun updateKid(@Body kid: User, @Header authorization: String): User
+
     @Get("/{id}/pic")
     fun getPic(id: Long, @Header authorization: String): HttpResponse<String>
 

@@ -4,6 +4,7 @@ import io.gray.GameStateSyncer
 import io.gray.model.*
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
+import io.gray.repos.UserPicRepository
 import io.gray.repos.UserRepository
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -21,6 +22,7 @@ import java.util.Base64
 @Singleton
 class AdminService(
     private val userRepository: UserRepository,
+    private val userPicRepository: UserPicRepository,
     private val gameRepository: GameRepository,
     private val pickRepository: PickRepository,
     private val gameStateSyncer: GameStateSyncer
@@ -39,9 +41,11 @@ class AdminService(
     fun getUser(userId: Long): Mono<AdminUserDetail> =
         loadUser(userId).flatMap { user ->
             val parent = user.parent?.id?.let { userRepository.findById(it) } ?: Mono.empty()
-            teamsOf(user).zipWith(parent.map { listOf(it) }.defaultIfEmpty(emptyList())).map { tuple ->
+            val pic = userPicRepository.findById(user.id!!).mapNotNull { it.profilePic }.defaultIfEmpty(byteArrayOf())
+            Mono.zip(teamsOf(user), parent.map { listOf(it) }.defaultIfEmpty(emptyList()), pic).map { tuple ->
                 val teams = tuple.t1
                 user.parent = tuple.t2.firstOrNull()
+                user.profilePic = tuple.t3
                 AdminUserDetail(
                     id = user.id!!,
                     email = user.email,
@@ -49,7 +53,7 @@ class AdminService(
                     redditUsername = user.redditUsername,
                     confirmed = user.confirmed,
                     locked = user.locked,
-                    profilePic = Base64.getEncoder().encodeToString(user.profilePic),
+                    profilePic = Base64.getEncoder().encodeToString(user.profilePic ?: byteArrayOf()),
                     teams = teams.sortedBy { it.teamName },
                     kids = user.kids.orEmpty().map { AdminUserRef(it.id!!, it.email, it.displayName) },
                     parent = user.parent?.let { AdminUserRef(it.id!!, it.email, it.displayName) }

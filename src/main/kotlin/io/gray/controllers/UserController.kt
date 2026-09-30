@@ -8,6 +8,7 @@ import io.gray.model.UserRequest
 import io.gray.model.UserTeam
 import io.gray.notification.NotificationService
 import io.gray.repos.PickRepository
+import io.gray.repos.UserPicRepository
 import io.gray.repos.UserRepository
 import io.gray.repos.UserTeamRepository
 import io.micronaut.http.HttpResponse
@@ -31,6 +32,7 @@ import java.util.*
 @Controller("/user")
 open class UserController(
     private val userRepository: UserRepository,
+    private val userPicRepository: UserPicRepository,
     private val pickRepository: PickRepository,
     private val userTeamRepository: UserTeamRepository,
     private val mailService: MailService,
@@ -85,44 +87,32 @@ open class UserController(
                             this.email = null
                             this.ipAddress = null
                             this.confirmationUuid = null
-                            this.profilePic = byteArrayOf()
                         }
                     }
-                    it.profilePic = if (profilePic == true) {
-                        it.profilePic
-                    } else {
-                        byteArrayOf()
+                }!!
+            }
+            .flatMap { user ->
+                if (profilePic != true) return@flatMap Mono.just(user)
+                // The profile page shows your pic and your kids' pics
+                val ids = listOf(user.id!!) + user.kids.orEmpty().mapNotNull { it.id }
+                userPicRepository.findByIdIn(ids).collectMap({ it.id!! }, { it.profilePic }).map { pics ->
+                    user.apply {
+                        this.profilePic = pics[id]
+                        kids?.forEach { kid -> kid.profilePic = pics[kid.id] }
                     }
                 }
             }
     }
 
     @Get("/{id}/pic")
-    fun getPic(id: Long, principal: Principal): Mono<HttpResponse<String>> {
-        return userRepository.findByEmailIgnoreCase(principal.name)
-            .flatMap {
-                var targetUser = it.friends?.firstOrNull { friend -> friend.id == id }
-                if (targetUser == null) {
-                    targetUser = it.kids?.firstOrNull { kid -> kid.id == id }
-                }
-                if (targetUser == null && it.parent?.id == id) {
-                    targetUser = it.parent
-                }
-                if (targetUser == null && it.friends != null) {
-                    targetUser = it.friends?.flatMap { friend -> friend.kids.orEmpty() }?.firstOrNull { kid -> kid.id == id }
-                }
-                if (targetUser == null && it.id == id) {
-                    targetUser = it
-                }
-                return@flatMap if (targetUser != null) {
-                    userRepository.findById(targetUser.id).map {
-                        HttpResponse.ok(String(Base64.getEncoder().encode(it.profilePic)))
-                            .header("Cache-Control", "max-age=3600") // pics can change, so don't cache them all day
-                    }
-                } else {
-                    Mono.just(HttpResponse.ok(String(Base64.getEncoder().encode(byteArrayOf()))))
-                }
+    fun getPic(id: Long, authentication: Authentication): Mono<HttpResponse<String>> {
+        val viewerId = (authentication.attributes["id"] as Number).toLong()
+        return userPicRepository.findVisiblePic(id, viewerId)
+            .map<HttpResponse<String>> { pic ->
+                HttpResponse.ok(Base64.getEncoder().encodeToString(pic.profilePic ?: byteArrayOf()))
+                    .header("Cache-Control", "max-age=3600") // pics can change, so don't cache them all day
             }
+            .defaultIfEmpty(HttpResponse.ok(""))
     }
 
     @Post
@@ -171,7 +161,11 @@ open class UserController(
                 kid.password = "kid"
                 kid.confirmationUuid = UUID.randomUUID().toString();
                 kid.ipAddress = "0.0.0.0"
-                userRepository.save(kid)
+                val pic = kid.profilePic
+                userRepository.save(kid).flatMap { saved ->
+                    val savePic = if (pic != null && pic.isNotEmpty()) userPicRepository.updateProfilePic(saved.id!!, pic) else Mono.empty()
+                    savePic.thenReturn(saved.apply { profilePic = pic })
+                }
             }
     }
 
@@ -186,8 +180,10 @@ open class UserController(
                             return@flatMap Mono.error(IllegalAccessException("Not your kid"))
                         }
                         existing.displayName = kid.displayName
-                        existing.profilePic = kid.profilePic
-                        userRepository.update(existing)
+                        userRepository.update(existing).flatMap { updated ->
+                            userPicRepository.updateProfilePic(updated.id!!, kid.profilePic)
+                                .thenReturn(updated.apply { profilePic = kid.profilePic })
+                        }
                     }
             }
     }
@@ -231,12 +227,12 @@ open class UserController(
                     } ?: Mono.just(user)
                 } ?: Mono.just(user)
             }.flatMap { user ->
-                userRepository.update(user.apply {
-                    profilePic?.let { this.profilePic = it }
+                val savePic = profilePic?.let { userPicRepository.updateProfilePic(user.id!!, it) } ?: Mono.empty()
+                savePic.then(userRepository.update(user.apply {
                     displayName?.let { this.displayName = it }
                     redditUsername?.let { this.redditUsername = it }
                     password?.let { this.password = BCrypt.hashpw(it, BCrypt.gensalt(12)) }
-                })
+                }))
             }
             .map {
                 it.apply {

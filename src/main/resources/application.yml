@@ -39,7 +39,8 @@ r2dbc:
       options:
         driver: pool
         protocol: postgresql
-        maxSize: 80
+        # Postgres shares a 2GB box: each connection costs it memory, and the reactive app needs few
+        maxSize: 20
 ---
 netty:
   default:

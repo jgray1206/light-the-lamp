@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Swal from "sweetalert2";
-import api, { alert, showError, showSuccess } from "../lib/api";
+import api, { alert, fallbackToNoPic, picDataUrl, showError, showSuccess } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { gameLabel, gameStart, pickKey } from "../lib/picks";
 import { prefs } from "../lib/prefs";
@@ -14,12 +14,6 @@ import SeasonSelect from "./SeasonSelect";
 
 // Admin tools: find users, eyeball their profile pics, and fix goofed picks.
 // The server enforces the admin role and that every change is a legal pick; this page is just a crude UI.
-
-const picUrl = (base64) => {
-    if (!base64) return "/shrug.png";
-    const type = base64.startsWith("/9j/") ? "jpeg" : base64.startsWith("R0lGOD") ? "gif" : "png";
-    return `data:image/${type};base64,${base64}`;
-};
 
 const describePick = (pick) =>
     !pick ? null : pick.goalies ? "goalies" : pick.theTeam ? "team" : pick.gamePlayer?.name ?? "?";
@@ -117,8 +111,8 @@ function UserAdmin({ userId, onSelectUser }) {
         <>
             <div className="panel">
                 <div className="d-flex flex-wrap gap-3 align-items-start">
-                    <a href={picUrl(user.profilePic)} target="_blank" rel="noopener" title="Open full size">
-                        <img src={picUrl(user.profilePic)} alt="" className="admin-pic" />
+                    <a href={picDataUrl(user.profilePic)} target="_blank" rel="noopener" title="Open full size">
+                        <img src={picDataUrl(user.profilePic)} alt="" className="admin-pic" onError={fallbackToNoPic} />
                     </a>
                     <div className="small">
                         <h2 className="h5 mb-1">{user.displayName || "(no name)"}</h2>

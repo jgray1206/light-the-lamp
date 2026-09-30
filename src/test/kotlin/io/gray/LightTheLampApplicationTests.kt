@@ -7,7 +7,9 @@ import io.gray.client.LoginRequest
 import io.gray.client.PickClient
 import io.gray.client.UserClient
 import io.gray.model.Season
+import io.gray.model.User
 import io.gray.model.UserRequest
+import io.gray.model.UserUser
 import io.gray.repos.*
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.http.client.multipart.MultipartBody
@@ -17,6 +19,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.mindrot.jbcrypt.BCrypt
 import java.time.LocalDateTime
+import java.util.Base64
+import java.util.UUID
 
 @MicronautTest(transactional = false, packages = ["io.gray"])
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation::class)
@@ -64,6 +68,8 @@ class LightTheLampApplicationTests {
 	@Inject lateinit var gamePlayerRepository: GamePlayerRepository
 	@Inject lateinit var teamRepository: TeamRepository
 	@Inject lateinit var userRepository: UserRepository
+	@Inject lateinit var userPicRepository: UserPicRepository
+	@Inject lateinit var friendRepository: FriendRepository
 	@Inject lateinit var userTeamRepository: UserTeamRepository
 	@Inject lateinit var gameStateSyncer: GameStateSyncer
 
@@ -481,5 +487,55 @@ class LightTheLampApplicationTests {
 		assertThat(Season.fromId("202503")).isEqualTo(Season("202503", "2025-26 Post"))
 		assertThat(Season.fromId("199902")).isEqualTo(Season("199902", "1999-00"))
 	}
-}
 
+	// ── Test 7: Profile pics ────────────────────────────────────────────────────
+	// Pics aren't loaded with users; they're read per-endpoint, and only for people you're allowed to see.
+
+	@Test
+	@Order(7)
+	fun profilePicTests() {
+		val me = 1L
+		fun b64(s: String) = Base64.getEncoder().encodeToString(s.toByteArray())
+		fun picOf(id: Long) = userClient.getPic(id, token).body()
+		fun newUser(name: String, parentId: Long? = null) = userRepository.save(User().apply {
+			email = if (parentId == null) "$name@email.com" else "kid"
+			password = if (parentId == null) BCrypt.hashpw("password123", BCrypt.gensalt(4)) else "kid"
+			displayName = name
+			confirmed = true
+			admin = false
+			confirmationUuid = UUID.randomUUID().toString()
+			ipAddress = "0.0.0.0"
+			parent = parentId?.let { User().apply { id = it } }
+		}).block()!!
+
+		// Strangers' pics are hidden; friends' and friends' kids' are visible
+		val pal = newUser("pal")
+		val palKid = newUser("palkid", parentId = pal.id)
+		userPicRepository.updateProfilePic(pal.id!!, "pal".toByteArray()).block()
+		userPicRepository.updateProfilePic(palKid.id!!, "palkid".toByteArray()).block()
+		assertThat(picOf(pal.id!!)).isNull()
+		assertThat(picOf(palKid.id!!)).isNull()
+		friendRepository.save(UserUser().apply { toUser = me; fromUser = pal.id }).block()
+		friendRepository.save(UserUser().apply { toUser = pal.id; fromUser = me }).block()
+		assertThat(picOf(pal.id!!)).isEqualTo(b64("pal"))
+		assertThat(picOf(palKid.id!!)).isEqualTo(b64("palkid"))
+
+		// Your own kids: pics saved on create and update
+		val kid = userClient.createKid(User().apply { displayName = "junior"; profilePic = "junior".toByteArray() }, token)
+		assertThat(picOf(kid.id!!)).isEqualTo(b64("junior"))
+		userClient.updateKid(User().apply { id = kid.id; displayName = "junior 2"; profilePic = "junior2".toByteArray() }, token)
+		assertThat(picOf(kid.id!!)).isEqualTo(b64("junior2"))
+
+		// Profile page gets your pic and your kids' pics; other requests get none
+		val profile = userClient.getWithAuth(true, token)
+		assertThat(profile.profilePic).isEqualTo("test".toByteArray())
+		assertThat(profile.kids!!.single { it.id == kid.id }.profilePic).isEqualTo("junior2".toByteArray())
+		val plain = userClient.getWithAuth(null, token)
+		assertThat(plain.profilePic).isNull()
+		assertThat(plain.friends!!.single { it.id == pal.id }.profilePic).isNull()
+
+		// Saving the profile without a new pic keeps the old one
+		updateUser(displayName = "test mcgee 3")
+		assertThat(picOf(me)).isEqualTo(b64("test"))
+	}
+}
