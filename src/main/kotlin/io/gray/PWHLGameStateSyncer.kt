@@ -35,17 +35,47 @@ open class PWHLGameStateSyncer(
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
-        fun mapSeasonToNHLSeason(season: String) = when (season) {
-            "5" -> "202402"
-            "6" -> "202403"
-            "7" -> "202501"
-            "8" -> "202502"
-            "9" -> "202503"
-            "10" -> "202601"
-            "11" -> "202602"
-            "12" -> "202603"
-            else -> error("unknown pwhl season passed $season")
+
+        /**
+         * PWHL seasons get their own ids (5, 6, 7...), but games are grouped by NHL-style season ids:
+         * start year + type ("01" preseason, "02" regular season, "03" playoffs). Worked out from the
+         * season's name, e.g. "2025-26 Regular Season" -> 202502, "2026-27 Pre-Season" -> 202601, and
+         * "2026 Playoffs" -> 202503 (a lone year is when that season ends). Null if the name doesn't parse.
+         */
+        fun toNhlSeason(seasonName: String, playoff: Boolean): String? {
+            val startYear = Regex("""(\d{4})\s*-\s*\d{2,4}""").find(seasonName)?.groupValues?.get(1)?.toInt()
+                ?: Regex("""\d{4}""").find(seasonName)?.value?.toInt()?.minus(1)
+                ?: return null
+            val type = when {
+                playoff || seasonName.contains("playoff", ignoreCase = true) -> "03"
+                Regex("""pre-?\s?season""", RegexOption.IGNORE_CASE).containsMatchIn(seasonName) -> "01"
+                else -> "02"
+            }
+            return "$startYear$type"
         }
+    }
+
+    // PWHL season id -> NHL-style season id, loaded from the PWHL seasons feed and reloaded
+    // whenever a game shows up with a season we haven't seen yet
+    @Volatile
+    private var nhlSeasons: Map<String, String> = emptyMap()
+
+    private fun nhlSeasonFor(pwhlSeasonId: String): Mono<String> {
+        nhlSeasons[pwhlSeasonId]?.let { return Mono.just(it) }
+        return pwhlClient.getSeasons()
+            .map { response ->
+                response.siteKit.seasons.mapNotNull { season ->
+                    toNhlSeason(season.seasonName, season.playoff == "1")?.let { season.seasonId to it }
+                }.toMap()
+            }
+            .doOnNext {
+                nhlSeasons = it
+                logger.info("loaded PWHL seasons: $it")
+            }
+            .flatMap { seasons ->
+                seasons[pwhlSeasonId]?.let { Mono.just(it) }
+                    ?: Mono.error(IllegalStateException("PWHL season $pwhlSeasonId isn't in the PWHL seasons feed"))
+            }
     }
 
     @Scheduled(fixedDelay = "1m", initialDelay = "\${game.sync.delay:0s}")
@@ -300,7 +330,11 @@ open class PWHLGameStateSyncer(
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun createGame(game: ScheduledGame): Mono<Game> {
         logger.info("creating game ${game.SeasonID}${game.ID} on date ${game.GameDateISO8601} between team ${game.homeTeam!!.teamName} and ${game.awayTeam!!.teamName}")
-        return getPlayers(game, game.awayTeam!!).collectList().zipWith(getPlayers(game, game.homeTeam!!).collectList())
+        return Mono.zip(
+            getPlayers(game, game.awayTeam!!).collectList(),
+            getPlayers(game, game.homeTeam!!).collectList(),
+            nhlSeasonFor(game.SeasonID)
+        )
             .flatMap { players ->
                 gameRepository.save(Game().also {
                     it.id = game.getGameId()
@@ -310,7 +344,7 @@ open class PWHLGameStateSyncer(
                     it.date = game.getUTCLocalDateTime()
                     it.players = players.t1.plus(players.t2)
                     it.league = League.PWHL
-                    it.season = mapSeasonToNHLSeason(game.SeasonID)
+                    it.season = players.t3
                 })
             }
     }
