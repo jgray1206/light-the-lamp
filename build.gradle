@@ -1,11 +1,11 @@
 plugins {
-	id("org.jetbrains.kotlin.jvm") version "1.9.25"
-	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.25"
-	id("com.google.devtools.ksp") version "1.9.25-1.0.20"
+	id("org.jetbrains.kotlin.jvm") version "2.3.21"
+	id("org.jetbrains.kotlin.plugin.allopen") version "2.3.21"
+	id("com.google.devtools.ksp") version "2.3.7"
 	id("com.gradleup.shadow") version "8.3.9"
-	id("io.micronaut.application") version "4.6.1"
-	id("io.micronaut.openapi") version "4.6.1"
-	id("io.micronaut.aot") version "4.6.1"
+	id("io.micronaut.application") version "4.6.2"
+	id("io.micronaut.openapi") version "4.6.2"
+	id("io.micronaut.aot") version "4.6.2"
 	id("java")
 	id("maven-publish")
 }
@@ -56,12 +56,12 @@ dependencies {
 	implementation("io.micronaut.security:micronaut-security-jwt")
 	implementation("jakarta.annotation:jakarta.annotation-api")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
 	implementation("io.micronaut.validation:micronaut-validation")
 	runtimeOnly("ch.qos.logback:logback-classic")
 	runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 	runtimeOnly("org.yaml:snakeyaml")
-	implementation 'com.google.firebase:firebase-admin:9.4.3'
+	implementation 'com.google.firebase:firebase-admin:9.11.0'
 
 	//db drivers
 	runtimeOnly("org.postgresql:r2dbc-postgresql")
@@ -69,10 +69,10 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 
 	//for emailing
-	implementation 'com.sun.mail:jakarta.mail:2.0.1'
-	implementation 'com.google.api-client:google-api-client:2.6.0'
-	implementation 'com.google.oauth-client:google-oauth-client-jetty:1.36.0'
-	implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0'
+	implementation 'com.sun.mail:jakarta.mail:2.0.2'
+	implementation 'com.google.api-client:google-api-client:2.9.1'
+	implementation 'com.google.oauth-client:google-oauth-client-jetty:1.39.0'
+	implementation 'com.google.apis:google-api-services-gmail:v1-rev20260727-2.0.0'
 
 	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-micronaut
 	implementation("io.github.resilience4j:resilience4j-micronaut:${resilience4jVersion}")

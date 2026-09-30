@@ -2,6 +2,7 @@ package io.gray
 
 import io.gray.client.AdminClient
 import io.gray.client.AuthClient
+import io.gray.client.RawJsonClient
 import io.gray.client.ConfigClient
 import io.gray.client.LoginRequest
 import io.gray.client.PickClient
@@ -61,6 +62,7 @@ class LightTheLampApplicationTests {
 
 	@Inject lateinit var pickClient: PickClient
 	@Inject lateinit var authClient: AuthClient
+	@Inject lateinit var rawJsonClient: RawJsonClient
 	@Inject lateinit var adminClient: AdminClient
 	@Inject lateinit var configClient: ConfigClient
 	@Inject lateinit var userClient: UserClient
@@ -537,5 +539,27 @@ class LightTheLampApplicationTests {
 		// Saving the profile without a new pic keeps the old one
 		updateUser(displayName = "test mcgee 3")
 		assertThat(picOf(me)).isEqualTo(b64("test"))
+	}
+
+	// ── Test 8: JSON shapes the frontend depends on ─────────────────────────────
+	// Guards serializer upgrades (e.g. Jackson 3 writes dates as strings by default).
+
+	@Test
+	@Order(8)
+	fun jsonShapeTests() {
+		val game = rawJsonClient.game(GAME_ID, token)
+		assertThat(game).containsPattern(""""date":\[\d{4},\d{1,2},\d{1,2},\d{1,2},\d{1,2}""") // [y,m,d,h,min]
+		assertThat(game).contains(""""id":{"gameId":$GAME_ID,"playerId":""") // embedded player id
+		assertThat(game).contains(""""homeTeam":{""", """"gameState":"Final"""")
+
+		val picks = rawJsonClient.myPicks(SEASON, token)
+		assertThat(picks).contains(""""game":{"id":$GAME_ID""", """"team":{"id":$RED_WINGS_ID""", """"gamePlayer":{""")
+		assertThat(picks).containsPattern(""""points":\d+""")
+
+		val user = rawJsonClient.user(true, token)
+		assertThat(user).contains(""""profilePic":"dGVzdA=="""") // bytes as base64
+		// No one's secrets, including kids' and friends' kids' placeholder fields
+		assertThat(user).doesNotContain(""""password"""", """"ipAddress"""", """"email"""")
+		assertThat(Regex(""""confirmationUuid"""").findAll(user).count()).isEqualTo(1) // just your own, for your friend link
 	}
 }

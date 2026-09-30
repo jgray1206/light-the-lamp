@@ -81,14 +81,18 @@ open class UserController(
                     it!!.password = null
                     it.email = null
                     it.ipAddress = null
-                    it.friends = it.friends?.map { friend ->
-                        friend.apply {
-                            this.password = null
-                            this.email = null
-                            this.ipAddress = null
-                            this.confirmationUuid = null
-                        }
+                    // Friends and kids (yours and your friends') only need their id, name and pic
+                    val scrub = { other: User ->
+                        other.password = null
+                        other.email = null
+                        other.ipAddress = null
+                        other.confirmationUuid = null
                     }
+                    it.friends?.forEach { friend ->
+                        scrub(friend)
+                        friend.kids?.forEach(scrub)
+                    }
+                    it.kids?.forEach(scrub)
                 }!!
             }
             .flatMap { user ->
