@@ -27,7 +27,6 @@ function AvatarPicker({ src, size, onChange, label }) {
     const handleFile = async (e) => {
         const input = e.target;
         const chosen = input.files[0];
-        input.value = ""; // so picking the same photo again still fires onChange
         if (!chosen) return;
         setBusy(true);
         try {
@@ -37,6 +36,9 @@ function AvatarPicker({ src, size, onChange, label }) {
             showError(err);
         } finally {
             setBusy(false);
+            // Only clear once the photo has been read: on iOS, clearing it early can release the file.
+            // Clearing lets picking the same photo again still fire onChange.
+            input.value = "";
         }
     };
 
