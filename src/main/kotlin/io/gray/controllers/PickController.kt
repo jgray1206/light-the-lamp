@@ -8,6 +8,7 @@ import io.gray.repos.AnnouncerRepository
 import io.gray.repos.GameRepository
 import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
+import io.micronaut.context.annotation.Value
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
@@ -28,7 +29,9 @@ class PickController(
     private val userRepository: UserRepository,
     private val gameRepository: GameRepository,
     private val announcerRepository: AnnouncerRepository,
-    private val environment: Environment
+    private val environment: Environment,
+    // Dev/testing switch (env var ALLOW_ALL_PICKS=true): lets you pick games that have already started
+    @Value("\${allow.all.picks:false}") private val allowAllPicks: Boolean
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -154,6 +157,7 @@ class PickController(
                         check(
                                 game.date?.plusMinutes(6)?.isAfter(LocalDateTime.now()) == true
                                         || environment.activeNames.contains("local")
+                                        || allowAllPicks
                         ) { "can't submit pick on game that has already started, you little silly billy" }
                         UserDTO().apply {
                             this.id = currentUser.id

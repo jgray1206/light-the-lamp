@@ -24,16 +24,30 @@ const pickingAsParam = () => {
     return pickingAs === "self" ? undefined : pickingAs;
 };
 
+// Server settings (e.g. ALLOW_ALL_PICKS dev mode), fetched once per app load
+let configRequest;
+const loadConfig = () => {
+    configRequest ??= api.get("/api/config").then((r) => r.data).catch(() => ({}));
+    return configRequest;
+};
+
 async function picksLoader() {
     const { season, maxGames } = prefs.get();
     const pickingAs = pickingAsParam();
-    const [user, games, myPicks, friendsPicks] = await Promise.all([
+    const [config, user, games, myPicks, friendsPicks] = await Promise.all([
+        loadConfig(),
         api.get("/api/user", { params: { pickingAs } }),
         api.get("/api/game/user", { params: { season, maxGames } }),
         api.get("/api/pick/user", { params: { season, pickingAs } }),
         api.get("/api/pick/friends", { params: { season, pickingAs } }),
     ]);
-    return { user: user.data, games: games.data, myPicks: myPicks.data, friendsPicks: friendsPicks.data };
+    return {
+        allowAllPicks: config.allowAllPicks === true,
+        user: user.data,
+        games: games.data,
+        myPicks: myPicks.data,
+        friendsPicks: friendsPicks.data,
+    };
 }
 
 async function leaderboardLoader() {

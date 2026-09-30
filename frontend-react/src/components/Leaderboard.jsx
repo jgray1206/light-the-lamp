@@ -73,7 +73,7 @@ export default function Leaderboard() {
                             <tbody>
                                 {standings[team].map((row) => (
                                     <tr key={row.key}
-                                        className={row.isAnnouncer ? "table-danger" : row.isMe ? "table-active is-me" : undefined}>
+                                        className={row.isAnnouncer ? "table-danger" : row.isMe ? "is-me" : undefined}>
                                         <td className="rank">{MEDALS[row.rank - 1] ?? row.rank}</td>
                                         <td>{leaderboardView === "reddit" ? row.redditUsername : row.displayName}</td>
                                         <td className="text-end text-body-secondary">{row.games}</td>

@@ -86,8 +86,29 @@ body {
 }
 
 .brand-logo {
-    border-radius: 50%;
-    background: #fff;
+    display: block;
+}
+
+.header-nav {
+    gap: 0.25rem;
+    margin: 0 auto 0 1.5rem;
+}
+
+.header-nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.header-nav-link:hover {
+    color: #fff;
+}
+
+.header-nav-link.active {
+    color: var(--ltl-ink);
+    background: var(--ltl-tan);
 }
 
 .brand-name {
@@ -119,8 +140,21 @@ body {
     padding-bottom: 1.5rem;
 }
 
-.app-main.has-bottom-nav {
-    padding-bottom: calc(var(--ltl-bottom-nav-height) + env(safe-area-inset-bottom) + 1.5rem);
+/* Bottom tab bar only on phones; wider screens get links in the header */
+@media (max-width: 767.98px) {
+    .app-main.has-bottom-nav {
+        padding-bottom: calc(var(--ltl-bottom-nav-height) + env(safe-area-inset-bottom) + 1.5rem);
+    }
+}
+
+@media (min-width: 768px) {
+    .bottom-nav {
+        display: none !important;
+    }
+
+    .app-main {
+        padding-top: 1.25rem;
+    }
 }
 
 .panel {
@@ -128,7 +162,13 @@ body {
     border-radius: 1rem;
     padding: 1rem;
     margin-bottom: 0.75rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--ltl-row-border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Tables inside a panel take the panel's color instead of the page background */
+.panel .table {
+    --bs-table-bg: transparent;
 }
 
 .toolbar {
@@ -228,14 +268,81 @@ body {
 
 /* ---------- Chips (team/game selectors) ---------- */
 
+.chip-nav-wrap {
+    position: relative;
+    margin: 0 -0.75rem 0.6rem;
+}
+
 .chip-nav {
     display: flex;
     gap: 0.4rem;
     overflow-x: auto;
     scrollbar-width: none;
-    margin: 0 -0.75rem 0.6rem;
     padding: 2px 0.75rem;
-    scroll-padding: 0 0.75rem;
+    scroll-padding: 0 2.5rem;
+}
+
+/* Fade + arrow at whichever edge has more chips hidden */
+.chip-scroll {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 3.5rem;
+    display: flex;
+    align-items: center;
+    border: 0;
+    padding: 0;
+    color: var(--bs-body-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.chip-scroll-left {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 0.25rem;
+    background: linear-gradient(to right, var(--bs-body-bg) 40%, transparent);
+}
+
+.chip-scroll-right {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 0.25rem;
+    background: linear-gradient(to left, var(--bs-body-bg) 40%, transparent);
+}
+
+.can-scroll-left .chip-scroll-left,
+.can-scroll-right .chip-scroll-right {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.chip-scroll svg {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    border-radius: 50%;
+    background: var(--ltl-chip-bg);
+    border: 1px solid var(--bs-border-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.chip-scroll:hover svg {
+    background: var(--ltl-chip-active-bg);
+    color: var(--ltl-chip-active-color);
+}
+
+/* Touch screens swipe instead: keep the fade, drop the arrow */
+@media (hover: none) {
+    .chip-scroll {
+        pointer-events: none !important;
+    }
+
+    .chip-scroll svg {
+        display: none;
+    }
 }
 
 .chip-nav::-webkit-scrollbar {
@@ -484,6 +591,7 @@ body {
 
 .leaderboard tr.is-me td {
     font-weight: 600;
+    --bs-table-bg-state: rgba(201, 168, 131, 0.25);
 }
 
 [data-bs-theme="dark"] .table-danger {

@@ -15,7 +15,7 @@ import SeasonSelect from "./SeasonSelect";
 const LOAD_MORE = "load-more";
 
 export default function Picks() {
-    const { user, games: rawGames, myPicks, friendsPicks } = useLoaderData();
+    const { allowAllPicks, user, games: rawGames, myPicks, friendsPicks } = useLoaderData();
     const { season, maxGames, pickingAs } = prefs.useStore();
     const revalidator = useRevalidator();
     const [hideFriendsPicks, setHideFriendsPicks] = useState(true);
@@ -60,7 +60,7 @@ export default function Picks() {
     const game = teamGames[gameIndex];
 
     const view = game && buildGameView({
-        game, team, teamGames, index: gameIndex, myPicksMap, friendsPicks, season,
+        game, team, teamGames, index: gameIndex, myPicksMap, friendsPicks, season, allowAllPicks,
     });
     const showFriends = view && (!view.pickEnabled || !hideFriendsPicks);
 
@@ -88,7 +88,7 @@ export default function Picks() {
 
     const gameChips = teamGames.map((g) => {
         const { date, opponent } = gameLabel(g, team);
-        const status = gameStatus(g, myPicksMap.get(pickKey(g.id, team.id)));
+        const status = gameStatus(g, myPicksMap.get(pickKey(g.id, team.id)), { allowAllPicks });
         return {
             key: g.id,
             className: `game-chip status-${status}`,
@@ -109,6 +109,12 @@ export default function Picks() {
                 )}
                 <RefreshButton refreshing={revalidator.state !== "idle"} onClick={() => revalidator.revalidate()} />
             </div>
+
+            {allowAllPicks && (
+                <Alert variant="warning" className="py-2 small">
+                    <strong>Dev mode:</strong> the server has ALLOW_ALL_PICKS on, so every game without a pick is open.
+                </Alert>
+            )}
 
             {pickingAs !== "self" && (
                 <Alert variant="info" className="py-2">

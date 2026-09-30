@@ -104,11 +104,12 @@ function teamScore(game, side) {
     return { points: realGoals >= 4 ? realGoals : 0, stats };
 }
 
-// "open" (can pick), "picked" (your pick is in), "locked" (started, no pick) or "done" (final)
-export function gameStatus(game, pick, now = new Date()) {
-    if (game.gameState === "Final") return "done";
-    if (pick) return "picked";
-    return pickLockTime(game) > now ? "open" : "locked";
+// "open" (can pick), "picked" (your pick is in), "locked" (started, no pick) or "done" (final).
+// allowAllPicks is the server's dev mode: every game without a pick stays open.
+export function gameStatus(game, pick, { now = new Date(), allowAllPicks = false } = {}) {
+    if (pick) return game.gameState === "Final" ? "done" : "picked";
+    if (allowAllPicks || pickLockTime(game) > now) return "open";
+    return game.gameState === "Final" ? "done" : "locked";
 }
 
 const lastNameFirst = (name) => name.split(" ").reverse().join(",");
@@ -117,10 +118,11 @@ const lastNameFirst = (name) => name.split(" ").reverse().join(",");
  * Everything the Picks page needs to render one game for one team.
  * teamGames: this team's games, newest first. index: position of `game` in teamGames.
  */
-export function buildGameView({ game, team, teamGames, index, myPicksMap, friendsPicks, season, now = new Date() }) {
+export function buildGameView({ game, team, teamGames, index, myPicksMap, friendsPicks, season, now = new Date(), allowAllPicks = false }) {
     const key = pickKey(game.id, team.id);
     const pick = myPicksMap.get(key);
-    const pickEnabled = !pick && pickLockTime(game) > now;
+    const status = gameStatus(game, pick, { now, allowAllPicks });
+    const pickEnabled = status === "open";
     const side = game.awayTeam.id === team.id ? "away" : "home";
 
     const prevGame = teamGames[index + 1];
@@ -187,7 +189,7 @@ export function buildGameView({ game, team, teamGames, index, myPicksMap, friend
     // Your pick goes on top
     rows.sort((a, b) => b.picked - a.picked);
 
-    return { key, game, pick, pickEnabled, status: gameStatus(game, pick, now), rows };
+    return { key, game, pick, pickEnabled, status, rows };
 }
 
 export const teamLogoUrl = (game, team, theme) =>
