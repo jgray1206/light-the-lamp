@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import Navbar from "react-bootstrap/Navbar";
-import { MdMenu } from "react-icons/md";
+import { MdOutlineSettings } from "react-icons/md";
 import { useAuth } from "../lib/auth";
 import { MAIN_TABS } from "../lib/navTabs";
 import ThemeToggle from "./ThemeToggle";
@@ -27,8 +27,8 @@ export default function Header() {
                 <div className="d-flex align-items-center gap-1">
                     <ThemeToggle />
                     <Dropdown align="end">
-                        <Dropdown.Toggle variant="link" className="icon-btn no-caret" aria-label="Menu">
-                            <MdMenu size={26} />
+                        <Dropdown.Toggle variant="link" className="icon-btn no-caret" aria-label="Settings and help">
+                            <MdOutlineSettings size={24} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {token ? (
