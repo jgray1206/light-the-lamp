@@ -10,6 +10,7 @@ import Register from "./components/Register";
 import PasswordReset from "./components/PasswordReset";
 import Picks from "./components/Picks";
 import Leaderboard from "./components/Leaderboard";
+import Admin from "./components/Admin";
 import Announcers from "./components/Announcers";
 import Friends from "./components/Friends";
 import Profile from "./components/Profile";
@@ -110,6 +111,7 @@ const router = createBrowserRouter([
                             { path: "/", element: <Picks />, loader: picksLoader },
                             { path: "/leaderboard", element: <Leaderboard />, loader: leaderboardLoader },
                             { path: "/announcers", element: <Announcers />, loader: announcersLoader },
+                            { path: "/admin", element: <Admin /> },
                             { path: "/profile", element: <Profile />, loader: profileLoader },
                             { path: "/friends", element: <Friends />, loader: async () => (await api.get("/api/user")).data },
                             { path: "/notifications", element: <Notifications /> },

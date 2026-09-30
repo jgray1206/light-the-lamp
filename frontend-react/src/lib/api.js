@@ -33,7 +33,9 @@ export default api;
 
 export function errorMessage(err) {
     const data = err?.response?.data;
-    return data?._embedded?.errors?.[0]?.message || data?.message || err?.message || "Something went wrong.";
+    const message = data?._embedded?.errors?.[0]?.message || data?.message || err?.message || "Something went wrong.";
+    // The server's rule checks surface as 500s prefixed with this; the rest is the useful part
+    return message.replace(/^Internal Server Error: /, "");
 }
 
 // SweetAlert popups styled to match the app and its light/dark theme

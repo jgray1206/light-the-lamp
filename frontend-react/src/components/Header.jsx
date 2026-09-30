@@ -35,6 +35,7 @@ export default function Header() {
                                 <>
                                     <Dropdown.Item as={Link} to="/notifications">Notifications</Dropdown.Item>
                                     {isAdmin && <Dropdown.Item as={Link} to="/announcers">Announcers</Dropdown.Item>}
+                                    {isAdmin && <Dropdown.Item as={Link} to="/admin">Admin</Dropdown.Item>}
                                 </>
                             ) : (
                                 <Dropdown.Item as={Link} to="/login">Log in</Dropdown.Item>

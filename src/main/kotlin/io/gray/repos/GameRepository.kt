@@ -51,4 +51,10 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
         lessThanEquals: LocalDateTime
     ): Flux<Game>
 
+    // A team's games right before / after a date, for the two-game pick cooldown
+    @Query("select id from game where season = :season and (home_team_id = :teamId or away_team_id = :teamId) and date < :date order by date desc limit 2")
+    fun findTwoPreviousGameIds(season: String, teamId: Long, date: LocalDateTime): Flux<Long>
+
+    @Query("select id from game where season = :season and (home_team_id = :teamId or away_team_id = :teamId) and date > :date order by date asc limit 2")
+    fun findTwoNextGameIds(season: String, teamId: Long, date: LocalDateTime): Flux<Long>
 }

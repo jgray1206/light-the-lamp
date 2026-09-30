@@ -1,5 +1,6 @@
 package io.gray
 
+import io.gray.client.AdminClient
 import io.gray.client.AuthClient
 import io.gray.client.LoginRequest
 import io.gray.client.PickClient
@@ -54,6 +55,7 @@ class LightTheLampApplicationTests {
 
 	@Inject lateinit var pickClient: PickClient
 	@Inject lateinit var authClient: AuthClient
+	@Inject lateinit var adminClient: AdminClient
 	@Inject lateinit var userClient: UserClient
 	@Inject lateinit var gameRepository: GameRepository
 	@Inject lateinit var gamePlayerRepository: GamePlayerRepository
@@ -399,5 +401,66 @@ class LightTheLampApplicationTests {
 	private fun assertAnnouncerPickDeletion() {
 		pickClient.deleteForAnnouncer(GAME_ID, 6, token)
 		assertThat(pickClient.getAll(SEASON, token)).hasSize(6)
+	}
+
+	// ── Test 5: Admin pick fixes ────────────────────────────────────────────────
+	// Runs after pickTests: user 1 is an admin, GAME_ID is final and scored.
+
+	@Test
+	@Order(5)
+	fun adminTests() {
+		val userId = 1L
+		val prevGameId = gameRepository.findTwoPreviousGameIds(
+				SEASON, RED_WINGS_ID, gameRepository.findById(GAME_ID).block()!!.date!!
+		).blockFirst()!!
+
+		// Search and user details
+		assertThat(adminClient.searchUsers("TEST@EM", token).map { it.email }).contains(USER_EMAIL)
+		assertThat(adminClient.searchUsers("x", token)).isEmpty() // too short to search
+		val detail = adminClient.getUser(userId, token)
+		assertThat(detail.email).isEqualTo(USER_EMAIL)
+		assertThat(detail.teams.map { it.id }).contains(RED_WINGS_ID)
+		assertThat(adminClient.getGames(RED_WINGS_ID, SEASON, token).map { it.id }).contains(GAME_ID, prevGameId)
+
+		// Change the finished game's pick; points are recalculated
+		val goalies = adminClient.setPick(userId, GAME_ID, RED_WINGS_ID, "goalies", token)
+		assertThat(goalies.goalies).isTrue()
+		assertThat(goalies.gamePlayer).isNull()
+		assertThat(goalies.points).isEqualTo(0)
+
+		// Cooldown applies looking forward (GAME_ID is the next game after prevGameId)...
+		assertThrows<HttpClientResponseException> {
+			adminClient.setPick(userId, prevGameId, RED_WINGS_ID, "goalies", token)
+		}
+		// ...and looking back
+		adminClient.setPick(userId, prevGameId, RED_WINGS_ID, "team", token)
+		assertThrows<HttpClientResponseException> {
+			adminClient.setPick(userId, GAME_ID, RED_WINGS_ID, "team", token)
+		}
+
+		val seider = adminClient.setPick(userId, GAME_ID, RED_WINGS_ID, "Moritz Seider", token)
+		assertThat(seider.id).isEqualTo(goalies.id) // updated in place
+		assertThat(seider.goalies).isNull()
+		assertThat(seider.gamePlayer?.name).isEqualTo("Moritz Seider")
+		assertThat(seider.points).isEqualTo(2)
+
+		// Not a player on that team, and not a team playing in that game
+		assertThrows<HttpClientResponseException> {
+			adminClient.setPick(userId, GAME_ID, RED_WINGS_ID, "Matty Beniers", token)
+		}
+		assertThrows<HttpClientResponseException> {
+			adminClient.setPick(userId, GAME_ID, WINGS_PARTNER_TEAM_ID, "goalies", token)
+		}
+
+		adminClient.deletePick(userId, prevGameId, RED_WINGS_ID, token)
+		assertThat(adminClient.getPicks(userId, SEASON, token).map { it.game?.id }).doesNotContain(prevGameId)
+
+		// Admin role required
+		userRepository.update(userRepository.findById(userId).block()!!.apply { admin = false }).block()
+		val plainToken = login()
+		assertThrows<HttpClientResponseException> { adminClient.searchUsers("test", plainToken) }
+		assertThrows<HttpClientResponseException> {
+			adminClient.setPick(userId, GAME_ID, RED_WINGS_ID, "goalies", plainToken)
+		}
 	}
 }
