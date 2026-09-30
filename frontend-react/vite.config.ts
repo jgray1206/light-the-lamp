@@ -54,7 +54,7 @@ const manifestForPlugIn: Partial<VitePWAOptions> = {
                 "purpose": "maskable"
             }
         ],
-        theme_color: '#212529',
+        theme_color: '#15171a',
         background_color: '#f5f5f5',
         display: "standalone",
         scope: '/',

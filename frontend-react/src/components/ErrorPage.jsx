@@ -1,27 +1,15 @@
-import { useRouteError } from "react-router-dom";
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import Container from 'react-bootstrap/Container';
-import '../App.css'
-import { Card } from 'react-bootstrap';
+import { Link, useRouteError } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export default function ErrorPage() {
-  const error = useRouteError();
-  console.error(error);
-  return (
-    <>
-      <Header />
-      <Container className="p-3">
-        <Card className="shadow">
-          <Card.Body>
-            <div id="error-page">
-              <h1>Oops!</h1>
-              <p>Sorry, an unexpected error has occurred. Please try again later.</p>
-            </div>
-          </Card.Body>
-        </Card>
-      </Container>
-      <Footer />
-    </>
-  );
+    const error = useRouteError();
+    console.error(error);
+    return (
+        <div className="panel text-center py-5">
+            <img src="/shrug.png" width="120" height="120" alt="" className="mb-3" />
+            <h1 className="h3">Oops!</h1>
+            <p className="text-body-secondary">Sorry, something went wrong. Please try again later.</p>
+            <Button as={Link} to="/" reloadDocument variant="primary">Back to picks</Button>
+        </div>
+    );
 }

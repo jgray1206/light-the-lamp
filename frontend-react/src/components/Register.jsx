@@ -1,130 +1,81 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from 'axios';
-import { useLoaderData } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2'
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Form from "react-bootstrap/Form";
+import api, { alert, showError } from "../lib/api";
+import AuthLayout from "./AuthLayout";
+import TeamChecklist from "./TeamChecklist";
+
+const FEATURED_TEAM = "Detroit Red Wings";
 
 export default function Register() {
-    const data = useLoaderData();
-    const allTeams = data.data.sort((a, b) => a.teamName.localeCompare(b.teamName)).sort(function (x, y) {
-        return x.teamName == "Detroit Red Wings"
-            ? -1
-            : y.teamName == "Detroit Red Wings"
-                ? 1
-                : 0;
-    });
+    const rawTeams = useLoaderData();
+    const allTeams = [...rawTeams].sort(
+        (a, b) => (b.teamName === FEATURED_TEAM) - (a.teamName === FEATURED_TEAM) || a.teamName.localeCompare(b.teamName)
+    );
     const navigate = useNavigate();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirm, setPasswordConfirm] = useState("");
-    const [displayName, setDisplayName] = useState("");
-    const [redditUsername, setRedditUsername] = useState("");
+    const [form, setForm] = useState({ email: "", password: "", passwordConfirm: "", displayName: "", redditUsername: "" });
     const [teams, setTeams] = useState([]);
+    const [submitting, setSubmitting] = useState(false);
+    const field = (name) => ({ value: form[name], onChange: (e) => setForm({ ...form, [name]: e.target.value }) });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (password != passwordConfirm) {
-            Swal.fire({
-                text: "Passwords must match!",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
+        if (form.password !== form.passwordConfirm) {
+            showError({ message: "Passwords must match!" });
             return;
         }
-        const registerPayload = {
-            email: username,
-            password: password,
-            teams: teams,
-            displayName: displayName
+        if (teams.length === 0) {
+            showError({ message: "Pick at least one team to follow." });
+            return;
         }
-        if (redditUsername) {
-            registerPayload.redditUsername = redditUsername
-        }
-        console.log(registerPayload);
-        axios.post("/api/user", registerPayload)
-            .then(response => {
-                Swal.fire({
-                    text: "Registration successful! Check your email to confirm your account.",
-                    icon: "success",
-                    confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate("/login", { replace: true });
-                    }
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                Swal.fire({
-                    text: err?.response?.data?._embedded?.errors?.[0]?.message || err["message"],
-                    icon: "error",
-                    confirmButtonText: "OK",
-                });
+        setSubmitting(true);
+        try {
+            await api.post("/api/user", {
+                email: form.email,
+                password: form.password,
+                displayName: form.displayName,
+                teams,
+                ...(form.redditUsername && { redditUsername: form.redditUsername }),
             });
+            await alert({ text: "Registration successful! Check your email to confirm your account.", icon: "success" });
+            navigate("/login", { replace: true });
+        } catch (err) {
+            showError(err);
+            setSubmitting(false);
+        }
     };
 
     return (
-        <>
-            <style type="text/css">
-                {`
-                html[data-bs-theme="light"] {
-                    body {
-                        background-color: #f5f5f5;
-                    }
-                }
-                
-                html[data-bs-theme="dark"] {
-                    body {
-                        background-color: #212529;
-                    }
-                }
-                .card {
-                    border-radius: 1rem;
-                    max-width: 25rem;
-                    margin: auto;
-                }
-        `}</style>
-            <Container className="p-3 text-center">
-                <Card className="shadow">
-                    <Card.Body>
-                        <img className="mb-4" src="./logo.png" alt="" height="250" />
+        <AuthLayout>
+            <Form onSubmit={handleSubmit} className="text-start">
+                <FloatingLabel controlId="email" label="Email address" className="mb-2">
+                    <Form.Control required type="email" placeholder="name@example.com" autoComplete="email" {...field("email")} />
+                </FloatingLabel>
+                <FloatingLabel controlId="password" label="Password (8+ characters)" className="mb-2">
+                    <Form.Control required type="password" placeholder="Password" minLength={8} maxLength={50}
+                                  autoComplete="new-password" {...field("password")} />
+                </FloatingLabel>
+                <FloatingLabel controlId="passwordConfirm" label="Confirm password" className="mb-2">
+                    <Form.Control required type="password" placeholder="Confirm password" autoComplete="new-password"
+                                  {...field("passwordConfirm")} />
+                </FloatingLabel>
+                <FloatingLabel controlId="displayName" label="Display name" className="mb-2">
+                    <Form.Control required placeholder="Display name" maxLength={18} {...field("displayName")} />
+                </FloatingLabel>
+                <FloatingLabel controlId="redditUsername" label="Reddit username (optional)" className="mb-3">
+                    <Form.Control placeholder="Reddit username" maxLength={40} {...field("redditUsername")} />
+                </FloatingLabel>
 
-                        <Form onSubmit={handleSubmit}>
-                            <FloatingLabel controlId="floatingInput" label="Email address" className="mb-2">
-                                <Form.Control required type="email" placeholder="name@example.com" onChange={(e) => setUsername(e.target.value)} />
-                            </FloatingLabel>
-                            <FloatingLabel controlId="floatingPassword" label="Password" className="mb-2">
-                                <Form.Control required type="password" placeholder="Password" minLength="8" maxLength="50" onChange={(e) => setPassword(e.target.value)} />
-                            </FloatingLabel>
+                <Form.Label className="fw-medium">Teams to follow</Form.Label>
+                <TeamChecklist teams={allTeams} selected={teams} onChange={setTeams} />
 
-                            <FloatingLabel controlId="floatingPasswordConfirm" label="Confirm Password" className="mb-2">
-                                <Form.Control required type="password" placeholder="Confirm Password" onChange={(e) => setPasswordConfirm(e.target.value)} />
-                            </FloatingLabel>
-
-                            <FloatingLabel controlId="floatingDisplayName" label="Display Name" className="mb-2">
-                                <Form.Control required type="text" placeholder="Firstname Lastname" maxLength="18" onChange={(e) => setDisplayName(e.target.value)} />
-                            </FloatingLabel>
-
-                            <FloatingLabel controlId="floatingRedditUsername" label="Reddit Username" className="mb-2">
-                                <Form.Control type="text" placeholder="Username" maxLength="40" onChange={(e) => setRedditUsername(e.target.value)} />
-                            </FloatingLabel>
-
-                            <Form.Label htmlFor="teams">Teams</Form.Label>
-                            <Form.Select required aria-label="Teams" id="teams" multiple onChange={e => setTeams([].slice.call(e.target.selectedOptions).map(item => item.value))}>
-                                {allTeams.map(function (object) {
-                                    return <option key={object.id} value={object.id}>{object.teamName}</option>;
-                                })}
-                            </Form.Select>
-                            <Button variant="primary" size="lg" className="w-100 mt-3" type="submit">Register</Button>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            </Container >
-        </>
+                <Button size="lg" className="w-100 mt-3" type="submit" disabled={submitting}>
+                    {submitting ? "Creating account…" : "Create account"}
+                </Button>
+            </Form>
+            <p className="mt-3 mb-0 small">Already have an account? <Link to="/login">Log in</Link></p>
+        </AuthLayout>
     );
 }

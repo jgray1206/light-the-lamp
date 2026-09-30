@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging } from "firebase/messaging";
 
-// Your web app's Firebase configuration
+// Firebase config for push notifications (these values are public by design)
 const firebaseConfig = {
     apiKey: "AIzaSyAe1UvDpb_BxT0vm29qjL6dsknfXxAOKCA",
     authDomain: "light-the-lamp-3bb33.firebaseapp.com",
@@ -13,5 +13,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const Messaging = getMessaging(app);
-export default Messaging;
+const messaging = getMessaging(app);
+export default messaging;

@@ -1,165 +1,90 @@
-import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLoaderData, useRevalidator } from "react-router-dom";
-import { useAuth } from "../provider/authProvider";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import { Button } from 'react-bootstrap';
-import SeasonSelector from "./SeasonSelector";
+import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
+import { useAuth } from "../lib/auth";
+import { buildStandings } from "../lib/leaderboard";
+import { prefs } from "../lib/prefs";
+import ChipNav from "./ChipNav";
+import RefreshButton from "./RefreshButton";
+import SeasonSelect from "./SeasonSelect";
 
-const groupByTeamName = function (xs) {
-    return xs.reduce(function (rv, x) {
-        (rv[x.team.teamName] = rv[x.team.teamName] || []).push(x);
-        return rv;
-    }, {});
-};
-const groupByUserIdAndName = function (xs) {
-    return xs.reduce(function (rv, x) {
-        (rv[x.user?.id || x.announcer.displayName] = rv[x.user?.id || x.announcer.displayName] || []).push(x);
-        return rv;
-    }, {});
-};
+const MEDALS = ["🥇", "🥈", "🥉"];
 
-function groupPicksIntoLeaderboardUsers(groupedByTeamPicks, announcerPicksOnly, myPicksOnly, userId) {
-    for (let [team] of Object.entries(groupedByTeamPicks)) {
-        groupedByTeamPicks[team] = groupByUserIdAndName(groupedByTeamPicks[team]);
-        const userObjects = [];
-        const filterGames = new Set();
-        for (const [user] of Object.entries(groupedByTeamPicks[team])) {
-            let announcer = groupedByTeamPicks[team][user][0].announcer != undefined;
-            for (const [pickIndex] of Object.entries(groupedByTeamPicks[team][user])) {
-                const pick = groupedByTeamPicks[team][user][pickIndex];
-                if (announcerPicksOnly && announcer) {
-                    filterGames.add(pick.game.id);
-                }
-                if (myPicksOnly && user == userId) {
-                    filterGames.add(pick.game.id);
-                }
-            }
-        }
-        for (const [userIndex] of Object.entries(groupedByTeamPicks[team])) {
-            const userPicks = groupedByTeamPicks[team][userIndex];
-            let points = 0;
-            let games = 0;
-            let announcer = userPicks[0].announcer != undefined;
-            let displayName = userPicks[0].user?.displayName || userPicks[0].announcer?.displayName;
-            for (let [pickIndex] of Object.entries(userPicks)) {
-                const pick = groupedByTeamPicks[team][userIndex][pickIndex];
-                if ((!myPicksOnly && !announcerPicksOnly) || filterGames.has(pick.game.id)) {
-                    if (pick.doublePoints == true) {
-                        points += (pick.points || 0) * 2;
-                    } else {
-                        points += pick.points || 0;
-                    }
-                    games++;
-                }
-            }
-            if (games > 0) {
-                userObjects.push({
-                    'points': points,
-                    'games': games,
-                    'displayName': displayName,
-                    'redditUsername': announcer ? null : userPicks[0].user?.redditUsername,
-                    'isAnnouncer': announcer,
-                    'isMe': !announcer && userPicks[0].user.id == userId
-                });
-            }
-        }
-        userObjects.sort((aUser, bUser) => bUser.points - aUser.points || aUser.games - bUser.games);
-        var rank = 0;
-        var lastPoints = -1;
-        var lastNumPicks = -1;
-        userObjects.forEach((userObject, index) => {
-            if (userObject.points != lastPoints || userObject.games != lastNumPicks) {
-                rank = index + 1;
-                lastPoints = userObject.points;
-                lastNumPicks = userObject.games;
-            }
-            userObject.rank = rank;
-        });
-        groupedByTeamPicks[team] = userObjects;
-    }
-}
-
-export default function Leaderboard(props) {
+export default function Leaderboard() {
+    const picks = useLoaderData();
     const revalidator = useRevalidator();
-    const { getIdFromJwt } = useAuth();
-    const [myPicksOnly, setMyPicksOnly] = useState(false);
-    const [announcerPicksOnly, setAnnouncerPicksOnly] = useState(false);
-    const userId = getIdFromJwt();
-    const response = useLoaderData();
-    const picks = response.data;
-    let groupedByTeamPicks = groupByTeamName(picks);
-    groupPicksIntoLeaderboardUsers(groupedByTeamPicks, announcerPicksOnly, myPicksOnly, userId);
-    let teams = Object.keys(groupedByTeamPicks)
-        .filter((team) => groupedByTeamPicks[team].length > 0)
-        .sort((a, b) => a.localeCompare(b));
-    return <>
-        <SeasonSelector setSeason={props.setSeason} getSeason={props.getSeason} />
-        <Button variant="secondary" size="sm" className="mt-1 float-end" onClick={() => revalidator.revalidate()}>
-            {revalidator.state === "idle" ? "Refresh Points" : "Refreshing......"}
-        </Button>
-        <Form.Select className="leaderboardSelector mt-1 me-1" onChange={(e) => props.setLeaderboardTab(e.target.value)} defaultValue={props.leaderboardTab}>
-            <option value="friends">Friends</option>
-            <option value="global">Global</option>
-            <option value="reddit">Reddit</option>
-        </Form.Select>
-        <Form.Check
-            type="checkbox"
-            id="mypicksonly"
-            label="Only games I've picked"
-            defaultChecked={myPicksOnly}
-            disabled={announcerPicksOnly}
-            onChange={() => { setMyPicksOnly(!myPicksOnly) }}
-        />
-        {props.leaderboardTab == "global" &&
-            <Form.Check
-                type="checkbox"
-                id="announcerpicksonly"
-                label="Only games announcers picked"
-                defaultChecked={announcerPicksOnly}
-                disabled={myPicksOnly}
-                onChange={() => { setAnnouncerPicksOnly(!announcerPicksOnly) }}
-            />
-        }
-        {picks.length == 0 ?
-            <h2>No picks yet!</h2> :
-            <Tabs
-                id="controlled-tab-example"
-                className="mb-3 flex-nowrap text-nowrap" style={{ overflowX: 'auto', overflowY: 'hidden' }}
-            >
-                {teams.map(function (team) {
-                    const users = groupedByTeamPicks[team];
-                    const userKeys = Object.keys(users);
-                    return <Tab eventKey={team} title={team} key={team}>
-                        <table className="table table-hover">
+    const { userId } = useAuth();
+    const { season, leaderboardView } = prefs.useStore();
+    const [filter, setFilter] = useState("all");
+    const [selectedTeam, setSelectedTeam] = useState(null);
+
+    // The announcer filter only exists on the global board
+    const effectiveFilter = filter === "announcers" && leaderboardView !== "global" ? "all" : filter;
+    const standings = useMemo(() => buildStandings(picks, effectiveFilter, userId), [picks, effectiveFilter, userId]);
+    const teams = Object.keys(standings).sort((a, b) => a.localeCompare(b));
+    const team = teams.includes(selectedTeam) ? selectedTeam : teams[0];
+
+    const update = (patch) => {
+        prefs.set(patch);
+        revalidator.revalidate();
+    };
+    const toggleFilter = (name) => (e) => setFilter(e.target.checked ? name : "all");
+
+    return (
+        <>
+            <div className="toolbar">
+                <SeasonSelect value={season} onChange={(s) => update({ season: s })} />
+                <Form.Select size="sm" className="w-auto" value={leaderboardView} aria-label="Leaderboard"
+                             onChange={(e) => update({ leaderboardView: e.target.value })}>
+                    <option value="friends">Friends</option>
+                    <option value="global">Global</option>
+                    <option value="reddit">Reddit</option>
+                </Form.Select>
+                <RefreshButton refreshing={revalidator.state !== "idle"} onClick={() => revalidator.revalidate()} />
+            </div>
+
+            <div className="d-flex flex-wrap column-gap-3 mb-2 small">
+                <Form.Check type="checkbox" id="mypicksonly" label="Only games I've picked"
+                            checked={effectiveFilter === "mine"} disabled={effectiveFilter === "announcers"}
+                            onChange={toggleFilter("mine")} />
+                {leaderboardView === "global" && (
+                    <Form.Check type="checkbox" id="announcerpicksonly" label="Only games announcers picked"
+                                checked={effectiveFilter === "announcers"} disabled={effectiveFilter === "mine"}
+                                onChange={toggleFilter("announcers")} />
+                )}
+            </div>
+
+            {!team ? (
+                <p className="text-body-secondary text-center my-5">No picks yet!</p>
+            ) : (
+                <>
+                    <ChipNav items={teams.map((t) => ({ key: t, label: t }))} activeKey={team} onSelect={setSelectedTeam} />
+                    <div className="panel p-0 overflow-hidden">
+                        <Table hover className="leaderboard mb-0">
                             <thead>
                                 <tr>
-                                    <td></td><td>User</td><td>Num Picks</td><td>Points</td>
+                                    <th className="rank">#</th>
+                                    <th>{leaderboardView === "reddit" ? "Redditor" : "Player"}</th>
+                                    <th className="text-end">Picks</th>
+                                    <th className="text-end">Pts</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {userKeys.map(function (userKey) {
-                                    const user = users[userKey];
-                                    let rowClassName = ""
-                                    if (user.isMe) {
-                                        rowClassName = "table-active";
-                                    }
-                                    if (user.isAnnouncer) {
-                                        rowClassName = "table-danger";
-                                    }
-                                    let displayName = user.displayName;
-                                    if (props.leaderboardTab == "reddit") {
-                                        displayName = user.redditUsername;
-                                    }
-                                    return <tr key={userKey} className={rowClassName}><td>{user.rank}</td><td>{displayName}</td><td>{user.games}</td><td><b>{user.points}</b></td></tr>
-                                })}
+                                {standings[team].map((row) => (
+                                    <tr key={row.key}
+                                        className={row.isAnnouncer ? "table-danger" : row.isMe ? "table-active is-me" : undefined}>
+                                        <td className="rank">{MEDALS[row.rank - 1] ?? row.rank}</td>
+                                        <td>{leaderboardView === "reddit" ? row.redditUsername : row.displayName}</td>
+                                        <td className="text-end text-body-secondary">{row.games}</td>
+                                        <td className="text-end fw-bold">{row.points}</td>
+                                    </tr>
+                                ))}
                             </tbody>
-                        </table>
-                    </Tab>;
-                })}
-            </Tabs>
-        }
-    </>
-
+                        </Table>
+                    </div>
+                </>
+            )}
+        </>
+    );
 }
