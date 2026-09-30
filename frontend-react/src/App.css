@@ -637,6 +637,10 @@ body {
     margin: 0;
 }
 
+.avatar-picker.is-busy img {
+    opacity: 0.5;
+}
+
 .avatar-picker-badge {
     position: absolute;
     right: -2px;

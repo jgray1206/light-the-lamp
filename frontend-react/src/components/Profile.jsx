@@ -1,14 +1,15 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { MdAdd, MdPhotoCamera } from "react-icons/md";
 import api, { confirm, showError, showSuccess } from "../lib/api";
+import { resizeImage } from "../lib/resizeImage";
 import TeamChecklist from "./TeamChecklist";
 
-const picSrc = (pic) =>
-    pic instanceof File ? URL.createObjectURL(pic) : pic ? "data:image/png;base64," + pic : "/shrug.png";
+// Pics are stored and sent as base64
+const picSrc = (base64) => (base64 ? "data:image/png;base64," + base64 : "/shrug.png");
 
 const fileToBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -18,13 +19,33 @@ const fileToBase64 = (file) =>
         reader.readAsDataURL(file);
     });
 
-// A round avatar that opens a file picker when tapped
+// A round avatar that opens a file picker when tapped. The chosen photo is shrunk before
+// onChange({ file, base64 }) is called, so previews and uploads are always small.
 function AvatarPicker({ src, size, onChange, label }) {
+    const [busy, setBusy] = useState(false);
+
+    const handleFile = async (e) => {
+        const input = e.target;
+        const chosen = input.files[0];
+        input.value = ""; // so picking the same photo again still fires onChange
+        if (!chosen) return;
+        setBusy(true);
+        try {
+            const file = await resizeImage(chosen);
+            onChange({ file, base64: await fileToBase64(file) });
+        } catch (err) {
+            showError(err);
+        } finally {
+            setBusy(false);
+        }
+    };
+
     return (
-        <label className="avatar-picker" style={{ width: size, height: size }} aria-label={label}>
+        <label className={"avatar-picker" + (busy ? " is-busy" : "")} style={{ width: size, height: size }} aria-label={label}>
             <img src={src} alt="" width={size} height={size} className="avatar" />
             <span className="avatar-picker-badge"><MdPhotoCamera /></span>
-            <input type="file" accept="image/*" hidden onChange={(e) => e.target.files[0] && onChange(e.target.files[0])} />
+            {/* visually hidden rather than display:none, which iOS Safari can be flaky with */}
+            <input type="file" accept="image/*" className="visually-hidden" onChange={handleFile} />
         </label>
     );
 }
@@ -36,7 +57,7 @@ export default function Profile() {
     const [displayName, setDisplayName] = useState(user.displayName);
     const [redditUsername, setRedditUsername] = useState(user.redditUsername ?? "");
     const [teams, setTeams] = useState(user.teams?.map((t) => String(t.id)) ?? []);
-    const [profilePic, setProfilePic] = useState(null);
+    const [profilePic, setProfilePic] = useState(null); // { file, base64 } once a new pic is chosen
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [saving, setSaving] = useState(false);
@@ -48,7 +69,7 @@ export default function Profile() {
             return;
         }
         const formData = new FormData();
-        if (profilePic) formData.set("profilePic", profilePic);
+        if (profilePic) formData.set("profilePic", profilePic.file);
         formData.set("displayName", displayName);
         formData.set("redditUsername", redditUsername);
         if (password) formData.set("password", password);
@@ -70,7 +91,7 @@ export default function Profile() {
             <Form onSubmit={handleSubmit} className="panel">
                 <div className="d-flex align-items-center gap-3 mb-3">
                     <AvatarPicker size={96} label="Change profile picture"
-                                  src={profilePic ? URL.createObjectURL(profilePic) : picSrc(user.profilePic)}
+                                  src={picSrc(profilePic?.base64 ?? user.profilePic)}
                                   onChange={setProfilePic} />
                     <div>
                         <h2 className="h5 mb-0">{displayName || "Your profile"}</h2>
@@ -114,8 +135,7 @@ function Kids({ initialKids }) {
     const [kids, setKids] = useState(initialKids);
     const [showAdd, setShowAdd] = useState(false);
     const [newName, setNewName] = useState("");
-    const [newPic, setNewPic] = useState(null);
-    const newPicInput = useRef(null);
+    const [newPic, setNewPic] = useState(null); // base64
 
     const editKid = (id, patch) => setKids(kids.map((k) => (k.id === id ? { ...k, ...patch } : k)));
 
@@ -127,12 +147,11 @@ function Kids({ initialKids }) {
         try {
             const { data } = await api.post("/api/user/kid", {
                 displayName: newName,
-                profilePic: newPic ? await fileToBase64(newPic) : null,
+                profilePic: newPic,
             });
             setKids([...kids, data]);
             setNewName("");
             setNewPic(null);
-            if (newPicInput.current) newPicInput.current.value = null;
             setShowAdd(false);
             showSuccess("Kid added!");
         } catch (err) {
@@ -145,7 +164,7 @@ function Kids({ initialKids }) {
             const { data } = await api.put("/api/user/kid", {
                 id: kid.id,
                 displayName: kid.displayName,
-                profilePic: kid.profilePic instanceof File ? await fileToBase64(kid.profilePic) : kid.profilePic,
+                profilePic: kid.profilePic,
             });
             editKid(kid.id, data);
             showSuccess("Kid updated!");
@@ -174,7 +193,7 @@ function Kids({ initialKids }) {
             {kids.map((kid) => (
                 <div key={kid.id} className="d-flex align-items-center gap-2 mb-2">
                     <AvatarPicker size={48} label={`Change ${kid.displayName}'s picture`} src={picSrc(kid.profilePic)}
-                                  onChange={(file) => editKid(kid.id, { profilePic: file })} />
+                                  onChange={({ base64 }) => editKid(kid.id, { profilePic: base64 })} />
                     <Form.Control size="sm" value={kid.displayName} maxLength={40} aria-label="Kid's name"
                                   onChange={(e) => editKid(kid.id, { displayName: e.target.value })} />
                     <Button variant="outline-primary" size="sm" onClick={() => updateKid(kid)}>Save</Button>
@@ -185,9 +204,9 @@ function Kids({ initialKids }) {
             {showAdd ? (
                 <div className="border-top pt-3 mt-3">
                     <div className="d-flex align-items-center gap-2 mb-2">
-                        <img src={newPic ? URL.createObjectURL(newPic) : "/shrug.png"} alt="" width="48" height="48" className="avatar" />
-                        <Form.Control size="sm" type="file" accept="image/*" ref={newPicInput}
-                                      onChange={(e) => setNewPic(e.target.files[0] ?? null)} />
+                        <AvatarPicker size={48} label="Choose a picture" src={picSrc(newPic)}
+                                      onChange={({ base64 }) => setNewPic(base64)} />
+                        <span className="small text-body-secondary">Tap to add a picture (optional)</span>
                     </div>
                     <FloatingLabel label="Kid's display name" className="mb-2">
                         <Form.Control value={newName} maxLength={40} placeholder="Kid's display name"
