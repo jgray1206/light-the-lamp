@@ -2,10 +2,10 @@ plugins {
 	id("org.jetbrains.kotlin.jvm") version "2.3.21"
 	id("org.jetbrains.kotlin.plugin.allopen") version "2.3.21"
 	id("com.google.devtools.ksp") version "2.3.7"
-	id("com.gradleup.shadow") version "8.3.9"
-	id("io.micronaut.application") version "4.6.2"
-	id("io.micronaut.openapi") version "4.6.2"
-	id("io.micronaut.aot") version "4.6.2"
+	id("com.gradleup.shadow") version "9.6.1"
+	id("io.micronaut.application") version "5.0.2"
+	id("io.micronaut.openapi") version "5.0.2"
+	id("io.micronaut.aot") version "5.0.2"
 	id("java")
 	id("maven-publish")
 }
@@ -41,7 +41,7 @@ dependencies {
 	ksp("io.micronaut.data:micronaut-data-processor")
 	ksp("io.micronaut:micronaut-http-validation")
 	ksp("io.micronaut.validation:micronaut-validation-processor")
-	ksp("io.micronaut.security:micronaut-security-annotations")
+	ksp("io.micronaut.security:micronaut-security-processor")
 	ksp("io.micronaut.openapi:micronaut-openapi")
 
 	// https://mvnrepository.com/artifact/org.mindrot/jbcrypt
@@ -80,7 +80,7 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-consumer:${resilience4jVersion}")
 	implementation("io.github.resilience4j:resilience4j-reactor:${resilience4jVersion}")
 
-	runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+	runtimeOnly("tools.jackson.module:jackson-module-kotlin")
 	testRuntimeOnly("io.r2dbc:r2dbc-h2")
 	testRuntimeOnly("com.h2database:h2")
 	testImplementation("org.assertj:assertj-core")
@@ -96,23 +96,28 @@ application {
 	mainClass.set("io.gray.ApplicationKt")
 }
 java {
-	sourceCompatibility = JavaVersion.toVersion("17")
-	targetCompatibility = JavaVersion.toVersion("17")
+	sourceCompatibility = JavaVersion.toVersion("25")
+	targetCompatibility = JavaVersion.toVersion("25")
 }
 
 tasks {
 	compileKotlin {
 		compilerOptions {
-			jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+			jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
 		}
 	}
 	compileTestKotlin {
 		compilerOptions {
-			jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+			jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
 		}
 	}
 }
 graalvmNative.toolchainDetection = false
+ksp {
+	// Micronaut Data 5 dropped the field-name prefix from embedded columns (id_game_id -> game_id);
+	// keep the old names so they match the existing tables
+	arg("micronaut.data.embedded.naming.strategy", "LEGACY")
+}
 micronaut {
 	runtime("netty")
 	testRuntime("junit5")

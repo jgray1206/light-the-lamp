@@ -38,7 +38,7 @@ class GameController(
     @Get("/user")
     fun getGamesByUser(principal: Principal, @QueryValue season: String, @QueryValue maxGames: Int): Flux<Game> {
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable { user ->
-            user.teams
+            user.teams.orEmpty()
         }.flatMap { team ->
             gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(
                 team.id!!,
@@ -48,12 +48,12 @@ class GameController(
             ).collectList().flatMapMany {
                 gameRepository.findByIdIn(it)
             }
-        }.distinct { it.id }
+        }.distinct { it.id!! }
     }
 
     @Get("/announcers")
     fun getGamesByAnnouncers(@QueryValue season: String, @QueryValue maxGames: Int): Flux<Game> {
-        return announcerRepository.findAll().map { announcer ->
+        return announcerRepository.findAll().mapNotNull { announcer ->
             announcer.team
         }.flatMap { team ->
             gameRepository.findTopByHomeTeamOrAwayTeamAndSeasonOrderByIdDesc(
@@ -64,7 +64,7 @@ class GameController(
             ).collectList().flatMapMany {
                 gameRepository.findByIdIn(it)
             }
-        }.distinct { it.id }
+        }.distinct { it.id!! }
     }
 
     @Post("/refresh-points")

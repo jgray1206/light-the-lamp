@@ -2,6 +2,7 @@ package io.gray
 
 import io.gray.client.AdminClient
 import io.gray.client.AuthClient
+import io.gray.client.PasswordResetClient
 import io.gray.client.RawJsonClient
 import io.gray.client.ConfigClient
 import io.gray.client.LoginRequest
@@ -62,6 +63,7 @@ class LightTheLampApplicationTests {
 
 	@Inject lateinit var pickClient: PickClient
 	@Inject lateinit var authClient: AuthClient
+	@Inject lateinit var passwordResetClient: PasswordResetClient
 	@Inject lateinit var rawJsonClient: RawJsonClient
 	@Inject lateinit var adminClient: AdminClient
 	@Inject lateinit var configClient: ConfigClient
@@ -561,5 +563,16 @@ class LightTheLampApplicationTests {
 		// No one's secrets, including kids' and friends' kids' placeholder fields
 		assertThat(user).doesNotContain(""""password"""", """"ipAddress"""", """"email"""")
 		assertThat(Regex(""""confirmationUuid"""").findAll(user).count()).isEqualTo(1) // just your own, for your friend link
+	}
+
+	// ── Test 9: Rate limiting ───────────────────────────────────────────────────
+	// resilience4j-micronaut is built for Micronaut 4; make sure its @RateLimiter still applies.
+	// (application-test.yml allows one password reset per hour.)
+
+	@Test
+	@Order(9)
+	fun rateLimiterTests() {
+		passwordResetClient.create("nobody@email.com")
+		assertThrows<HttpClientResponseException> { passwordResetClient.create("nobody@email.com") }
 	}
 }

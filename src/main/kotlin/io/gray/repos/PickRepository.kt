@@ -51,7 +51,7 @@ interface PickRepository : ReactorCrudRepository<Pick, Long> {
     @Join("gamePlayer", type = Join.Type.LEFT_FETCH)
     fun findByGameAndUserAndTeam(aGame: Game, aUser: UserDTO, aTeam: Team): Mono<Pick>
 
-    fun deleteByUser(aUser: UserDTO): Mono<Pick>
+    fun deleteByUser(aUser: UserDTO): Mono<Long>
 
     fun findByGameAndAnnouncer(aGame: Game, aAnnouncer: Announcer): Mono<Pick>
 

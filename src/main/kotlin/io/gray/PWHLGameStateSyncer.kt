@@ -1,6 +1,6 @@
 package io.gray
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import io.micronaut.json.JsonMapper
 import io.gray.client.PWHLClient
 import io.gray.client.model.pwhl.GameSummaryResponse
 import io.gray.client.model.pwhl.GameSummaryTeam
@@ -31,7 +31,7 @@ open class PWHLGameStateSyncer(
     private val gamePlayerRepository: GamePlayerRepository,
     private val pickRepository: PickRepository,
     private val pwhlClient: PWHLClient,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: JsonMapper
 ) {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -64,7 +64,7 @@ open class PWHLGameStateSyncer(
             .flatMap { game ->
                 pwhlClient.getGameSummary(game.ID)
                     .map { it.removeSurrounding("(", ")") }
-                    .map { objectMapper.readValue(it, GameSummaryResponse::class.java) }
+                    .mapNotNull { objectMapper.readValue(it, GameSummaryResponse::class.java) }
                     .map { game.apply { this.gameSummaryResponse = it } }
             }
             .flatMap { game ->
@@ -318,7 +318,7 @@ open class PWHLGameStateSyncer(
 
     private fun getPlayers(game: ScheduledGame, team: Team): Flux<GamePlayer> {
         return pwhlClient.getRoster((team.id!! - 1000).toString(), game.SeasonID).map { it.removeSurrounding("(", ")") }
-            .map { objectMapper.readValue(it, RosterResponse::class.java) }
+            .mapNotNull { objectMapper.readValue(it, RosterResponse::class.java) }
             .flatMapIterable { it.roster }
             .flatMapIterable { it.sections }
             .flatMapIterable { it.data }

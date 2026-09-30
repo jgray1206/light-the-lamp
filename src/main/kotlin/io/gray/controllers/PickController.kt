@@ -10,11 +10,11 @@ import io.gray.repos.PickRepository
 import io.gray.repos.UserRepository
 import io.micronaut.context.annotation.Value
 import io.micronaut.context.env.Environment
+import io.micronaut.data.exceptions.EntityExistsException
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
-import io.r2dbc.spi.R2dbcNonTransientException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
@@ -40,7 +40,7 @@ class PickController(
     @Get
     fun getAll(principal: Principal, @QueryValue season: String): Flux<Pick> {
         return userRepository.findByEmailIgnoreCase(principal.name).flatMapIterable {
-            it.teams
+            it.teams.orEmpty()
         }.flatMap {
             pickRepository.findAllByTeamAndSeason(it, season)
                 .filter { it.user?.parent == null }
@@ -220,16 +220,18 @@ class PickController(
         logger.info("saving pick $pick for gameId ${game.id} and teamId ${team.id} for user ${userDTO.id}")
 
         return pickRepository.save(newPick)
-                .onErrorResume(R2dbcNonTransientException::class.java) { ex ->
-                    // Only swallow unique constraint violations (Postgres error code 23505)
-                    if (ex.cause?.message?.contains("23505") == true) {
-                        logger.info("duplicate pick detected for gameId ${game.id}, teamId ${team.id}, userId ${userDTO.id} — returning existing")
-                        pickRepository.findByGameAndUserAndTeam(game, userDTO, team)
-                    } else {
-                        Mono.error(ex) // re-throw anything else
-                    }
+                .onErrorResume({ isUniqueViolation(it) }) {
+                    logger.info("duplicate pick detected for gameId ${game.id}, teamId ${team.id}, userId ${userDTO.id} — returning existing")
+                    pickRepository.findByGameAndUserAndTeam(game, userDTO, team)
                 }
     }
+
+    // Only swallow unique constraint violations (Postgres error code 23505). Micronaut Data 5 wraps
+    // them in EntityExistsException; older versions surfaced the R2DBC exception directly.
+    private fun isUniqueViolation(ex: Throwable): Boolean =
+        generateSequence(ex) { it.cause }.take(5).any {
+            it is EntityExistsException || it.message?.contains("23505") == true
+        }
 
     @Delete("/announcer")
     fun deleteForAnnouncer(

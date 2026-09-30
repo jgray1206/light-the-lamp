@@ -99,7 +99,7 @@ open class UserController(
                 if (profilePic != true) return@flatMap Mono.just(user)
                 // The profile page shows your pic and your kids' pics
                 val ids = listOf(user.id!!) + user.kids.orEmpty().mapNotNull { it.id }
-                userPicRepository.findByIdIn(ids).collectMap({ it.id!! }, { it.profilePic }).map { pics ->
+                userPicRepository.findByIdIn(ids).collectList().map { list -> list.associate { it.id!! to it.profilePic } }.map { pics ->
                     user.apply {
                         this.profilePic = pics[id]
                         kids?.forEach { kid -> kid.profilePic = pics[kid.id] }

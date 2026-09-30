@@ -17,6 +17,12 @@ micronaut:
             generator:
               secret: "${JWT_GENERATOR_SIGNATURE_SECRET}"
 ---
+jackson:
+  date-time-features:
+    # Jackson 3 (Micronaut 5) writes dates as ISO strings by default; the frontend reads
+    # them as arrays ([year, month, day, hour, minute]), which was Jackson 2's default
+    WRITE_DATES_AS_TIMESTAMPS: true
+---
 flyway:
   datasources:
     flywaysrc:
