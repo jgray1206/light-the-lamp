@@ -91,7 +91,7 @@ function GamePicks({ game, team, announcers, picks, post }) {
     return (
         <>
             <Button variant="outline-primary" size="sm" className="mb-2"
-                    onClick={() => api.post("/api/game/refresh-points", null, { params: { gameId: game.id } }).catch(showError)}>
+                    onClick={() => api.post("/api/game/refresh-points", undefined, { params: { gameId: game.id } }).catch(showError)}>
                 Refresh points
             </Button>
             <Table responsive hover className="align-middle">
@@ -113,7 +113,7 @@ function GamePicks({ game, team, announcers, picks, post }) {
                                         defaultSelected={selected ? [selected] : undefined}
                                         onChange={([choice]) =>
                                             post(choice
-                                                ? api.post("/api/pick/announcer", null, params(announcer, { pick: choice }))
+                                                ? api.post("/api/pick/announcer", undefined, params(announcer, { pick: choice }))
                                                 : api.delete("/api/pick/announcer", params(announcer)))
                                         }
                                     />
@@ -127,7 +127,7 @@ function GamePicks({ game, team, announcers, picks, post }) {
                                         disabled={!pick || someoneElseDoubled}
                                         checked={pick?.doublePoints ?? false}
                                         onChange={(e) =>
-                                            post(api.post("/api/pick/announcer", null, params(announcer, { doublePoints: e.target.checked })))
+                                            post(api.post("/api/pick/announcer", undefined, params(announcer, { doublePoints: e.target.checked })))
                                         }
                                     />
                                 </td>

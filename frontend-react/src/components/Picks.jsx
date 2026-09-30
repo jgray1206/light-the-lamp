@@ -76,7 +76,7 @@ export default function Picks() {
         });
         if (!ok) return;
         try {
-            await api.post("/api/pick/user", null, {
+            await api.post("/api/pick/user", undefined, {
                 params: { gameId: game.id, pick: row.pickValue, teamId: team.id, pickingAs: pickingAs === "self" ? undefined : pickingAs },
             });
             revalidator.revalidate();

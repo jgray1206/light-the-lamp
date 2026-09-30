@@ -338,6 +338,15 @@ body {
 @media (hover: none) {
     .chip-scroll {
         pointer-events: none !important;
+        width: 1.75rem;
+    }
+
+    .chip-scroll-left {
+        background: linear-gradient(to right, var(--bs-body-bg), transparent);
+    }
+
+    .chip-scroll-right {
+        background: linear-gradient(to left, var(--bs-body-bg), transparent);
     }
 
     .chip-scroll svg {

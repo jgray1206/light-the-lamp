@@ -19,7 +19,7 @@ export default function PasswordReset() {
             return;
         }
         try {
-            await api.put("/api/passwordreset", null, { params: { password, uuid: searchParams.get("resetUuid") } });
+            await api.put("/api/passwordreset", undefined, { params: { password, uuid: searchParams.get("resetUuid") } });
             await alert({ text: "Password reset! Please log in with your new password.", icon: "success" });
             navigate("/login", { replace: true });
         } catch (err) {

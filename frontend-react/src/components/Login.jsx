@@ -44,7 +44,7 @@ export default function Login() {
             return;
         }
         try {
-            await api.post("/api/passwordreset", null, { params: { email } });
+            await api.post("/api/passwordreset", undefined, { params: { email } });
             showSuccess("Password reset email sent! Click the link in it to reset your password. If you don't see it, check your spam.");
         } catch (err) {
             showError(err);
