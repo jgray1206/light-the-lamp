@@ -1,13 +1,9 @@
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { MdMic } from "react-icons/md";
+import { fallbackToNoPic, NO_PIC } from "../lib/api";
 import { teamLogoUrl } from "../lib/picks";
 import { useTheme } from "../lib/theme";
-
-const fallbackToShrug = ({ currentTarget }) => {
-    currentTarget.onerror = null;
-    currentTarget.src = "/shrug.png";
-};
 
 export default function PickRow({ row, game, team, pickEnabled, showFriends, pics, onPick }) {
     const { theme } = useTheme();
@@ -26,7 +22,7 @@ export default function PickRow({ row, game, team, pickEnabled, showFriends, pic
                 ) : (
                     row.imgs.map((src) => (
                         <img key={src} src={src} alt="" width="56" height="56" loading="lazy" className="pick-avatar"
-                             onError={fallbackToShrug} />
+                             onError={fallbackToNoPic} />
                     ))
                 )}
             </div>
@@ -50,7 +46,7 @@ export default function PickRow({ row, game, team, pickEnabled, showFriends, pic
                     <div className="pick-friends">
                         {row.friends.map((f) => (
                             <span key={f.id ?? f.name} className={"friend-chip" + (f.id ? "" : " is-announcer")}>
-                                {f.id ? <img src={pics.get(f.id) ?? "/shrug.png"} alt="" /> : <MdMic />}
+                                {f.id ? <img src={pics.get(f.id) ?? NO_PIC} alt="" onError={fallbackToNoPic} /> : <MdMic />}
                                 {f.name}
                             </span>
                         ))}

@@ -117,7 +117,7 @@ open class UserController(
                 return@flatMap if (targetUser != null) {
                     userRepository.findById(targetUser.id).map {
                         HttpResponse.ok(String(Base64.getEncoder().encode(it.profilePic)))
-                            .header("Cache-Control", "max-age=86400")
+                            .header("Cache-Control", "max-age=3600") // pics can change, so don't cache them all day
                     }
                 } else {
                     Mono.just(HttpResponse.ok(String(Base64.getEncoder().encode(byteArrayOf()))))

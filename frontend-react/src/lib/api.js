@@ -54,11 +54,30 @@ export const confirm = (text, { confirmButtonText = "OK", cancelButtonText = "Ca
     alert({ text, icon, showCancelButton: true, confirmButtonText, cancelButtonText })
         .then((result) => result.isConfirmed);
 
+export const NO_PIC = "/shrug.png";
+
+// Pics are stored as raw image bytes and served as base64. Label the data URL with the real
+// format (uploads are JPEGs, older ones may be PNGs) and treat an empty pic as "no pic".
+export function picDataUrl(base64) {
+    if (!base64) return NO_PIC;
+    const type = base64.startsWith("/9j/") ? "jpeg"
+        : base64.startsWith("R0lGOD") ? "gif"
+        : base64.startsWith("UklGR") ? "webp"
+        : "png";
+    return `data:image/${type};base64,${base64}`;
+}
+
 export async function getProfilePic(userId) {
     try {
         const { data } = await api.get(`/api/user/${userId}/pic`);
-        return "data:image/png;base64," + data;
+        return picDataUrl(typeof data === "string" ? data.trim() : "");
     } catch {
-        return "/shrug.png";
+        return NO_PIC;
     }
 }
+
+// onError handler for avatar <img>s: fall back to the shrug instead of a broken-image icon
+export const fallbackToNoPic = ({ currentTarget }) => {
+    currentTarget.onerror = null;
+    currentTarget.src = NO_PIC;
+};

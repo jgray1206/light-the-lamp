@@ -4,12 +4,11 @@ import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { MdAdd, MdPhotoCamera } from "react-icons/md";
-import api, { confirm, showError, showSuccess } from "../lib/api";
+import api, { confirm, fallbackToNoPic, picDataUrl, showError, showSuccess } from "../lib/api";
 import { resizeImage } from "../lib/resizeImage";
 import TeamChecklist from "./TeamChecklist";
 
-// Pics are stored and sent as base64
-const picSrc = (base64) => (base64 ? "data:image/png;base64," + base64 : "/shrug.png");
+const picSrc = picDataUrl;
 
 const fileToBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -44,7 +43,7 @@ function AvatarPicker({ src, size, onChange, label }) {
 
     return (
         <label className={"avatar-picker" + (busy ? " is-busy" : "")} style={{ width: size, height: size }} aria-label={label}>
-            <img src={src} alt="" width={size} height={size} className="avatar" />
+            <img src={src} alt="" width={size} height={size} className="avatar" onError={fallbackToNoPic} />
             <span className="avatar-picker-badge"><MdPhotoCamera /></span>
             {/* visually hidden rather than display:none, which iOS Safari can be flaky with */}
             <input type="file" accept="image/*" className="visually-hidden" onChange={handleFile} />

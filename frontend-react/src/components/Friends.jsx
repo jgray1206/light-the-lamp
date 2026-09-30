@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { MdContentCopy, MdShare } from "react-icons/md";
-import api, { confirm, showError } from "../lib/api";
+import api, { confirm, fallbackToNoPic, NO_PIC, showError } from "../lib/api";
 import useProfilePics from "../lib/useProfilePics";
 
 export default function Friends() {
@@ -51,7 +51,8 @@ export default function Friends() {
                     <ul className="list-unstyled mb-0 friend-list">
                         {friends.map((friend) => (
                             <li key={friend.id}>
-                                <img src={pics.get(friend.id) ?? "/shrug.png"} alt="" width="48" height="48" className="avatar" />
+                                <img src={pics.get(friend.id) ?? NO_PIC} alt="" width="48" height="48" className="avatar"
+                                     onError={fallbackToNoPic} />
                                 <span className="flex-grow-1 fw-medium">{friend.displayName}</span>
                                 <Button variant="outline-danger" size="sm" onClick={() => removeFriend(friend)}>Remove</Button>
                             </li>

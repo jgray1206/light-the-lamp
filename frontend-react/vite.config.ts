@@ -12,8 +12,10 @@ const manifestForPlugIn: Partial<VitePWAOptions> = {
         clientsClaim: true,
         runtimeCaching: [
             {
+                // Show the cached pic right away, then refresh it in the background so
+                // new profile pics show up on the next view (the server allows 1h of HTTP caching)
                 urlPattern: /\/api\/user\/\d+\/pic/i,
-                handler: 'CacheFirst',
+                handler: 'StaleWhileRevalidate',
                 options: {
                     cacheName: 'image-cache',
                     expiration: {
