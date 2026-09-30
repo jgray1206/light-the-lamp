@@ -29,7 +29,7 @@ export default function GameHeader({ game, team, status }) {
             <div className="text-end">
                 {showScore && (
                     <div className="game-score">
-                        {game.awayTeam.shortName} {game.awayTeamGoals ?? 0} – {game.homeTeamGoals ?? 0} {game.homeTeam.shortName}
+                        {game.awayTeam.abbreviation} {game.awayTeamGoals ?? 0} – {game.homeTeamGoals ?? 0} {game.homeTeam.abbreviation}
                     </div>
                 )}
                 <Badge bg={bg}>{text}</Badge>
