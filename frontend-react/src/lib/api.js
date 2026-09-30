@@ -67,13 +67,34 @@ export function picDataUrl(base64) {
     return `data:image/${type};base64,${base64}`;
 }
 
-export async function getProfilePic(userId) {
-    try {
-        const { data } = await api.get(`/api/user/${userId}/pic`);
-        return picDataUrl(typeof data === "string" ? data.trim() : "");
-    } catch {
-        return NO_PIC;
-    }
+// Pics already fetched this session, so moving between pages doesn't re-request them
+// (across app launches, the service worker caches them for an hour)
+const PIC_TTL_MS = 60 * 60 * 1000;
+const picCache = new Map(); // userId -> { promise, src?, at }
+
+// A pic that's already loaded, or undefined
+export function peekProfilePic(userId) {
+    const hit = picCache.get(Number(userId));
+    return hit && Date.now() - hit.at < PIC_TTL_MS ? hit.src : undefined;
+}
+
+export function getProfilePic(userId) {
+    const id = Number(userId);
+    const hit = picCache.get(id);
+    if (hit && Date.now() - hit.at < PIC_TTL_MS) return hit.promise;
+
+    const entry = { at: Date.now() };
+    entry.promise = api.get(`/api/user/${id}/pic`)
+        .then(({ data }) => {
+            entry.src = picDataUrl(typeof data === "string" ? data.trim() : "");
+            return entry.src;
+        })
+        .catch(() => {
+            picCache.delete(id); // try again next time
+            return NO_PIC;
+        });
+    picCache.set(id, entry);
+    return entry.promise;
 }
 
 // onError handler for avatar <img>s: fall back to the shrug instead of a broken-image icon
