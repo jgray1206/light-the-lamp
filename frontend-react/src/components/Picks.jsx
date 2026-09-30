@@ -126,7 +126,7 @@ export default function Picks(props) {
             </Form.Group>
         )}
         {!teams || teams.length == 0 ? <h2>You have not joined any teams! Please check your profile settings.</h2> :
-            games.length == 0 ? <h2>No games yet!!</h2> :
+            games.length == 0 ? <h2>No games yet!</h2> :
                 <Tabs
                     id="team-tabs"
                     className="mb-3 flex-nowrap text-nowrap"
