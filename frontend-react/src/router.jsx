@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, redirect } from "react-router-dom";
 import api from "./lib/api";
 import { getToken, setToken } from "./lib/auth";
+import { loadConfig } from "./lib/config";
 import { prefs } from "./lib/prefs";
 import AppShell from "./components/AppShell";
 import ErrorPage from "./components/ErrorPage";
@@ -25,18 +26,11 @@ const pickingAsParam = () => {
     return pickingAs === "self" ? undefined : pickingAs;
 };
 
-// Server settings (e.g. ALLOW_ALL_PICKS dev mode), fetched once per app load
-let configRequest;
-const loadConfig = () => {
-    configRequest ??= api.get("/api/config").then((r) => r.data).catch(() => ({}));
-    return configRequest;
-};
-
 async function picksLoader() {
+    const config = await loadConfig();
     const { season, maxGames } = prefs.get();
     const pickingAs = pickingAsParam();
-    const [config, user, games, myPicks, friendsPicks] = await Promise.all([
-        loadConfig(),
+    const [user, games, myPicks, friendsPicks] = await Promise.all([
         api.get("/api/user", { params: { pickingAs } }),
         api.get("/api/game/user", { params: { season, maxGames } }),
         api.get("/api/pick/user", { params: { season, pickingAs } }),
@@ -52,6 +46,7 @@ async function picksLoader() {
 }
 
 async function leaderboardLoader() {
+    await loadConfig();
     const { season, leaderboardView } = prefs.get();
     const url = {
         friends: "/api/pick/friends-and-self",
@@ -63,6 +58,7 @@ async function leaderboardLoader() {
 }
 
 async function announcersLoader() {
+    await loadConfig();
     const { season, maxGames } = prefs.get();
     const [games, picks, announcers, userCount] = await Promise.all([
         api.get("/api/game/announcers", { params: { season, maxGames } }),

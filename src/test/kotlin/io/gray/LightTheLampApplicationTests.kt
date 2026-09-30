@@ -2,9 +2,11 @@ package io.gray
 
 import io.gray.client.AdminClient
 import io.gray.client.AuthClient
+import io.gray.client.ConfigClient
 import io.gray.client.LoginRequest
 import io.gray.client.PickClient
 import io.gray.client.UserClient
+import io.gray.model.Season
 import io.gray.model.UserRequest
 import io.gray.repos.*
 import io.micronaut.http.client.exceptions.HttpClientResponseException
@@ -56,6 +58,7 @@ class LightTheLampApplicationTests {
 	@Inject lateinit var pickClient: PickClient
 	@Inject lateinit var authClient: AuthClient
 	@Inject lateinit var adminClient: AdminClient
+	@Inject lateinit var configClient: ConfigClient
 	@Inject lateinit var userClient: UserClient
 	@Inject lateinit var gameRepository: GameRepository
 	@Inject lateinit var gamePlayerRepository: GamePlayerRepository
@@ -405,7 +408,6 @@ class LightTheLampApplicationTests {
 
 	// ── Test 5: Admin pick fixes ────────────────────────────────────────────────
 	// Runs after pickTests: user 1 is an admin, GAME_ID is final and scored.
-
 	@Test
 	@Order(5)
 	fun adminTests() {
@@ -463,4 +465,21 @@ class LightTheLampApplicationTests {
 			adminClient.setPick(userId, GAME_ID, RED_WINGS_ID, "goalies", plainToken)
 		}
 	}
+
+
+	@Test
+	@Order(6)
+	fun configTests() {
+		// Seasons come from the synced games, no login needed
+		val config = configClient.get()
+		assertThat(config.allowAllPicks).isFalse()
+		assertThat(config.seasons).containsExactly(Season(SEASON, "2023-24"))
+		assertThat(config.currentSeason).isEqualTo(SEASON)
+
+		assertThat(Season.fromId("202601")).isEqualTo(Season("202601", "2026-27 Pre"))
+		assertThat(Season.fromId("202602")).isEqualTo(Season("202602", "2026-27"))
+		assertThat(Season.fromId("202503")).isEqualTo(Season("202503", "2025-26 Post"))
+		assertThat(Season.fromId("199902")).isEqualTo(Season("199902", "1999-00"))
+	}
 }
+

@@ -57,4 +57,11 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
 
     @Query("select id from game where season = :season and (home_team_id = :teamId or away_team_id = :teamId) and date > :date order by date asc limit 2")
     fun findTwoNextGameIds(season: String, teamId: Long, date: LocalDateTime): Flux<Long>
+
+    @Query("select distinct season from game where season is not null order by season desc")
+    fun findAllSeasons(): Flux<String>
+
+    // The season of the most recently started game, i.e. the season currently being played
+    @Query("select season from game where season is not null and date <= :now order by date desc limit 1")
+    fun findLatestStartedSeason(now: LocalDateTime): Mono<String>
 }
