@@ -33,7 +33,7 @@ data class Team(
     val id: Long,
     val placeName: Name,
     val abbrev: String,
-    val score: Short,
+    val score: Short?,
 ) {
     lateinit var dbTeam: io.gray.model.Team
 }

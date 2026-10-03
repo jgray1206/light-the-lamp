@@ -287,7 +287,7 @@ open class PWHLGameStateSyncer(
         dbGame.gameState = mapNewStateToOldState(game.GameStatus)
         dbGame.awayTeamGoals = game.VisitorGoals.toShort()
         dbGame.homeTeamGoals = game.HomeGoals.toShort()
-        dbGame.isShootout = game.gameSummaryResponse?.hasShooutout
+        dbGame.isShootout = game.gameSummaryResponse?.hasShootout
         dbGame.awayTeamGoalieAssists =
             game.gameSummaryResponse!!.visitingTeam.goalies.map { it.stats.assists }.sum().toShort()
         dbGame.homeTeamGoalieAssists =

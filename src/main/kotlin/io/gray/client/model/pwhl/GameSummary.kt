@@ -205,7 +205,7 @@ data class ShootoutDetails(
 // GameSummaryResponse data class
 data class GameSummaryResponse(
     val details: GameSummaryDetails,
-    val hasShooutout: Boolean,
+    val hasShootout: Boolean,
     val shootoutDetails: ShootoutDetails?,
     val homeTeam: GameSummaryTeam,
     val visitingTeam: GameSummaryTeam,

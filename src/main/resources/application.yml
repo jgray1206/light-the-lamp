@@ -22,6 +22,8 @@ jackson:
     # Jackson 3 (Micronaut 5) writes dates as ISO strings by default; the frontend reads
     # them as arrays ([year, month, day, hour, minute]), which was Jackson 2's default
     WRITE_DATES_AS_TIMESTAMPS: true
+  deserialization:
+    FAIL_ON_UNKNOWN_PROPERTIES: false
 ---
 flyway:
   datasources:
