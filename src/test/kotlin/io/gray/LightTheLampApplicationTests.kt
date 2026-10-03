@@ -575,4 +575,19 @@ class LightTheLampApplicationTests {
 		passwordResetClient.create("nobody@email.com")
 		assertThrows<HttpClientResponseException> { passwordResetClient.create("nobody@email.com") }
 	}
+
+	// ── Test 10: PWHL seasons feed ──────────────────────────────────────────────
+	// The real feed (saved 2026-09) parses, and every season gets an NHL-style id.
+
+	@Inject lateinit var jsonMapper: io.micronaut.json.JsonMapper
+
+	@Test
+	@Order(10)
+	fun pwhlSeasonsFeedTests() {
+		val feed = javaClass.getResource("/responses/pwhl_seasons.json")!!.readText()
+		val seasons = jsonMapper.readValue(feed, io.gray.client.model.pwhl.SeasonsSiteKitWrapper::class.java)!!.siteKit.seasons
+		val mapped = seasons.associate { it.seasonId to PWHLGameStateSyncer.toNhlSeason(it.seasonName, it.playoff == "1") }
+		assertThat(mapped).containsEntry("8", "202502").containsEntry("9", "202503").containsEntry("10", "202601")
+		assertThat(mapped.values).doesNotContainNull()
+	}
 }
