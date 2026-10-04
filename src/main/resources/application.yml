@@ -49,6 +49,8 @@ r2dbc:
         protocol: postgresql
         # Postgres shares a 2GB box: each connection costs it memory, and the reactive app needs few
         maxSize: 20
+        # Fail loudly instead of waiting forever if the pool ever runs dry
+        maxAcquireTime: PT10S
 ---
 netty:
   default:

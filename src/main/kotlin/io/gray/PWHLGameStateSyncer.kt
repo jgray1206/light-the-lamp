@@ -36,6 +36,11 @@ open class PWHLGameStateSyncer(
     companion object {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
+        // Each game update holds a database connection; leave plenty of the pool for web requests
+        const val MAX_CONCURRENT_GAME_UPDATES = 4
+        // If a sync ever gets stuck, give up so the next scheduled run can try again
+        val SYNC_TIMEOUT: java.time.Duration = java.time.Duration.ofMinutes(5)
+
         /**
          * PWHL seasons get their own ids (5, 6, 7...), but games are grouped by NHL-style season ids:
          * start year + type ("01" preseason, "02" regular season, "03" playoffs). Worked out from the
@@ -117,7 +122,8 @@ open class PWHLGameStateSyncer(
                     )
                 }).map { game.apply { this.homeTeam = it } }
             }
-            .flatMap { game ->
+            // Creating games and adding missing players holds a connection during roster lookups
+            .flatMap({ game ->
                 logger.info("processing game ${game.getGameId()} with state ${mapNewStateToOldState(game.GameStatus)} on date ${game.GameDateISO8601} between team ${game.homeTeam!!.shortName} and ${game.awayTeam!!.shortName}")
                 gameRepository.findById(game.getGameId()).switchIfEmpty(
                     Mono.defer { createGame(game) }
@@ -138,17 +144,17 @@ open class PWHLGameStateSyncer(
                         Mono.just(it)
                     }
                 }.map { Pair(it, game) }
-            }
+            }, MAX_CONCURRENT_GAME_UPDATES)
             .filter {
                 mapNewStateToOldState(it.second.GameStatus) == "Live" ||
                         (minuteOfHour % 5 == 0 && mapNewStateToOldState(it.second.GameStatus) == "Final")
             }
-            .flatMap { (dbGame, game) ->
+            .flatMap({ (dbGame, game) ->
                 updateGamePlayersAndGame(dbGame, game)
-            }.flatMap { pDbGame ->
+            }, MAX_CONCURRENT_GAME_UPDATES).flatMap({ pDbGame ->
                 updatePoints(pDbGame)
-            }
-            .collectList().block()
+            }, MAX_CONCURRENT_GAME_UPDATES)
+            .collectList().block(SYNC_TIMEOUT)
     }
 
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
@@ -164,7 +170,8 @@ open class PWHLGameStateSyncer(
         }.then(Mono.just(dbGame))
     }
 
-    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    // Runs inside updatePoints' transaction: a nested REQUIRES_NEW here needed a second connection
+    // per game while the first was held, which deadlocked the pool when many games synced at once
     open fun updatePointsForGamePlayer(gamePlayer: GamePlayer): Mono<Int> {
         val points = when (gamePlayer.position) {
             "Forward" -> {
@@ -192,7 +199,8 @@ open class PWHLGameStateSyncer(
         return pickRepository.updatePointsForGamePlayer(points, gamePlayer.id!!.gameId, gamePlayer.id!!.playerId)
     }
 
-    @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
+    // Runs inside updatePoints' transaction: a nested REQUIRES_NEW here needed a second connection
+    // per game while the first was held, which deadlocked the pool when many games synced at once
     open fun updatePointsForTeam(
         team: Team,
         goals: Short,
@@ -229,6 +237,7 @@ open class PWHLGameStateSyncer(
         )
     }
 
+    // One transaction (and so one connection) per game
     @Transactional(value = "default", propagation = TransactionDefinition.Propagation.REQUIRES_NEW)
     open fun updatePoints(dbGame: Game): Flux<Int> {
         logger.info("updating points for game ${dbGame.id}")
