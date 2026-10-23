@@ -10,7 +10,7 @@ data class Player(
     val id: Long,
     val firstName: Name,
     val lastName: Name,
-    val sweaterNumber: Short,
+    val sweaterNumber: Short?,
     val positionCode: Char
 ) {
     lateinit var position: String
