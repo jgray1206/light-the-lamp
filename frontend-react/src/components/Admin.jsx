@@ -100,10 +100,30 @@ export default function Admin() {
 
 function UserAdmin({ userId, onSelectUser }) {
     const [user, setUser] = useState(null);
+    const [clearing, setClearing] = useState(false);
 
     useEffect(() => {
         api.get(`/api/admin/users/${userId}`).then(({ data }) => setUser(data)).catch(showError);
     }, [userId]);
+
+    const clearReddit = async () => {
+        const ok = await confirmTyped(
+            "REMOVE",
+            `You're about to <b>clear the reddit username</b> for <b>${user.displayName}</b>` +
+            `${user.email ? ` (${user.email})` : ""}.<br><br>Reddit: <b>${user.redditUsername}</b><br><br>This is logged.`
+        );
+        if (!ok) return;
+        setClearing(true);
+        try {
+            const { data } = await api.delete(`/api/admin/users/${user.id}/reddit`);
+            setUser(data);
+            showSuccess("Reddit profile removed.");
+        } catch (err) {
+            showError(err);
+        } finally {
+            setClearing(false);
+        }
+    };
 
     if (!user) return <div className="panel text-body-secondary">Loading…</div>;
 
@@ -117,7 +137,15 @@ function UserAdmin({ userId, onSelectUser }) {
                     <div className="small">
                         <h2 className="h5 mb-1">{user.displayName || "(no name)"}</h2>
                         <div>{user.email ?? <em>no email (kid account)</em>}</div>
-                        {user.redditUsername && <div>Reddit: {user.redditUsername}</div>}
+                        {user.redditUsername && (
+                            <div>
+                                Reddit: {user.redditUsername}{" "}
+                                <Button size="sm" variant="outline-danger" className="py-0 ms-1" disabled={clearing}
+                                        onClick={clearReddit}>
+                                    Remove reddit profile
+                                </Button>
+                            </div>
+                        )}
                         <div className="text-body-secondary">User #{user.id}</div>
                         <div className="d-flex gap-1 mt-1">
                             {!user.profilePic && <Badge bg="secondary">no pic</Badge>}

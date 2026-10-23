@@ -16,6 +16,9 @@ interface AdminClient {
         @Get("/users/{id}")
         fun getUser(@PathVariable id: Long, @Header authorization: String): AdminUserDetail
 
+        @Delete("/users/{id}/reddit")
+        fun clearRedditUsername(@PathVariable id: Long, @Header authorization: String): AdminUserDetail
+
         @Get("/users/{id}/picks")
         fun getPicks(@PathVariable id: Long, @QueryValue season: String, @Header authorization: String): List<Pick>
 

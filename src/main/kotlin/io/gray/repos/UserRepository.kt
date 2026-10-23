@@ -38,5 +38,7 @@ interface UserRepository : ReactorCrudRepository<User, Long> {
            LIMIT 25"""
     )
     fun searchForAdmin(pattern: String): Flux<AdminUserSummary>
-}
 
+    @Query("""UPDATE "user" SET reddit_username = NULL WHERE id = :id""")
+    fun clearRedditUsername(id: Long): Mono<Long>
+}

@@ -22,6 +22,10 @@ class AdminController(private val adminService: AdminService) {
     @Get("/users/{id}")
     fun getUser(id: Long): Mono<AdminUserDetail> = adminService.getUser(id)
 
+    @Delete("/users/{id}/reddit")
+    fun clearRedditUsername(id: Long, principal: Principal): Mono<AdminUserDetail> =
+        adminService.clearRedditUsername(principal.name, id)
+
     @Get("/users/{id}/picks")
     fun getPicks(id: Long, @QueryValue season: String): Flux<Pick> = adminService.getPicks(id, season)
 

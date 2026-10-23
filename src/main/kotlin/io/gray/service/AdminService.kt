@@ -61,6 +61,15 @@ class AdminService(
             }
         }
 
+    fun clearRedditUsername(adminEmail: String, userId: Long): Mono<AdminUserDetail> =
+        loadUser(userId).flatMap { user ->
+            logger.warn(
+                "ADMIN $adminEmail cleared reddit username for user $userId (${user.email ?: user.displayName}), " +
+                    "was: ${user.redditUsername}"
+            )
+            userRepository.clearRedditUsername(userId).then(getUser(userId))
+        }
+
     fun getPicks(userId: Long, season: String): Flux<Pick> =
         pickRepository.findAllByUserAndSeason(UserDTO().apply { id = userId }, season)
 
