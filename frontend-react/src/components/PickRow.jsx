@@ -56,7 +56,7 @@ export default function PickRow({ row, game, team, pickEnabled, showFriends, pic
 
             <div className="pick-side">
                 {pickEnabled ? (
-                    <Button variant={row.onCooldown ? "outline-secondary" : "primary"} onClick={onPick}>Pick</Button>
+                    <Button variant={row.forbidden ? "danger" : row.onCooldown ? "outline-secondary" : "primary"} onClick={onPick}>Pick</Button>
                 ) : (
                     <div className="pick-points">
                         {row.points}

@@ -54,6 +54,9 @@ function friendsWhoPicked(picks = []) {
         .sort((a, b) => (a.id !== undefined) - (b.id !== undefined) || a.name.localeCompare(b.name));
 }
 
+// Dylan Larkin: nobody's allowed to pick him
+const LARKIN_ID = 8477946;
+
 // Short scoring reminders shown while picking (full rules are on the About page)
 const HINTS = {
     Forward: ["Goal 2", "Assist 1", "OT goal +5", "SH ×2"],
@@ -156,6 +159,7 @@ export function buildGameView({ game, team, teamGames, index, myPicksMap, friend
             noToi: prevGameHasToi && (toi === undefined || toi === "0:00"),
             onCooldown: prevPicks.some((p) => p.gamePlayer?.name === player.name),
             picked: pick?.gamePlayer?.id.playerId === player.id.playerId,
+            forbidden: player.id.playerId === LARKIN_ID,
             friends: friendsWhoPicked(friendsByPick[player.id.playerId]),
         };
     });

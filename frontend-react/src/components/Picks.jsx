@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useLoaderData, useRevalidator } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
-import api, { confirm, showError } from "../lib/api";
+import api, { alert, confirm, showError } from "../lib/api";
 import { prefs, GAMES_PAGE_SIZE } from "../lib/prefs";
 import { activeGame, buildGameView, gameLabel, gamesByTeam, gameStatus, pickKey, sortGames } from "../lib/picks";
 import useProfilePics from "../lib/useProfilePics";
@@ -65,6 +65,16 @@ export default function Picks() {
     const showFriends = view && (!view.pickEnabled || !hideFriendsPicks);
 
     const doPick = async (row) => {
+        if (row.forbidden) {
+            alert({
+                text: "you don't want to pick that guy! he's a weiner!",
+                icon: "error",
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: "Cancel",
+            });
+            return;
+        }
         if (row.onCooldown) {
             showError({ message: `Can't pick ${row.name} again yet — they were picked in one of your previous two games.` });
             return;
