@@ -61,7 +61,8 @@ interface GameRepository : ReactorCrudRepository<Game, Long> {
     @Query("select distinct season from game where season is not null order by season desc")
     fun findAllSeasons(): Flux<String>
 
-    // The season of the most recently started game, i.e. the season currently being played
-    @Query("select season from game where season is not null and date <= :now order by date desc limit 1")
+    // The newest season that has started, i.e. the season currently being played. Not "the season of the
+    // latest game": the NHL and PWHL share season ids, and a PWHL preseason can run into the NHL regular season.
+    @Query("select max(season) from game where season is not null and date <= :now")
     fun findLatestStartedSeason(now: LocalDateTime): Mono<String>
 }
